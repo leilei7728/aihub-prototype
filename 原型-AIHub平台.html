@@ -1,0 +1,3013 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIHub</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --a:#0f766e;--ah:#115e59;--al:#def7f3;--all:#eefaf7;
+  --sw:224px;--sbg:#10212b;
+  --t:#13232f;--t2:#51606d;--t3:#8a96a3;
+  --bd:#dde5ea;--bg:#f3eee6;--wh:#fffdfa;
+  --ok:#15803d;--okl:#dcfce7;
+  --wa:#c77a16;--wal:#fff1d6;
+  --er:#dc2626;--erl:#fee2e2;
+  --glow:rgba(15,118,110,.12);
+}
+body{font-family:'Segoe UI Variable Text','PingFang SC','Microsoft YaHei UI','Noto Sans SC',sans-serif;background:radial-gradient(circle at top left,rgba(209,237,228,.9),transparent 30%),radial-gradient(circle at right 10%,rgba(243,201,120,.18),transparent 26%),linear-gradient(180deg,#f6f1e8 0%,#f2f5f1 100%);color:var(--t);font-size:14px;line-height:1.5;min-height:100vh}
+/* ── login ── */
+.l-bg{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a1a2e,#16213e 50%,#0f3460)}
+.l-card{background:var(--wh);border-radius:16px;padding:40px;width:400px;box-shadow:0 30px 60px rgba(0,0,0,.3)}
+.l-logo{display:flex;align-items:center;gap:10px;margin-bottom:28px}
+.l-logo .icon{width:44px;height:44px;background:var(--a);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:800}
+.l-logo .name{font-size:22px;font-weight:800}
+.l-logo .tag{font-size:11px;color:var(--t3);margin-top:2px}
+/* ── app shell ── */
+.shell{height:100vh;overflow:hidden;display:flex;position:relative}
+/* ── sidebar ── */
+.sb{width:var(--sw);background:linear-gradient(180deg,#10212b 0%,#17303d 100%);display:flex;flex-direction:column;flex-shrink:0;border-right:1px solid rgba(255,255,255,.08);box-shadow:18px 0 40px rgba(16,33,43,.16);position:relative;z-index:2}
+.sb-logo{padding:22px 18px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-logo .ico{width:36px;height:36px;background:linear-gradient(135deg,#0f766e,#1f9d8f);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:800;flex-shrink:0;box-shadow:0 10px 24px rgba(15,118,110,.32)}
+.sb-logo .nm{color:#fff;font-size:15px;font-weight:700}
+.sb-logo .vr{color:#7e95a3;font-size:10px}
+.sb-nav{flex:1;padding:14px 10px}
+.ni{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;cursor:pointer;color:#adc0cb;font-size:13px;font-weight:500;transition:all .18s;margin-bottom:4px}
+.ni:hover{background:rgba(255,255,255,.08);color:#fff;transform:translateX(2px)}
+.ni.on{background:linear-gradient(135deg,rgba(15,118,110,.34),rgba(15,118,110,.18));color:#fff;box-shadow:inset 0 0 0 1px rgba(167,243,208,.18)}
+.ni .ic{width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0}.ni .ic svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sb-bot{padding:10px;border-top:1px solid rgba(255,255,255,.08)}
+.u-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;cursor:pointer;transition:background .18s}
+.u-row:hover{background:rgba(255,255,255,.07)}
+.av{width:30px;height:30px;background:linear-gradient(135deg,#0f766e,#2ba89b);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;flex-shrink:0;box-shadow:0 8px 16px rgba(15,118,110,.25)}
+.u-row .un{color:#d4d4d8;font-size:12px}
+.u-row .ue{color:#7e95a3;font-size:11px}
+/* ── main ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.main:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.35),transparent 22%)}
+.topbar{height:58px;background:rgba(255,253,250,.86);backdrop-filter:blur(14px);border-bottom:1px solid rgba(221,229,234,.85);padding:0 28px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:relative;z-index:1}
+.tb-title{font-size:15px;font-weight:700;letter-spacing:.02em}
+.tb-r{display:flex;align-items:center;gap:10px}
+.chip{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;cursor:pointer;border:1px solid rgba(15,118,110,.14);box-shadow:0 8px 20px rgba(19,35,47,.05)}
+.chip-v{background:rgba(255,255,255,.8)}
+.chip-v .cl{font-size:11px;color:var(--a)}
+.chip-v .cv{font-size:13px;font-weight:800;color:var(--a)}
+.chip-g{background:#f0fdf4}
+.chip-g .cl{font-size:11px;color:var(--ok)}
+.chip-g .cv{font-size:13px;font-weight:800;color:var(--ok)}
+.pc{padding:28px;flex:1;overflow-y:auto;position:relative;z-index:1}
+/* ── page ── */
+.pg{display:none}
+.pg.on{display:block}
+/* ── card ── */
+.card{background:rgba(255,253,250,.92);border-radius:18px;border:1px solid rgba(221,229,234,.95);padding:22px;box-shadow:0 16px 32px rgba(19,35,47,.06)}
+.g{display:grid;gap:16px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.g4{grid-template-columns:repeat(4,1fr)}
+/* ── stat card ── */
+.sc{background:rgba(255,253,250,.95);border-radius:18px;border:1px solid rgba(221,229,234,.95);padding:20px;box-shadow:0 14px 28px rgba(19,35,47,.05)}
+.sc .lb{font-size:12px;color:var(--t3);margin-bottom:6px}
+.sc .vl{font-size:28px;font-weight:800;letter-spacing:-.02em}
+.sc .sb2{font-size:12px;color:var(--t2);margin-top:4px}
+/* ── btn ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all .18s;box-shadow:0 10px 18px rgba(19,35,47,.08)}
+.bp{background:var(--a);color:#fff}.bp:hover{background:var(--ah)}
+.bo{background:rgba(255,255,255,.76);border:1px solid var(--bd);color:var(--t)}.bo:hover{background:#f8faf9}
+.bgh{background:transparent;border:1px solid var(--bd);color:var(--t2)}.bgh:hover{background:#f8faf9}
+.bsm{padding:5px 12px;font-size:12px;border-radius:6px}
+.bxs{padding:3px 10px;font-size:11px;border-radius:5px}
+.bfw{width:100%}
+.bda{background:var(--er);color:#fff}
+.bok{background:var(--ok);color:#fff}
+/* ── badge ── */
+.bd2{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.bg{background:var(--okl);color:var(--ok)}
+.by{background:var(--wal);color:var(--wa)}
+.br{background:var(--erl);color:var(--er)}
+.bgr{background:#f4f4f5;color:#71717a}
+.bpu{background:var(--al);color:var(--a)}
+/* ── table ── */
+.tb{width:100%;border-collapse:collapse}
+.tb th{text-align:left;padding:10px 14px;font-size:12px;font-weight:700;color:var(--t2);border-bottom:1px solid var(--bd);background:#f8faf9}
+.tb td{padding:12px 14px;font-size:13px;border-bottom:1px solid #edf2f4}
+.tb tr:last-child td{border-bottom:none}
+.tb tr:hover td{background:#f8faf9}
+/* ── form ── */
+.fg{margin-bottom:16px}
+.fl{display:block;font-size:12px;color:var(--t2);margin-bottom:5px;font-weight:500}
+.fi{width:100%;padding:9px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;outline:none;transition:border-color .15s}
+.fi:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(124,58,237,.1)}
+.fs{width:100%;padding:9px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;outline:none;background:var(--wh);cursor:pointer}
+/* ── modal ── */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:999}
+.ov.op{display:flex}
+.mo{background:var(--wh);border-radius:16px;padding:28px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.mo-sm{width:400px}
+.mo-md{width:480px}
+.mo-lg{width:560px}
+.mo-ti{font-size:16px;font-weight:700;margin-bottom:6px}
+.mo-ds{font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:20px}
+.mo-ft{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+/* ── tabs ── */
+.tabs{display:flex;border-bottom:1px solid var(--bd);margin-bottom:20px}
+.tab{padding:8px 16px;cursor:pointer;font-size:13px;color:var(--t2);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.tab.on{color:var(--a);border-bottom-color:var(--a);font-weight:700}
+/* ── toggle ── */
+.sw{position:relative;display:inline-block;width:36px;height:20px}
+.sw input{opacity:0;width:0;height:0}
+.sl{position:absolute;cursor:pointer;inset:0;background:#d4d4d8;border-radius:20px;transition:.3s}
+.sl:before{position:absolute;content:"";height:14px;width:14px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+input:checked+.sl{background:var(--a)}
+input:checked+.sl:before{transform:translateX(16px)}
+/* ── hero banner ── */
+.hero{background:radial-gradient(circle at top left,rgba(255,255,255,.16),transparent 28%),linear-gradient(135deg,#163444 0%,#0f766e 58%,#22a58c 100%);border-radius:22px;padding:28px 30px;color:#fff;display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;box-shadow:0 22px 42px rgba(15,118,110,.22)}
+.hero .hl h2{font-size:18px;font-weight:700;margin-bottom:4px}
+.hero .hl p{font-size:13px;opacity:.88;max-width:520px}
+.hero .hr{text-align:right}
+.hero .bn{font-size:38px;font-weight:800;letter-spacing:-.04em}
+.hero .bls{font-size:12px;opacity:.8;margin-top:2px}
+.rcbtn{margin-top:14px;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.26);padding:8px 16px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;display:inline-block;backdrop-filter:blur(10px)}
+.rcbtn:hover{background:rgba(255,255,255,.24)}
+/* ── quick grid ── */
+.qg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.qb{background:rgba(255,253,250,.88);border:1px solid rgba(221,229,234,.95);border-radius:16px;padding:18px 14px;cursor:pointer;text-align:center;transition:all .18s;box-shadow:0 12px 24px rgba(19,35,47,.04)}
+.qb:hover{border-color:rgba(15,118,110,.32);box-shadow:0 16px 28px rgba(15,118,110,.12);transform:translateY(-2px)}
+.qb .qi{font-size:24px;margin-bottom:8px}
+.qb .qn{font-size:12px;font-weight:700}
+/* ── tool card ── */
+.tc{background:rgba(255,253,250,.94);border:1px solid rgba(221,229,234,.95);border-radius:18px;padding:18px;transition:box-shadow .18s,border-color .18s,transform .18s;box-shadow:0 12px 24px rgba(19,35,47,.05)}
+.tc:hover{box-shadow:0 18px 30px rgba(19,35,47,.08);border-color:rgba(15,118,110,.2);transform:translateY(-2px)}
+.tc-h{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.tc-ico{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.tc-nm{font-size:14px;font-weight:700}
+.tc-vr{font-size:11px;color:var(--t3);margin-top:2px}
+.tc-ds{font-size:12px;color:var(--t2);margin-bottom:14px;line-height:1.5}
+.tc-ft{display:flex;align-items:center;justify-content:space-between}
+.tmx{background:#f7fbfa;border:1px solid var(--bd);border-radius:14px;padding:12px;margin-bottom:12px}
+.tmx .lb{font-size:11px;color:var(--t2);margin-bottom:6px}
+.tmx .row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.tmx .row:last-child{margin-bottom:0}
+.tmx .val{font-size:13px;font-weight:700}
+.tmx .sel{width:100%;padding:8px 10px;border:1px solid var(--bd);border-radius:8px;font-size:12px;background:#fff;outline:none}
+.tmx .sel:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(124,58,237,.1)}
+/* ── model card ── */
+.mc{border:2px solid var(--bd);border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:12px}
+.mc:hover{border-color:#8ed2c9}
+.mc.on{border-color:var(--a);background:var(--all)}
+.mc .mi{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.mc .mn{font-size:13px;font-weight:700}
+.mc .mp{font-size:11px;color:var(--t3);margin-top:2px}
+.mc .ck{width:18px;height:18px;border-radius:50%;border:2px solid var(--bd);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.mc.on .ck{background:var(--a);border-color:var(--a);color:#fff;font-size:10px}
+#platformModelGrid .mc{cursor:default}
+#platformModelGrid .mc:hover{border-color:var(--bd)}
+#platformModelGrid .mc.on{border-color:var(--bd);background:var(--wh)}
+/* ── plan card ── */
+.plc{border:2px solid var(--bd);border-radius:18px;padding:24px 22px;cursor:pointer;transition:all .2s;position:relative;text-align:center;background:rgba(255,253,250,.94)}
+.plc:hover{border-color:#8ed2c9;transform:translateY(-2px)}
+.plc.on{border-color:var(--a);background:var(--all);transform:translateY(-2px);box-shadow:0 18px 32px rgba(15,118,110,.14)}
+.pl-tag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--a);color:#fff;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;white-space:nowrap}
+.pl-nm{font-size:15px;font-weight:700;margin-bottom:8px}
+.pl-tk{font-size:28px;font-weight:800;color:var(--a)}
+.pl-tk span{font-size:13px;font-weight:400;color:var(--t2)}
+.pl-pr{font-size:20px;font-weight:700;margin-top:8px}
+.pl-pr .orig{font-size:13px;color:var(--t3);text-decoration:line-through;margin-left:4px;font-weight:400}
+.pl-ft{margin-top:12px;text-align:left}
+.pl-ft li{font-size:12px;color:var(--t2);padding:3px 0;list-style:none}
+.pl-ft li::before{content:"✓ ";color:var(--ok);font-weight:700}
+/* ── adv config ── */
+.adv-t{display:flex;align-items:center;gap:6px;color:var(--a);font-size:12px;font-weight:600;cursor:pointer;user-select:none;padding:8px 0}
+.adv-p{display:none;background:var(--bg);border-radius:10px;padding:16px;margin-top:4px}
+.adv-p.op{display:block}
+/* ── status bar ── */
+.stbar{border-radius:10px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.stbar.run{background:#f0fdf4;border:1px solid #bbf7d0}
+.stbar.err{background:#fef2f2;border:1px solid #fecaca}
+.stl{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700}
+.stl.ok{color:var(--ok)}
+.stl.er{color:var(--er)}
+.str{font-size:12px;color:var(--t3)}
+/* ── pay method ── */
+.pmw{display:flex;gap:10px;margin:16px 0;flex-wrap:wrap}
+.pm{border:2px solid var(--bd);border-radius:8px;padding:10px 16px;cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px;transition:all .15s}
+.pm:hover,.pm.on{border-color:var(--a);background:var(--al);color:var(--a)}
+/* ── filter ── */
+.ft-bar{display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.ft{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--bd);color:var(--t2);background:var(--wh);transition:all .15s}
+.ft.on{background:var(--a);border-color:var(--a);color:#fff}
+/* ── progress ── */
+.pgw{background:var(--bd);border-radius:4px;height:6px;overflow:hidden;margin-top:8px}
+.pgf{height:100%;background:var(--a);border-radius:4px}
+/* ── onboard ── */
+.obs{display:flex;gap:8px;margin-bottom:20px}
+.ob{flex:1;padding:10px;border-radius:8px;border:2px solid var(--bd);text-align:center;font-size:11px}
+.ob.dn{border-color:var(--ok);background:var(--okl);color:var(--ok);font-weight:700}
+.ob.ac{border-color:var(--a);background:var(--al);color:var(--a);font-weight:700}
+/* ── price row ── */
+.pr{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f4f4f5}
+.pr:last-child{border-bottom:none}
+.pr .pm2{display:flex;align-items:center;gap:8px;font-size:13px}
+.pr .pv{font-size:13px;font-weight:700;color:var(--a)}
+/* ── activity ── */
+.act-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f4f4f5}
+.act-item:last-child{border-bottom:none}
+.act-ico{width:34px;height:34px;border-radius:8px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+/* ── usage chart ── */
+.uc-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.uc-head-actions{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap}
+.uc-quick{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.uc-quick-btn{padding:7px 12px;border:1px solid #d4d4d8;border-radius:999px;background:#fff;color:#52525b;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s}
+.uc-quick-btn.on{border-color:#66b9ab;background:#eefaf7;color:var(--ah);box-shadow:0 0 0 3px rgba(15,118,110,.08)}
+.uc-filter{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-left:0;padding:0;border:none;background:transparent;box-shadow:none}
+.uc-filter-label{font-size:12px;color:var(--t2);font-weight:700}
+.uc-range-sep{font-size:12px;color:var(--t3)}
+.uc-head-meta{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;background:#fafafa;border:1px solid #e4e4e7;color:#71717a;font-size:12px;white-space:nowrap}
+.uc-filter select{padding:7px 10px;border:1px solid var(--bd);border-radius:8px;font-size:12px;background:#fff;outline:none}
+.uc-filter input{padding:8px 12px;border:1px solid #73bfb3;border-radius:10px;font-size:12px;background:#fff;outline:none;color:var(--t);min-width:132px;box-shadow:inset 0 1px 0 rgba(255,255,255,.9)}
+.uc-filter select:focus,.uc-filter input:focus{border-color:#66b9ab;box-shadow:0 0 0 3px rgba(15,118,110,.14)}
+.uc-filter input::-webkit-calendar-picker-indicator{transform:scale(1.25);transform-origin:center;cursor:pointer;opacity:.95}
+.uc-desc{display:none}
+.uc-unit{font-size:12px;color:var(--t3);margin:-4px 0 12px}
+.uc-range{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#eefaf7;border:1px solid #c7ebe5;color:var(--ah);font-size:12px;font-weight:600;margin:-2px 0 12px}
+.uc-marks{font-size:12px;color:#71717a;margin:0}
+.uc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(22px,1fr));gap:8px;align-items:end;height:220px}
+.uc-label{font-size:11px;color:var(--t2);white-space:nowrap}
+.uc-bars{border:1px solid #dcefed;border-radius:16px;background:linear-gradient(180deg,#fbfefd,#fff);padding:14px 14px 12px;position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,.9)}
+.uc-bars-shell{display:grid;grid-template-columns:52px 1fr;grid-template-rows:220px 22px;column-gap:10px;row-gap:8px;align-items:stretch}
+.uc-bars-y{display:flex;flex-direction:column;justify-content:space-between;font-size:11px;color:var(--t2);text-align:right;padding:2px 0}
+.uc-bars-plot{position:relative;height:220px}
+.uc-bars-grid{position:absolute;inset:0;background:repeating-linear-gradient(to top, rgba(15,118,110,.11) 0, rgba(15,118,110,.11) 1px, transparent 1px, transparent 25%);border-left:1px solid rgba(15,118,110,.16);border-bottom:1px solid rgba(15,118,110,.16);border-radius:0 0 10px 10px}
+.uc-bars-columns{position:relative;display:grid;gap:10px;align-items:end;height:100%;padding:0 8px}
+.uc-bar-col{display:flex;flex-direction:column;align-items:center;gap:8px;height:100%}
+.uc-bar-track{flex:1;width:100%;display:flex;align-items:flex-end}
+.uc-bar{width:100%;border-radius:10px 10px 4px 4px;background:linear-gradient(180deg,#54c5b4 0%,#159385 55%,#0f766e 100%);min-height:10px;position:relative;box-shadow:0 6px 14px rgba(15,118,110,.22);transition:transform .12s, box-shadow .12s, opacity .12s;cursor:pointer}
+.uc-bar.alt{background:linear-gradient(180deg,#f3c777 0%,#d7a34d 55%,#b7791f 100%)}
+.uc-bar:hover{transform:translateY(-2px);box-shadow:0 10px 18px rgba(15,118,110,.28)}
+.uc-bars-x{display:grid;gap:10px;font-size:11px;color:var(--t2);padding:0 8px}
+.uc-bars-x span{text-align:center}
+.uc-bars-x span.is-future{opacity:.35}
+.uc-bar-tip{position:absolute;background:#18181b;color:#fff;font-size:11px;padding:8px 10px;border-radius:8px;pointer-events:none;opacity:0;transform:translate(-50%,-115%);transition:opacity .12s;z-index:3;white-space:normal;line-height:1.5;box-shadow:0 10px 20px rgba(0,0,0,.18)}
+.uc-tip-time{font-weight:600}
+.uc-tip-value{margin-top:2px;color:#d8d4fe}
+.uc-line{border:1px solid #dcefed;border-radius:16px;background:linear-gradient(180deg,#fbfefd,#fff);padding:14px 14px 12px;position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,.9)}
+.uc-line-shell{display:grid;grid-template-columns:52px 1fr;column-gap:10px;row-gap:8px;align-items:stretch}
+.uc-line-y{display:flex;flex-direction:column;justify-content:space-between;font-size:11px;color:var(--t2);text-align:right;padding:2px 0}
+.uc-line-plot{position:relative;height:220px}
+.uc-line-plot svg{width:100%;height:100%;display:block;overflow:visible}
+.uc-line-canvas{position:relative;height:248px;border-left:1px solid rgba(15,118,110,.16);border-bottom:1px solid rgba(15,118,110,.16);border-radius:0 0 10px 10px;background:linear-gradient(180deg,rgba(238,250,247,.92),rgba(255,255,255,.96))}
+.uc-line-canvas canvas{width:100% !important;height:100% !important;display:block}
+.uc-line-tip{position:absolute;background:#18181b;color:#fff;font-size:11px;padding:8px 10px;border-radius:8px;pointer-events:none;opacity:0;transform:translate(-50%,-120%);transition:opacity .12s;z-index:2;white-space:normal;line-height:1.5;box-shadow:0 10px 20px rgba(0,0,0,.18)}
+.uc-split{height:1px;background:#f4f4f5;margin:18px 0}
+.uc-subtitle{font-size:13px;font-weight:700;margin-bottom:10px}
+.uc-empty{font-size:12px;color:var(--t3);padding:12px 0}
+/* ── info hint ── */
+.ih{position:relative;display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;border:1px solid #c4b5fd;color:var(--a);font-size:11px;font-weight:700;cursor:help;background:#fff;vertical-align:middle;margin-left:6px;flex-shrink:0}
+.ih-b{position:absolute;top:22px;min-width:200px;max-width:240px;background:#18181b;color:#fff;border-radius:8px;padding:10px 12px;font-size:11px;font-weight:400;line-height:1.5;box-shadow:0 10px 24px rgba(0,0,0,.2);display:none;text-align:left;z-index:20}
+.ih-b.al-r{right:0;left:auto}
+.ih-b.al-r:before{content:"";position:absolute;top:-6px;right:8px;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:6px solid #18181b}
+.ih-b.al-l{left:0;right:auto}
+.ih-b.al-l:before{content:"";position:absolute;top:-6px;left:8px;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:6px solid #18181b}
+.ih:hover .ih-b{display:block}
+/* ── utils ── */
+.sep{height:1px;background:var(--bd);margin:20px 0}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.dg{background:#22c55e}.dr{background:#ef4444}.dy{background:#f59e0b}
+.ts{font-size:12px}.txs{font-size:11px}.tgr{color:var(--t2)}.tlt{color:var(--t3)}.tac{color:var(--a)}.tda{color:var(--er)}.tok{color:var(--ok)}.tb2{font-weight:700}
+.mt4{margin-top:4px}.mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}.mt20{margin-top:20px}
+.mb8{margin-bottom:8px}.mb16{margin-bottom:16px}.mb20{margin-bottom:20px}
+.fx{display:flex}.fxc{display:flex;align-items:center}.fxb{display:flex;align-items:center;justify-content:space-between}
+.g4{gap:4px}.g6{gap:6px}.g8{gap:8px}.g12{gap:12px}.g16{gap:16px}
+.f1{flex:1}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#d4d4d8;border-radius:3px}
+@media (max-width:1100px){
+  .shell{flex-direction:column;height:auto;min-height:100vh}
+  .sb{width:100%;height:auto}
+  .sb-nav{display:flex;overflow-x:auto;padding:10px}
+  .sb-nav .ni{margin-bottom:0;white-space:nowrap}
+  .main{min-height:0}
+  .topbar{padding:0 16px}
+  .pc{padding:18px}
+  .g2,.g3,.g4,.qg{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero{flex-direction:column;align-items:flex-start;gap:18px}
+  .hero .hr{text-align:left}
+}
+@media (max-width:720px){
+  .g2,.g3,.g4,.qg{grid-template-columns:1fr}
+  .topbar{height:auto;min-height:58px;padding:12px 16px;align-items:flex-start;gap:10px;flex-direction:column}
+  .uc-head,.uc-head-actions,.uc-filter,.pmw,.fxb{flex-wrap:wrap}
+  .uc-filter input,.uc-filter select{width:100%}
+  .card,.sc,.tc,.plc,.hero{padding:18px}
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     P00 · 登录（登录即注册，验证码模式，密码可选）
+══════════════════════════════════════════════════ -->
+<div class="ov" id="ls">
+  <div class="mo mo-sm" style="position:relative">
+    <div style="position:absolute;top:16px;right:16px;cursor:pointer;font-size:18px;color:var(--t3);line-height:1" onclick="cm('ls')">✕</div>
+    <div class="l-logo" style="margin-bottom:20px">
+      <div class="icon">M</div>
+      <div>
+        <div class="name">AIHub</div>
+      </div>
+    </div>
+    <div class="fg">
+      <label class="fl">手机号</label>
+      <input class="fi" id="loginPhoneInput" type="text" placeholder="请输入手机号">
+    </div>
+    <div class="fg">
+      <label class="fl">验证码</label>
+      <div class="fxc g8">
+        <input class="fi" id="loginCodeInput" type="text" placeholder="请输入 6 位验证码" style="flex:1">
+        <button class="btn bo" id="sendCodeBtn" style="white-space:nowrap;flex-shrink:0" onclick="sendCode(this)">获取验证码</button>
+      </div>
+    </div>
+    <div id="loginErrorText" style="display:none;margin:-6px 0 12px;font-size:12px;color:var(--er)"></div>
+    <button class="btn bp bfw" onclick="toApp()" style="margin-bottom:12px">登录 / 注册</button>
+    <div style="text-align:center;font-size:12px;color:var(--t3)">
+      未注册的手机号将自动创建账号 · 登录即代表同意
+      <span class="tac" style="cursor:pointer">用户协议</span>
+    </div>
+    <div style="text-align:center;margin-top:14px">
+      <span style="font-size:12px;color:var(--t3);cursor:pointer" onclick="cm('ls')">暂不登录，先看看 →</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     APP SHELL（直接展示，不强制登录）
+══════════════════════════════════════════════════ -->
+<div id="app" class="shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sb">
+    <div class="sb-logo">
+      <div class="ico">M</div>
+      <div>
+        <div class="nm">AIHub</div>
+        <div class="vr">v1.0.0</div>
+      </div>
+    </div>
+    <nav class="sb-nav">
+      <div class="ni on" onclick="go('p01',this,'总控台')"><span class="ic"><i data-lucide="layout-dashboard"></i></span>总控台</div>
+      <div class="ni" onclick="go('p02',this,'AI 软件管理')"><span class="ic"><i data-lucide="package"></i></span>AI 软件</div>
+      <div class="ni" onclick="go('p03',this,'模型 / 路由管理')"><span class="ic"><i data-lucide="git-fork"></i></span>模型路由</div>
+      <div class="ni" onclick="go('p04',this,'Tokens 中心')"><span class="ic"><i data-lucide="wallet"></i></span>Tokens 中心</div>
+      <div class="ni" onclick="go('p05',this,'购买 Tokens')"><span class="ic"><i data-lucide="credit-card"></i></span>购买</div>
+    </nav>
+    <div class="sb-bot">
+      <div class="ni" onclick="go('p07',this,'设置')"><span class="ic"><i data-lucide="settings"></i></span>设置</div>
+      <div id="sb-unlogin" class="u-row" onclick="om('ls')">
+        <div class="av" style="background:#52525b">?</div>
+        <div>
+          <div class="un">未登录</div>
+          <div class="ue" style="color:var(--a);cursor:pointer">点击登录 / 注册</div>
+        </div>
+      </div>
+      <div id="sb-logined" class="u-row" style="display:none;flex-direction:column;align-items:stretch;padding:4px 0">
+        <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:12px">
+          <div class="av" id="sb-avatar">雷</div>
+          <div>
+            <div class="un" id="sb-name">雷蕾</div>
+            <div class="ue">138****8888</div>
+          </div>
+        </div>
+        <div style="padding:2px 12px 8px">
+          <button class="btn bgh bsm" style="width:100%;font-size:11px" onclick="doLogout()">退出登录</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="tb-title" id="tbt">总控台</div>
+      <div class="tb-r">
+        <div class="chip chip-v" id="balChip" onclick="needLogin(()=>go('p04',nv(3),'Tokens 中心'))">
+          <span class="cl">剩余 Tokens<span class="ih">?<span class="ih-b">展示平台账户当前剩余的 Tokens，不包含外部供应商账户中的其他额度。</span></span></span>
+          <span class="cv" id="balVal">登录查看</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pc">
+
+<!-- ─────── P01 总控台 ─────── -->
+<div id="p01" class="pg on">
+  <!-- 未登录 Hero -->
+  <div id="heroGuest" class="hero" style="flex-direction:column;align-items:flex-start;gap:12px">
+    <div><h2 style="font-size:18px;font-weight:700;margin-bottom:4px">👋 欢迎使用 AIHub</h2>
+    <p style="font-size:13px;opacity:.85">一键安装主流 AI 工具，接入和使用更简单。</p></div>
+    <div class="rcbtn" onclick="om('ls')">登录 / 注册</div>
+  </div>
+  <!-- 已登录 Hero -->
+  <div id="heroLoggedIn" class="hero" style="display:none">
+    <div class="hl">
+      <h2 id="heroGreeting">早上好，雷蕾 👋</h2>
+      <p id="heroUsageSummary">今日已消耗 3,241 Tokens，已接入 3 个 AI 工具<span class="ih">?<span class="ih-b">展示当前账号已接入且可直接使用的 AI 工具数量，用于判断工作台当前可用范围。</span></span></p>
+      <div class="rcbtn" onclick="go('p05',nv(4),'购买 Tokens')">立即充值</div>
+    </div>
+    <div class="hr">
+      <div class="bn" id="heroTokensValue">256,000</div>
+      <div class="bls">剩余 Tokens<span class="ih">?<span class="ih-b">展示平台当前剩余的 Tokens，方便判断是否需要继续充值。</span></span></div>
+    </div>
+  </div>
+
+  <div class="qg">
+    <div class="qb" onclick="go('p02',nv(1),'AI 软件管理')">
+      <div class="qi"><i data-lucide="package" style="width:22px;height:22px"></i></div><div class="qn">管理 AI 软件</div>
+    </div>
+    <div class="qb" onclick="go('p03',nv(2),'模型 / 路由管理')">
+      <div class="qi"><i data-lucide="git-fork" style="width:22px;height:22px"></i></div><div class="qn">切换模型</div>
+    </div>
+    <div class="qb" onclick="needLogin(()=>go('p04',nv(3),'Tokens 中心'))">
+      <div class="qi"><i data-lucide="bar-chart-2" style="width:22px;height:22px"></i></div><div class="qn">查看消耗</div>
+    </div>
+    <div class="qb" onclick="needLogin(()=>go('p05',nv(4),'购买 Tokens'))">
+      <div class="qi"><i data-lucide="credit-card" style="width:22px;height:22px"></i></div><div class="qn">充值 Tokens</div>
+    </div>
+  </div>
+
+  <!-- 未登录时数据遮罩 -->
+  <div id="statsGuest" style="background:var(--wh);border:1px solid var(--bd);border-radius:12px;padding:40px;text-align:center;margin-bottom:16px">
+    <div style="font-size:32px;margin-bottom:10px">🔐</div>
+    <div style="font-size:14px;font-weight:700;margin-bottom:6px">登录后查看使用数据</div>
+    <div style="font-size:13px;color:var(--t2);margin-bottom:16px">剩余 Tokens、站内消耗记录、使用历史需要登录后才能查看</div>
+    <button class="btn bp" onclick="om('ls')">立即登录 / 注册</button>
+  </div>
+  <!-- 已登录时数据 -->
+  <div id="statsLoggedIn" style="display:none">
+  <div class="g g2 mb16">
+    <div class="sc">
+      <div class="lb">今日消耗<span class="ih">?<span class="ih-b">只统计今天通过本站路由产生的 Tokens 消耗，站外使用不计入，当前数值为展示样例。</span></span></div>
+      <div class="vl" id="homeTodayUsageValue">3,241 <span style="font-size:14px;color:var(--t2)">Tokens</span></div>
+      <div class="sb2">较昨日 ↑12%</div>
+    </div>
+    <div class="sc">
+      <div class="lb">近30天消耗<span class="ih">?<span class="ih-b">只统计近30天通过本站路由产生的 Tokens 消耗，站外使用不计入。</span></span></div>
+      <div class="vl" id="homeMonthUsageValue">128,540 <span style="font-size:14px;color:var(--t2)">Tokens</span></div>
+      <div class="sb2">最近一笔 18 天后到期（2026-07-23）</div>
+    </div>
+  </div>
+  <div class="card mb16">
+    <div class="uc-head">
+      <div>
+        <div class="tb2">使用额度趋势<span class="ih">?<span class="ih-b">只统计本站内实际扣减的 Tokens。同一天表示查看单日小时分布，不同日期表示查看该时间段的按天趋势。</span></span></div>
+      </div>
+      <div class="uc-head-actions">
+        <div class="uc-quick">
+          <button class="uc-quick-btn" id="usagePresetToday" onclick="setUsageChartPreset('today')">今日</button>
+          <button class="uc-quick-btn" id="usagePresetMonth" onclick="setUsageChartPreset('month')">近30天</button>
+        </div>
+        <div class="uc-filter" id="usageRangePickerWrap">
+          <span class="uc-filter-label">日期范围</span>
+          <input type="date" id="usageRangeStart" onchange="setUsageChartRange(this.value, document.getElementById('usageRangeEnd').value)">
+          <span class="uc-range-sep">至</span>
+          <input type="date" id="usageRangeEnd" onchange="setUsageChartRange(document.getElementById('usageRangeStart').value, this.value)">
+        </div>
+        <div class="uc-head-meta" id="usageChartMarksWrap">
+          <div class="uc-marks" id="usageChartMarks">小时范围：00:00 - 23:59</div>
+        </div>
+      </div>
+    </div>
+    <div class="uc-desc" id="usageChartDesc">今天按小时查看本站 Tokens 使用额度。</div>
+    <div class="uc-unit" id="usageChartUnit">单位：Tokens</div>
+    <div id="usageChartMain"></div>
+  </div>
+  <div class="card">
+    <div class="fxb mb16">
+      <div class="tb2">最近使用记录<span class="ih">?<span class="ih-b">这里只展示通过本站路由产生的站内使用记录，站外调用不会出现在这里。</span></span></div>
+      <div class="ts tac" style="cursor:pointer" onclick="go('p04',nv(3),'Tokens 中心')">查看全部 →</div>
+    </div>
+      <table class="tb">
+      <thead><tr><th>时间</th><th>AI 工具</th><th>模型</th><th>消耗 Tokens</th></tr></thead>
+      <tbody id="homeRecentUsageBody">
+        <tr><td class="tgr ts">14:32</td><td>Claude Desktop</td><td><span class="bd2 bpu">Claude Sonnet</span></td><td>1,248</td></tr>
+        <tr><td class="tgr ts">13:10</td><td>Codex CLI</td><td><span class="bd2 bpu">Claude Haiku</span></td><td>876</td></tr>
+        <tr><td class="tgr ts">11:47</td><td>Claude Desktop</td><td><span class="bd2 bg">DeepSeek V3</span></td><td>654</td></tr>
+        <tr><td class="tgr ts">10:22</td><td>OpenCode</td><td><span class="bd2 bpu">Claude Sonnet</span></td><td>463</td></tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+</div>
+
+<!-- ─────── P02 AI 软件 ─────── -->
+<div id="p02" class="pg">
+  <div class="fxb mb16">
+    <div style="font-size:15px;font-weight:700">AI 软件管理</div>
+    <div class="fxc g6">
+      <div class="ft on" onclick="filterTools(this,'all')">全部</div>
+      <div class="ft" onclick="filterTools(this,'installed')">已安装</div>
+      <div class="ft" onclick="filterTools(this,'uninstalled')">未安装</div>
+      <div class="ts tgr" id="toolInstallSummary">已安装 3 / 9</div>
+    </div>
+  </div>
+  <div class="g g3" id="toolCardGrid">
+
+    <div class="tc" data-tool-card="claude-desktop">
+      <div class="tc-h">
+        <div class="tc-ico" style="background:#f0f0f0">🤖</div>
+        <div><div class="tc-nm">Claude</div><div class="tc-vr">桌面版 · v0.10.4 · 已安装</div></div>
+      </div>
+      <div class="tc-ds">Anthropic 官方桌面端，支持 Claude 全系模型，已通过 CC Switch 路由。</div>
+      <div class="tmx">
+        <div class="row">
+          <div>
+
+            <div class="lb">支持模型</div>
+            <div class="bd2 bpu" data-tool-mode="claude-desktop">6 个可选</div>
+          </div>
+          <div style="text-align:right">
+            <div class="lb">当前使用模型</div>
+            <div class="val" data-tool-current="claude-desktop">DeepSeek V3</div>
+          </div>
+        </div>
+        <div class="txs tgr mb8" data-tool-note="claude-desktop">当前使用 DeepSeek V3，平台会自动完成兼容接入</div>
+        <div class="lb">该工具当前可用模型</div>
+        <select class="sel" data-tool-select="claude-desktop" onchange="needLogin(()=>changeToolModel('claude-desktop', this.value))">
+          <option value="DeepSeek V3">DeepSeek V3</option>
+          <option value="DeepSeek R1">DeepSeek R1</option>
+          <option value="Qwen Max">Qwen Max</option>
+          <option value="Gemini 1.5 Pro">Gemini 1.5 Pro</option>
+          <option value="Claude Sonnet 4.5">Claude Sonnet 4.5</option>
+          <option value="Claude Haiku 3.5">Claude Haiku 3.5</option>
+        </select>
+      </div>
+      <div class="tc-ft">
+        <span class="bd2 bg">● 运行中</span>
+        <div class="fxc g6">
+          <button class="btn bo bsm">更新</button>
+          <button class="btn bp bsm">打开</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tc" data-tool-card="codex-cli">
+      <div class="tc-h">
+        <div class="tc-ico" style="background:#e8f4fd">💻</div>
+        <div><div class="tc-nm">Codex</div><div class="tc-vr">命令行工具 · v1.2.1 · 已安装</div></div>
+      </div>
+      <div class="tc-ds">OpenAI 官方命令行工具，适合代码生成场景，已配置路由转发。</div>
+      <div class="tmx">
+        <div class="row">
+          <div>
+            <div class="lb">支持模型</div>
+            <div class="bd2 bg" data-tool-mode="codex-cli">3 个可选</div>
+          </div>
+          <div style="text-align:right">
+            <div class="lb">当前使用模型</div>
+            <div class="val" data-tool-current="codex-cli">DeepSeek V3</div>
+          </div>
+        </div>
+        <div class="txs tgr mb8" data-tool-note="codex-cli">当前使用 DeepSeek V3，可直接切换其他可用模型</div>
+        <div class="lb">该工具当前可用模型</div>
+        <select class="sel" data-tool-select="codex-cli" onchange="needLogin(()=>changeToolModel('codex-cli', this.value))">
+          <option value="DeepSeek R1">DeepSeek R1</option>
+          <option value="Gemini 1.5 Pro">Gemini 1.5 Pro</option>
+          <option value="DeepSeek V3">DeepSeek V3</option>
+          <option value="Claude Sonnet 4.5">Claude Sonnet 4.5</option>
+          <option value="Claude Haiku 3.5">Claude Haiku 3.5</option>
+          <option value="Qwen Max">Qwen Max</option>
+        </select>
+      </div>
+      <div class="tc-ft">
+        <span class="bd2 bg">● 运行中</span>
+        <div class="fxc g6">
+          <button class="btn bo bsm">更新</button>
+          <button class="btn bp bsm">打开</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tc" data-tool-card="opencode">
+      <div class="tc-h">
+        <div class="tc-ico" style="background:#fef3cd">🔷</div>
+        <div><div class="tc-nm">OpenCode</div><div class="tc-vr">v0.1.89 · 已安装</div></div>
+      </div>
+      <div class="tc-ds">开源 AI 编程助手，支持多种模型接入，轻量高效。</div>
+      <div class="tmx">
+        <div class="row">
+          <div>
+            <div class="lb">支持模型</div>
+            <div class="bd2 bpu" data-tool-mode="opencode">3 个可选</div>
+          </div>
+          <div style="text-align:right">
+            <div class="lb">当前使用模型</div>
+            <div class="val" data-tool-current="opencode">Gemini 1.5 Pro</div>
+          </div>
+        </div>
+        <div class="txs tgr mb8" data-tool-note="opencode">当前使用 Gemini 1.5 Pro，可直接切换其他可用模型</div>
+        <div class="lb">该工具当前可用模型</div>
+        <select class="sel" data-tool-select="opencode" onchange="needLogin(()=>changeToolModel('opencode', this.value))">
+          <option value="DeepSeek V3">DeepSeek V3</option>
+          <option value="DeepSeek R1">DeepSeek R1</option>
+          <option value="Qwen Max">Qwen Max</option>
+          <option value="Gemini 1.5 Pro">Gemini 1.5 Pro</option>
+          <option value="Claude Sonnet 4.5">Claude Sonnet 4.5</option>
+          <option value="Claude Haiku 3.5">Claude Haiku 3.5</option>
+        </select>
+      </div>
+      <div class="tc-ft">
+        <span class="bd2 by">● 可更新</span>
+        <div class="fxc g6">
+          <button class="btn bsm" style="background:var(--wa);color:#fff;border:none">立即更新</button>
+          <button class="btn bp bsm">打开</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tc" data-tool-card="gemini">
+      <div class="tc-h">
+        <div class="tc-ico" style="background:#f0fdf4">🌿</div>
+        <div><div class="tc-nm">Gemini</div><div class="tc-vr" data-tool-version="gemini">命令行工具 · 未安装</div></div>
+      </div>
+      <div class="tc-ds">Google 官方命令行工具，支持 Gemini 1.5 Pro / Flash 等模型。</div>
+      <div class="tc-ft" data-tool-actions="gemini">
+        <span class="bd2 bgr" data-tool-status="gemini">未安装</span>
+        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('gemini'))">安装</button>
+      </div>
+    </div>
+
+    <div class="tc" data-tool-card="deepseek">
+      <div class="tc-h">
+        <div class="tc-ico" style="background:#fdf2f8">🐋</div>
+        <div><div class="tc-nm">DeepSeek</div><div class="tc-vr" data-tool-version="deepseek">对话客户端 · 未安装</div></div>
+      </div>
+      <div class="tc-ds">DeepSeek 官方对话客户端，提供 V3 / R1 等模型，国内访问稳定。</div>
+      <div class="tc-ft" data-tool-actions="deepseek">
+        <span class="bd2 bgr" data-tool-status="deepseek">未安装</span>
+        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('deepseek'))">安装</button>
+      </div>
+    </div>
+
+    <div class="tc" data-tool-card="kilocode">
+      <div class="tc-h">
+        <div class="tc-ico" style="background:#f5f0ff">🔮</div>
+        <div><div class="tc-nm">Kilo Code</div><div class="tc-vr" data-tool-version="kilocode">未安装</div></div>
+      </div>
+      <div class="tc-ds">VS Code 插件型 AI 编程助手，支持多种模型，适合开发者日常工作。</div>
+      <div class="tc-ft" data-tool-actions="kilocode">
+        <span class="bd2 bgr" data-tool-status="kilocode">未安装</span>
+        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('kilocode'))">安装</button>
+      </div>
+    </div>
+
+    <div class="tc" data-tool-card="claudecode">
+      <div class="tc-h">
+        <div class="tc-ico" style="background:#fff0ec">✨</div>
+        <div><div class="tc-nm">Claude Code</div><div class="tc-vr" data-tool-version="claudecode">命令行编程工具 · 未安装</div></div>
+      </div>
+      <div class="tc-ds">Anthropic 官方命令行编程工具，支持在终端直接与 Claude 协作完成复杂代码任务。</div>
+      <div class="tc-ft" data-tool-actions="claudecode">
+        <span class="bd2 bgr" data-tool-status="claudecode">未安装</span>
+        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('claudecode'))">安装</button>
+      </div>
+    </div>
+
+    <div class="tc" data-tool-card="openclaw">
+      <div class="tc-h">
+        <div class="tc-ico" style="background:#fff4f0">🦞</div>
+        <div><div class="tc-nm">OpenClaw</div><div class="tc-vr" data-tool-version="openclaw">未安装</div></div>
+      </div>
+      <div class="tc-ds">开源 AI 客户端，支持多种模型接入，界面轻量适合日常对话场景。</div>
+      <div class="tc-ft" data-tool-actions="openclaw">
+        <span class="bd2 bgr" data-tool-status="openclaw">未安装</span>
+        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('openclaw'))">安装</button>
+      </div>
+    </div>
+
+    <div class="tc" data-tool-card="hermes">
+      <div class="tc-h">
+        <div class="tc-ico" style="background:#f0f4ff">📦</div>
+        <div><div class="tc-nm">Hermes</div><div class="tc-vr" data-tool-version="hermes">未安装</div></div>
+      </div>
+      <div class="tc-ds">AI 工具管理平台，支持多个 AI 客户端的统一配置与切换。</div>
+      <div class="tc-ft" data-tool-actions="hermes">
+        <span class="bd2 bgr" data-tool-status="hermes">未安装</span>
+        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('hermes'))">安装</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ─────── P03 模型路由 ─────── -->
+<div id="p03" class="pg">
+  <div style="font-size:15px;font-weight:700" class="mb16">模型 / 路由管理</div>
+
+  <div class="stbar run">
+    <div class="stl ok"><span class="dot dg"></span>本地路由运行中</div>
+    <div class="str">网关地址：http://127.0.0.1:15721 · 今日请求 128 次<span class="ih">?<span class="ih-b">统计今日通过本地路由实际转发的模型请求次数，不等于消息条数。一次消息可能触发多次请求，如重试、补全上下文或工具调用。</span></span></div>
+  </div>
+
+  <div class="card mb16">
+    <div class="fxb mb16">
+      <div style="font-size:15px;font-weight:700">路由模式<span class="ih">?<span class="ih-b">控制系统自动选模策略。智能模式按任务难度分配模型；稳定模式在报错、超时、额度不足时自动切换；速度模式优先响应更快的模型。智能模式与速度模式二选一，稳定模式可叠加开启。</span></span></div>
+      <div class="txs tgr" id="routeModeSummaryText">当前开启：智能模式、稳定模式</div>
+    </div>
+    <div class="g g3" style="gap:10px">
+      <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:10px;padding:14px">
+        <div class="fxb" style="align-items:center;gap:12px">
+          <div>
+            <div class="tb2">智能模式</div>
+            <div class="txs tgr mt4">系统会根据任务难度分配模型，简单任务更省，复杂任务更强</div>
+          </div>
+          <label class="sw"><input type="checkbox" data-route-mode="saveFlow" checked onchange="toggleRouteMode('saveFlow', this.checked)"><span class="sl"></span></label>
+        </div>
+      </div>
+      <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:10px;padding:14px">
+        <div class="fxb" style="align-items:center;gap:12px">
+          <div>
+            <div class="tb2">稳定模式</div>
+            <div class="txs tgr mt4">报错、超时、额度不足时，自动换到其他可用模型</div>
+          </div>
+          <label class="sw"><input type="checkbox" data-route-mode="failover" checked onchange="toggleRouteMode('failover', this.checked)"><span class="sl"></span></label>
+        </div>
+      </div>
+      <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:10px;padding:14px">
+        <div class="fxb" style="align-items:center;gap:12px">
+          <div>
+            <div class="tb2">速度模式</div>
+            <div class="txs tgr mt4">更看重速度时用它，优先选响应更快的模型</div>
+          </div>
+          <label class="sw"><input type="checkbox" data-route-mode="speedFirst" onchange="toggleRouteMode('speedFirst', this.checked)"><span class="sl"></span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb16">
+    <!-- 切换 Tab -->
+    <div style="display:flex;justify-content:center;margin-bottom:20px">
+      <div style="display:flex;background:#f4f4f5;border-radius:10px;padding:3px;gap:2px">
+        <button id="tabBuiltin" class="btn" style="padding:7px 22px;font-size:13px;border-radius:8px;background:var(--wh);color:var(--t);box-shadow:0 2px 8px rgba(0,0,0,.08);border:none" onclick="switchModelTab('builtin')">内置模型</button>
+        <button id="tabCustom" class="btn" style="padding:7px 22px;font-size:13px;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchModelTab('custom')">新增模型</button>
+      </div>
+    </div>
+
+    <!-- 平台支持模型面板 -->
+    <div id="panelBuiltin">
+    <div class="g g2" style="gap:10px" id="platformModelGrid">
+
+      <!-- Anthropic -->
+      <div class="mc"><div class="mi" style="background:#f5f0eb;padding:4px"><img src="https://logo.clearbit.com/anthropic.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🤖'"></div><div class="f1"><div class="mn">Claude Opus 4.5</div><div class="mp">Anthropic · 旗舰推理</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">高成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <div class="mc"><div class="mi" style="background:#f5f0eb;padding:4px"><img src="https://logo.clearbit.com/anthropic.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🤖'"></div><div class="f1"><div class="mn">Claude Sonnet 4.5</div><div class="mp">Anthropic · 均衡旗舰</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">中高成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <div class="mc"><div class="mi" style="background:#f5f0eb;padding:4px"><img src="https://logo.clearbit.com/anthropic.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='⚡'"></div><div class="f1"><div class="mn">Claude Haiku 3.5</div><div class="mp">Anthropic · 经济快速</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">低成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <!-- OpenAI -->
+      <div class="mc"><div class="mi" style="background:#f7f7f7;padding:4px"><img src="https://logo.clearbit.com/openai.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🟢'"></div><div class="f1"><div class="mn">GPT-4o</div><div class="mp">OpenAI · 多模态旗舰</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">高成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <div class="mc"><div class="mi" style="background:#f7f7f7;padding:4px"><img src="https://logo.clearbit.com/openai.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🟢'"></div><div class="f1"><div class="mn">GPT-4o mini</div><div class="mp">OpenAI · 经济型</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">低成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <div class="mc"><div class="mi" style="background:#f7f7f7;padding:4px"><img src="https://logo.clearbit.com/openai.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='💡'"></div><div class="f1"><div class="mn">o3</div><div class="mp">OpenAI · 深度推理</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">高成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <div class="mc"><div class="mi" style="background:#f7f7f7;padding:4px"><img src="https://logo.clearbit.com/openai.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='💡'"></div><div class="f1"><div class="mn">o4 mini</div><div class="mp">OpenAI · 快速推理</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">中成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <!-- Google -->
+      <div class="mc"><div class="mi" style="background:#fff;padding:4px"><img src="https://logo.clearbit.com/google.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🌿'"></div><div class="f1"><div class="mn">Gemini 2.5 Pro</div><div class="mp">Google · 长上下文旗舰</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">中高成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <div class="mc"><div class="mi" style="background:#fff;padding:4px"><img src="https://logo.clearbit.com/google.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🌿'"></div><div class="f1"><div class="mn">Gemini 2.5 Flash</div><div class="mp">Google · 快速经济</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">低成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <!-- Meta -->
+      <div class="mc"><div class="mi" style="background:#e8f0fe;padding:4px"><img src="https://logo.clearbit.com/meta.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🦙'"></div><div class="f1"><div class="mn">Llama 3.3 70B</div><div class="mp">Meta · 开源旗舰</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">低成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <div class="mc"><div class="mi" style="background:#e8f0fe;padding:4px"><img src="https://logo.clearbit.com/meta.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🦙'"></div><div class="f1"><div class="mn">Llama 4 Scout</div><div class="mp">Meta · 多模态开源</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">低成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <!-- Mistral -->
+      <div class="mc"><div class="mi" style="background:#fff4f0;padding:4px"><img src="https://logo.clearbit.com/mistral.ai" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🌀'"></div><div class="f1"><div class="mn">Mistral Large 2</div><div class="mp">Mistral AI · 欧洲旗舰</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">中成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <!-- DeepSeek -->
+      <div class="mc"><div class="mi" style="background:#eef3ff;padding:4px"><img src="https://logo.clearbit.com/deepseek.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🐋'"></div><div class="f1"><div class="mn">DeepSeek V3</div><div class="mp">DeepSeek · 国内稳定</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">低成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <div class="mc"><div class="mi" style="background:#eef3ff;padding:4px"><img src="https://logo.clearbit.com/deepseek.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🔥'"></div><div class="f1"><div class="mn">DeepSeek R1</div><div class="mp">DeepSeek · 推理增强</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">中成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <!-- 阿里云 -->
+      <div class="mc"><div class="mi" style="background:#fff3e0;padding:4px"><img src="https://logo.clearbit.com/aliyun.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='💎'"></div><div class="f1"><div class="mn">Qwen Max</div><div class="mp">阿里云 · 通义千问旗舰</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">中成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <div class="mc"><div class="mi" style="background:#fff3e0;padding:4px"><img src="https://logo.clearbit.com/aliyun.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='💎'"></div><div class="f1"><div class="mn">Qwen Plus</div><div class="mp">阿里云 · 均衡版</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">低成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <div class="mc"><div class="mi" style="background:#fff3e0;padding:4px"><img src="https://logo.clearbit.com/aliyun.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🧠'"></div><div class="f1"><div class="mn">QwQ 32B</div><div class="mp">阿里云 · 推理专用</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">低成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <!-- 百度 -->
+      <div class="mc"><div class="mi" style="background:#e8f4ff;padding:4px"><img src="https://logo.clearbit.com/baidu.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🔵'"></div><div class="f1"><div class="mn">ERNIE 4.5</div><div class="mp">百度 · 文心旗舰</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">中成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <div class="mc"><div class="mi" style="background:#e8f4ff;padding:4px"><img src="https://logo.clearbit.com/baidu.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🔵'"></div><div class="f1"><div class="mn">ERNIE X1</div><div class="mp">百度 · 推理增强</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">中成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <!-- 腾讯 -->
+      <div class="mc"><div class="mi" style="background:#e6f0ff;padding:4px"><img src="https://logo.clearbit.com/tencent.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🟦'"></div><div class="f1"><div class="mn">Hunyuan Turbo S</div><div class="mp">腾讯 · 混元旗舰</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">中成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <!-- 字节 -->
+      <div class="mc"><div class="mi" style="background:#fff0f6;padding:4px"><img src="https://logo.clearbit.com/bytedance.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🌙'"></div><div class="f1"><div class="mn">Doubao Pro 256K</div><div class="mp">字节跳动 · 豆包旗舰</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">低成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <!-- 月之暗面 -->
+      <div class="mc"><div class="mi" style="background:#f0eeff;padding:4px"><img src="https://logo.clearbit.com/moonshot.cn" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🌙'"></div><div class="f1"><div class="mn">Kimi k1.5</div><div class="mp">月之暗面 · 长文本推理</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">中成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <!-- 智谱 -->
+      <div class="mc"><div class="mi" style="background:#edfff4;padding:4px"><img src="https://logo.clearbit.com/zhipuai.cn" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🦋'"></div><div class="f1"><div class="mn">GLM-4 Plus</div><div class="mp">智谱 AI · ChatGLM</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">低成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <!-- 零一万物 -->
+      <div class="mc"><div class="mi" style="background:#fff7f0;padding:4px"><img src="https://logo.clearbit.com/01.ai" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='1️⃣'"></div><div class="f1"><div class="mn">Yi-Large</div><div class="mp">零一万物 · 旗舰</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">中成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <!-- Cohere -->
+      <div class="mc"><div class="mi" style="background:#f0fdf4;padding:4px"><img src="https://logo.clearbit.com/cohere.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🔮'"></div><div class="f1"><div class="mn">Command R+</div><div class="mp">Cohere · 企业 RAG</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">中成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+      <!-- xAI -->
+      <div class="mc"><div class="mi" style="background:#0d0d0d;padding:4px"><img src="https://logo.clearbit.com/x.ai" style="width:100%;height:100%;object-fit:contain;border-radius:4px;filter:invert(1)" onerror="this.parentNode.style.color='#fff';this.parentNode.textContent='𝕏'"></div><div class="f1"><div class="mn">Grok 3</div><div class="mp">xAI · 实时联网推理</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">高成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
+
+    </div><!-- /platformModelGrid -->
+    </div><!-- /panelBuiltin -->
+
+    <!-- 新增模型面板 -->
+    <div id="panelCustom" style="display:none">
+    <!-- 用户新增模型列表 -->
+    <div id="customModelList" style="display:none;margin-bottom:16px">
+      <table class="tb" id="customModelTable">
+        <thead><tr><th>模型名称</th><th>调用地址</th><th>模型 ID</th><th>连接状态</th><th>操作</th></tr></thead>
+        <tbody id="customModelTableBody"></tbody>
+      </table>
+    </div>
+    <div id="noCustomModel" style="text-align:center;padding:20px 0 8px;color:var(--t3);font-size:13px">暂无自定义模型，填写下方表单即可接入</div>
+
+    <div class="adv-t mt8" onclick="togAdv()">
+      <span>➕</span> 展开配置<span class="ih">?<span class="ih-b">用于新增外部模型接入配置。保存后系统会自动检测连接、调用结果与外部额度状态。</span></span> <span id="adva">▲</span>
+    </div>
+    <div class="adv-p op" id="advp">
+      <div class="g g2" style="gap:12px">
+        <div class="fg" style="margin-bottom:0">
+          <label class="fl">调用地址</label>
+          <input class="fi" value="https://api.deepseek.com/anthropic" placeholder="填供应商给你的调用地址，例如 https://api.deepseek.com/anthropic">
+          <div class="txs tgr mt4">这里填供应商给你的接口地址。不会填就去供应商文档里找 API 地址或 Base URL。</div>
+        </div>
+        <div class="fg" style="margin-bottom:0">
+          <label class="fl">模型名称</label>
+          <input class="fi" id="newModelName" value="Kimi K2" placeholder="填用户看到的模型名称，例如 Kimi K2、GLM 4.5、Llama 3.1 70B">
+          <div class="txs tgr mt4">仅用于展示，不影响真实调用</div>
+        </div>
+        <div class="fg" style="margin-bottom:0">
+          <label class="fl">调用密钥</label>
+          <input class="fi" type="password" value="sk-••••••••••••••••" placeholder="填供应商给你的密钥，例如 sk-xxxxxx">
+          <div class="txs tgr mt4">这里填供应商给你的 API Key。建议单独创建一个给本平台使用，后面更好管理。</div>
+        </div>
+        <div class="fg" style="margin-bottom:0">
+          <label class="fl">模型 ID</label>
+          <input class="fi" id="mappingInput" value="deepseek-v3" placeholder="填系统实际调用的模型 ID，例如 deepseek-v3">
+          <div class="txs tgr mt4">模型 ID 就是系统真正发起调用时使用的模型标识，例如 deepseek-v3、qwen-max。</div>
+        </div>
+      </div>
+      <div style="background:var(--wh);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-top:14px">
+        <div class="tb2 mb8">系统检测结果<span class="ih">?<span class="ih-b">保存后自动检测该模型接入是否可用，并反馈连接、调用与额度状态。</span></span></div>
+        <div class="g g3" style="gap:10px">
+          <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:8px;padding:12px">
+            <div class="txs tlt mb8">连接状态</div>
+            <div id="extConnStatus" class="tb2">待检测</div>
+            <div id="extConnDesc" class="txs tgr mt4">保存后自动检测</div>
+          </div>
+          <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:8px;padding:12px">
+            <div class="txs tlt mb8">最近一次调用</div>
+            <div id="extCallStatus" class="tb2">尚未验证</div>
+            <div id="extCallDesc" class="txs tgr mt4">保存后自动发起检测</div>
+          </div>
+          <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:8px;padding:12px">
+            <div class="txs tlt mb8">外部供应商额度</div>
+            <div id="extBalanceStatus" class="tb2">待查询</div>
+            <div id="extBalanceDesc" class="txs tgr mt4">保存后自动检测</div>
+          </div>
+        </div>
+      </div>
+      <div class="mt12" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+        <button class="btn bp" style="min-width:220px;padding:12px 28px;font-size:15px" onclick="needLogin(()=>saveConf(this))">保存并检测</button>
+      <span id="connResult" style="font-size:12px;display:none;text-align:center"></span>
+      </div>
+    </div>
+    </div><!-- /panelCustom -->
+
+  </div>
+</div>
+
+<!-- ─────── P04 Tokens 中心 ─────── -->
+<div id="p04" class="pg">
+  <div class="fxb mb16">
+    <div style="font-size:15px;font-weight:700">Tokens 中心</div>
+    <button class="btn bp bsm" onclick="go('p05',nv(4),'购买 Tokens')">立即充值</button>
+  </div>
+
+  <div class="g g3 mb16">
+    <div class="sc" style="background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:none">
+      <div class="lb" style="color:rgba(255,255,255,.8)">剩余 Tokens<span class="ih">?<span class="ih-b">展示平台套餐当前剩余的 Tokens 总量。</span></span></div>
+      <div class="vl" id="tokensCenterBalanceValue" style="color:#fff">256,000</div>
+      <div class="sb2" id="tokensCenterBalanceHint" style="color:rgba(255,255,255,.7)">最近到期 18 天后（2026-07-23）</div>
+    </div>
+    <div class="sc">
+      <div class="lb">今日消耗<span class="ih">?<span class="ih-b">与首页口径一致，只统计今天通过本站路由产生的 Tokens 消耗。</span></span></div>
+      <div class="vl" id="tokensTodayUsageValue">3,241</div>
+      <div class="sb2">调用量稳定</div>
+    </div>
+    <div class="sc">
+      <div class="lb">近30天累计消耗<span class="ih">?<span class="ih-b">展示近30天通过本站路由产生的 Tokens 累计消耗，站外使用不计入。</span></span></div>
+      <div class="vl" id="tokensMonthUsageValue">128,540</div>
+      <div class="sb2">近30天调用活跃</div>
+    </div>
+  </div>
+
+  <div class="card mb16">
+    <div class="fxb mb16">
+      <div class="tb2">套餐额度明细<span class="ih">?<span class="ih-b">逐笔记录各套餐的剩余 Tokens 和到期时间；首页“最近到期”只是简要提示，详细以这里为准。</span></span></div>
+    </div>
+    <table class="tb">
+      <thead><tr><th>套餐</th><th>剩余 Tokens</th><th>购买时间</th><th>到期时间</th><th>状态</th></tr></thead>
+      <tbody id="packageTableBody">
+        <tr><td>新手包</td><td>80,000</td><td class="tgr ts">2026-01-21</td><td class="tgr ts">18 天后到期（2026-07-23）</td><td><span class="bd2 by">即将到期</span></td></tr>
+        <tr><td>标准包</td><td>126,000</td><td class="tgr ts">2026-03-03</td><td class="tgr ts">4 个月后到期（2026-11-08）</td><td><span class="bd2 bg">生效中</span></td></tr>
+        <tr><td>高级包</td><td>50,000</td><td class="tgr ts">2026-05-12</td><td class="tgr ts">11 个月后到期（2027-06-15）</td><td><span class="bd2 bg">生效中</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+      <div class="fxb mb16">
+        <div class="tb2">消耗记录<span class="ih">?<span class="ih-b">这里只记录本站内实际扣减的 Tokens 消耗，外部供应商侧的使用不会计入这里。</span></span></div>
+        <div class="fxc g6">
+          <div class="ft on" onclick="ftClick(this)">全部</div>
+          <div class="ft" onclick="ftClick(this)">今日</div>
+          <div class="ft" onclick="ftClick(this)">本周</div>
+        </div>
+      </div>
+      <table class="tb">
+        <thead><tr><th>时间</th><th>工具 / 模型</th><th>Tokens</th></tr></thead>
+        <tbody id="tokenUsageTableBody">
+          <tr><td class="tgr ts">今天 14:32</td><td>Claude · Sonnet</td><td>1,248</td></tr>
+          <tr><td class="tgr ts">今天 13:10</td><td>Codex · Haiku</td><td>876</td></tr>
+          <tr><td class="tgr ts">今天 11:47</td><td>Claude · DeepSeek V3</td><td>654</td></tr>
+          <tr><td class="tgr ts">今天 10:22</td><td>OpenCode · Sonnet</td><td>463</td></tr>
+          <tr><td class="tgr ts">昨天 18:05</td><td>Claude · Haiku</td><td>2,310</td></tr>
+          <tr><td class="tgr ts">昨天 15:33</td><td>Codex · DeepSeek V3</td><td>1,890</td></tr>
+        </tbody>
+      </table>
+    </div>
+</div>
+<div id="p05" class="pg">
+  <div class="fxb mb16">
+    <div style="display:flex;background:#f4f4f5;border-radius:10px;padding:3px;gap:2px">
+      <button id="buyTab1" class="btn" style="padding:7px 22px;font-size:13px;border-radius:8px;background:var(--wh);color:var(--t);box-shadow:0 2px 8px rgba(0,0,0,.08);border:none" onclick="switchBuyTab('buy')">购买 Tokens</button>
+      <button id="buyTab2" class="btn" style="padding:7px 22px;font-size:13px;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchBuyTab('orders')">订单记录</button>
+    </div>
+    <div class="ts tgr" id="buyPageBalanceBar">当前剩余 Tokens：<span class="tac tb2" id="buyPageTokensValue">256,000</span><span class="ih">?<span class="ih-b">展示当前平台剩余的 Tokens，方便判断本次需要购买多少。</span></span></div>
+  </div>
+  <!-- Tab1: 购买 -->
+  <div id="buyPanelBuy">
+
+  <div class="g g3 mb16">
+    <div class="plc" onclick="selPl(this)" data-plan-name="新手包" data-plan-tokens="50 万 Tokens" data-plan-price="19" data-plan-original="25" data-plan-discount="6">
+      <div class="pl-nm">新手包</div>
+      <div class="pl-tk">500,000 <span>Tokens</span></div>
+      <div class="pl-pr">¥19 <span class="orig">¥25</span></div>
+      <ul class="pl-ft mt8">
+        <li>有效期 6 个月</li>
+        <li>适合轻度用户</li>
+      </ul>
+      <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--bd)">
+        <div style="font-size:11px;color:var(--t3);margin-bottom:6px;font-weight:600">支持模型</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px">
+          <span class="bd2 bgr">Claude Haiku 3.5</span>
+          <span class="bd2 bgr">GPT-4o mini</span>
+          <span class="bd2 bgr">DeepSeek V3</span>
+          <span class="bd2 bgr">Gemini 2.5 Flash</span>
+          <span class="bd2 bgr">Qwen Plus</span>
+          <span class="bd2 bgr">GLM-4 Plus</span>
+          <span class="bd2 bgr">Doubao Pro</span>
+        </div>
+        <div style="font-size:11px;color:var(--t3);margin-top:6px">仅限经济型模型，不含高成本模型</div>
+      </div>
+    </div>
+
+    <div class="plc on" onclick="selPl(this)" data-plan-name="标准包" data-plan-tokens="200 万 Tokens" data-plan-price="59" data-plan-original="80" data-plan-discount="21">
+      <div class="pl-tag">🔥 最受欢迎</div>
+      <div class="pl-nm">标准包</div>
+      <div class="pl-tk">2,000,000 <span>Tokens</span></div>
+      <div class="pl-pr">¥59 <span class="orig">¥80</span></div>
+      <ul class="pl-ft mt8">
+        <li>有效期 12 个月</li>
+        <li>适合日常工作</li>
+      </ul>
+      <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--bd)">
+        <div style="font-size:11px;color:var(--t3);margin-bottom:6px;font-weight:600">支持模型</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px">
+          <span class="bd2 bpu">全部内置模型</span>
+        </div>
+        <div style="font-size:11px;color:var(--t3);margin-top:6px">包含 Claude、GPT-4o、Gemini、DeepSeek 等 27 款模型</div>
+      </div>
+    </div>
+
+    <div class="plc" onclick="selPl(this)" data-plan-name="高级包" data-plan-tokens="600 万 Tokens" data-plan-price="149" data-plan-original="200" data-plan-discount="51">
+      <div class="pl-nm">高级包</div>
+      <div class="pl-tk">6,000,000 <span>Tokens</span></div>
+      <div class="pl-pr">¥149 <span class="orig">¥200</span></div>
+      <ul class="pl-ft mt8">
+        <li>有效期 24 个月</li>
+        <li>高频用户推荐</li>
+      </ul>
+      <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--bd)">
+        <div style="font-size:11px;color:var(--t3);margin-bottom:6px;font-weight:600">支持模型</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px">
+          <span class="bd2 bpu">全部内置模型</span>
+          <span class="bd2 bg">新增模型</span>
+        </div>
+        <div style="font-size:11px;color:var(--t3);margin-top:6px">含全部 27 款内置模型 + 自定义接入模型，优先响应队列</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="tb2 mb16">选择支付方式</div>
+    <div class="pmw">
+      <div class="pm on" onclick="selPm(this)">💬 微信支付</div>
+      <div class="pm" onclick="selPm(this)">🔵 支付宝</div>
+      <div class="pm" onclick="selPm(this)">💳 银行卡</div>
+    </div>
+    <div class="sep"></div>
+    <div class="fxb mb8"><div class="tgr">已选套餐</div><div class="tb2" id="selectedPlanSummary">标准包 · 200 万 Tokens</div></div>
+    <div class="fxb mb8"><div class="tgr">优惠</div><div id="selectedPlanDiscount" style="color:var(--ok);font-weight:700">-¥21</div></div>
+    <div class="fxb" style="font-size:16px;font-weight:800;margin-bottom:20px">
+      <div>合计</div><div class="tac" id="selectedPlanTotal">¥59</div>
+    </div>
+    <button class="btn bp bfw" id="selectedPlanPayBtn" style="padding:14px;font-size:15px" onclick="handlePurchase(this)">确认支付 ¥59</button>
+    <div class="txs tlt" style="text-align:center;margin-top:10px">支付即代表同意 <span class="tac">充值服务协议</span> · 到账时间 &lt; 1 分钟 · 支持 7 天无理由退款</div>
+  </div>
+  </div><!-- /buyPanelBuy -->
+
+  <!-- Tab2: 订单记录 -->
+  <div id="buyPanelOrders" style="display:none">
+    <div class="fxb mb16">
+      <div></div>
+      <div class="fxc g6" style="flex-wrap:wrap;justify-content:flex-end">
+        <button class="btn bo bsm" id="batchInvoiceBtn" onclick="openBatchInvoiceModal()" disabled>批量申请发票</button>
+        <div class="ft on" onclick="ftClick(this)">全部</div>
+        <div class="ft" onclick="ftClick(this)">待支付</div>
+        <div class="ft" onclick="ftClick(this)">已完成</div>
+        <div class="ft" onclick="ftClick(this)">已退款</div>
+      </div>
+    </div>
+    <div class="g g3 mb16">
+      <div class="sc"><div class="lb">可申请发票</div><div class="vl" id="invoiceReadyCount">0</div><div class="sb2">笔</div></div>
+      <div class="sc"><div class="lb">开票中</div><div class="vl" id="invoiceProcessingCount">0</div><div class="sb2">笔</div></div>
+      <div class="sc"><div class="lb">已开票</div><div class="vl" id="invoiceIssuedCount">0</div><div class="sb2">笔</div></div>
+    </div>
+    <div class="card">
+      <table class="tb">
+        <thead><tr><th style="width:42px"><input type="checkbox" id="orderSelectAll" onchange="toggleInvoiceSelectableOrders(this.checked)"></th><th>订单编号</th><th>套餐</th><th>支付方式</th><th>下单时间</th><th>订单状态</th><th>发票状态</th><th>操作</th></tr></thead>
+        <tbody id="orderTableBody"></tbody>
+      </table>
+    </div>
+  </div><!-- /buyPanelOrders -->
+</div>
+
+<!-- ─────── P06 已并入 P05，保留空壳供旧跳转使用 ─────── -->
+<div id="p06" class="pg" style="display:none"></div>
+
+<!-- ─────── P07 设置 ─────── -->
+<div id="p07" class="pg">
+  <div style="font-size:15px;font-weight:700" class="mb16">设置</div>
+  <div class="card">
+    <div class="tb2 mb16">账号信息</div>
+    <div class="fg"><label class="fl">昵称</label><input class="fi" value="雷蕾" style="max-width:300px"></div>
+    <div class="fg"><label class="fl">绑定手机</label><input class="fi" value="138****8888" style="max-width:300px"></div>
+    <div class="fg" style="align-items:center">
+      <label class="fl">登录密码</label>
+      <div class="fxc g8">
+        <input class="fi" type="password" value="••••••••" style="max-width:200px" disabled>
+        <button class="btn bo bsm" onclick="om('m09')">修改密码</button>
+      </div>
+    </div>
+    <div class="sep"></div>
+    <div class="tb2 mb16">通知设置</div>
+    <div class="fxb mb16" style="max-width:400px">
+      <div>
+        <div style="font-size:13px;font-weight:600">Tokens 不足提醒</div>
+        <div class="txs tgr">剩余 Tokens 低于 20,000 时发送通知</div>
+      </div>
+      <label class="sw"><input type="checkbox" checked><span class="sl"></span></label>
+    </div>
+    <div class="fxb mb16" style="max-width:400px">
+      <div>
+        <div style="font-size:13px;font-weight:600">路由异常提醒</div>
+        <div class="txs tgr">路由服务中断时发送通知</div>
+      </div>
+      <label class="sw"><input type="checkbox" checked><span class="sl"></span></label>
+    </div>
+    <div class="sep"></div>
+    <button class="btn bp" onclick="saveSettings(this)">保存设置</button>
+  </div>
+</div>
+
+    </div><!-- /pc -->
+  </div><!-- /main -->
+</div><!-- /shell -->
+
+
+<!-- ══════════════════════════════════════════════════
+     MODALS
+══════════════════════════════════════════════════ -->
+
+<!-- M09 修改密码 -->
+<div class="ov" id="m09">
+  <div class="mo mo-sm">
+    <div class="mo-ti">修改登录密码</div>
+    <div class="mo-ds">修改后下次登录需使用新密码，或继续使用验证码登录。</div>
+    <div class="fg">
+      <label class="fl">当前密码</label>
+      <input class="fi" type="password" placeholder="请输入当前密码">
+    </div>
+    <div class="fg">
+      <label class="fl">新密码</label>
+      <input class="fi" type="password" placeholder="6 位以上，含字母和数字">
+    </div>
+    <div class="fg" style="margin-bottom:0">
+      <label class="fl">确认新密码</label>
+      <input class="fi" type="password" placeholder="再次输入新密码">
+    </div>
+    <div class="mo-ft">
+      <button class="btn bo" onclick="cm('m09')">取消</button>
+      <button class="btn bp" onclick="cm('m09')">保存新密码</button>
+    </div>
+  </div>
+</div>
+
+<!-- M02 额度不足 -->
+<div class="ov" id="m02">
+  <div class="mo mo-sm" style="text-align:center">
+    <div style="font-size:36px;margin-bottom:12px">⚠️</div>
+    <div class="mo-ti">Tokens 不足</div>
+    <div class="mo-ds">当前剩余 <span class="tac tb2">12,400 Tokens</span>，不足以完成本次请求（预计消耗 18,000 Tokens）。请充值后再继续使用。</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <button class="btn bp bfw" onclick="cm('m02');go('p05',nv(4),'购买 Tokens')">立即充值</button>
+      <button class="btn bgh bfw" onclick="cm('m02');go('p03',nv(2),'模型 / 路由管理')">查看低成本模型建议</button>
+      <button class="btn bo bfw" onclick="cm('m02')">取消</button>
+    </div>
+  </div>
+</div>
+
+<!-- M04 安装进度 -->
+<div class="ov" id="m04">
+  <div class="mo mo-sm">
+    <div class="mo-ti">正在安装 Gemini CLI</div>
+    <div class="mo-ds">正在下载安装包，请稍候…</div>
+    <div class="mb16">
+      <div class="fxb ts tgr mb8"><span>下载安装包</span><span>68%</span></div>
+      <div class="pgw"><div class="pgf" style="width:68%"></div></div>
+    </div>
+    <div class="txs tlt">gemini-cli-v1.0.2-win64.exe · 42.3 MB / 62.1 MB</div>
+    <div class="mo-ft">
+      <button class="btn bgh" onclick="completeInstall()">安装完成</button>
+    </div>
+  </div>
+</div>
+
+<!-- M05 支付成功 -->
+<div class="ov" id="m05">
+  <div class="mo mo-sm" style="text-align:center">
+    <div style="font-size:52px;margin-bottom:12px">🎉</div>
+    <div class="mo-ti">充值成功</div>
+    <div class="mo-ds">到账结果已更新，你现在可以继续使用平台已接入的 AI 工具。</div>
+    <div style="background:var(--all);border:1px solid #ddd6fe;border-radius:12px;padding:16px;text-align:left;margin:16px 0">
+      <div class="fxb mb8"><div class="tgr">充值 Tokens<span class="ih">?<span class="ih-b">表示本次套餐到账的 Tokens 数量，具体发放规则以正式方案为准。</span></span></div><div class="tb2" id="purchaseResultTokens">200 万</div></div>
+      <div class="fxb" style="padding-top:8px;border-top:1px solid #ddd6fe;font-size:15px;font-weight:800">
+        <div>当前剩余 Tokens<span class="ih">?<span class="ih-b">展示购买成功后平台账户内最新剩余 Tokens。</span></span></div><div class="tac" id="purchaseResultBalance">256,000</div>
+      </div>
+    </div>
+    <button class="btn bp bfw" onclick="cm('m05');go('p04',nv(3),'Tokens 中心')">查看最新 Tokens</button>
+    <button class="btn bo bfw mt8" onclick="cm('m05')">我知道了</button>
+  </div>
+</div>
+
+<!-- M06 设置密码（登录后可选） -->
+<div class="ov" id="m06">
+  <div class="mo mo-sm">
+    <div style="font-size:32px;margin-bottom:10px">🔐</div>
+    <div class="mo-ti">设置登录密码（可选）</div>
+    <div class="mo-ds">设置密码后，下次可通过密码直接登录，无需验证码。</div>
+    <div class="fg">
+      <label class="fl">设置密码</label>
+      <input class="fi" type="password" placeholder="6 位以上，含字母和数字">
+    </div>
+    <div class="fg" style="margin-bottom:0">
+      <label class="fl">确认密码</label>
+      <input class="fi" type="password" placeholder="再次输入密码">
+    </div>
+    <div class="mo-ft">
+      <button class="btn bo" onclick="cm('m06')">跳过，不设置</button>
+      <button class="btn bp" onclick="cm('m06')">保存密码</button>
+    </div>
+  </div>
+</div>
+
+<!-- M10 申请发票 -->
+<div class="ov" id="m10">
+  <div class="mo mo-md">
+    <div class="mo-ti">申请开票</div>
+    <div class="mo-ds">仅支持对已支付且未退款订单申请电子发票，开票完成后将发送到填写邮箱。</div>
+    <div class="fg">
+      <label class="fl">订单范围</label>
+      <input class="fi" id="invoiceOrderId" disabled>
+    </div>
+    <div class="fg">
+      <label class="fl">发票类型</label>
+      <select class="fs" id="invoiceTypeSelect">
+        <option value="电子普通发票">电子普通发票</option>
+        <option value="电子专票">电子专票</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label class="fl">发票抬头</label>
+      <input class="fi" id="invoiceTitleInput" placeholder="请输入企业名称或个人姓名">
+    </div>
+    <div class="fg">
+      <label class="fl">税号 / 统一社会信用代码</label>
+      <input class="fi" id="invoiceTaxInput" placeholder="企业开票请填写，个人开票可留空">
+    </div>
+    <div class="fg" style="margin-bottom:0">
+      <label class="fl">接收邮箱</label>
+      <input class="fi" id="invoiceEmailInput" placeholder="请输入用于接收发票的邮箱">
+    </div>
+    <div id="invoiceFormError" style="display:none;margin-top:12px;font-size:12px;color:var(--er)"></div>
+    <div class="mo-ft">
+      <button class="btn bo" onclick="closeInvoiceModal()">取消</button>
+      <button class="btn bp" onclick="submitInvoiceRequest(this)">提交申请</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- M11 编辑模型 -->
+<div class="ov" id="m11">
+  <div class="mo mo-md">
+    <div class="mo-ti">编辑模型配置</div>
+    <div class="fg">
+      <label class="fl">模型名称</label>
+      <input class="fi" id="editModelName" placeholder="用户看到的模型名称">
+    </div>
+    <div class="fg">
+      <label class="fl">调用地址</label>
+      <input class="fi" id="editModelUrl" placeholder="供应商接口地址">
+    </div>
+    <div class="fg">
+      <label class="fl">调用密钥</label>
+      <input class="fi" type="password" id="editModelKey" placeholder="sk-xxxxxx">
+    </div>
+    <div class="fg" style="margin-bottom:0">
+      <label class="fl">模型 ID</label>
+      <input class="fi" id="editModelId" placeholder="系统调用的模型标识">
+    </div>
+    <div class="mo-ft">
+      <button class="btn bo" onclick="cm('m11')">取消</button>
+      <button class="btn bp" onclick="saveEditModel()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- M08 需要登录提示 -->
+<div class="ov" id="m08">
+  <div class="mo mo-sm" style="text-align:center">
+    <div style="font-size:40px;margin-bottom:10px">🔒</div>
+    <div class="mo-ti">此功能需要登录</div>
+    <div class="mo-ds">登录后可使用 Tokens 查看、充值、订单记录、安装软件、模型配置等功能。</div>
+    <div class="mo-ft" style="justify-content:center;gap:12px">
+      <button class="btn bo" onclick="cm('m08');_pendingFn=null">暂不登录</button>
+      <button class="btn bp" onclick="cm('m08');om('ls')">去登录 / 注册</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     JS
+══════════════════════════════════════════════════ -->
+<script>
+function nv(i){return document.querySelectorAll('.ni')[i]}
+
+var platformModelOptions = ['DeepSeek V3', 'DeepSeek R1', 'Qwen Max', 'Gemini 1.5 Pro', 'Claude Sonnet 4.5', 'Claude Haiku 3.5'];
+var allToolKeys = ['claude-desktop', 'codex-cli', 'opencode'];
+var modelCompatibilityMap = {
+  'DeepSeek V3': allToolKeys.slice(),
+  'DeepSeek R1': allToolKeys.slice(),
+  'Qwen Max': allToolKeys.slice(),
+  'Gemini 1.5 Pro': allToolKeys.slice(),
+  'Claude Sonnet 4.5': allToolKeys.slice(),
+  'Claude Haiku 3.5': allToolKeys.slice()
+};
+var modelProtocolMap = {
+  'DeepSeek V3': ['Anthropic', 'OpenAI'],
+  'DeepSeek R1': ['Anthropic', 'OpenAI'],
+  'Qwen Max': ['Anthropic', 'OpenAI'],
+  'Gemini 1.5 Pro': ['Anthropic', 'OpenAI'],
+  'Claude Sonnet 4.5': ['Anthropic', 'OpenAI'],
+  'Claude Haiku 3.5': ['Anthropic', 'OpenAI']
+};
+var modelProviderMap = {
+  'DeepSeek V3': '平台内置模型',
+  'DeepSeek R1': '平台内置模型',
+  'Qwen Max': '平台内置模型',
+  'Gemini 1.5 Pro': '平台内置模型',
+  'Claude Sonnet 4.5': '平台内置模型',
+  'Claude Haiku 3.5': '平台内置模型'
+};
+
+var appState = {
+  installedCount: 3,
+  activeToolKey: 'claude-desktop',
+  orderSeq: 124,
+  currentDate: '2026-07-05',
+  usageChartMode: 'daily',
+  selectedUsageDay: '2026-07-05',
+  selectedUsageRangeStart: '2026-07-05',
+  selectedUsageRangeEnd: '2026-07-05',
+  usageRecords: [
+    { date: '2026-07-05', time: '14:32', tool: 'Claude Desktop', toolModelLabel: 'Claude · Sonnet', model: 'Claude Sonnet', badgeClass: 'bpu', tokens: 1248 },
+    { date: '2026-07-05', time: '13:10', tool: 'Codex CLI', toolModelLabel: 'Codex · Haiku', model: 'Claude Haiku', badgeClass: 'bpu', tokens: 876 },
+    { date: '2026-07-05', time: '11:47', tool: 'Claude Desktop', toolModelLabel: 'Claude · DeepSeek V3', model: 'DeepSeek V3', badgeClass: 'bg', tokens: 654 },
+    { date: '2026-07-05', time: '10:22', tool: 'OpenCode', toolModelLabel: 'OpenCode · Claude Sonnet', model: 'Claude Sonnet', badgeClass: 'bpu', tokens: 463 },
+    { date: '2026-07-04', time: '18:05', tool: 'Claude Desktop', toolModelLabel: 'Claude · Haiku', model: 'Claude Haiku', badgeClass: 'bpu', tokens: 2310 },
+    { date: '2026-07-04', time: '15:33', tool: 'Codex CLI', toolModelLabel: 'Codex · DeepSeek V3', model: 'DeepSeek V3', badgeClass: 'bg', tokens: 1890 }
+  ],
+  usageAnalytics: {
+    currentDayProgress: {
+      date: '2026-07-05',
+      lastHour: 14
+    },
+    dailyHours: [
+      { label: '00', value: 0 }, { label: '01', value: 0 }, { label: '02', value: 0 }, { label: '03', value: 0 },
+      { label: '04', value: 0 }, { label: '05', value: 0 }, { label: '06', value: 0 }, { label: '07', value: 0 },
+      { label: '08', value: 0 }, { label: '09', value: 0 }, { label: '10', value: 463 }, { label: '11', value: 654 },
+      { label: '12', value: 0 }, { label: '13', value: 876 }, { label: '14', value: 1248 }, { label: '15', value: 0 },
+      { label: '16', value: 0 }, { label: '17', value: 0 }, { label: '18', value: 0 }, { label: '19', value: 0 },
+      { label: '20', value: 0 }, { label: '21', value: 0 }, { label: '22', value: 0 }, { label: '23', value: 0 }
+    ],
+    monthlyDays: [
+      { date: '2026-06-11', label: '06-11', value: 3186, hours: [12,8,0,0,0,10,42,86,152,236,344,420,246,260,302,224,166,138,112,88,70,54,36,24] },
+      { date: '2026-06-12', label: '06-12', value: 3648, hours: [18,10,0,0,0,14,48,96,174,258,386,462,272,296,344,258,188,156,128,104,84,68,52,34] },
+      { date: '2026-06-13', label: '06-13', value: 4092, hours: [22,12,0,0,0,18,54,108,196,286,418,506,318,332,386,284,214,180,154,126,96,76,58,42] },
+      { date: '2026-06-14', label: '06-14', value: 2876, hours: [14,8,0,0,0,12,40,82,146,208,298,366,214,236,268,196,148,124,102,80,66,52,38,26] },
+      { date: '2026-06-15', label: '06-15', value: 4528, hours: [28,14,0,0,0,20,62,124,228,324,498,566,344,368,442,326,246,204,168,132,102,84,66,53] },
+      { date: '2026-06-16', label: '06-16', value: 3864, hours: [20,10,0,0,0,16,52,104,188,272,398,488,286,318,364,272,204,170,142,114,88,70,52,40] },
+      { date: '2026-06-17', label: '06-17', value: 4216, hours: [24,12,0,0,0,18,56,112,202,296,432,528,308,346,402,298,222,186,156,122,96,78,60,49] },
+      { date: '2026-06-18', label: '06-18', value: 3368, hours: [16,8,0,0,0,14,46,92,166,244,362,430,252,278,326,236,176,146,122,98,76,60,44,36] },
+      { date: '2026-06-19', label: '06-19', value: 4682, hours: [30,14,0,0,0,22,66,128,236,344,516,602,362,388,456,336,252,206,174,138,110,88,70,58] },
+      { date: '2026-06-20', label: '06-20', value: 3986, hours: [22,12,0,0,0,18,54,110,196,282,422,506,302,334,388,284,216,176,148,118,92,72,58,41] },
+      { date: '2026-06-21', label: '06-21', value: 2748, hours: [12,8,0,0,0,10,36,76,138,196,284,352,202,228,256,188,142,116,92,72,58,46,34,22] },
+      { date: '2026-06-22', label: '06-22', value: 4328, hours: [26,12,0,0,0,18,58,116,212,308,458,542,326,354,418,306,228,190,158,126,100,78,62,55] },
+      { date: '2026-06-23', label: '06-23', value: 3852, hours: [18,10,0,0,0,16,50,102,184,266,396,482,286,318,372,276,206,172,144,112,86,68,52,44] },
+      { date: '2026-06-24', label: '06-24', value: 4466, hours: [24,12,0,0,0,18,60,120,218,316,472,556,334,362,426,312,236,194,162,130,102,82,66,50] },
+      { date: '2026-06-25', label: '06-25', value: 3624, hours: [18,10,0,0,0,14,48,98,178,258,382,458,270,302,348,258,194,160,132,106,82,66,50,35] },
+      { date: '2026-06-26', label: '06-26', value: 3928, hours: [20,10,0,0,0,16,52,104,188,272,406,488,290,320,374,278,208,170,142,114,90,72,54,40] },
+      { date: '2026-06-27', label: '06-27', value: 4186, hours: [22,12,0,0,0,18,56,112,202,292,430,514,308,340,396,292,220,180,152,120,94,76,60,40] },
+      { date: '2026-06-28', label: '06-28', value: 3462, hours: [16,8,0,0,0,14,46,94,170,248,370,446,260,286,334,244,184,150,126,102,80,62,46,30] },
+      { date: '2026-06-29', label: '06-29', value: 4724, hours: [28,14,0,0,0,22,68,132,242,348,522,606,362,392,462,338,254,208,176,142,112,90,72,55] },
+      { date: '2026-06-30', label: '06-30', value: 4018, hours: [22,12,0,0,0,18,56,112,198,286,426,510,302,336,392,286,214,176,148,118,92,74,58,41] },
+      { date: '2026-07-01', label: '07-01', value: 3520, hours: [40,18,0,0,0,12,55,138,226,318,405,512,320,248,392,265,188,165,112,90,76,58,42,40] },
+      { date: '2026-07-02', label: '07-02', value: 4286, hours: [15,12,0,0,0,24,70,148,262,336,488,590,345,410,522,344,235,190,160,124,96,72,44,39] },
+      { date: '2026-07-03', label: '07-03', value: 3968, hours: [22,10,0,0,0,18,66,132,240,304,450,536,298,372,486,332,220,178,152,118,82,70,50,42] },
+      { date: '2026-07-04', label: '07-04', value: 2894, hours: [18,8,0,0,0,12,44,96,168,210,318,402,226,260,298,220,144,110,98,76,62,54,46,44] },
+      { date: '2026-07-05', label: '07-05', value: 3241, hours: [0,0,0,0,0,0,0,0,0,0,463,654,0,876,1248,0,0,0,0,0,0,0,0,0] },
+      { date: '2026-07-06', label: '07-06', value: 4720, hours: [28,12,0,0,0,20,58,124,236,322,506,620,364,402,560,388,260,208,162,134,104,86,72,58] },
+      { date: '2026-07-07', label: '07-07', value: 4395, hours: [24,10,0,0,0,16,52,118,208,286,468,584,330,378,518,366,252,196,146,114,88,78,62,49] },
+      { date: '2026-07-08', label: '07-08', value: 3826, hours: [18,8,0,0,0,14,46,102,184,268,420,516,284,340,458,310,202,164,138,106,82,64,54,48] },
+      { date: '2026-07-09', label: '07-09', value: 5242, hours: [36,14,0,0,0,22,60,130,242,348,552,638,376,460,688,452,318,238,182,146,120,96,78,56] },
+      { date: '2026-07-10', label: '07-10', value: 4870, hours: [30,12,0,0,0,18,56,124,228,332,518,604,344,418,612,404,286,224,170,136,112,90,70,60] }
+    ]
+  },
+  routeModes: {
+    saveFlow: true,
+    failover: true,
+    speedFirst: false
+  },
+  toolRouting: {
+    'claude-desktop': {
+      name: 'Claude Desktop',
+      mode: 'multi',
+      installed: true,
+      routingType: 'cc-shell',
+      options: platformModelOptions.slice(),
+      requestModelMap: {
+        'DeepSeek V3': 'Sonnet',
+        'DeepSeek R1': 'Opus',
+        'Qwen Max': 'Sonnet',
+        'Gemini 1.5 Pro': 'Opus',
+        'Claude Sonnet 4.5': 'Sonnet',
+        'Claude Haiku 3.5': 'Haiku'
+      },
+      providerModelMap: {
+        'DeepSeek V3': 'deepseek-v3',
+        'DeepSeek R1': 'deepseek-r1',
+        'Qwen Max': 'qwen-max',
+        'Gemini 1.5 Pro': 'gemini-1.5-pro',
+        'Claude Sonnet 4.5': 'claude-sonnet-4-5',
+        'Claude Haiku 3.5': 'claude-haiku-3-5'
+      },
+      selection: 'DeepSeek V3'
+    },
+    'codex-cli': {
+      name: 'Codex CLI',
+      mode: 'single',
+      installed: true,
+      options: platformModelOptions.slice(),
+      selection: 'DeepSeek V3'
+    },
+    'opencode': {
+      name: 'OpenCode',
+      mode: 'multi',
+      installed: true,
+      options: platformModelOptions.slice(),
+      selection: 'Gemini 1.5 Pro'
+    },
+    'gemini': {
+      name: 'Gemini CLI',
+      mode: 'single',
+      installed: false,
+      options: platformModelOptions.slice(),
+      selection: 'Gemini 1.5 Pro'
+    },
+    'deepseek': {
+      name: 'DeepSeek Chat',
+      mode: 'single',
+      installed: false,
+      options: platformModelOptions.slice(),
+      selection: 'DeepSeek V3'
+    },
+    'kilocode': {
+      name: 'Kilo Code',
+      mode: 'single',
+      installed: false,
+      options: platformModelOptions.slice(),
+      selection: 'DeepSeek V3'
+    },
+    'claudecode': {
+      name: 'Claude Code',
+      mode: 'single',
+      installed: false,
+      options: platformModelOptions.slice(),
+      selection: 'Claude Sonnet 4.5'
+    },
+    'openclaw': {
+      name: 'OpenClaw',
+      mode: 'single',
+      installed: false,
+      options: platformModelOptions.slice(),
+      selection: 'DeepSeek V3'
+    },
+    'hermes': {
+      name: 'Hermes',
+      mode: 'single',
+      installed: false,
+      options: platformModelOptions.slice(),
+      selection: 'DeepSeek V3'
+    }
+  },
+  packages: [
+    { name: '新手包', remainingTokens: 80000, purchaseDate: '2026-01-21', expiryLabel: '18 天后到期（2026-07-23）', expiryDate: '2026-07-23', statusText: '即将到期', statusClass: 'by', balanceValue: 40 },
+    { name: '标准包', remainingTokens: 126000, purchaseDate: '2026-03-03', expiryLabel: '4 个月后到期（2026-11-08）', expiryDate: '2026-11-08', statusText: '生效中', statusClass: 'bg', balanceValue: 63 },
+    { name: '高级包', remainingTokens: 50000, purchaseDate: '2026-05-12', expiryLabel: '11 个月后到期（2027-06-15）', expiryDate: '2027-06-15', statusText: '生效中', statusClass: 'bg', balanceValue: 25.5 }
+  ],
+  orders: [
+    { id:'MT2026070300123', planLabel:'标准包 · 200 万 Tokens', paymentMethod:'微信支付', orderTime:'2026-07-03 10:25', statusText:'已完成', statusClass:'bg', amount:59, invoiceStatus:'ready', invoiceStatusText:'可申请', invoiceStatusClass:'bpu', invoiceType:'', invoiceTitle:'', invoiceEmail:'', invoiceTaxNo:'' },
+    { id:'MT2026062800088', planLabel:'新手包 · 50 万 Tokens', paymentMethod:'支付宝', orderTime:'2026-06-28 15:40', statusText:'已完成', statusClass:'bg', amount:19, invoiceStatus:'processing', invoiceStatusText:'开票中', invoiceStatusClass:'by', invoiceType:'电子普通发票', invoiceTitle:'杭州云图科技有限公司', invoiceEmail:'finance@aitest.com', invoiceTaxNo:'91330100MA8XXXXX9K' },
+    { id:'MT2026062000055', planLabel:'标准包 · 200 万 Tokens', paymentMethod:'微信支付', orderTime:'2026-06-20 09:12', statusText:'已完成', statusClass:'bg', amount:59, invoiceStatus:'issued', invoiceStatusText:'已开票', invoiceStatusClass:'bg', invoiceType:'电子普通发票', invoiceTitle:'雷蕾', invoiceEmail:'lele@example.com', invoiceTaxNo:'' },
+    { id:'MT2026061000032', planLabel:'高级包 · 600 万 Tokens', paymentMethod:'银行卡', orderTime:'2026-06-10 21:03', statusText:'已退款', statusClass:'br', amount:149, invoiceStatus:'unavailable', invoiceStatusText:'不可开票', invoiceStatusClass:'bgr', invoiceType:'', invoiceTitle:'', invoiceEmail:'', invoiceTaxNo:'' }
+  ],
+  currentOrderFilter: '全部',
+  selectedInvoiceOrderIds: [],
+  selectedPlan: {
+    name: '标准包',
+    tokensLabel: '200 万 Tokens',
+    tokensValue: 2000000,
+    price: 59,
+    discount: 21
+  },
+  purchaseLocked: false,
+  installingTool: 'gemini'
+};
+
+var usageLineChart = null;
+
+var toolMeta = {
+  gemini: { name: 'Gemini CLI', version: 'v1.0.2 · 已安装' },
+  deepseek: { name: 'DeepSeek Chat', version: 'v3.1.0 · 已安装' },
+  kilocode: { name: 'Kilo Code', version: 'v0.2.0 · 已安装' },
+  claudecode: { name: 'Claude Code', version: 'v1.0.0 · 已安装' },
+  openclaw: { name: 'OpenClaw', version: 'v2.1.0 · 已安装' },
+  hermes: { name: 'Hermes', version: 'v0.9.0 · 已安装' }
+};
+
+// 直接进 App，不强制登录
+// 点击侧边栏"未登录"才弹登录框
+
+function toApp(){
+  var errorEl=document.getElementById('loginErrorText');
+  if(errorEl) errorEl.style.display='none';
+  // 关闭登录页
+  cm('ls');
+  // 切换侧边栏状态
+  document.getElementById('sb-unlogin').style.display='none';
+  document.getElementById('sb-logined').style.display='flex';
+  // 更新登录态
+  loggedIn = true;
+  updateLoginUI();
+  // 若有挂起的操作（如充值），登录后自动执行
+  if(_pendingFn){ var f=_pendingFn; _pendingFn=null; setTimeout(f,350); }
+  // 登录成功后弹设置密码提示（可关闭）
+  setTimeout(()=>om('m06'),300);
+}
+
+var loggedIn = false;
+
+function updateLoginUI(){
+  // 顶栏额度芯片
+  var balVal = document.getElementById('balVal');
+  if(balVal) balVal.textContent = loggedIn ? getTotalRemainingTokens().toLocaleString() : '登录查看';
+  // P01 首页切换
+  document.getElementById('heroGuest').style.display    = loggedIn ? 'none' : '';
+  document.getElementById('heroLoggedIn').style.display = loggedIn ? '' : 'none';
+  document.getElementById('statsGuest').style.display   = loggedIn ? 'none' : '';
+  document.getElementById('statsLoggedIn').style.display= loggedIn ? '' : 'none';
+  syncBalanceViews();
+  renderUsageChart();
+}
+
+// 需要登录时的拦截 helper
+function needLogin(fn){
+  if(loggedIn){ if(typeof fn==='function') fn(); }
+  else { om('m08'); if(typeof fn==='function') _pendingFn=fn; }
+}
+var _pendingFn = null;
+
+function go(pid,navEl,title){
+  // 需要登录的页面拦截
+  var loginRequired = ['p02','p03','p04','p05','p06','p07'];
+  if(loginRequired.indexOf(pid)>=0 && !loggedIn){
+    om('m08');
+    _pendingFn = function(){ go(pid,navEl,title); };
+    return;
+  }
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  const pg=document.getElementById(pid);
+  if(pg)pg.classList.add('on');
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  if(navEl)navEl.classList.add('on');
+  if(title)document.getElementById('tbt').textContent=title;
+  if(pid === 'p01') renderUsageChart();
+}
+
+function getUsageNowInfo(){
+  const now=new Date();
+  const year=now.getFullYear();
+  const month=String(now.getMonth() + 1).padStart(2,'0');
+  const date=String(now.getDate()).padStart(2,'0');
+  return {
+    date: year + '-' + month + '-' + date,
+    hour: now.getHours()
+  };
+}
+
+function getUsageProgressInfo(date){
+  const progress=appState.usageAnalytics && appState.usageAnalytics.currentDayProgress;
+  if(progress && progress.date === date && typeof progress.lastHour === 'number'){
+    return { date: progress.date, hour: progress.lastHour };
+  }
+  const nowInfo=getUsageNowInfo();
+  return nowInfo.date === date ? nowInfo : null;
+}
+
+function getAvailableUsageDays(){
+  const monthlyDays=(appState.usageAnalytics && appState.usageAnalytics.monthlyDays) || [];
+  const currentDate=(appState.usageAnalytics && appState.usageAnalytics.currentDayProgress && appState.usageAnalytics.currentDayProgress.date) || appState.currentDate;
+  return monthlyDays.filter(function(item){
+    return !currentDate || item.date <= currentDate;
+  });
+}
+
+function getTodayUsageTotal(){
+  const currentDate=(appState.usageAnalytics && appState.usageAnalytics.currentDayProgress && appState.usageAnalytics.currentDayProgress.date) || appState.currentDate;
+  return (appState.usageRecords || []).reduce(function(total, item){
+    return item.date === currentDate ? total + item.tokens : total;
+  }, 0);
+}
+
+function getRecentUsageTotal(){
+  return getAvailableUsageDays().reduce(function(total, item){
+    return total + item.value;
+  }, 0);
+}
+
+function renderUsageTables(){
+  const homeBody=document.getElementById('homeRecentUsageBody');
+  const tokensBody=document.getElementById('tokenUsageTableBody');
+  const rows=(appState.usageRecords || []).slice();
+  if(homeBody){
+    homeBody.innerHTML=rows.slice(0,4).map(function(item){
+      return '<tr><td class="tgr ts">' + item.time + '</td><td>' + item.tool + '</td><td><span class="bd2 ' + item.badgeClass + '">' + item.model + '</span></td><td>' + item.tokens.toLocaleString() + '</td></tr>';
+    }).join('');
+  }
+  if(tokensBody){
+    tokensBody.innerHTML=rows.map(function(item){
+      const dateLabel=item.date === appState.currentDate ? '今天 ' + item.time : '昨天 ' + item.time;
+      return '<tr><td class="tgr ts">' + dateLabel + '</td><td>' + item.toolModelLabel + '</td><td>' + item.tokens.toLocaleString() + '</td></tr>';
+    }).join('');
+  }
+}
+
+function syncUsageSummaryViews(){
+  const todayUsage=getTodayUsageTotal().toLocaleString();
+  const monthUsage=getRecentUsageTotal().toLocaleString();
+  const installedTools=Object.keys(appState.toolRouting || {}).length;
+  const heroSummary=document.getElementById('heroUsageSummary');
+  const homeToday=document.getElementById('homeTodayUsageValue');
+  const homeMonth=document.getElementById('homeMonthUsageValue');
+  const tokensToday=document.getElementById('tokensTodayUsageValue');
+  const tokensMonth=document.getElementById('tokensMonthUsageValue');
+  if(heroSummary) heroSummary.innerHTML='今日已消耗 ' + todayUsage + ' Tokens，已接入 ' + installedTools + ' 个 AI 工具<span class="ih">?<span class="ih-b">展示当前账号已接入且可直接使用的 AI 工具数量，用于判断工作台当前可用范围。</span></span>';
+  if(homeToday) homeToday.innerHTML=todayUsage + ' <span style="font-size:14px;color:var(--t2)">Tokens</span>';
+  if(homeMonth) homeMonth.innerHTML=monthUsage + ' <span style="font-size:14px;color:var(--t2)">Tokens</span>';
+  if(tokensToday) tokensToday.textContent=todayUsage;
+  if(tokensMonth) tokensMonth.textContent=monthUsage;
+}
+
+function getInclusiveDayCount(startDate, endDate){
+  if(!startDate || !endDate) return 0;
+  const start=new Date(startDate + 'T00:00:00');
+  const end=new Date(endDate + 'T00:00:00');
+  const diff=Math.abs(end.getTime() - start.getTime());
+  return Math.floor(diff / 86400000) + 1;
+}
+
+function renderUsageBars(containerId, items, altStyle){
+  const container=document.getElementById(containerId);
+  if(!container) return;
+  container.className='';
+  if(!items || !items.length){
+    container.innerHTML='<div class="uc-empty">暂无数据</div>';
+    return;
+  }
+  const maxValue=Math.max.apply(null, items.map(function(item){ return item.value; })) || 1;
+  const axisStep=maxValue <= 1000 ? 200 : maxValue <= 5000 ? 500 : 1000;
+  const axisMax=Math.ceil(maxValue / axisStep) * axisStep;
+  const yTicks=[1,0.75,0.5,0.25,0].map(function(rate){
+    return Math.round(axisMax * rate);
+  });
+  container.innerHTML=''
+    + '<div class="uc-bars">'
+    + '<div class="uc-bars-shell">'
+    + '<div class="uc-bars-y">'
+    + yTicks.map(function(value){ return '<span>' + value.toLocaleString() + '</span>'; }).join('')
+    + '</div>'
+    + '<div class="uc-bars-plot">'
+    + '<div class="uc-bars-grid"></div>'
+    + '<div class="uc-bars-columns" style="grid-template-columns:repeat(' + items.length + ',minmax(0,1fr))">'
+    + items.map(function(item, index){
+      const height=Math.max(10, Math.round(item.value / axisMax * 100));
+      return ''
+        + '<div class="uc-bar-col">'
+        + '<div class="uc-bar-track">'
+        + (item.future ? '' : '<div class="uc-bar' + (altStyle ? ' alt' : '') + '" style="height:' + height + '%" data-index="' + index + '"></div>')
+        + '</div>'
+        + '</div>';
+    }).join('')
+    + '</div>'
+    + '<div class="uc-bar-tip" id="' + containerId + 'Tip"></div>'
+    + '</div>'
+    + '<div></div>'
+    + '<div class="uc-bars-x" style="grid-template-columns:repeat(' + items.length + ',minmax(0,1fr))">'
+    + items.map(function(item){ return '<span' + (item.future ? ' class="is-future"' : '') + '>' + item.label + '</span>'; }).join('')
+    + '</div>'
+    + '</div>'
+    + '</div>';
+  const tip=document.getElementById(containerId + 'Tip');
+  const plot=container.querySelector('.uc-bars-plot');
+  container.querySelectorAll('.uc-bar[data-index]').forEach(function(bar){
+    bar.addEventListener('mouseenter', function(){
+      const index=Number(bar.getAttribute('data-index'));
+      const item=items[index];
+      if(!tip || !plot || !item) return;
+      const barRect=bar.getBoundingClientRect();
+      const plotRect=plot.getBoundingClientRect();
+      tip.innerHTML='<div class="uc-tip-time">时间：' + (item.tipLabel || item.label) + '</div>'
+        + '<div class="uc-tip-value">使用：' + item.value.toLocaleString() + ' Tokens</div>';
+      tip.style.left=(barRect.left - plotRect.left + barRect.width / 2) + 'px';
+      tip.style.top=(barRect.top - plotRect.top) + 'px';
+      tip.style.opacity='1';
+    });
+    bar.addEventListener('mouseleave', function(){
+      if(tip) tip.style.opacity='0';
+    });
+  });
+}
+
+function renderUsageLineFallback(containerId, items){
+  const container=document.getElementById(containerId);
+  if(!container) return;
+  container.className='';
+  if(!items || !items.length){
+    container.innerHTML='<div class="uc-empty">暂无数据</div>';
+    return;
+  }
+  const width=760;
+  const height=220;
+  const paddingX=12;
+  const paddingY=12;
+  const chartWidth=width - paddingX * 2;
+  const chartHeight=height - paddingY * 2;
+  const maxValue=Math.max.apply(null, items.map(function(item){ return item.value; })) || 1;
+  const axisStep=maxValue <= 1000 ? 200 : maxValue <= 5000 ? 500 : 1000;
+  const axisMax=Math.ceil(maxValue / axisStep) * axisStep;
+  const stepX=items.length > 1 ? chartWidth / (items.length - 1) : chartWidth;
+  const yTicks=[1,0.75,0.5,0.25,0].map(function(rate){
+    return Math.round(axisMax * rate);
+  });
+  const points=items.map(function(item, index){
+    const x=paddingX + stepX * index;
+    const y=paddingY + (chartHeight - (item.value / axisMax * chartHeight));
+    return { x:x, y:y, label:item.label, value:item.value };
+  });
+  const polylinePoints=points.map(function(point){ return point.x + ',' + point.y; }).join(' ');
+  const gridLines=[0,0.25,0.5,0.75,1].map(function(rate){
+    const y=paddingY + chartHeight - chartHeight * rate;
+    return '<line x1="' + paddingX + '" y1="' + y + '" x2="' + (width - paddingX) + '" y2="' + y + '" stroke="#e9d5ff" stroke-dasharray="4 4" />';
+  }).join('');
+  const circles=points.map(function(point, index){
+    return '<circle cx="' + point.x + '" cy="' + point.y + '" r="5" fill="#7c3aed" stroke="#ffffff" stroke-width="2" data-index="' + index + '" style="cursor:pointer"></circle>';
+  }).join('');
+  container.innerHTML=''
+    + '<div class="uc-line">'
+    + '<div class="uc-line-shell">'
+    + '<div class="uc-line-y">'
+    + yTicks.map(function(value){ return '<span>' + value.toLocaleString() + '</span>'; }).join('')
+    + '</div>'
+    + '<div class="uc-line-plot">'
+    + '<svg viewBox="0 0 ' + width + ' ' + height + '" preserveAspectRatio="none">'
+    + gridLines
+    + '<polyline fill="none" stroke="#7c3aed" stroke-width="3" points="' + polylinePoints + '"></polyline>'
+    + '<polyline fill="rgba(124,58,237,.08)" stroke="none" points="' + polylinePoints + ' ' + (width - paddingX) + ',' + (height - paddingY) + ' ' + paddingX + ',' + (height - paddingY) + '"></polyline>'
+    + circles
+    + '</svg>'
+    + '<div class="uc-line-tip" id="usageLineTip"></div>'
+    + '</div>'
+    + '<div></div>'
+    + '<div class="uc-line-axis" style="grid-template-columns:repeat(' + items.length + ',1fr)">'
+    + items.map(function(item){ return '<span>' + (item.axisLabel || item.label) + '</span>'; }).join('')
+    + '</div>'
+    + '</div>'
+    + '</div>';
+  const tip=document.getElementById('usageLineTip');
+  const lineWrap=container.querySelector('.uc-line-plot');
+  container.querySelectorAll('circle[data-index]').forEach(function(circle){
+    circle.addEventListener('mouseenter', function(){
+      const index=Number(circle.getAttribute('data-index'));
+      const point=points[index];
+      if(!tip || !lineWrap || !point) return;
+      const percentX=point.x / width * 100;
+      const percentY=point.y / height * 100;
+      tip.innerHTML='<div class="uc-tip-time">时间：' + (items[index].tipLabel || items[index].label) + '</div>'
+        + '<div class="uc-tip-value">使用：' + items[index].value.toLocaleString() + ' Tokens</div>';
+      tip.style.left=percentX + '%';
+      tip.style.top=percentY + '%';
+      tip.style.opacity='1';
+    });
+    circle.addEventListener('mouseleave', function(){
+      if(tip) tip.style.opacity='0';
+    });
+  });
+}
+
+function renderUsageLine(containerId, items){
+  const container=document.getElementById(containerId);
+  if(!container) return;
+  if(typeof Chart === 'undefined'){
+    renderUsageLineFallback(containerId, items);
+    return;
+  }
+  container.className='';
+  if(!items || !items.length){
+    container.innerHTML='<div class="uc-empty">暂无数据</div>';
+    return;
+  }
+
+  const maxValue=Math.max.apply(null, items.map(function(item){ return item.value; })) || 1;
+  const axisStep=maxValue <= 1000 ? 200 : maxValue <= 5000 ? 500 : 1000;
+  const axisMax=Math.ceil(maxValue / axisStep) * axisStep;
+  const yTicks=[axisMax, Math.round(axisMax * 0.75), Math.round(axisMax * 0.5), Math.round(axisMax * 0.25), 0];
+
+  container.innerHTML=''
+    + '<div class="uc-line">'
+    + '<div class="uc-line-shell">'
+    + '<div class="uc-line-y">'
+    + yTicks.map(function(value){ return '<span>' + value.toLocaleString() + '</span>'; }).join('')
+    + '</div>'
+    + '<div class="uc-line-canvas"><canvas id="usageLineCanvas"></canvas></div>'
+    + '</div>'
+    + '</div>';
+
+  const canvas=document.getElementById('usageLineCanvas');
+  if(!canvas) return;
+  const context=canvas.getContext('2d');
+  if(usageLineChart) usageLineChart.destroy();
+
+  const fillGradient=context.createLinearGradient(0, 0, 0, 220);
+  fillGradient.addColorStop(0, 'rgba(124,58,237,.20)');
+  fillGradient.addColorStop(.45, 'rgba(124,58,237,.08)');
+  fillGradient.addColorStop(1, 'rgba(124,58,237,0)');
+
+  const strokeGradient=context.createLinearGradient(0, 0, canvas.width || 760, 0);
+  strokeGradient.addColorStop(0, '#8b5cf6');
+  strokeGradient.addColorStop(.5, '#7c3aed');
+  strokeGradient.addColorStop(1, '#6d28d9');
+
+  usageLineChart=new Chart(context, {
+    type: 'line',
+    data: {
+      labels: items.map(function(item){ return item.label; }),
+      datasets: [{
+        data: items.map(function(item){ return item.value; }),
+        borderColor: strokeGradient,
+        borderWidth: 3,
+        backgroundColor: fillGradient,
+        fill: true,
+        tension: 0.45,
+        cubicInterpolationMode: 'default',
+        pointRadius: 0,
+        pointHoverRadius: 4,
+        pointHoverBackgroundColor: '#7c3aed',
+        pointHoverBorderColor: '#ffffff',
+        pointHoverBorderWidth: 2,
+        pointHitRadius: 18
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      layout: {
+        padding: {
+          top: 6,
+          right: 4,
+          bottom: 14,
+          left: 0
+        }
+      },
+      interaction: {
+        mode: 'index',
+        intersect: false
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          displayColors: false,
+          backgroundColor: '#18181b',
+          titleColor: '#ffffff',
+          bodyColor: '#d8d4fe',
+          padding: 10,
+          cornerRadius: 8,
+          titleFont: { size: 11, weight: '600' },
+          bodyFont: { size: 11 },
+          callbacks: {
+            title: function(context){
+              const item=items[context[0].dataIndex];
+              return '时间：' + (item.tipLabel || item.label);
+            },
+            label: function(context){
+              return '使用：' + Number(context.raw).toLocaleString() + ' Tokens';
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          display: true,
+          offset: false,
+          grid: { display: false, drawBorder: false },
+          border: { display: false },
+          ticks: {
+            color: '#71717a',
+            font: { size: 11 },
+            padding: 10,
+            maxRotation: 0,
+            autoSkip: false,
+            callback: function(value, index){
+              var item=items[index];
+              return item && item.axisLabel ? item.axisLabel : '';
+            }
+          }
+        },
+        y: {
+          display: false,
+          min: 0,
+          max: axisMax,
+          grid: {
+            color: 'rgba(167,139,250,.14)',
+            drawBorder: false,
+            tickLength: 0
+          },
+          border: { display: false }
+        }
+      },
+      elements: {
+        line: {
+          capBezierPoints: true,
+          borderJoinStyle: 'round',
+          borderCapStyle: 'round'
+        }
+      }
+    }
+  });
+}
+
+function setUsageChartMode(mode){
+  appState.usageChartMode=mode;
+  renderUsageChart();
+}
+
+function setUsageChartSelectedDay(date){
+  appState.selectedUsageDay=date;
+  appState.selectedUsageRangeStart=date;
+  appState.selectedUsageRangeEnd=date;
+  appState.usageChartMode='daily';
+  renderUsageChart();
+}
+
+function setUsageChartRange(startDate, endDate){
+  appState.selectedUsageRangeStart=startDate;
+  appState.selectedUsageRangeEnd=endDate;
+  appState.selectedUsageDay=startDate === endDate ? startDate : appState.selectedUsageDay;
+  appState.usageChartMode=startDate === endDate ? 'daily' : 'range';
+  renderUsageChart();
+}
+
+function setUsageChartPreset(preset){
+  const monthlyDays=getAvailableUsageDays();
+  const currentDate=(appState.usageAnalytics && appState.usageAnalytics.currentDayProgress && appState.usageAnalytics.currentDayProgress.date)
+    || (monthlyDays.length ? monthlyDays[monthlyDays.length - 1].date : '');
+  if(preset === 'today'){
+    setUsageChartRange(currentDate, currentDate);
+    return;
+  }
+  if(preset === 'month' && monthlyDays.length){
+    setUsageChartRange(monthlyDays[0].date, monthlyDays[monthlyDays.length - 1].date);
+  }
+}
+
+function renderUsageChart(){
+  const descEl=document.getElementById('usageChartDesc');
+  const presetTodayBtn=document.getElementById('usagePresetToday');
+  const presetMonthBtn=document.getElementById('usagePresetMonth');
+  const rangePickerWrap=document.getElementById('usageRangePickerWrap');
+  const rangeStartPicker=document.getElementById('usageRangeStart');
+  const rangeEndPicker=document.getElementById('usageRangeEnd');
+  const rangeEl=document.getElementById('usageChartRange');
+  const marksEl=document.getElementById('usageChartMarks');
+  const marksWrap=document.getElementById('usageChartMarksWrap');
+  if(!descEl || !rangePickerWrap || !rangeStartPicker || !rangeEndPicker) return;
+
+  const monthlyDays=getAvailableUsageDays();
+  const dailyHours=appState.usageAnalytics.dailyHours || [];
+  const defaultDate=(appState.usageAnalytics && appState.usageAnalytics.currentDayProgress && appState.usageAnalytics.currentDayProgress.date)
+    || (monthlyDays.length ? monthlyDays[monthlyDays.length - 1].date : '');
+  if(!appState.selectedUsageRangeStart) appState.selectedUsageRangeStart=defaultDate;
+  if(!appState.selectedUsageRangeEnd) appState.selectedUsageRangeEnd=defaultDate;
+  rangeStartPicker.value=appState.selectedUsageRangeStart || '';
+  rangeEndPicker.value=appState.selectedUsageRangeEnd || '';
+
+  const selectedRangeStart=appState.selectedUsageRangeStart || defaultDate || '';
+  const selectedRangeEnd=appState.selectedUsageRangeEnd || defaultDate || '';
+  const normalizedStart=selectedRangeStart <= selectedRangeEnd ? selectedRangeStart : selectedRangeEnd;
+  const normalizedEnd=selectedRangeStart <= selectedRangeEnd ? selectedRangeEnd : selectedRangeStart;
+  const selectedDayCount=getInclusiveDayCount(normalizedStart, normalizedEnd);
+  const isSingleDay=normalizedStart === normalizedEnd;
+  appState.usageChartMode=isSingleDay ? 'daily' : 'range';
+
+  const fullRangeStart=monthlyDays.length ? monthlyDays[0].date : '';
+  const fullRangeEnd=monthlyDays.length ? monthlyDays[monthlyDays.length - 1].date : '';
+  if(presetTodayBtn) presetTodayBtn.classList.toggle('on', normalizedStart === defaultDate && normalizedEnd === defaultDate);
+  if(presetMonthBtn) presetMonthBtn.classList.toggle('on', normalizedStart === fullRangeStart && normalizedEnd === fullRangeEnd);
+
+  if(isSingleDay){
+    appState.selectedUsageDay=normalizedStart;
+    const selectedDay=monthlyDays.find(function(item){ return item.date === normalizedStart; });
+    const selectedDate=normalizedStart || '';
+    const canUseDailyHoursFallback=selectedDate && appState.usageAnalytics && appState.usageAnalytics.currentDayProgress && appState.usageAnalytics.currentDayProgress.date === selectedDate;
+    const progressInfo=getUsageProgressInfo(selectedDay ? selectedDay.date : selectedDate);
+    const isCurrentDay=!!progressInfo;
+    const baseHours=selectedDay ? selectedDay.hours : (canUseDailyHoursFallback ? dailyHours.map(function(item){ return item.value; }) : null);
+    if(!baseHours){
+      descEl.textContent=(selectedDate || '所选日期') + ' 暂无使用数据。';
+      if(rangeEl) rangeEl.textContent='当前日期：' + (selectedDate || '未选择');
+      if(marksEl) marksEl.textContent='小时范围：00:00 - 23:59';
+      const chartMain=document.getElementById('usageChartMain');
+      if(chartMain) chartMain.innerHTML='<div class="uc-empty">所选日期暂无使用数据</div>';
+      return;
+    }
+    const dailyItems=baseHours.map(function(value, index){
+      const hourLabel=String(index).padStart(2,'0');
+      return {
+        label: hourLabel,
+        tipLabel: selectedDate + ' ' + hourLabel + ':00 - ' + hourLabel + ':59',
+        value: isCurrentDay && index > progressInfo.hour ? 0 : value,
+        future: isCurrentDay && index > progressInfo.hour
+      };
+    });
+    descEl.textContent=(selectedDate || '今天') + (isCurrentDay ? ' 按小时查看本站 Tokens 使用额度，未来时段暂不展示。' : ' 按小时查看本站 Tokens 使用额度。');
+    if(rangeEl) rangeEl.textContent='当前日期：' + (selectedDate || '今天');
+    if(marksEl) marksEl.textContent='共 ' + selectedDayCount + ' 天';
+    if(marksWrap) marksWrap.style.display='inline-flex';
+    renderUsageBars('usageChartMain', dailyItems, false);
+    return;
+  }
+
+  const rangedDays=monthlyDays.filter(function(item){ return item.date >= normalizedStart && item.date <= normalizedEnd; });
+  if(!rangedDays.length){
+    descEl.textContent='所选时间段暂无使用数据。';
+    if(rangeEl) rangeEl.textContent='统计范围：' + (normalizedStart || '未选择') + ' 至 ' + (normalizedEnd || '未选择');
+    if(marksEl) marksEl.textContent='共 ' + selectedDayCount + ' 天';
+    if(marksWrap) marksWrap.style.display='inline-flex';
+    const chartMain=document.getElementById('usageChartMain');
+    if(chartMain) chartMain.innerHTML='<div class="uc-empty">所选时间段暂无使用数据</div>';
+    return;
+  }
+  descEl.textContent='按天查看所选时间段 Tokens 使用趋势。';
+  if(rangeEl) rangeEl.textContent='统计范围：' + normalizedStart + ' 至 ' + normalizedEnd;
+  if(marksEl) marksEl.textContent='共 ' + selectedDayCount + ' 天';
+  if(marksWrap) marksWrap.style.display='inline-flex';
+  const labelStep=Math.max(1, Math.ceil(rangedDays.length / 6));
+  renderUsageLine('usageChartMain', rangedDays.map(function(item, index){
+    const dayLabel=item.date.slice(8);
+    const showAxisLabel=index === 0 || index === rangedDays.length - 1 || index % labelStep === 0;
+    return {
+      label: dayLabel,
+      axisLabel: showAxisLabel ? item.date.slice(5).replace('-', '/') : '',
+      tipLabel: item.date,
+      value: item.value
+    };
+  }));
+}
+
+function om(id){const e=document.getElementById(id);if(e)e.classList.add('op')}
+function cm(id){const e=document.getElementById(id);if(e)e.classList.remove('op')}
+
+function togAdv(){
+  const p=document.getElementById('advp'),a=document.getElementById('adva');
+  p.classList.toggle('op');a.textContent=p.classList.contains('op')?'▲':'▼';
+}
+
+function formatModelName(value){
+  if(!value) return '';
+  return value
+    .replace(/[-_]/g,' ')
+    .replace(/\b\w/g,function(ch){ return ch.toUpperCase(); });
+}
+
+function getMappingTarget(){
+  const mappingInput=document.getElementById('mappingInput');
+  return mappingInput ? formatModelName(mappingInput.value.trim()) : '';
+}
+
+function slugifyModelName(value){
+  return String(value || '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-+|-+$/g,'');
+}
+
+function extractProviderLabel(){
+  const addressInput=document.querySelector('.adv-p .fi');
+  if(!addressInput || !addressInput.value) return '自定义接入';
+  const address=addressInput.value.trim().toLowerCase();
+  if(address.indexOf('deepseek') >= 0) return 'DeepSeek · 自定义接入';
+  if(address.indexOf('moonshot') >= 0 || address.indexOf('kimi') >= 0) return 'Kimi · 自定义接入';
+  if(address.indexOf('aliyuncs') >= 0 || address.indexOf('qwen') >= 0 || address.indexOf('dashscope') >= 0) return '通义千问 · 自定义接入';
+  if(address.indexOf('google') >= 0 || address.indexOf('gemini') >= 0) return 'Gemini · 自定义接入';
+  return '自定义接入';
+}
+
+function getExternalBalanceSummary(){
+  const addressInput=document.querySelector('.adv-p .fi');
+  const address=addressInput && addressInput.value ? addressInput.value.trim().toLowerCase() : '';
+  if(address.indexOf('deepseek') >= 0) return { status:'可查询', className:'tb2 tok', desc:'已返回供应商额度信息' };
+  if(address.indexOf('moonshot') >= 0 || address.indexOf('kimi') >= 0) return { status:'可查询', className:'tb2 tok', desc:'已返回供应商额度信息' };
+  if(address.indexOf('aliyuncs') >= 0 || address.indexOf('qwen') >= 0 || address.indexOf('dashscope') >= 0) return { status:'可查询', className:'tb2 tok', desc:'已返回供应商额度信息' };
+  if(address.indexOf('google') >= 0 || address.indexOf('gemini') >= 0) return { status:'后台查看', className:'tb2 tac', desc:'该供应商通常不直接返回额度信息，请到供应商后台查看' };
+  return { status:'待确认', className:'tb2', desc:'是否支持额度查询，取决于供应商是否提供相关接口' };
+}
+
+function mergeUniqueItems(items){
+  return items.filter(function(item, index){
+    return item && items.indexOf(item) === index;
+  });
+}
+
+function getDefaultProtocolLabels(){
+  return ['Anthropic', 'OpenAI'];
+}
+
+function getDefaultCompatibleToolKeys(){
+  return allToolKeys.slice();
+}
+
+function getEnabledRouteModeLabels(){
+  const labels=[];
+  if(appState.routeModes.saveFlow) labels.push('智能模式');
+  if(appState.routeModes.failover) labels.push('稳定模式');
+  if(appState.routeModes.speedFirst) labels.push('速度模式');
+  return labels;
+}
+
+function renderRouteModes(){
+  const summaryEl=document.getElementById('routeModeSummaryText');
+  const enabledLabels=getEnabledRouteModeLabels();
+  if(summaryEl) summaryEl.textContent='当前开启：' + (enabledLabels.length ? enabledLabels.join('、') : '未开启');
+  document.querySelectorAll('[data-route-mode]').forEach(function(input){
+    const modeKey=input.getAttribute('data-route-mode');
+    input.checked=!!appState.routeModes[modeKey];
+  });
+}
+
+function switchBuyTab(tab){
+  var isBuy = tab === 'buy';
+  var p1=document.getElementById('buyPanelBuy'), p2=document.getElementById('buyPanelOrders');
+  var t1=document.getElementById('buyTab1'), t2=document.getElementById('buyTab2');
+  var bar=document.getElementById('buyPageBalanceBar');
+  if(p1) p1.style.display = isBuy ? '' : 'none';
+  if(p2) p2.style.display = isBuy ? 'none' : '';
+  if(bar) bar.style.display = isBuy ? '' : 'none';
+  if(t1){ t1.style.background=isBuy?'var(--wh)':'transparent'; t1.style.color=isBuy?'var(--t)':'var(--t2)'; t1.style.boxShadow=isBuy?'0 2px 8px rgba(0,0,0,.08)':'none'; }
+  if(t2){ t2.style.background=!isBuy?'var(--wh)':'transparent'; t2.style.color=!isBuy?'var(--t)':'var(--t2)'; t2.style.boxShadow=!isBuy?'0 2px 8px rgba(0,0,0,.08)':'none'; }
+}
+
+function goOrders(navEl){
+  go('p05', navEl, '购买 Tokens');
+  setTimeout(function(){ switchBuyTab('orders'); }, 50);
+}
+
+function sendCode(btn){
+  var sec=60;
+  btn.disabled=true;
+  btn.textContent=sec+'s 后重发';
+  var t=setInterval(function(){
+    sec--;
+    if(sec<=0){ clearInterval(t); btn.disabled=false; btn.textContent='获取验证码'; }
+    else btn.textContent=sec+'s 后重发';
+  },1000);
+  showToast('验证码已发送（演示模式，任意输入即可）', 2500);
+}
+
+function updateHeroGreeting(){
+  var h=new Date().getHours();
+  var g = h<6 ? '凌晨好' : h<12 ? '早上好' : h<18 ? '下午好' : '晚上好';
+  var el=document.getElementById('heroGreeting');
+  if(el) el.textContent=g+'，雷蕾 👋';
+}
+
+function toggleRouteMode(modeKey, enabled){
+  if(!appState.routeModes.hasOwnProperty(modeKey)) return;
+  if(enabled && modeKey === 'saveFlow') appState.routeModes.speedFirst=false;
+  if(enabled && modeKey === 'speedFirst') appState.routeModes.saveFlow=false;
+  appState.routeModes[modeKey]=enabled;
+  renderRouteModes();
+  updateRouteSummary();
+}
+
+function formatCompatibleToolNames(toolKeys){
+  return toolKeys.map(function(toolKey){
+    const tool=appState.toolRouting[toolKey];
+    return tool ? tool.name : toolKey;
+  }).join('、');
+}
+
+function getModelCompatibleToolKeys(modelName){
+  return modelCompatibilityMap[modelName] ? modelCompatibilityMap[modelName].slice() : allToolKeys.slice();
+}
+
+function isModelAvailableForTool(modelName, toolKey){
+  return getModelCompatibleToolKeys(modelName).indexOf(toolKey) >= 0;
+}
+
+function getUnavailableModelHint(modelName, toolKey){
+  const compatibleTools=getModelCompatibleToolKeys(modelName);
+  if(compatibleTools.indexOf(toolKey) >= 0) return '';
+  if(toolKey === 'claude-desktop') return '当前不是 CC / Anthropic 协议';
+  if(compatibleTools.length === 1 && compatibleTools[0] === 'claude-desktop') return '仅 Anthropic 接口可用';
+  return '当前工具暂不可用';
+}
+
+function syncToolOptionsByCompatibility(){
+  allToolKeys.forEach(function(toolKey){
+    const tool=appState.toolRouting[toolKey];
+    if(!tool) return;
+    tool.options=platformModelOptions.filter(function(modelName){
+      return isModelAvailableForTool(modelName, toolKey);
+    });
+    if(tool.selection && tool.options.indexOf(tool.selection) < 0){
+      tool.selection=tool.options[0] || '';
+    }
+  });
+}
+
+function getModelMetaLine(modelName){
+  const providerLabel=modelProviderMap[modelName] || '自定义接入';
+  const protocols=modelProtocolMap[modelName] || [];
+  if(!protocols.length) return providerLabel;
+  if(protocols.length > 1) return providerLabel + ' · 已补齐多条可用链路';
+  return providerLabel + ' · ' + protocols[0] + ' 链路可用';
+}
+
+function buildPlatformModelCard(modelName, providerLabel){
+  const card=document.createElement('div');
+  card.className='mc';
+  card.setAttribute('data-model-name', modelName);
+  card.innerHTML=''
+    + '<div class="mi" style="background:#f5f3ff">✨</div>'
+    + '<div class="f1"><div class="mn">' + modelName + '</div><div class="mp">' + (providerLabel || getModelMetaLine(modelName)) + '</div></div>';
+  return card;
+}
+
+function updatePlatformModelCard(modelName){
+  const grid=document.getElementById('platformModelGrid');
+  if(!grid) return null;
+  const card=grid.querySelector('[data-model-name="' + modelName.replace(/"/g,'&quot;') + '"]');
+  if(!card) return appendPlatformModelCard(modelName);
+  const metaEl=card.querySelector('.mp');
+  if(metaEl) metaEl.textContent=getModelMetaLine(modelName);
+  return card;
+}
+
+function appendPlatformModelCard(modelName){
+  const grid=document.getElementById('platformModelGrid');
+  if(!grid) return null;
+  const existed=grid.querySelector('[data-model-name="' + modelName.replace(/"/g,'&quot;') + '"]');
+  if(existed) return updatePlatformModelCard(modelName);
+  const card=buildPlatformModelCard(modelName, getModelMetaLine(modelName));
+  grid.appendChild(card);
+  return card;
+}
+
+function getToolRequestModel(toolKey){
+  const tool=appState.toolRouting[toolKey];
+  if(!tool) return '';
+  if(tool.requestModelMap && tool.requestModelMap[tool.selection]) return tool.requestModelMap[tool.selection];
+  return tool.selection;
+}
+
+function getToolProviderModel(toolKey){
+  const tool=appState.toolRouting[toolKey];
+  if(!tool) return '';
+  if(tool.providerModelMap && tool.providerModelMap[tool.selection]) return formatModelName(tool.providerModelMap[tool.selection]);
+  return tool.selection;
+}
+
+function getConfiguredToolModel(toolKey){
+  const tool=appState.toolRouting[toolKey];
+  if(!tool) return '';
+  return tool.selection;
+}
+
+function getToolCurrentModel(toolKey){
+  const tool=appState.toolRouting[toolKey];
+  if(!tool) return '';
+  if(tool.routingType === 'cc-shell') return getToolProviderModel(toolKey);
+  return getConfiguredToolModel(toolKey);
+}
+
+function getToolRoutingNote(toolKey){
+  const tool=appState.toolRouting[toolKey];
+  if(!tool) return '';
+  const configuredModel=getConfiguredToolModel(toolKey);
+  const effectiveModel=getToolCurrentModel(toolKey);
+  if(tool.routingType === 'cc-shell') return '当前使用 ' + effectiveModel + '，平台会自动完成兼容接入';
+  if(tool.mode === 'single') return effectiveModel !== configuredModel ? '当前使用 ' + effectiveModel + '，已按当前配置生效' : '当前使用 ' + configuredModel + '，可直接切换其他可用模型';
+  return effectiveModel !== configuredModel ? '当前使用 ' + effectiveModel + '，已按当前配置生效' : '当前使用 ' + configuredModel + '，可直接切换其他可用模型';
+}
+
+function renderToolSelectOptions(selectEl, toolKey){
+  if(!selectEl) return;
+  selectEl.innerHTML=platformModelOptions.map(function(option){
+    const disabled=!isModelAvailableForTool(option, toolKey);
+    const suffix=disabled ? '（' + getUnavailableModelHint(option, toolKey) + '）' : '';
+    return '<option value="' + option + '"' + (disabled ? ' disabled' : '') + '>' + option + suffix + '</option>';
+  }).join('');
+}
+
+function getBalanceValue(){
+  return appState.packages.reduce(function(total, pkg){ return total + pkg.balanceValue; }, 0);
+}
+
+function getTotalRemainingTokens(){
+  return appState.packages.reduce(function(total, pkg){ return total + pkg.remainingTokens; }, 0);
+}
+
+function getNearestExpiryLabel(){
+  const sorted=appState.packages.slice().sort(function(a,b){ return a.expiryDate.localeCompare(b.expiryDate); });
+  return sorted.length ? sorted[0].expiryLabel : '暂无有效套餐';
+}
+
+function renderPackageTable(){
+  const tbody=document.getElementById('packageTableBody');
+  if(!tbody) return;
+  const rows=appState.packages.slice().sort(function(a,b){ return a.expiryDate.localeCompare(b.expiryDate); }).map(function(pkg){
+    return '<tr><td>' + pkg.name + '</td><td>' + pkg.remainingTokens.toLocaleString() + '</td><td class="tgr ts">' + pkg.purchaseDate + '</td><td class="tgr ts">' + pkg.expiryLabel + '</td><td><span class="bd2 ' + pkg.statusClass + '">' + pkg.statusText + '</span></td></tr>';
+  });
+  tbody.innerHTML=rows.join('');
+}
+
+function filterTools(el, mode){
+  var p = el.parentElement;
+  if(p) p.querySelectorAll('.ft').forEach(function(t){ t.classList.remove('on'); });
+  el.classList.add('on');
+  document.querySelectorAll('[data-tool-card]').forEach(function(card){
+    var key = card.getAttribute('data-tool-card');
+    var isInstalled = appState.toolRouting[key] && appState.toolRouting[key].installed;
+    if(mode === 'all') card.style.display = '';
+    else if(mode === 'installed') card.style.display = isInstalled ? '' : 'none';
+    else if(mode === 'uninstalled') card.style.display = !isInstalled ? '' : 'none';
+  });
+}
+
+function renderToolRoutingTable(){
+  var tbody = document.getElementById('toolRoutingTableBody');
+  var countText = document.getElementById('toolRoutingCountText');
+  if(!tbody) return;
+  var installedTools = Object.keys(appState.toolRouting).filter(function(k){ return appState.toolRouting[k].installed; });
+  if(countText) countText.textContent = '已安装 ' + installedTools.length + ' 个工具';
+  tbody.innerHTML = installedTools.map(function(toolKey){
+    var tool = appState.toolRouting[toolKey];
+    var opts = (tool.options || platformModelOptions).map(function(m){
+      return '<option value="' + m + '"' + (tool.selection === m ? ' selected' : '') + '>' + m + '</option>';
+    }).join('');
+    return '<tr>'
+      + '<td style="font-weight:600">' + tool.name + '</td>'
+      + '<td><span class="bd2 bpu" data-tool-current="p03-' + toolKey + '">' + (tool.selection || '-') + '</span></td>'
+      + '<td><select class="sel" style="max-width:180px" onchange="needLogin(()=>changeToolModel(\'' + toolKey + '\',this.value))">' + opts + '</select></td>'
+      + '<td><span class="bd2 bg">● 运行中</span></td>'
+      + '</tr>';
+  }).join('') || '<tr><td colspan="4" class="tgr" style="padding:20px;text-align:center">暂无已安装工具</td></tr>';
+}
+
+function renderToolRoutingViews(){
+  syncToolOptionsByCompatibility();
+  Object.keys(appState.toolRouting).forEach(function(toolKey){
+    const currentModel=getToolCurrentModel(toolKey);
+    const tool=appState.toolRouting[toolKey];
+    const currentEl=document.querySelector('[data-tool-current="' + toolKey + '"]');
+    const modeEl=document.querySelector('[data-tool-mode="' + toolKey + '"]');
+    const selectEl=document.querySelector('[data-tool-select="' + toolKey + '"]');
+    const noteEl=document.querySelector('[data-tool-note="' + toolKey + '"]');
+    if(currentEl) currentEl.textContent=currentModel;
+    if(modeEl) modeEl.textContent=tool.options.length + ' 个可选';
+    if(selectEl){
+      renderToolSelectOptions(selectEl, toolKey);
+      selectEl.value=tool.selection;
+    }
+    if(noteEl) noteEl.textContent=getToolRoutingNote(toolKey);
+  });
+}
+
+function updateRouteSummary(){
+  const activeTool=appState.toolRouting[appState.activeToolKey];
+  const activeToolName=activeTool ? activeTool.name : '当前工具';
+  const activeToolConfigured=getConfiguredToolModel(appState.activeToolKey) || '未展示';
+  const activeToolModel=getToolCurrentModel(appState.activeToolKey) || activeToolConfigured;
+  const enabledModeLabels=getEnabledRouteModeLabels();
+  const modeSummary=enabledModeLabels.length ? enabledModeLabels.join('、') : '未开启自动切换模式';
+}
+
+function changeToolModel(toolKey, value){
+  const tool=appState.toolRouting[toolKey];
+  if(!tool) return;
+  if(value !== '__global__' && tool.options.indexOf(value) < 0) return;
+  tool.selection=value;
+  if(tool.routingType === 'cc-shell'){
+    const mappingInput=document.getElementById('mappingInput');
+    if(mappingInput && tool.providerModelMap && tool.providerModelMap[value]) mappingInput.value=tool.providerModelMap[value];
+  }
+  appState.activeToolKey=toolKey;
+  renderToolRoutingViews();
+  updateRouteSummary();
+}
+
+function updatePlanSummary(el){
+  if(!el) return;
+  const name=el.getAttribute('data-plan-name') || '';
+  const tokens=el.getAttribute('data-plan-tokens') || '';
+  const price=el.getAttribute('data-plan-price') || '0';
+  const discount=el.getAttribute('data-plan-discount') || '0';
+  const tokensValue=parseInt((el.querySelector('.pl-tk') || {textContent:'0'}).textContent.replace(/[^0-9]/g,''),10) || 0;
+  const summary=document.getElementById('selectedPlanSummary');
+  const discountEl=document.getElementById('selectedPlanDiscount');
+  const totalEl=document.getElementById('selectedPlanTotal');
+  const payBtn=document.getElementById('selectedPlanPayBtn');
+  appState.selectedPlan = { name:name, tokensLabel:tokens, tokensValue:tokensValue, price:Number(price), discount:Number(discount) };
+  if(summary) summary.textContent=name + ' · ' + tokens;
+  if(discountEl) discountEl.textContent='-¥' + discount;
+  if(totalEl) totalEl.textContent='¥' + price;
+  if(payBtn) payBtn.textContent='确认支付 ¥' + price;
+}
+
+function selPl(el){
+  document.querySelectorAll('.plc').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  updatePlanSummary(el);
+}
+function selPm(el){document.querySelectorAll('.pm').forEach(m=>m.classList.remove('on'));el.classList.add('on')}
+
+function confirmSwitch(){
+  updateRouteSummary();
+  cm('m03');
+  const stl=document.querySelector('.stl.ok');
+  if(stl){const orig=stl.innerHTML;stl.innerHTML='<span class="dot dg"></span>切换成功';setTimeout(()=>stl.innerHTML=orig,2000);}
+}
+
+function runAutoValidation(modelName, buttonEl){
+  const r=document.getElementById('connResult');
+  const connStatus=document.getElementById('extConnStatus');
+  const connDesc=document.getElementById('extConnDesc');
+  const callStatus=document.getElementById('extCallStatus');
+  const callDesc=document.getElementById('extCallDesc');
+  const balanceStatus=document.getElementById('extBalanceStatus');
+  const balanceDesc=document.getElementById('extBalanceDesc');
+  const balanceSummary=getExternalBalanceSummary();
+  if(buttonEl){
+    buttonEl.textContent='检测中…';
+    buttonEl.disabled=true;
+  }
+  if(connStatus) {connStatus.textContent='检测中';connStatus.className='tb2 tac';}
+  if(connDesc) connDesc.textContent='正在检测连接状态';
+  if(callStatus) {callStatus.textContent='检测中';callStatus.className='tb2 tac';}
+  if(callDesc) callDesc.textContent='正在发起测试请求';
+  if(balanceStatus) {balanceStatus.textContent='检测中';balanceStatus.className='tb2 tac';}
+  if(balanceDesc) balanceDesc.textContent='正在检测供应商额度';
+  setTimeout(function(){
+    if(buttonEl){
+      buttonEl.textContent='保存并检测';
+      buttonEl.disabled=false;
+    }
+    if(connStatus) {connStatus.textContent='已连接';connStatus.className='tb2 tok';}
+    var nowStr = (function(){ var d=new Date(); return d.getFullYear()+'-'+(d.getMonth()+1).toString().padStart(2,'0')+'-'+d.getDate().toString().padStart(2,'0')+' '+d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0'); })();
+    if(connDesc) connDesc.textContent='最近检测：' + nowStr + '，延迟 142ms';
+    if(callStatus) {callStatus.textContent='调用成功';callStatus.className='tb2 tok';}
+    if(callDesc) callDesc.textContent='最近一次请求已通过 ' + modelName + ' 返回成功';
+    if(balanceStatus) {balanceStatus.textContent=balanceSummary.status;balanceStatus.className=balanceSummary.className;}
+    if(balanceDesc) balanceDesc.textContent=balanceSummary.desc;
+    r.style.display='inline';
+    r.style.color='var(--ok)';
+    r.textContent='✓ 已保存，系统已完成自动检测';
+    setTimeout(()=>{r.style.display='none'},3000);
+  },1200);
+}
+
+function saveConf(buttonEl){
+  const r=document.getElementById('connResult');
+  const nameInput=document.getElementById('newModelName');
+  const modelName=nameInput ? nameInput.value.trim() : '';
+  const defaultProtocols=getDefaultProtocolLabels();
+  const compatibleToolKeys=getDefaultCompatibleToolKeys();
+  if(!modelName){
+    r.style.display='inline';r.style.color='var(--err)';r.textContent='请先填写模型名称';
+    setTimeout(()=>{r.style.display='none'},2000);
+    return;
+  }
+  const existed=platformModelOptions.indexOf(modelName) >= 0;
+  const previousProtocols=modelProtocolMap[modelName] || [];
+  const previousCompatibleToolKeys=getModelCompatibleToolKeys(modelName);
+  if(!existed) platformModelOptions.push(modelName);
+  modelCompatibilityMap[modelName]=mergeUniqueItems(previousCompatibleToolKeys.concat(compatibleToolKeys));
+  modelProtocolMap[modelName]=mergeUniqueItems(previousProtocols.concat(defaultProtocols));
+  modelProviderMap[modelName]=extractProviderLabel();
+  compatibleToolKeys.forEach(function(toolKey){
+    const tool=appState.toolRouting[toolKey];
+    if(tool && tool.options.indexOf(modelName) < 0) tool.options.push(modelName);
+  });
+  const claudeTool=appState.toolRouting['claude-desktop'];
+  if(claudeTool && compatibleToolKeys.indexOf('claude-desktop') >= 0){
+    claudeTool.requestModelMap[modelName]='Sonnet';
+    claudeTool.providerModelMap[modelName]=slugifyModelName(modelName);
+  }
+  // appendPlatformModelCard(modelName); // 新增模型不插入内置模型面板
+  // 写入自定义模型列表（新增时才记录，更新已有的不重复添加）
+  if(!existed){
+    var urlInput = document.querySelector('#advp input.fi');
+    var keyInput = document.querySelector('#advp input[type="password"]');
+    customModels.push({
+      name: modelName,
+      url: urlInput ? urlInput.value.trim() : '',
+      key: keyInput ? keyInput.value.trim() : '',
+      modelId: document.getElementById('mappingInput') ? document.getElementById('mappingInput').value.trim() : '',
+      connStatus: 'ok',
+      checkedAt: Date.now()
+    });
+    renderCustomModelTable();
+  }
+  renderToolRoutingViews();
+  updateRouteSummary();
+  r.style.display='inline';r.style.color='var(--a)';r.textContent=!existed
+    ? '✓ 新模型已接入，当前可用于：' + formatCompatibleToolNames(compatibleToolKeys)
+    : previousProtocols.length === defaultProtocols.length
+      ? '✓ 模型已存在，已更新当前可用配置'
+      : '✓ 已为该模型补齐当前可用配置；当前可用于：' + formatCompatibleToolNames(modelCompatibilityMap[modelName]);
+  runAutoValidation(modelName, buttonEl);
+}
+
+function syncBalanceViews(){
+  const heroBalance = document.getElementById('heroTokensValue');
+  const tokensCenterBalance = document.getElementById('tokensCenterBalanceValue');
+  const buyPageBalance = document.getElementById('buyPageTokensValue');
+  const topBalance = document.getElementById('balVal');
+  const tokensSub = document.getElementById('tokensCenterBalanceHint');
+  const tokenEstimate = getTotalRemainingTokens().toLocaleString();
+  if(heroBalance) heroBalance.textContent = tokenEstimate;
+  if(tokensCenterBalance) tokensCenterBalance.textContent = tokenEstimate;
+  if(buyPageBalance) buyPageBalance.textContent = tokenEstimate;
+  if(topBalance && loggedIn) topBalance.textContent = tokenEstimate;
+  if(tokensSub) tokensSub.textContent = '最近到期 ' + getNearestExpiryLabel();
+}
+
+function getInvoiceActionLabel(order){
+  if(!order) return '';
+  if(order.invoiceStatus === 'ready') return '申请发票';
+  if(order.invoiceStatus === 'processing') return '查看申请';
+  if(order.invoiceStatus === 'issued') return '下载发票';
+  return '--';
+}
+
+function renderInvoiceSummary(){
+  const readyCountEl=document.getElementById('invoiceReadyCount');
+  const processingCountEl=document.getElementById('invoiceProcessingCount');
+  const issuedCountEl=document.getElementById('invoiceIssuedCount');
+  const readyCount=appState.orders.filter(function(order){ return order.invoiceStatus === 'ready'; }).length;
+  const processingCount=appState.orders.filter(function(order){ return order.invoiceStatus === 'processing'; }).length;
+  const issuedCount=appState.orders.filter(function(order){ return order.invoiceStatus === 'issued'; }).length;
+  if(readyCountEl) readyCountEl.textContent=String(readyCount);
+  if(processingCountEl) processingCountEl.textContent=String(processingCount);
+  if(issuedCountEl) issuedCountEl.textContent=String(issuedCount);
+}
+
+function getSelectedInvoiceReadyOrders(){
+  return getFilteredOrders().filter(function(order){
+    return appState.selectedInvoiceOrderIds.indexOf(order.id) >= 0 && order.invoiceStatus === 'ready';
+  });
+}
+
+function getFilteredOrders(){
+  if(appState.currentOrderFilter === '全部') return appState.orders;
+  return appState.orders.filter(function(order){
+    return order.statusText === appState.currentOrderFilter;
+  });
+}
+
+function syncBatchInvoiceButton(){
+  const batchBtn=document.getElementById('batchInvoiceBtn');
+  const selectAll=document.getElementById('orderSelectAll');
+  const readyOrders=getFilteredOrders().filter(function(order){ return order.invoiceStatus === 'ready'; });
+  const selectedReadyOrders=getSelectedInvoiceReadyOrders();
+  if(batchBtn){
+    batchBtn.disabled=selectedReadyOrders.length === 0;
+    batchBtn.textContent=selectedReadyOrders.length > 0 ? '批量申请发票（' + selectedReadyOrders.length + '）' : '批量申请发票';
+  }
+  if(selectAll){
+    selectAll.disabled=readyOrders.length === 0;
+    selectAll.checked=readyOrders.length > 0 && selectedReadyOrders.length === readyOrders.length;
+    selectAll.indeterminate=selectedReadyOrders.length > 0 && selectedReadyOrders.length < readyOrders.length;
+  }
+}
+
+function toggleOrderSelection(orderId, checked){
+  const order=findOrderById(orderId);
+  if(!order || order.invoiceStatus !== 'ready') return;
+  if(checked){
+    if(appState.selectedInvoiceOrderIds.indexOf(orderId) < 0) appState.selectedInvoiceOrderIds.push(orderId);
+  }else{
+    appState.selectedInvoiceOrderIds=appState.selectedInvoiceOrderIds.filter(function(id){ return id !== orderId; });
+  }
+  syncBatchInvoiceButton();
+}
+
+function toggleInvoiceSelectableOrders(checked){
+  const readyOrderIds=getFilteredOrders().filter(function(order){ return order.invoiceStatus === 'ready'; }).map(function(order){ return order.id; });
+  appState.selectedInvoiceOrderIds=checked ? readyOrderIds : [];
+  renderOrderTable();
+}
+
+function renderOrderTable(){
+  const tbody=document.getElementById('orderTableBody');
+  if(!tbody) return;
+  appState.selectedInvoiceOrderIds=appState.selectedInvoiceOrderIds.filter(function(orderId){
+    return appState.orders.some(function(order){ return order.id === orderId && order.invoiceStatus === 'ready'; });
+  });
+  const filteredOrders=getFilteredOrders();
+  tbody.innerHTML=filteredOrders.map(function(order){
+    const actionLabel=getInvoiceActionLabel(order);
+    const disabledAttr=order.invoiceStatus === 'unavailable' ? ' disabled' : '';
+    const actionClass=order.invoiceStatus === 'issued' ? 'bo' : 'bp';
+    const canSelect=order.invoiceStatus === 'ready';
+    const checkedAttr=appState.selectedInvoiceOrderIds.indexOf(order.id) >= 0 ? ' checked' : '';
+    return '<tr>'
+      + '<td><input type="checkbox" onchange="toggleOrderSelection(\'' + order.id + '\', this.checked)"' + (canSelect ? '' : ' disabled') + checkedAttr + '></td>'
+      + '<td class="tgr txs">' + order.id + '</td>'
+      + '<td>' + order.planLabel + '<div class="txs tgr mt4">实付 ¥' + order.amount + '</div></td>'
+      + '<td>' + order.paymentMethod + '</td>'
+      + '<td class="tgr ts">' + order.orderTime + '</td>'
+      + '<td><span class="bd2 ' + order.statusClass + '">' + order.statusText + '</span></td>'
+      + '<td><span class="bd2 ' + order.invoiceStatusClass + '">' + order.invoiceStatusText + '</span></td>'
+      + '<td><button class="btn ' + actionClass + ' bxs" onclick="handleInvoiceAction(\'' + order.id + '\')"' + disabledAttr + '>' + actionLabel + '</button></td>'
+        + '</tr>';
+      }).join('') || '<tr><td colspan="8" class="tgr" style="padding:28px 16px;text-align:center">当前筛选下暂无订单</td></tr>';
+  renderInvoiceSummary();
+  syncBatchInvoiceButton();
+}
+
+function findOrderById(orderId){
+  return appState.orders.find(function(order){ return order.id === orderId; }) || null;
+}
+
+function openInvoiceModal(orderId){
+  var orderIds=[];
+  if(Array.isArray(orderId)) orderIds=orderId.slice();
+  else if(orderId) orderIds=[orderId];
+  const orders=orderIds.map(findOrderById).filter(function(order){ return !!order; });
+  if(!orders.length) return;
+  appState.selectedInvoiceOrderIds=orders.map(function(order){ return order.id; });
+  const orderInput=document.getElementById('invoiceOrderId');
+  const typeSelect=document.getElementById('invoiceTypeSelect');
+  const titleInput=document.getElementById('invoiceTitleInput');
+  const taxInput=document.getElementById('invoiceTaxInput');
+  const emailInput=document.getElementById('invoiceEmailInput');
+  const errorEl=document.getElementById('invoiceFormError');
+  const firstOrder=orders[0];
+  if(orderInput) orderInput.value=orders.length === 1 ? (firstOrder.id + ' · ' + firstOrder.planLabel) : ('已选择 ' + orders.length + ' 笔订单，共计 ¥' + orders.reduce(function(total, order){ return total + order.amount; }, 0));
+  if(typeSelect) typeSelect.value=firstOrder.invoiceType || '电子普通发票';
+  if(titleInput) titleInput.value=firstOrder.invoiceTitle || '';
+  if(taxInput) taxInput.value=firstOrder.invoiceTaxNo || '';
+  if(emailInput) emailInput.value=firstOrder.invoiceEmail || '';
+  if(errorEl) errorEl.style.display='none';
+  om('m10');
+}
+
+function closeInvoiceModal(){
+  cm('m10');
+}
+
+function openBatchInvoiceModal(){
+  const orders=getSelectedInvoiceReadyOrders();
+  if(!orders.length) return;
+  openInvoiceModal(orders.map(function(order){ return order.id; }));
+}
+
+function handleInvoiceAction(orderId){
+  const order=findOrderById(orderId);
+  if(!order || order.invoiceStatus === 'unavailable') return;
+  if(order.invoiceStatus === 'issued'){
+    order.invoiceStatusText='已发送邮箱';
+    renderOrderTable();
+    return;
+  }
+  openInvoiceModal(orderId);
+}
+
+function submitInvoiceRequest(buttonEl){
+  const orders=appState.selectedInvoiceOrderIds.map(findOrderById).filter(function(order){ return !!order; });
+  const typeSelect=document.getElementById('invoiceTypeSelect');
+  const titleInput=document.getElementById('invoiceTitleInput');
+  const taxInput=document.getElementById('invoiceTaxInput');
+  const emailInput=document.getElementById('invoiceEmailInput');
+  const errorEl=document.getElementById('invoiceFormError');
+  const title=titleInput ? titleInput.value.trim() : '';
+  const email=emailInput ? emailInput.value.trim() : '';
+  const taxNo=taxInput ? taxInput.value.trim() : '';
+  const invoiceType=typeSelect ? typeSelect.value : '电子普通发票';
+  if(!orders.length) return;
+  if(!title){
+    if(errorEl){ errorEl.style.display='block'; errorEl.textContent='请填写发票抬头'; }
+    return;
+  }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    if(errorEl){ errorEl.style.display='block'; errorEl.textContent='请输入有效的接收邮箱'; }
+    return;
+  }
+  if(invoiceType === '电子专票' && !taxNo){
+    if(errorEl){ errorEl.style.display='block'; errorEl.textContent='申请电子专票时请填写税号'; }
+    return;
+  }
+  if(buttonEl){
+    buttonEl.disabled=true;
+    buttonEl.textContent='提交中...';
+  }
+  orders.forEach(function(order){
+    order.invoiceType=invoiceType;
+    order.invoiceTitle=title;
+    order.invoiceEmail=email;
+    order.invoiceTaxNo=taxNo;
+    order.invoiceStatus='processing';
+    order.invoiceStatusText='开票中';
+    order.invoiceStatusClass='by';
+  });
+  appState.selectedInvoiceOrderIds=[];
+  renderOrderTable();
+  closeInvoiceModal();
+  if(buttonEl){
+    buttonEl.disabled=false;
+    buttonEl.textContent='提交申请';
+  }
+}
+
+function prependOrderRecord(){
+  const paymentMethod = (document.querySelector('.pm.on') || {textContent:'微信支付'}).textContent.replace(/[💬🔵💳]/g,'').trim();
+  appState.orderSeq += 1;
+  const orderId='MT20260705' + String(appState.orderSeq).padStart(4,'0');
+  appState.orders.unshift({
+    id: orderId,
+    planLabel: appState.selectedPlan.name + ' · ' + appState.selectedPlan.tokensLabel,
+    paymentMethod: paymentMethod,
+    orderTime: '2026-07-05 14:20',
+    statusText: '已完成',
+    statusClass: 'bg',
+    amount: appState.selectedPlan.price,
+    invoiceStatus: 'ready',
+    invoiceStatusText: '可申请',
+    invoiceStatusClass: 'bpu',
+    invoiceType: '',
+    invoiceTitle: '',
+    invoiceEmail: '',
+    invoiceTaxNo: ''
+  });
+  renderOrderTable();
+}
+
+function handlePurchase(buttonEl){
+  if(appState.purchaseLocked) return;
+  appState.purchaseLocked=true;
+  var payBtn=buttonEl || document.getElementById('selectedPlanPayBtn');
+  var originalText=payBtn ? payBtn.textContent : '';
+  if(payBtn){
+    payBtn.disabled=true;
+    payBtn.textContent='支付处理中...';
+  }
+  const tokens=document.getElementById('purchaseResultTokens');
+  const balance=document.getElementById('purchaseResultBalance');
+  const expiryMeta={
+    '新手包': { expiryLabel:'6 个月后到期（2027-01-05）', expiryDate:'2027-01-05' },
+    '标准包': { expiryLabel:'12 个月后到期（2027-07-05）', expiryDate:'2027-07-05' },
+    '高级包': { expiryLabel:'24 个月后到期（2028-07-05）', expiryDate:'2028-07-05' }
+  }[appState.selectedPlan.name] || { expiryLabel:'12 个月后到期（2027-07-05）', expiryDate:'2027-07-05' };
+  appState.packages.push({
+    name: appState.selectedPlan.name,
+    remainingTokens: appState.selectedPlan.tokensValue,
+    purchaseDate: '2026-07-05',
+    expiryLabel: expiryMeta.expiryLabel,
+    expiryDate: expiryMeta.expiryDate,
+    statusText: '生效中',
+    statusClass: 'bg',
+    balanceValue: appState.selectedPlan.price
+  });
+  if(tokens) tokens.textContent = appState.selectedPlan.tokensLabel;
+  if(balance) balance.textContent = getTotalRemainingTokens().toLocaleString();
+  prependOrderRecord();
+  renderPackageTable();
+  syncBalanceViews();
+  om('m05');
+  setTimeout(function(){
+    appState.purchaseLocked=false;
+    if(payBtn){
+      payBtn.disabled=false;
+      payBtn.textContent=originalText || ('确认支付 ¥' + appState.selectedPlan.price);
+    }
+  }, 800);
+}
+
+function startInstall(toolKey){
+  appState.installingTool = toolKey;
+  const meta=toolMeta[toolKey];
+  const title=document.querySelector('#m04 .mo-ti');
+  const fileInfo=document.querySelector('#m04 .txs.tlt');
+  if(title && meta) title.textContent='正在安装 ' + meta.name;
+  if(fileInfo) fileInfo.textContent=toolKey + '-installer.exe · 42.3 MB / 62.1 MB';
+  om('m04');
+}
+
+function completeInstall(){
+  const key=appState.installingTool;
+  const meta=toolMeta[key];
+  if(!meta) return;
+  const versionEl=document.querySelector('[data-tool-version="' + key + '"]');
+  const statusEl=document.querySelector('[data-tool-status="' + key + '"]');
+  const actionsEl=document.querySelector('[data-tool-actions="' + key + '"]');
+  if(versionEl) versionEl.textContent = meta.version;
+  if(statusEl){
+    statusEl.className='bd2 bg';
+    statusEl.textContent='● 已安装';
+  }
+  if(actionsEl) actionsEl.innerHTML='<span class="bd2 bg">● 已安装</span><div class="fxc g6"><button class="btn bo bsm">更新</button><button class="btn bp bsm">打开</button></div>';
+  appState.installedCount += 1;
+  const summary=document.getElementById('toolInstallSummary');
+  const totalTools = document.querySelectorAll('[data-tool-card]').length;
+  if(summary) summary.textContent='已安装 ' + appState.installedCount + ' / ' + totalTools;
+  cm('m04');
+  // 激活工具路由配置
+  if(appState.toolRouting[key]) {
+    appState.toolRouting[key].installed = true;
+    renderToolRoutingTable();
+  }
+  // 安装完成后引导去配置路由
+  const toolName = meta ? meta.name : '新工具';
+  showToast(toolName + ' 安装成功！<span style="cursor:pointer;text-decoration:underline;margin-left:6px" onclick="go(\'p03\',document.querySelectorAll(\'.ni\')[2],\'模型 / 路由管理\')">前往配置路由 →</span>');
+}
+
+function saveSettings(btn){
+  // 同步昵称到侧边栏
+  const nicknameInput = document.querySelector('#p07 .fi');
+  if(nicknameInput){
+    const newName = nicknameInput.value.trim();
+    const sbName = document.getElementById('sb-name');
+    const sbAvatar = document.getElementById('sb-avatar');
+    if(sbName && newName) sbName.textContent = newName;
+    if(sbAvatar && newName) sbAvatar.textContent = newName.charAt(0);
+  }
+  const original=btn.textContent;
+  btn.textContent='已保存';
+  btn.disabled=true;
+  setTimeout(()=>{
+    btn.textContent=original;
+    btn.disabled=false;
+  },1500);
+}
+
+function doLogout(){
+  loggedIn = false;
+  document.getElementById('sb-unlogin').style.display='';
+  document.getElementById('sb-logined').style.display='none';
+  updateLoginUI();
+  go('p01', document.querySelectorAll('.ni')[0], '总控台');
+}
+
+function ftClick(el){
+  const p=el.parentElement;
+  if(p)p.querySelectorAll('.ft').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  if(el.closest('#p06')){
+    appState.currentOrderFilter=el.textContent.trim();
+    renderOrderTable();
+  }
+}
+
+function switchModelTab(tab){
+  var isBuiltin = tab === 'builtin';
+  document.getElementById('panelBuiltin').style.display = isBuiltin ? '' : 'none';
+  document.getElementById('panelCustom').style.display = isBuiltin ? 'none' : '';
+  var tb = document.getElementById('tabBuiltin');
+  var tc = document.getElementById('tabCustom');
+  if(tb){ tb.style.background = isBuiltin ? 'var(--wh)' : 'transparent'; tb.style.color = isBuiltin ? 'var(--t)' : 'var(--t2)'; tb.style.boxShadow = isBuiltin ? '0 2px 8px rgba(0,0,0,.08)' : 'none'; }
+  if(tc){ tc.style.background = !isBuiltin ? 'var(--wh)' : 'transparent'; tc.style.color = !isBuiltin ? 'var(--t)' : 'var(--t2)'; tc.style.boxShadow = !isBuiltin ? '0 2px 8px rgba(0,0,0,.08)' : 'none'; }
+}
+
+// 用户自定义模型列表
+var customModels = [];
+var editingModelIndex = -1;
+
+function formatConnStatus(status, ts){
+  if(status === 'fail') return '<span class="bd2" style="background:#fff0f0;color:#ef4444">✕ 无法连接</span>';
+  if(!status || status !== 'ok') return '<span class="bd2" style="background:#f5f5f5;color:#aaa">待检测</span>';
+  var diff = Date.now() - (ts || 0);
+  var label;
+  if(diff < 60000) label = '刚刚';
+  else if(diff < 3600000) label = Math.floor(diff/60000) + '分钟前';
+  else if(diff < 86400000) label = Math.floor(diff/3600000) + '小时前';
+  else label = Math.floor(diff/86400000) + '天前';
+  return '<span class="bd2 bg">● 已连接 · ' + label + '</span>';
+}
+
+function renderCustomModelTable(){
+  var tbody = document.getElementById('customModelTableBody');
+  var listWrap = document.getElementById('customModelList');
+  var noTip = document.getElementById('noCustomModel');
+  if(!tbody) return;
+  var hasCustom = customModels.length > 0;
+  if(listWrap) listWrap.style.display = hasCustom ? '' : 'none';
+  if(noTip) noTip.style.display = hasCustom ? 'none' : '';
+  tbody.innerHTML = customModels.map(function(m, i){
+    return '<tr>'
+      + '<td style="font-weight:600">' + m.name + '</td>'
+      + '<td class="txs tgr">' + m.url + '</td>'
+      + '<td class="txs tgr">' + m.modelId + '</td>'
+      + '<td>' + formatConnStatus(m.connStatus, m.checkedAt) + '</td>'
+      + '<td><div class="fxc g6">'
+      + '<button class="btn bo bxs" id="checkBtn_' + i + '" onclick="checkCustomModel(' + i + ')">检测</button>'
+      + '<button class="btn bo bxs" onclick="openEditModel(' + i + ')">编辑</button>'
+      + '<button class="btn bda bxs" onclick="deleteCustomModel(' + i + ')">删除</button>'
+      + '</div></td>'
+      + '</tr>';
+  }).join('') || '';
+}
+
+function checkCustomModel(index){
+  var m = customModels[index];
+  if(!m) return;
+  var btn = document.getElementById('checkBtn_' + index);
+  var tbody = document.getElementById('customModelTableBody');
+  if(btn){ btn.textContent='检测中…'; btn.disabled=true; }
+  var row = tbody ? tbody.rows[index] : null;
+  var statusCell = row ? row.cells[3] : null;
+  if(statusCell) statusCell.innerHTML = '<span class="bd2" style="background:#fff8e1;color:#f59e0b">● 检测中…</span>';
+  setTimeout(function(){
+    var hasKey = m.key && m.key.trim() !== '';
+    var hasUrl = m.url && m.url.trim() !== '';
+    if(hasKey && hasUrl){
+      m.connStatus = 'ok'; m.checkedAt = Date.now();
+      if(statusCell) statusCell.innerHTML = '<span class="bd2 bg">● 已连接 &middot; 刚刚</span>';
+      showToast('✓ ' + m.name + ' 检测通过，Key 有效', 2500);
+    } else {
+      m.connStatus = 'fail'; m.checkedAt = Date.now();
+      if(statusCell) statusCell.innerHTML = '<span class="bd2" style="background:#fff0f0;color:#ef4444">✕ 无法连接</span>';
+      showToast('✕ ' + m.name + ' 检测失败：' + (!hasUrl ? '未填写调用地址' : '未填写 API Key'), 3000);
+    }
+    if(btn){ btn.textContent='检测'; btn.disabled=false; }
+  }, 1400);
+}
+
+function openEditModel(index){
+  editingModelIndex = index;
+  var m = customModels[index];
+  document.getElementById('editModelName').value = m.name;
+  document.getElementById('editModelUrl').value = m.url;
+  document.getElementById('editModelKey').value = m.key || '';
+  document.getElementById('editModelId').value = m.modelId;
+  om('m11');
+}
+
+function saveEditModel(){
+  if(editingModelIndex < 0 || editingModelIndex >= customModels.length) return;
+  var name = document.getElementById('editModelName').value.trim();
+  var url = document.getElementById('editModelUrl').value.trim();
+  var key = document.getElementById('editModelKey').value.trim();
+  var modelId = document.getElementById('editModelId').value.trim();
+  if(!name){ showToast('请填写模型名称'); return; }
+  var oldName = customModels[editingModelIndex].name;
+  customModels[editingModelIndex] = { name: name, url: url, key: key, modelId: modelId };
+  // 同步 platformModelOptions
+  var idx = platformModelOptions.indexOf(oldName);
+  if(idx >= 0) platformModelOptions[idx] = name;
+  renderCustomModelTable();
+  cm('m11');
+  showToast('✓ 模型配置已更新');
+}
+
+function deleteCustomModel(index){
+  var m = customModels[index];
+  if(!confirm('确认删除「' + m.name + '」？删除后该模型将从所有工具的可选列表中移除。')) return;
+  var idx = platformModelOptions.indexOf(m.name);
+  if(idx >= 0) platformModelOptions.splice(idx, 1);
+  customModels.splice(index, 1);
+  renderCustomModelTable();
+  renderToolRoutingViews();
+  showToast('已删除「' + m.name + '」');
+}
+
+function showToast(html, duration){
+  var existing = document.getElementById('appToast');
+  if(existing) existing.remove();
+  var t = document.createElement('div');
+  t.id = 'appToast';
+  t.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#1a2e3b;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.25);white-space:nowrap;max-width:90vw';
+  t.innerHTML = html;
+  document.body.appendChild(t);
+  setTimeout(function(){ if(t.parentNode) t.remove(); }, duration || 5000);
+}
+
+function updateInfoHintDirection(){
+  const sidebar=document.querySelector('.sb');
+  const safeLeft=sidebar ? sidebar.getBoundingClientRect().right + 12 : 12;
+  document.querySelectorAll('.ih').forEach(hint=>{
+    const bubble=hint.querySelector('.ih-b');
+    if(!bubble) return;
+    bubble.classList.remove('al-l','al-r');
+    bubble.style.visibility='hidden';
+    bubble.style.display='block';
+    const bubbleWidth=bubble.offsetWidth;
+    bubble.style.display='';
+    bubble.style.visibility='';
+    const rect=hint.getBoundingClientRect();
+    const leftSpace=rect.left - safeLeft;
+    const rightSpace=window.innerWidth - rect.right - 12;
+    if(rightSpace >= bubbleWidth || rightSpace >= leftSpace){
+      bubble.classList.add('al-l');
+    }else{
+      bubble.classList.add('al-r');
+    }
+  });
+}
+
+document.querySelectorAll('.ov').forEach(ov=>{
+  ov.addEventListener('click',e=>{if(e.target===ov)ov.classList.remove('op')})
+});
+
+document.querySelectorAll('.ih').forEach(hint=>{
+  hint.addEventListener('mouseenter',updateInfoHintDirection);
+});
+
+window.addEventListener('resize',updateInfoHintDirection);
+
+updateRouteSummary();
+renderRouteModes();
+renderToolRoutingViews();
+renderToolRoutingTable();
+renderPackageTable();
+renderOrderTable();
+renderUsageTables();
+syncUsageSummaryViews();
+updateInfoHintDirection();
+updatePlanSummary(document.querySelector('.plc.on'));
+syncBalanceViews();
+lucide.createIcons();
+updateHeroGreeting();
+</script>
+</body>
+</html>
