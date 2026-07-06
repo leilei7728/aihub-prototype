@@ -506,12 +506,7 @@ input:checked+.sl:before{transform:translateX(16px)}
 <div id="p02" class="pg">
   <div class="fxb mb16">
     <div style="font-size:15px;font-weight:700">AI 软件管理</div>
-    <div class="fxc g6">
-      <div class="ft on" onclick="filterTools(this,'all')">全部</div>
-      <div class="ft" onclick="filterTools(this,'installed')">已安装</div>
-      <div class="ft" onclick="filterTools(this,'uninstalled')">未安装</div>
-      <div class="ts tgr" id="toolInstallSummary">已安装 3 / 9</div>
-    </div>
+    <div class="ts tgr" id="toolInstallSummary">已安装 3 / 6</div>
   </div>
   <div class="g g3" id="toolCardGrid">
 
@@ -639,42 +634,6 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
     </div>
 
-    <div class="tc" data-tool-card="deepseek">
-      <div class="tc-h">
-        <div class="tc-ico" style="background:#fdf2f8">🐋</div>
-        <div><div class="tc-nm">DeepSeek</div><div class="tc-vr" data-tool-version="deepseek">对话客户端 · 未安装</div></div>
-      </div>
-      <div class="tc-ds">DeepSeek 官方对话客户端，提供 V3 / R1 等模型，国内访问稳定。</div>
-      <div class="tc-ft" data-tool-actions="deepseek">
-        <span class="bd2 bgr" data-tool-status="deepseek">未安装</span>
-        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('deepseek'))">安装</button>
-      </div>
-    </div>
-
-    <div class="tc" data-tool-card="kilocode">
-      <div class="tc-h">
-        <div class="tc-ico" style="background:#f5f0ff">🔮</div>
-        <div><div class="tc-nm">Kilo Code</div><div class="tc-vr" data-tool-version="kilocode">未安装</div></div>
-      </div>
-      <div class="tc-ds">VS Code 插件型 AI 编程助手，支持多种模型，适合开发者日常工作。</div>
-      <div class="tc-ft" data-tool-actions="kilocode">
-        <span class="bd2 bgr" data-tool-status="kilocode">未安装</span>
-        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('kilocode'))">安装</button>
-      </div>
-    </div>
-
-    <div class="tc" data-tool-card="claudecode">
-      <div class="tc-h">
-        <div class="tc-ico" style="background:#fff0ec">✨</div>
-        <div><div class="tc-nm">Claude Code</div><div class="tc-vr" data-tool-version="claudecode">命令行编程工具 · 未安装</div></div>
-      </div>
-      <div class="tc-ds">Anthropic 官方命令行编程工具，支持在终端直接与 Claude 协作完成复杂代码任务。</div>
-      <div class="tc-ft" data-tool-actions="claudecode">
-        <span class="bd2 bgr" data-tool-status="claudecode">未安装</span>
-        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('claudecode'))">安装</button>
-      </div>
-    </div>
-
     <div class="tc" data-tool-card="openclaw">
       <div class="tc-h">
         <div class="tc-ico" style="background:#fff4f0">🦞</div>
@@ -751,8 +710,8 @@ input:checked+.sl:before{transform:translateX(16px)}
     <!-- 切换 Tab -->
     <div style="display:flex;justify-content:center;margin-bottom:20px">
       <div style="display:flex;background:#f4f4f5;border-radius:10px;padding:3px;gap:2px">
-        <button id="tabBuiltin" class="btn" style="padding:7px 22px;font-size:13px;border-radius:8px;background:var(--wh);color:var(--t);box-shadow:0 2px 8px rgba(0,0,0,.08);border:none" onclick="switchModelTab('builtin')">内置模型</button>
-        <button id="tabCustom" class="btn" style="padding:7px 22px;font-size:13px;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchModelTab('custom')">新增模型</button>
+        <button id="tabBuiltin" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:var(--a);color:#fff;box-shadow:0 2px 8px rgba(15,118,110,.25);border:none" onclick="switchModelTab('builtin')">内置模型</button>
+        <button id="tabCustom" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchModelTab('custom')">新增模型</button>
       </div>
     </div>
 
@@ -936,8 +895,8 @@ input:checked+.sl:before{transform:translateX(16px)}
 <div id="p05" class="pg">
   <div class="fxb mb16">
     <div style="display:flex;background:#f4f4f5;border-radius:10px;padding:3px;gap:2px">
-      <button id="buyTab1" class="btn" style="padding:7px 22px;font-size:13px;border-radius:8px;background:var(--wh);color:var(--t);box-shadow:0 2px 8px rgba(0,0,0,.08);border:none" onclick="switchBuyTab('buy')">购买 Tokens</button>
-      <button id="buyTab2" class="btn" style="padding:7px 22px;font-size:13px;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchBuyTab('orders')">订单记录</button>
+      <button id="buyTab1" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:var(--a);color:#fff;box-shadow:0 2px 8px rgba(15,118,110,.25);border:none" onclick="switchBuyTab('buy')">购买 Tokens</button>
+      <button id="buyTab2" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchBuyTab('orders')">订单记录</button>
     </div>
     <div class="ts tgr" id="buyPageBalanceBar">当前剩余 Tokens：<span class="tac tb2" id="buyPageTokensValue">256,000</span><span class="ih">?<span class="ih-b">展示当前平台剩余的 Tokens，方便判断本次需要购买多少。</span></span></div>
   </div>
@@ -1412,27 +1371,6 @@ var appState = {
       installed: false,
       options: platformModelOptions.slice(),
       selection: 'Gemini 1.5 Pro'
-    },
-    'deepseek': {
-      name: 'DeepSeek Chat',
-      mode: 'single',
-      installed: false,
-      options: platformModelOptions.slice(),
-      selection: 'DeepSeek V3'
-    },
-    'kilocode': {
-      name: 'Kilo Code',
-      mode: 'single',
-      installed: false,
-      options: platformModelOptions.slice(),
-      selection: 'DeepSeek V3'
-    },
-    'claudecode': {
-      name: 'Claude Code',
-      mode: 'single',
-      installed: false,
-      options: platformModelOptions.slice(),
-      selection: 'Claude Sonnet 4.5'
     },
     'openclaw': {
       name: 'OpenClaw',
@@ -2122,8 +2060,8 @@ function switchBuyTab(tab){
   if(p1) p1.style.display = isBuy ? '' : 'none';
   if(p2) p2.style.display = isBuy ? 'none' : '';
   if(bar) bar.style.display = isBuy ? '' : 'none';
-  if(t1){ t1.style.background=isBuy?'var(--wh)':'transparent'; t1.style.color=isBuy?'var(--t)':'var(--t2)'; t1.style.boxShadow=isBuy?'0 2px 8px rgba(0,0,0,.08)':'none'; }
-  if(t2){ t2.style.background=!isBuy?'var(--wh)':'transparent'; t2.style.color=!isBuy?'var(--t)':'var(--t2)'; t2.style.boxShadow=!isBuy?'0 2px 8px rgba(0,0,0,.08)':'none'; }
+  if(t1){ t1.style.background=isBuy?'var(--a)':'transparent'; t1.style.color=isBuy?'#fff':'var(--t2)'; t1.style.boxShadow=isBuy?'0 2px 8px rgba(15,118,110,.25)':'none'; }
+  if(t2){ t2.style.background=!isBuy?'var(--a)':'transparent'; t2.style.color=!isBuy?'#fff':'var(--t2)'; t2.style.boxShadow=!isBuy?'0 2px 8px rgba(15,118,110,.25)':'none'; }
 }
 
 function goOrders(navEl){
@@ -2303,8 +2241,16 @@ function renderPackageTable(){
 
 function filterTools(el, mode){
   var p = el.parentElement;
-  if(p) p.querySelectorAll('.ft').forEach(function(t){ t.classList.remove('on'); });
+  if(p) p.querySelectorAll('.ft').forEach(function(t){
+    t.classList.remove('on');
+    t.style.background = 'transparent';
+    t.style.color = 'var(--t2)';
+    t.style.boxShadow = 'none';
+  });
   el.classList.add('on');
+  el.style.background = 'var(--a)';
+  el.style.color = '#fff';
+  el.style.boxShadow = '0 2px 8px rgba(15,118,110,.25)';
   document.querySelectorAll('[data-tool-card]').forEach(function(card){
     var key = card.getAttribute('data-tool-card');
     var isInstalled = appState.toolRouting[key] && appState.toolRouting[key].installed;
@@ -2845,8 +2791,8 @@ function switchModelTab(tab){
   document.getElementById('panelCustom').style.display = isBuiltin ? 'none' : '';
   var tb = document.getElementById('tabBuiltin');
   var tc = document.getElementById('tabCustom');
-  if(tb){ tb.style.background = isBuiltin ? 'var(--wh)' : 'transparent'; tb.style.color = isBuiltin ? 'var(--t)' : 'var(--t2)'; tb.style.boxShadow = isBuiltin ? '0 2px 8px rgba(0,0,0,.08)' : 'none'; }
-  if(tc){ tc.style.background = !isBuiltin ? 'var(--wh)' : 'transparent'; tc.style.color = !isBuiltin ? 'var(--t)' : 'var(--t2)'; tc.style.boxShadow = !isBuiltin ? '0 2px 8px rgba(0,0,0,.08)' : 'none'; }
+  if(tb){ tb.style.background = isBuiltin ? 'var(--a)' : 'transparent'; tb.style.color = isBuiltin ? '#fff' : 'var(--t2)'; tb.style.boxShadow = isBuiltin ? '0 2px 8px rgba(15,118,110,.25)' : 'none'; }
+  if(tc){ tc.style.background = !isBuiltin ? 'var(--a)' : 'transparent'; tc.style.color = !isBuiltin ? '#fff' : 'var(--t2)'; tc.style.boxShadow = !isBuiltin ? '0 2px 8px rgba(15,118,110,.25)' : 'none'; }
 }
 
 // 用户自定义模型列表
