@@ -946,20 +946,20 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
     </div>
     <div style="margin-top:12px;border-top:1px solid #d1fae5;padding-top:12px">
-      <div style="font-size:12px;font-weight:700;color:var(--t);margin-bottom:8px">可用模型（共 20 种）及 Tokens 消耗系数</div>
+      <div style="font-size:12px;font-weight:700;color:var(--t);margin-bottom:8px">可用模型（共 38 种）及 Tokens 消耗系数</div>
       <div style="font-size:11px;color:var(--t2);margin-bottom:4px">消耗系数说明：发送同样内容，1x 模型扣 1,000，2x 扣 2,000，4x 扣 4,000</div>
       <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
         <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px">
           <span style="flex-shrink:0;background:#dcfce7;color:#15803d;padding:2px 7px;border-radius:4px;font-weight:700">1x 标准</span>
-          <span style="color:var(--t2)">Qwen3.5-Flash、DeepSeek-V4-Flash、Deepseek V3.2、Qwen3.5-Plus、Doubao-Seed 2.0 Lite</span>
+          <span style="color:var(--t2)">Qwen3.5-Flash、DeepSeek-V4-Flash、Deepseek V3.2、Qwen3.5-Plus、Doubao-Seed 2.0 Lite、GPT-4o mini、o4-mini、Gemini 2.5 Flash、Gemini 2.0 Flash、Claude Haiku 3.5、Grok 3 Mini、Llama 4 Scout、Mistral Small 3.1</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px">
           <span style="flex-shrink:0;background:#fef9c3;color:#a16207;padding:2px 7px;border-radius:4px;font-weight:700">2x 中级</span>
-          <span style="color:var(--t2)">Qwen3.6-Flash、DeepSeek-V3、MiniMax-M2.1、MiniMax-M2.5、MiniMax M2.7、Qwen3.6-plus、Deepseek-V3.1、Doubao-Seed 2.0 Code、Doubao-Seed 2.0 Pro、Qwen3-Coder-Plus</span>
+          <span style="color:var(--t2)">Qwen3.6-Flash、DeepSeek-V3、MiniMax-M2.1、MiniMax-M2.5、MiniMax M2.7、Qwen3.6-plus、Deepseek-V3.1、Doubao-Seed 2.0 Code、Doubao-Seed 2.0 Pro、Qwen3-Coder-Plus、GPT-4o、GPT-4.1、Claude Sonnet 4.5、Gemini 2.5 Pro、Grok 3、Llama 4 Maverick、Llama 3.3 70B、Mistral Large 2</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px">
           <span style="flex-shrink:0;background:#fee2e2;color:#b91c1c;padding:2px 7px;border-radius:4px;font-weight:700">4x 高级</span>
-          <span style="color:var(--t2)">GLM-5、Kimi-K2.5、GLM-5.1、Kimi-K2.6、Deepseek-V4-Pro</span>
+          <span style="color:var(--t2)">GLM-5、Kimi-K2.5、GLM-5.1、Kimi-K2.6、Deepseek-V4-Pro、Claude Opus 4、o3</span>
         </div>
       </div>
     </div>
@@ -1286,10 +1286,18 @@ input:checked+.sl:before{transform:translateX(16px)}
 function nv(i){return document.querySelectorAll('.ni')[i]}
 
 var platformModelOptions = [
+  // 1x 标准（国内轻量 + 国际轻量）
   'Qwen3.5-Flash', 'DeepSeek-V4-Flash', 'Deepseek V3.2', 'Qwen3.5-Plus', 'Doubao-Seed 2.0 Lite',
+  'GPT-4o mini', 'o4-mini', 'Gemini 2.5 Flash', 'Gemini 2.0 Flash', 'Claude Haiku 3.5',
+  'Grok 3 Mini', 'Llama 4 Scout', 'Mistral Small 3.1',
+  // 2x 中级（国内主力 + 国际主力）
   'Qwen3.6-Flash', 'DeepSeek-V3', 'MiniMax-M2.1', 'MiniMax-M2.5', 'MiniMax M2.7',
   'Qwen3.6-plus', 'Deepseek-V3.1', 'Doubao-Seed 2.0 Code', 'Doubao-Seed 2.0 Pro', 'Qwen3-Coder-Plus',
-  'GLM-5', 'Kimi-K2.5', 'GLM-5.1', 'Kimi-K2.6', 'Deepseek-V4-Pro'
+  'GPT-4o', 'GPT-4.1', 'Claude Sonnet 4.5', 'Gemini 2.5 Pro',
+  'Grok 3', 'Llama 4 Maverick', 'Llama 3.3 70B', 'Mistral Large 2',
+  // 4x 高级（国内旗舰 + 国际旗舰）
+  'GLM-5', 'Kimi-K2.5', 'GLM-5.1', 'Kimi-K2.6', 'Deepseek-V4-Pro',
+  'Claude Opus 4', 'o3'
 ];
 var allToolKeys = ['claude-desktop', 'codex-cli', 'opencode'];
 var modelCompatibilityMap = {};
@@ -1297,26 +1305,21 @@ platformModelOptions.forEach(function(m){ modelCompatibilityMap[m] = allToolKeys
 var modelProtocolMap = {};
 platformModelOptions.forEach(function(m){ modelProtocolMap[m] = ['OpenAI', 'Anthropic']; });
 var modelProviderMap = {
-  'Qwen3.5-Flash': '阿里云百炼',
-  'Qwen3.6-Flash': '阿里云百炼',
-  'Qwen3.5-Plus': '阿里云百炼',
-  'Qwen3.6-plus': '阿里云百炼',
-  'Qwen3-Coder-Plus': '阿里云百炼',
-  'DeepSeek-V3': '阿里云百炼',
-  'Deepseek-V3.1': '阿里云百炼 · 腾讯云',
-  'Deepseek V3.2': '阿里云百炼 · 腾讯云',
-  'Deepseek-V4-Flash': '阿里云百炼 · 腾讯云 · 火山引擎',
+  'Qwen3.5-Flash': '阿里云百炼', 'Qwen3.6-Flash': '阿里云百炼',
+  'Qwen3.5-Plus': '阿里云百炼', 'Qwen3.6-plus': '阿里云百炼', 'Qwen3-Coder-Plus': '阿里云百炼',
+  'DeepSeek-V3': '阿里云百炼', 'Deepseek-V3.1': '阿里云百炼 · 腾讯云',
+  'Deepseek V3.2': '阿里云百炼 · 腾讯云', 'Deepseek-V4-Flash': '阿里云百炼 · 腾讯云 · 火山引擎',
   'Deepseek-V4-Pro': '阿里云百炼 · 腾讯云 · 火山引擎',
-  'GLM-5': '阿里云百炼 · 腾讯云',
-  'GLM-5.1': '阿里云百炼 · 腾讯云 · 火山引擎',
-  'Kimi-K2.5': '阿里云百炼 · 火山引擎',
-  'Kimi-K2.6': '阿里云百炼 · 火山引擎',
-  'Doubao-Seed 2.0 Lite': '火山引擎',
-  'Doubao-Seed 2.0 Code': '火山引擎',
-  'Doubao-Seed 2.0 Pro': '火山引擎',
-  'MiniMax-M2.1': 'MiniMax',
-  'MiniMax-M2.5': '阿里云百炼 · 腾讯云 · 火山引擎',
-  'MiniMax M2.7': '腾讯云 · 火山引擎'
+  'GLM-5': '阿里云百炼 · 腾讯云', 'GLM-5.1': '阿里云百炼 · 腾讯云 · 火山引擎',
+  'Kimi-K2.5': '阿里云百炼 · 火山引擎', 'Kimi-K2.6': '阿里云百炼 · 火山引擎',
+  'Doubao-Seed 2.0 Lite': '火山引擎', 'Doubao-Seed 2.0 Code': '火山引擎', 'Doubao-Seed 2.0 Pro': '火山引擎',
+  'MiniMax-M2.1': 'MiniMax', 'MiniMax-M2.5': '阿里云百炼 · 腾讯云 · 火山引擎', 'MiniMax M2.7': '腾讯云 · 火山引擎',
+  'Claude Haiku 3.5': 'Anthropic', 'Claude Sonnet 4.5': 'Anthropic', 'Claude Opus 4': 'Anthropic',
+  'GPT-4o mini': 'OpenAI', 'GPT-4o': 'OpenAI', 'GPT-4.1': 'OpenAI', 'o3': 'OpenAI', 'o4-mini': 'OpenAI',
+  'Gemini 2.5 Flash': 'Google', 'Gemini 2.0 Flash': 'Google', 'Gemini 2.5 Pro': 'Google',
+  'Grok 3 Mini': 'xAI', 'Grok 3': 'xAI',
+  'Llama 4 Scout': 'Meta', 'Llama 4 Maverick': 'Meta', 'Llama 3.3 70B': 'Meta',
+  'Mistral Small 3.1': 'Mistral', 'Mistral Large 2': 'Mistral'
 };
 
 var appState = {
