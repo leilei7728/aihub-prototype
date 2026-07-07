@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -443,9 +443,9 @@ input:checked+.sl:before{transform:translateX(16px)}
       <!-- 提醒区：快用完时显示 -->
       <div id="heroWarning" style="display:none;background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.5);border-radius:8px;padding:6px 12px;font-size:12px;color:#fde68a;margin-bottom:10px">
         ⚠️ <span id="heroWarningText">今日 Tokens 已使用 85%，剩余不多，建议充值余额备用</span>
-        <span onclick="go('p05',nv(4),'购买 Tokens')" style="margin-left:8px;text-decoration:underline;cursor:pointer;color:#fde68a;font-weight:700">去充值 →</span>
+        <span onclick="needLogin(()=>{go('p05',nv(4),'购买 Tokens');setTimeout(()=>switchBuyTab('topup'),100)})" style="margin-left:8px;text-decoration:underline;cursor:pointer;color:#fde68a;font-weight:700">去充值 →</span>
       </div>
-      <div class="rcbtn" onclick="go('p05',nv(4),'购买 Tokens')" id="heroChargeBtn">充值备用余额</div>
+      <div class="rcbtn" onclick="needLogin(()=>{go('p05',nv(4),'购买 Tokens');setTimeout(()=>switchBuyTab('topup'),100)})" id="heroChargeBtn">充值备用余额</div>
     </div>
     <div class="hr" style="display:flex;flex-direction:column;gap:8px;min-width:160px;text-align:right">
       <div>
@@ -1815,8 +1815,15 @@ function toApp(){
 }
 
 var loggedIn = false;
-var userTokensBalance = 256000;   // 订阅 Tokens
-var userCashBalance   = 48.50;    // 充值余额（人民币）
+// —— 当前订阅状态（原型固定模拟） ——
+var userPlan = {
+  name:        '月卡',
+  expireDate:  '2026-08-07',
+  dailyTokens: 16667,
+  todayUsed:   3241
+};
+var userTokensBalance = userPlan.dailyTokens - userPlan.todayUsed;
+var userCashBalance   = 48.50;
 
 function updateLoginUI(){
   // 顶栏两个芯片
@@ -3105,8 +3112,8 @@ function syncBalanceViews(){
 
   // P01 Hero：会员标签 + 今日进度 + 提醒
   (function(){
-    var todayUsed  = 3241;              // 今日已用（原型固定值）
-    var dayTotal   = userTokensBalance; // 今日发放总量
+    var todayUsed  = userPlan.todayUsed;    // 今日已用
+    var dayTotal   = userPlan.dailyTokens;  // 当前套餐每日发放量
     var pct        = dayTotal > 0 ? Math.min(100, (todayUsed / dayTotal * 100)) : 0;
     var pctStr     = pct < 1 ? pct.toFixed(1) + '%' : Math.round(pct) + '%';
 
@@ -3121,6 +3128,18 @@ function syncBalanceViews(){
       heroBar.style.width = pctStr;
       // 颜色：<70% 绿，70-85% 橙，>85% 红
       heroBar.style.background = pct >= 85 ? '#f87171' : pct >= 70 ? '#fb923c' : '#4ade80';
+    }
+
+    // 会员标签：套餐名称 + 到期时间
+    var heroMemberLabel = document.getElementById('heroMemberLabel');
+    if(heroMemberLabel){
+      if(userPlan.name){
+        heroMemberLabel.textContent = userPlan.name + ' · ' + userPlan.expireDate + ' 到期';
+      } else {
+        heroMemberLabel.textContent = '未订阅，按量计费';
+        var badge = document.getElementById('heroMemberBadge');
+        if(badge){ var dot=badge.querySelector('span'); if(dot) dot.style.background='#94a3b8'; }
+      }
     }
 
     // 提醒：>= 70% 显示警告
