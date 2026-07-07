@@ -1145,7 +1145,7 @@ input:checked+.sl:before{transform:translateX(16px)}
     </div>
     <div class="card">
       <table class="tb">
-        <thead><tr><th style="width:42px"><input type="checkbox" id="orderSelectAll" onchange="toggleInvoiceSelectableOrders(this.checked)"></th><th>订单编号</th><th>套餐</th><th>支付方式</th><th>下单时间</th><th>订单状态</th><th>发票状态</th><th>操作</th></tr></thead>
+        <thead><tr><th style="width:42px"><input type="checkbox" id="orderSelectAll" onchange="toggleInvoiceSelectableOrders(this.checked)"></th><th>订单编号</th><th>套餐</th><th>支付方式</th><th>下单时间</th><th>订阅有效期</th><th>订单状态</th><th>发票状态</th><th>操作</th></tr></thead>
         <tbody id="orderTableBody"></tbody>
       </table>
     </div>
@@ -1352,6 +1352,8 @@ input:checked+.sl:before{transform:translateX(16px)}
     <div class="mo-ds">到账结果已更新，你现在可以继续使用平台已接入的 AI 工具。</div>
     <div style="background:var(--all);border:1px solid #ddd6fe;border-radius:12px;padding:16px;text-align:left;margin:16px 0">
       <div class="fxb mb8"><div class="tgr">充值 Tokens<span class="ih">?<span class="ih-b">表示本次套餐到账的 Tokens 数量，具体发放规则以正式方案为准。</span></span></div><div class="tb2" id="purchaseResultTokens">200 万</div></div>
+      <div class="fxb mb8" id="purchaseResultValidityRow" style="display:none"><div class="tgr">有效期</div><div class="tb2" id="purchaseResultValidity"></div></div>
+      <div id="purchaseResultRenewNote" style="display:none;font-size:12px;color:#7c3aed;background:#f5f3ff;border-radius:6px;padding:6px 10px;margin-bottom:8px">🔁 续订订单：新周期有效期已自动顺延到当前到期日后，不与现有周期叠加。</div>
       <div class="fxb" style="padding-top:8px;border-top:1px solid #ddd6fe;font-size:15px;font-weight:800">
         <div>当前剩余 Tokens<span class="ih">?<span class="ih-b">展示购买成功后平台账户内最新剩余 Tokens。</span></span></div><div class="tac" id="purchaseResultBalance">256,000</div>
       </div>
@@ -1796,10 +1798,10 @@ var appState = {
     { name: '高级包', remainingTokens: 50000, purchaseDate: '2026-05-12', expiryLabel: '11 个月后到期（2027-06-15）', expiryDate: '2027-06-15', statusText: '生效中', statusClass: 'bg', balanceValue: 25.5 }
   ],
   orders: [
-    { id:'MT2026070300123', planLabel:'标准包 · 200 万 Tokens', paymentMethod:'微信支付', orderTime:'2026-07-03 10:25', statusText:'已完成', statusClass:'bg', amount:59, invoiceStatus:'ready', invoiceStatusText:'可申请', invoiceStatusClass:'bpu', invoiceType:'', invoiceTitle:'', invoiceEmail:'', invoiceTaxNo:'' },
-    { id:'MT2026062800088', planLabel:'新手包 · 50 万 Tokens', paymentMethod:'支付宝', orderTime:'2026-06-28 15:40', statusText:'已完成', statusClass:'bg', amount:19, invoiceStatus:'processing', invoiceStatusText:'开票中', invoiceStatusClass:'by', invoiceType:'电子普通发票', invoiceTitle:'杭州云图科技有限公司', invoiceEmail:'finance@aitest.com', invoiceTaxNo:'91330100MA8XXXXX9K' },
-    { id:'MT2026062000055', planLabel:'标准包 · 200 万 Tokens', paymentMethod:'微信支付', orderTime:'2026-06-20 09:12', statusText:'已完成', statusClass:'bg', amount:59, invoiceStatus:'issued', invoiceStatusText:'已开票', invoiceStatusClass:'bg', invoiceType:'电子普通发票', invoiceTitle:'雷蕾', invoiceEmail:'lele@example.com', invoiceTaxNo:'' },
-    { id:'MT2026061000032', planLabel:'高级包 · 600 万 Tokens', paymentMethod:'银行卡', orderTime:'2026-06-10 21:03', statusText:'已退款', statusClass:'br', amount:149, invoiceStatus:'unavailable', invoiceStatusText:'不可开票', invoiceStatusClass:'bgr', invoiceType:'', invoiceTitle:'', invoiceEmail:'', invoiceTaxNo:'' }
+    { id:'MT2026070300123', planLabel:'月卡', paymentMethod:'微信支付', orderTime:'2026-07-03 10:25', validFrom:'2026-07-03', validTo:'2026-08-03', statusText:'已完成', statusClass:'bg', amount:99, invoiceStatus:'ready', invoiceStatusText:'可申请', invoiceStatusClass:'bpu', invoiceType:'', invoiceTitle:'', invoiceEmail:'', invoiceTaxNo:'' },
+    { id:'MT2026062800088', planLabel:'季卡', paymentMethod:'支付宝', orderTime:'2026-06-28 15:40', validFrom:'2026-04-01', validTo:'2026-07-03', statusText:'已完成', statusClass:'bg', amount:299, invoiceStatus:'processing', invoiceStatusText:'开票中', invoiceStatusClass:'by', invoiceType:'电子普通发票', invoiceTitle:'杭州云图科技有限公司', invoiceEmail:'finance@aitest.com', invoiceTaxNo:'91330100MA8XXXXX9K' },
+    { id:'MT2026062000055', planLabel:'月卡', paymentMethod:'微信支付', orderTime:'2026-06-20 09:12', validFrom:'2026-03-01', validTo:'2026-04-01', statusText:'已完成', statusClass:'bg', amount:99, invoiceStatus:'issued', invoiceStatusText:'已开票', invoiceStatusClass:'bg', invoiceType:'电子普通发票', invoiceTitle:'雷蕾', invoiceEmail:'lele@example.com', invoiceTaxNo:'' },
+    { id:'MT2026061000032', planLabel:'年卡', paymentMethod:'银行卡', orderTime:'2026-06-10 21:03', validFrom:'2026-01-01', validTo:'2027-01-01', statusText:'已退款', statusClass:'br', amount:999, invoiceStatus:'unavailable', invoiceStatusText:'不可开票', invoiceStatusClass:'bgr', invoiceType:'', invoiceTitle:'', invoiceEmail:'', invoiceTaxNo:'' }
   ],
   currentOrderFilter: '全部',
   selectedInvoiceOrderIds: [],
@@ -3350,11 +3352,12 @@ function renderOrderTable(){
       + '<td>' + order.planLabel + '<div class="txs tgr mt4">实付 ¥' + order.amount + '</div></td>'
       + '<td>' + order.paymentMethod + '</td>'
       + '<td class="tgr ts">' + order.orderTime + '</td>'
+      + '<td class="tgr txs">' + (order.validFrom && order.validTo ? order.validFrom + ' – ' + order.validTo : '—') + '</td>'
       + '<td><span class="bd2 ' + order.statusClass + '">' + order.statusText + '</span></td>'
       + '<td><span class="bd2 ' + order.invoiceStatusClass + '">' + order.invoiceStatusText + '</span></td>'
       + '<td><button class="btn ' + actionClass + ' bxs" onclick="handleInvoiceAction(\'' + order.id + '\')"' + disabledAttr + '>' + actionLabel + '</button></td>'
         + '</tr>';
-      }).join('') || '<tr><td colspan="8" class="tgr" style="padding:28px 16px;text-align:center">当前筛选下暂无订单</td></tr>';
+      }).join('') || '<tr><td colspan="9" class="tgr" style="padding:28px 16px;text-align:center">当前筛选下暂无订单</td></tr>';
   renderInvoiceSummary();
   syncBatchInvoiceButton();
 }
@@ -3457,11 +3460,26 @@ function prependOrderRecord(){
   const paymentMethod = (document.querySelector('.pm.on') || {textContent:'微信支付'}).textContent.replace(/[💬🔵💳]/g,'').trim();
   appState.orderSeq += 1;
   const orderId='MT20260705' + String(appState.orderSeq).padStart(4,'0');
+  // 计算订阅有效期
+  var validFrom='', validTo='';
+  var isSubPlan = appState.selectedPlan.type === 'subscription';
+  if(isSubPlan){
+    var daysMap={'月卡':30,'季卡':90,'年卡':365};
+    var days = daysMap[appState.selectedPlan.name] || 30;
+    // 如果当前已有订阅，从现有到期日顺延；否则从今天开始
+    var baseDate = userPlan.expireDate || '2026-07-07';
+    var base = new Date(baseDate);
+    validFrom = baseDate;
+    var end = new Date(base); end.setDate(base.getDate() + days);
+    validTo = end.toISOString().slice(0,10);
+  }
   appState.orders.unshift({
     id: orderId,
-    planLabel: appState.selectedPlan.name + ' · ' + appState.selectedPlan.tokensLabel,
+    planLabel: appState.selectedPlan.name,
     paymentMethod: paymentMethod,
-    orderTime: '2026-07-05 14:20',
+    orderTime: '2026-07-07 ' + new Date().toTimeString().slice(0,5),
+    validFrom: validFrom,
+    validTo: validTo,
     statusText: '已完成',
     statusClass: 'bg',
     amount: appState.selectedPlan.price,
@@ -3473,6 +3491,19 @@ function prependOrderRecord(){
     invoiceEmail: '',
     invoiceTaxNo: ''
   });
+  // 支付成功弹窗：展示有效期 + 续订提示
+  var validityRow = document.getElementById('purchaseResultValidityRow');
+  var validityEl  = document.getElementById('purchaseResultValidity');
+  var renewNote   = document.getElementById('purchaseResultRenewNote');
+  if(isSubPlan && validFrom && validTo){
+    if(validityRow) validityRow.style.display='';
+    if(validityEl)  validityEl.textContent = validFrom + ' – ' + validTo;
+    // 如果是续订（原已有到期日）显示顺延提示
+    if(renewNote) renewNote.style.display = userPlan.expireDate ? '' : 'none';
+  } else {
+    if(validityRow) validityRow.style.display='none';
+    if(renewNote)   renewNote.style.display='none';
+  }
   renderOrderTable();
 }
 
