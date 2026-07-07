@@ -390,6 +390,7 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div class="ni" onclick="go('p03',this,'模型 / 路由管理')"><span class="ic"><i data-lucide="git-fork"></i></span>模型路由</div>
       <div class="ni" onclick="go('p04',this,'Tokens 中心')"><span class="ic"><i data-lucide="wallet"></i></span>Tokens 中心</div>
       <div class="ni" onclick="go('p05',this,'购买 Tokens')"><span class="ic"><i data-lucide="credit-card"></i></span>购买</div>
+      <div class="ni" onclick="needLogin((function(el){return function(){go('p05',el,'订单记录');setTimeout(()=>switchBuyTab('orders'),100)}})(this))"><span class="ic"><i data-lucide="receipt-text"></i></span>订单记录</div>
     </nav>
     <div class="sb-bot">
       <div class="ni" onclick="go('p07',this,'设置')"><span class="ic"><i data-lucide="settings"></i></span>设置</div>
