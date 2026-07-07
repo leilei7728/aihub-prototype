@@ -895,72 +895,37 @@ input:checked+.sl:before{transform:translateX(16px)}
 <div id="p05" class="pg">
   <div class="fxb mb16">
     <div style="display:flex;background:#f4f4f5;border-radius:10px;padding:3px;gap:2px">
-      <button id="buyTab1" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:var(--a);color:#fff;box-shadow:0 2px 8px rgba(15,118,110,.25);border:none" onclick="switchBuyTab('buy')">购买 Tokens</button>
-      <button id="buyTab2" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchBuyTab('orders')">订单记录</button>
+      <button id="buyTab1" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:var(--a);color:#fff;box-shadow:0 2px 8px rgba(15,118,110,.25);border:none" onclick="switchBuyTab('subscription')">订阅制</button>
+      <button id="buyTab2" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchBuyTab('topup')">按量充值</button>
+      <button id="buyTab3" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchBuyTab('orders')">订单记录</button>
     </div>
     <div class="ts tgr" id="buyPageBalanceBar">当前剩余 Tokens：<span class="tac tb2" id="buyPageTokensValue">256,000</span><span class="ih">?<span class="ih-b">展示当前平台剩余的 Tokens，方便判断本次需要购买多少。</span></span></div>
   </div>
-  <!-- Tab1: 购买 -->
-  <div id="buyPanelBuy">
+  <!-- Tab1: 订阅制 -->
+  <div id="buyPanelSubscription">
 
   <div class="g g3 mb16">
-    <div class="plc" onclick="selPl(this)" data-plan-name="新手包" data-plan-tokens="50 万 Tokens" data-plan-price="19" data-plan-original="25" data-plan-discount="6">
-      <div class="pl-nm">新手包</div>
-      <div class="pl-tk">500,000 <span>Tokens</span></div>
-      <div class="pl-pr">¥19 <span class="orig">¥25</span></div>
+    <div class="plc on" onclick="selPl(this)" data-plan-name="月卡" data-plan-type="subscription" data-plan-price="99" data-plan-daily="16700">
+      <div class="pl-nm">月卡</div>
+      <div class="pl-tk">每日 <span>16,700</span></div>
+      <div class="pl-pr">¥99 <span>/月</span></div>
       <ul class="pl-ft mt8">
-        <li>有效期 6 个月</li>
-        <li>适合轻度用户</li>
+        <li>每天自动刷新</li>
+        <li>当日用不完则清零</li>
+        <li>全部 27 款模型可用</li>
       </ul>
-      <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--bd)">
-        <div style="font-size:11px;color:var(--t3);margin-bottom:6px;font-weight:600">支持模型</div>
-        <div style="display:flex;flex-wrap:wrap;gap:4px">
-          <span class="bd2 bgr">Claude Haiku 3.5</span>
-          <span class="bd2 bgr">GPT-4o mini</span>
-          <span class="bd2 bgr">DeepSeek V3</span>
-          <span class="bd2 bgr">Gemini 2.5 Flash</span>
-          <span class="bd2 bgr">Qwen Plus</span>
-          <span class="bd2 bgr">GLM-4 Plus</span>
-          <span class="bd2 bgr">Doubao Pro</span>
-        </div>
-        <div style="font-size:11px;color:var(--t3);margin-top:6px">仅限经济型模型，不含高成本模型</div>
-      </div>
     </div>
 
-    <div class="plc on" onclick="selPl(this)" data-plan-name="标准包" data-plan-tokens="200 万 Tokens" data-plan-price="59" data-plan-original="80" data-plan-discount="21">
-      <div class="pl-tag">🔥 最受欢迎</div>
-      <div class="pl-nm">标准包</div>
-      <div class="pl-tk">2,000,000 <span>Tokens</span></div>
-      <div class="pl-pr">¥59 <span class="orig">¥80</span></div>
+    <div class="plc" onclick="selPl(this)" data-plan-name="年卡" data-plan-type="subscription" data-plan-price="999" data-plan-daily="16400">
+      <div class="pl-tag">🔥 划算</div>
+      <div class="pl-nm">年卡</div>
+      <div class="pl-tk">每日 <span>16,400</span></div>
+      <div class="pl-pr">¥999 <span>/年</span></div>
       <ul class="pl-ft mt8">
-        <li>有效期 12 个月</li>
-        <li>适合日常工作</li>
+        <li>365 天持续刷新</li>
+        <li>每月约 ¥83</li>
+        <li>全部 27 款模型可用</li>
       </ul>
-      <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--bd)">
-        <div style="font-size:11px;color:var(--t3);margin-bottom:6px;font-weight:600">支持模型</div>
-        <div style="display:flex;flex-wrap:wrap;gap:4px">
-          <span class="bd2 bpu">全部内置模型</span>
-        </div>
-        <div style="font-size:11px;color:var(--t3);margin-top:6px">包含 Claude、GPT-4o、Gemini、DeepSeek 等 27 款模型</div>
-      </div>
-    </div>
-
-    <div class="plc" onclick="selPl(this)" data-plan-name="高级包" data-plan-tokens="600 万 Tokens" data-plan-price="149" data-plan-original="200" data-plan-discount="51">
-      <div class="pl-nm">高级包</div>
-      <div class="pl-tk">6,000,000 <span>Tokens</span></div>
-      <div class="pl-pr">¥149 <span class="orig">¥200</span></div>
-      <ul class="pl-ft mt8">
-        <li>有效期 24 个月</li>
-        <li>高频用户推荐</li>
-      </ul>
-      <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--bd)">
-        <div style="font-size:11px;color:var(--t3);margin-bottom:6px;font-weight:600">支持模型</div>
-        <div style="display:flex;flex-wrap:wrap;gap:4px">
-          <span class="bd2 bpu">全部内置模型</span>
-          <span class="bd2 bg">新增模型</span>
-        </div>
-        <div style="font-size:11px;color:var(--t3);margin-top:6px">含全部 27 款内置模型 + 自定义接入模型，优先响应队列</div>
-      </div>
     </div>
   </div>
 
@@ -972,17 +937,70 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div class="pm" onclick="selPm(this)">💳 银行卡</div>
     </div>
     <div class="sep"></div>
-    <div class="fxb mb8"><div class="tgr">已选套餐</div><div class="tb2" id="selectedPlanSummary">标准包 · 200 万 Tokens</div></div>
-    <div class="fxb mb8"><div class="tgr">优惠</div><div id="selectedPlanDiscount" style="color:var(--ok);font-weight:700">-¥21</div></div>
+    <div class="fxb mb8"><div class="tgr">已选套餐</div><div class="tb2" id="selectedSubSummary">月卡 · 每日 16,700 Tokens</div></div>
     <div class="fxb" style="font-size:16px;font-weight:800;margin-bottom:20px">
-      <div>合计</div><div class="tac" id="selectedPlanTotal">¥59</div>
+      <div>合计</div><div class="tac" id="selectedSubTotal">¥99/月</div>
     </div>
-    <button class="btn bp bfw" id="selectedPlanPayBtn" style="padding:14px;font-size:15px" onclick="handlePurchase(this)">确认支付 ¥59</button>
-    <div class="txs tlt" style="text-align:center;margin-top:10px">支付即代表同意 <span class="tac">充值服务协议</span> · 到账时间 &lt; 1 分钟 · 支持 7 天无理由退款</div>
+    <button class="btn bp bfw" id="selectedSubPayBtn" style="padding:14px;font-size:15px" onclick="handlePurchase(this)">确认支付 ¥99</button>
+    <div class="txs tlt" style="text-align:center;margin-top:10px">订阅即代表同意 <span class="tac">订阅服务协议</span> · 随时可取消 · 支持 7 天无理由退款</div>
   </div>
-  </div><!-- /buyPanelBuy -->
+  </div><!-- /buyPanelSubscription -->
 
-  <!-- Tab2: 订单记录 -->
+  <!-- Tab2: 按量充值 -->
+  <div id="buyPanelTopup" style="display:none">
+
+  <div class="g g3 mb16">
+    <div class="plc" onclick="selPl(this)" data-plan-name="充值 100 万" data-plan-type="topup" data-plan-tokens="1000000" data-plan-price="50">
+      <div class="pl-nm">¥50</div>
+      <div class="pl-tk">100 <span>万 Tokens</span></div>
+      <ul class="pl-ft mt8">
+        <li>永久有效</li>
+        <li>立即到账</li>
+        <li>全部模型可用</li>
+      </ul>
+    </div>
+
+    <div class="plc on" onclick="selPl(this)" data-plan-name="充值 200 万" data-plan-type="topup" data-plan-tokens="2000000" data-plan-price="100">
+      <div class="pl-tag">🔥 推荐</div>
+      <div class="pl-nm">¥100</div>
+      <div class="pl-tk">200 <span>万 Tokens</span></div>
+      <ul class="pl-ft mt8">
+        <li>永久有效</li>
+        <li>立即到账</li>
+        <li>全部模型可用</li>
+      </ul>
+    </div>
+
+    <div class="plc" onclick="selPl(this)" data-plan-name="充值 1200 万" data-plan-type="topup" data-plan-tokens="12000000" data-plan-price="500" data-plan-original="600" data-plan-discount="100">
+      <div class="pl-nm">¥500</div>
+      <div class="pl-tk">1,200 <span>万 Tokens</span></div>
+      <div class="pl-pr"><span class="orig">原 ¥600</span></div>
+      <ul class="pl-ft mt8">
+        <li>永久有效</li>
+        <li>立即到账</li>
+        <li>全部模型可用</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="tb2 mb16">选择支付方式</div>
+    <div class="pmw">
+      <div class="pm on" onclick="selPm(this)">💬 微信支付</div>
+      <div class="pm" onclick="selPm(this)">🔵 支付宝</div>
+      <div class="pm" onclick="selPm(this)">💳 银行卡</div>
+    </div>
+    <div class="sep"></div>
+    <div class="fxb mb8"><div class="tgr">已选套餐</div><div class="tb2" id="selectedTopupSummary">充值 200 万 Tokens</div></div>
+    <div class="fxb" style="font-size:16px;font-weight:800;margin-bottom:20px">
+      <div>合计</div><div class="tac" id="selectedTopupTotal">¥100</div>
+    </div>
+    <button class="btn bp bfw" id="selectedTopupPayBtn" style="padding:14px;font-size:15px" onclick="handlePurchase(this)">确认支付 ¥100</button>
+    <div class="txs tlt" style="text-align:center;margin-top:10px">充值即代表同意 <span class="tac">充值服务协议</span> · 到账时间 &lt; 1 分钟 · 支持 7 天无理由退款</div>
+  </div>
+  </div><!-- /buyPanelTopup -->
+
+  <!-- Tab3: 订单记录 -->
   <div id="buyPanelOrders" style="display:none">
     <div class="fxb mb16">
       <div></div>
@@ -2053,15 +2071,30 @@ function renderRouteModes(){
 }
 
 function switchBuyTab(tab){
-  var isBuy = tab === 'buy';
-  var p1=document.getElementById('buyPanelBuy'), p2=document.getElementById('buyPanelOrders');
-  var t1=document.getElementById('buyTab1'), t2=document.getElementById('buyTab2');
-  var bar=document.getElementById('buyPageBalanceBar');
-  if(p1) p1.style.display = isBuy ? '' : 'none';
-  if(p2) p2.style.display = isBuy ? 'none' : '';
-  if(bar) bar.style.display = isBuy ? '' : 'none';
-  if(t1){ t1.style.background=isBuy?'var(--a)':'transparent'; t1.style.color=isBuy?'#fff':'var(--t2)'; t1.style.boxShadow=isBuy?'0 2px 8px rgba(15,118,110,.25)':'none'; }
-  if(t2){ t2.style.background=!isBuy?'var(--a)':'transparent'; t2.style.color=!isBuy?'#fff':'var(--t2)'; t2.style.boxShadow=!isBuy?'0 2px 8px rgba(15,118,110,.25)':'none'; }
+  var pSub=document.getElementById('buyPanelSubscription'), pTopup=document.getElementById('buyPanelTopup'), pOrders=document.getElementById('buyPanelOrders');
+  var t1=document.getElementById('buyTab1'), t2=document.getElementById('buyTab2'), t3=document.getElementById('buyTab3');
+  
+  // 隐藏所有面板
+  if(pSub) pSub.style.display = 'none';
+  if(pTopup) pTopup.style.display = 'none';
+  if(pOrders) pOrders.style.display = 'none';
+  
+  // 重置所有 Tab 样式
+  [t1,t2,t3].forEach(function(t){
+    if(t){ t.style.background='transparent'; t.style.color='var(--t2)'; t.style.boxShadow='none'; }
+  });
+  
+  // 显示对应面板，激活对应 Tab
+  if(tab === 'subscription'){
+    if(pSub) pSub.style.display = '';
+    if(t1){ t1.style.background='var(--a)'; t1.style.color='#fff'; t1.style.boxShadow='0 2px 8px rgba(15,118,110,.25)'; }
+  } else if(tab === 'topup'){
+    if(pTopup) pTopup.style.display = '';
+    if(t2){ t2.style.background='var(--a)'; t2.style.color='#fff'; t2.style.boxShadow='0 2px 8px rgba(15,118,110,.25)'; }
+  } else if(tab === 'orders'){
+    if(pOrders) pOrders.style.display = '';
+    if(t3){ t3.style.background='var(--a)'; t3.style.color='#fff'; t3.style.boxShadow='0 2px 8px rgba(15,118,110,.25)'; }
+  }
 }
 
 function goOrders(navEl){
