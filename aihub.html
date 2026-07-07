@@ -1372,7 +1372,6 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
       <div style="margin-top:10px;font-size:12px;color:var(--t3)">✔ 余额永久有效 · 即时到账 · 按模型单价按量扣除</div>
     </div>
-    <button class="btn bp bfw" id="m05PrimaryBtn" onclick="cm('m05')">开始使用</button>
     <button class="btn bo bfw mt8" onclick="cm('m05')">我知道了</button>
   </div>
 </div>
@@ -3576,13 +3575,11 @@ function handlePurchase(buttonEl){
   var topupContent = document.getElementById('m05TopupContent');
   var m05Title = document.getElementById('m05Title');
   var m05Desc = document.getElementById('m05Desc');
-  var m05PrimaryBtn = document.getElementById('m05PrimaryBtn');
   if(isSubPlan2){
     if(subContent) subContent.style.display = '';
     if(topupContent) topupContent.style.display = 'none';
     if(m05Title) m05Title.textContent = '订阅成功';
     if(m05Desc) m05Desc.textContent = '套餐已生效，今日额度已自动发放。';
-    if(m05PrimaryBtn){ m05PrimaryBtn.textContent = '开始使用'; m05PrimaryBtn.onclick = function(){ cm('m05'); }; }
     var m05SubPlan = document.getElementById('m05SubPlan');
     var m05SubDaily = document.getElementById('m05SubDaily');
     var m05SubValidity = document.getElementById('m05SubValidity');
