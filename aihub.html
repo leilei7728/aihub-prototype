@@ -388,7 +388,6 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div class="ni on" onclick="go('p01',this,'总控台')"><span class="ic"><i data-lucide="layout-dashboard"></i></span>总控台</div>
       <div class="ni" onclick="go('p02',this,'AI 软件管理')"><span class="ic"><i data-lucide="package"></i></span>AI 软件</div>
       <div class="ni" onclick="go('p03',this,'模型 / 路由管理')"><span class="ic"><i data-lucide="git-fork"></i></span>模型路由</div>
-      <div class="ni" onclick="go('p04',this,'Tokens 中心')"><span class="ic"><i data-lucide="wallet"></i></span>Tokens 中心</div>
       <div class="ni" onclick="(function(el){needLogin(function(){go('p05',el,'购买');setTimeout(function(){switchBuyTab('subscription')},50)})})(this)"><span class="ic"><i data-lucide="credit-card"></i></span>购买</div>
       <div class="ni" onclick="(function(el){needLogin(function(){go('p05',el,'订单记录');setTimeout(function(){switchBuyTab('orders')},50)})})(this)"><span class="ic"><i data-lucide="receipt-text"></i></span>订单记录</div>
     </nav>
@@ -421,11 +420,11 @@ input:checked+.sl:before{transform:translateX(16px)}
     <div class="topbar">
       <div class="tb-title" id="tbt">总控台</div>
       <div class="tb-r" style="gap:8px">
-        <div class="chip chip-v" onclick="needLogin(()=>go('p04',nv(3),'Tokens 中心'))" style="cursor:pointer">
+        <div class="chip chip-v" style="cursor:default">
           <span class="cl" style="color:#7c3aed">订阅 Tokens<span class="ih">?<span class="ih-b">订阅套餐每日发放的 Tokens 总余量，用完当天清零。</span></span></span>
           <span class="cv" id="balTokens" style="color:#7c3aed">登录查看</span>
         </div>
-        <div class="chip chip-v" onclick="needLogin(()=>go('p04',nv(3),'Tokens 中心'))" style="cursor:pointer">
+        <div class="chip chip-v" style="cursor:default">
           <span class="cl" style="color:#0f766e">充値余额<span class="ih">?<span class="ih-b">按量充値的人民币余额，按各模型 API 单价扫减。</span></span></span>
           <span class="cv" id="balCash" style="color:#0f766e">登录查看</span>
         </div>
@@ -494,9 +493,6 @@ input:checked+.sl:before{transform:translateX(16px)}
     </div>
     <div class="qb" onclick="go('p03',nv(2),'模型 / 路由管理')">
       <div class="qi"><i data-lucide="git-fork" style="width:22px;height:22px"></i></div><div class="qn">切换模型</div>
-    </div>
-    <div class="qb" onclick="needLogin(()=>go('p04',nv(3),'Tokens 中心'))">
-      <div class="qi"><i data-lucide="bar-chart-2" style="width:22px;height:22px"></i></div><div class="qn">查看消耗</div>
     </div>
     <div class="qb" onclick="needLogin(()=>go('p05',nv(4),'购买 Tokens'))">
       <div class="qi"><i data-lucide="credit-card" style="width:22px;height:22px"></i></div><div class="qn">充值 Tokens</div>
@@ -592,133 +588,6 @@ input:checked+.sl:before{transform:translateX(16px)}
     </div>
   </div><!-- /statsLoggedIn -->
 </div><!-- /p01 -->
-
-<!-- ─────── P04 Tokens 中心 ─────── -->
-<div id="p04" class="pg">
-  <div class="mb16">
-    <div style="font-size:15px;font-weight:700">Tokens 中心</div>
-  </div>
-
-  <div class="g g2 mb16" style="grid-template-columns:1fr 1fr">
-    <!-- 订阅 Tokens 卡 -->
-    <div class="sc" style="background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:none;padding:24px 28px">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap">
-        <div style="font-size:13px;color:rgba(255,255,255,.8);font-weight:600">订阅 Tokens</div>
-        <span class="ih" style="color:rgba(255,255,255,.6)">?<span class="ih-b">订阅套餐每日发放的可用 Tokens，次日 0:00 清零重放。</span></span>
-        <div id="p04MemberBadge" style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:2px 10px;font-size:11px;margin-left:4px">
-          <span style="width:6px;height:6px;border-radius:50%;background:#4ade80;flex-shrink:0"></span>
-          <span id="p04MemberLabel">月卡 · 2026-08-07 到期</span>
-        </div>
-      </div>
-      <div style="font-size:36px;font-weight:800;line-height:1;margin-bottom:8px" id="tokensCenterBalanceValue">13,426</div>
-      <div id="p04SubSection">
-        <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px">
-          <span>今日已用 <strong id="p04UsedTokens" style="color:#fff">3,241</strong> / <span id="p04TotalTokens">16,667</span></span>
-          <span id="p04UsedPct" style="color:#fff;font-weight:700">19%</span>
-        </div>
-        <div style="height:4px;border-radius:2px;background:rgba(255,255,255,.2);overflow:hidden;margin-bottom:10px">
-          <div id="p04ProgressBar" style="height:100%;border-radius:2px;background:#4ade80;width:19%;transition:width .4s"></div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;justify-content:space-between">
-        <div style="font-size:11px;color:rgba(255,255,255,.6)" id="tokensCenterBalanceHint">最近到期 18 天后（2026-07-23）</div>
-        <button onclick="needLogin((function(el){return function(){go('p05',el,'购买');setTimeout(function(){switchBuyTab('subscription')},50)}})(document.querySelectorAll('.ni')[4]))" style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);border-radius:16px;color:#fff;font-size:11px;padding:4px 14px;cursor:pointer">续订会员</button>
-      </div>
-    </div>
-    <!-- 充值余额卡 -->
-    <div class="sc" style="background:linear-gradient(135deg,#0f766e,#1f9d8f);color:#fff;border:none;padding:24px 28px">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
-        <div style="font-size:13px;color:rgba(255,255,255,.8);font-weight:600">充值余额</div>
-        <span class="ih" style="color:rgba(255,255,255,.6)">?<span class="ih-b">按量充值的人民币余额，订阅 Tokens 用完后自动按模型单价扣减。</span></span>
-      </div>
-      <div style="font-size:36px;font-weight:800;line-height:1;margin-bottom:8px" id="cashCenterBalanceValue">¥48.50</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.6);margin-bottom:16px">无到期，用完为止</div>
-      <div style="display:flex;align-items:center;justify-content:space-between">
-        <div style="font-size:11px;color:rgba(255,255,255,.55)">今日 Tokens 耗尽后按模型单价扣除</div>
-        <button onclick="needLogin((function(el){return function(){go('p05',el,'购买');setTimeout(function(){switchBuyTab('topup')},50)}})(document.querySelectorAll('.ni')[4]))" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);border-radius:16px;color:#fff;font-size:11px;padding:4px 14px;cursor:pointer" id="p04ChargeBtn">按量充值</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="g g2 mb16">
-    <div class="sc">
-      <div class="lb">今日消耗<span class="ih">?<span class="ih-b">今天通过本站路由产生的 Tokens 消耗。</span></span></div>
-      <div class="vl" id="tokensTodayUsageValue">3,241</div>
-      <div class="sb2">调用量稳定</div>
-    </div>
-    <div class="sc">
-      <div class="lb">近30天累计消耗<span class="ih">?<span class="ih-b">近30天通过本站路由产生的 Tokens 累计消耗。</span></span></div>
-      <div class="vl" id="tokensMonthUsageValue">128,540</div>
-      <div class="sb2">近30天调用活跃</div>
-    </div>
-  </div>
-
-  <!-- 当前订阅状态（会员显示） -->
-  <div class="card mb16" id="p04SubscriptionCard">
-    <div class="fxb mb16">
-      <div class="tb2">当前订阅<span class="ih">?<span class="ih-b">每日 0:00 自动发放固定额度，当日未用完于次日 0:00 清零；额度用完后自动切换充值余额按量计费。</span></span></div>
-      <button onclick="needLogin((function(el){return function(){go('p05',el,'购买');setTimeout(function(){switchBuyTab('subscription')},50)}})(document.querySelectorAll('.ni')[4]))" class="btn bo bsm">续订会员</button>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px">
-      <div>
-        <div style="font-size:11px;color:var(--t3);margin-bottom:4px">套餐</div>
-        <div style="font-size:15px;font-weight:700;color:var(--t)" id="p04InfoPlan">月卡</div>
-      </div>
-      <div>
-        <div style="font-size:11px;color:var(--t3);margin-bottom:4px">每日额度</div>
-        <div style="font-size:15px;font-weight:700;color:var(--t)" id="p04InfoDaily">16,667 T</div>
-      </div>
-      <div>
-        <div style="font-size:11px;color:var(--t3);margin-bottom:4px">有效期</div>
-        <div style="font-size:13px;font-weight:600;color:var(--t)" id="p04InfoValidity">—</div>
-      </div>
-      <div>
-        <div style="font-size:11px;color:var(--t3);margin-bottom:4px">到期后</div>
-        <div style="font-size:12px;color:var(--t2)">自动切换充值余额<br>按量计费</div>
-      </div>
-    </div>
-    <div style="background:var(--all);border-radius:10px;padding:14px 16px">
-      <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--t2);margin-bottom:6px">
-        <span>今日已用 <strong id="p04InfoUsed" style="color:var(--t)">3,241</strong> / <span id="p04InfoTotal">16,667</span> T</span>
-        <span id="p04InfoPct" style="font-weight:700;color:var(--t)">19%</span>
-      </div>
-      <div style="height:8px;border-radius:4px;background:rgba(0,0,0,.08);overflow:hidden;margin-bottom:8px">
-        <div id="p04InfoBar" style="height:100%;border-radius:4px;background:#10b981;width:19%;transition:width .5s"></div>
-      </div>
-      <div style="font-size:12px;color:var(--t3)">今日剩余 <strong style="color:#0f766e" id="p04InfoRemainVal">13,426</strong> T · 耗尽后自动从充值余额按模型单价扣除</div>
-    </div>
-  </div>
-
-  <!-- 非会员引导（无订阅时显示） -->
-  <div class="card mb16" id="p04NoSubCard" style="display:none;text-align:center;padding:32px 24px">
-    <div style="font-size:28px;margin-bottom:10px">📦</div>
-    <div style="font-size:15px;font-weight:700;margin-bottom:6px">当前没有订阅套餐</div>
-    <div style="font-size:13px;color:var(--t3);margin-bottom:20px">订阅后每日自动获得 <strong>16,667 Tokens</strong>，低至 <strong>¥3.3/天</strong></div>
-    <button class="btn bp" onclick="needLogin((function(el){return function(){go('p05',el,'购买');setTimeout(function(){switchBuyTab('subscription')},50)}})(document.querySelectorAll('.ni')[4]))" style="padding:10px 32px;font-size:14px">立即订阅</button>
-  </div>
-
-  <div class="card">
-    <div class="fxb mb16">
-      <div class="tb2">消耗记录<span class="ih">?<span class="ih-b">本站内实际扣减的 Tokens 消耗记录。</span></span></div>
-      <div class="fxc g6">
-        <div class="ft on" onclick="ftClick(this)">全部</div>
-        <div class="ft" onclick="ftClick(this)">今日</div>
-        <div class="ft" onclick="ftClick(this)">本周</div>
-      </div>
-    </div>
-    <table class="tb">
-      <thead><tr><th>时间</th><th>工具 / 模型</th><th>Tokens</th></tr></thead>
-      <tbody id="tokenUsageTableBody2">
-        <tr><td class="tgr ts">今天 14:32</td><td>Claude · Sonnet</td><td>1,248</td></tr>
-        <tr><td class="tgr ts">今天 13:10</td><td>Codex · Haiku</td><td>876</td></tr>
-        <tr><td class="tgr ts">今天 11:47</td><td>Claude · DeepSeek V3</td><td>654</td></tr>
-        <tr><td class="tgr ts">今天 10:22</td><td>OpenCode · Sonnet</td><td>463</td></tr>
-        <tr><td class="tgr ts">昨天 18:05</td><td>Claude · Haiku</td><td>2,310</td></tr>
-        <tr><td class="tgr ts">昨天 15:33</td><td>Codex · DeepSeek V3</td><td>1,890</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div><!-- /p04 -->
 
 <div id="p05" class="pg">
   <div id="buyTabBar" style="display:flex;align-items:center;margin-bottom:16px">
@@ -1680,7 +1549,7 @@ var _pendingFn = null;
 
 function go(pid,navEl,title){
   // 需要登录的页面拦截
-  var loginRequired = ['p02','p03','p04','p05','p06','p07'];
+  var loginRequired = ['p02','p03','p05','p06','p07'];
   if(loginRequired.indexOf(pid)>=0 && !loggedIn){
     om('m08');
     _pendingFn = function(){ go(pid,navEl,title); };
