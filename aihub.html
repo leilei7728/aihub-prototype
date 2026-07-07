@@ -1332,7 +1332,10 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
       <div style="margin-top:10px;font-size:12px;color:var(--t3)">✔ 余额永久有效 · 即时到账 · 按模型单价按量扣除</div>
     </div>
-    <button class="btn bo bfw mt8" onclick="cm('m05')">我知道了</button>
+    <div id="m05Btns" style="display:flex;flex-direction:column;gap:8px">
+      <button class="btn bp bfw" id="m05SubGoBtn" style="display:none" onclick="cm('m05');go('p01',nv(0),'总控台')">查看今日额度</button>
+      <button class="btn bo bfw mt8" onclick="cm('m05')">我知道了</button>
+    </div>
   </div>
 </div>
 
@@ -3956,6 +3959,8 @@ function handlePurchase(buttonEl){
   if(isSubPlan2){
     if(subContent) subContent.style.display = '';
     if(topupContent) topupContent.style.display = 'none';
+    var m05SubGoBtn = document.getElementById('m05SubGoBtn');
+    if(m05SubGoBtn) m05SubGoBtn.style.display = '';
     if(m05Title) m05Title.textContent = '订阅成功';
     if(m05Desc) m05Desc.textContent = '套餐已生效，今日额度已自动发放。';
     var m05SubPlan = document.getElementById('m05SubPlan');
@@ -3971,9 +3976,10 @@ function handlePurchase(buttonEl){
   } else {
     if(subContent) subContent.style.display = 'none';
     if(topupContent) topupContent.style.display = '';
+    var m05SubGoBtn2 = document.getElementById('m05SubGoBtn');
+    if(m05SubGoBtn2) m05SubGoBtn2.style.display = 'none';
     if(m05Title) m05Title.textContent = '充值成功';
     if(m05Desc) m05Desc.textContent = '余额已到账，可随时按量使用。';
-    if(m05PrimaryBtn){ m05PrimaryBtn.textContent = '查看余额'; m05PrimaryBtn.onclick = function(){ cm('m05'); go('p01', nv(0), '总控台'); }; }
     var m05TopupAmount = document.getElementById('m05TopupAmount');
     var m05TopupBalance = document.getElementById('m05TopupBalance');
     if(m05TopupAmount) m05TopupAmount.textContent = '¥' + appState.selectedPlan.price + (appState.selectedPlan.credit > appState.selectedPlan.price ? '（到账 ¥' + appState.selectedPlan.credit + '）' : '');
