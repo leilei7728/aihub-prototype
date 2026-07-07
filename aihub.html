@@ -2671,10 +2671,16 @@ function switchBuyTab(tab){
     if(pSub) pSub.style.display = '';
     if(t1){ t1.style.background='var(--a)'; t1.style.color='#fff'; t1.style.boxShadow='0 2px 8px rgba(15,118,110,.25)'; }
     if(tabBar) tabBar.style.display = 'flex';
+    // 自动选中当前激活的订阅卡片，同步 appState.selectedPlan
+    var activeSubPl = (pSub || document).querySelector('.plc.on[data-plan-type="subscription"]') || (pSub || document).querySelector('.plc[data-plan-type="subscription"]');
+    if(activeSubPl) updatePlanSummary(activeSubPl);
   } else if(tab === 'topup'){
     if(pTopup) pTopup.style.display = '';
     if(t2){ t2.style.background='var(--a)'; t2.style.color='#fff'; t2.style.boxShadow='0 2px 8px rgba(15,118,110,.25)'; }
     if(tabBar) tabBar.style.display = 'flex';
+    // 自动选中当前激活的充值卡片，同步 appState.selectedPlan
+    var activePl = (pTopup || document).querySelector('.plc.on[data-plan-type="topup"]') || (pTopup || document).querySelector('.plc[data-plan-type="topup"]');
+    if(activePl) updatePlanSummary(activePl);
   } else if(tab === 'orders'){
     if(pOrders) pOrders.style.display = '';
     if(tabBar) tabBar.style.display = 'none';
