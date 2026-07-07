@@ -1128,20 +1128,23 @@ input:checked+.sl:before{transform:translateX(16px)}
 
   <!-- Tab3: 订单记录 -->
   <div id="buyPanelOrders" style="display:none">
-    <div class="fxb mb16">
-      <div></div>
-      <div class="fxc g6" style="flex-wrap:wrap;justify-content:flex-end">
-        <button class="btn bo bsm" id="batchInvoiceBtn" onclick="openBatchInvoiceModal()" disabled>批量申请发票</button>
-        <div class="ft on" onclick="ftClick(this)">全部</div>
-        <div class="ft" onclick="ftClick(this)">待支付</div>
-        <div class="ft" onclick="ftClick(this)">已完成</div>
-        <div class="ft" onclick="ftClick(this)">已退款</div>
+    <div class="fxb mb16" style="align-items:center;flex-wrap:wrap;gap:10px">
+      <!-- 订单类型 Tab -->
+      <div class="fxc g6">
+        <div class="ft on" onclick="orderTypeClick(this)" data-type="全部">全部</div>
+        <div class="ft" onclick="orderTypeClick(this)" data-type="订阅订单">订阅订单</div>
+        <div class="ft" onclick="orderTypeClick(this)" data-type="充値订单">充値订单</div>
       </div>
-    </div>
-    <div class="g g3 mb16">
-      <div class="sc"><div class="lb">可申请发票</div><div class="vl" id="invoiceReadyCount">0</div><div class="sb2">笔</div></div>
-      <div class="sc"><div class="lb">开票中</div><div class="vl" id="invoiceProcessingCount">0</div><div class="sb2">笔</div></div>
-      <div class="sc"><div class="lb">已开票</div><div class="vl" id="invoiceIssuedCount">0</div><div class="sb2">笔</div></div>
+      <!-- 订单状态下拉 + 批量开票 -->
+      <div class="fxc g6" style="margin-left:auto">
+        <select id="orderStatusFilter" onchange="orderStatusChange(this)" style="padding:5px 10px;border-radius:6px;border:1px solid var(--bd);font-size:13px;color:var(--t);background:var(--wh);cursor:pointer">
+          <option value="全部">订单状态：全部</option>
+          <option value="待支付">待支付</option>
+          <option value="支付成功">支付成功</option>
+          <option value="已退款">已退款</option>
+        </select>
+        <button class="btn bo bsm" id="batchInvoiceBtn" onclick="openBatchInvoiceModal()" disabled>批量申请发票</button>
+      </div>
     </div>
     <div class="card">
       <table class="tb">
@@ -1798,12 +1801,13 @@ var appState = {
     { name: '高级包', remainingTokens: 50000, purchaseDate: '2026-05-12', expiryLabel: '11 个月后到期（2027-06-15）', expiryDate: '2027-06-15', statusText: '生效中', statusClass: 'bg', balanceValue: 25.5 }
   ],
   orders: [
-    { id:'MT2026070300123', planLabel:'月卡', paymentMethod:'微信支付', orderTime:'2026-07-03 10:25', validFrom:'2026-07-03', validTo:'2026-08-03', statusText:'已完成', statusClass:'bg', amount:99, invoiceStatus:'ready', invoiceStatusText:'可申请', invoiceStatusClass:'bpu', invoiceType:'', invoiceTitle:'', invoiceEmail:'', invoiceTaxNo:'' },
-    { id:'MT2026062800088', planLabel:'季卡', paymentMethod:'支付宝', orderTime:'2026-06-28 15:40', validFrom:'2026-04-01', validTo:'2026-07-03', statusText:'已完成', statusClass:'bg', amount:299, invoiceStatus:'processing', invoiceStatusText:'开票中', invoiceStatusClass:'by', invoiceType:'电子普通发票', invoiceTitle:'杭州云图科技有限公司', invoiceEmail:'finance@aitest.com', invoiceTaxNo:'91330100MA8XXXXX9K' },
-    { id:'MT2026062000055', planLabel:'月卡', paymentMethod:'微信支付', orderTime:'2026-06-20 09:12', validFrom:'2026-03-01', validTo:'2026-04-01', statusText:'已完成', statusClass:'bg', amount:99, invoiceStatus:'issued', invoiceStatusText:'已开票', invoiceStatusClass:'bg', invoiceType:'电子普通发票', invoiceTitle:'雷蕾', invoiceEmail:'lele@example.com', invoiceTaxNo:'' },
+    { id:'MT2026070300123', planLabel:'月卡', paymentMethod:'微信支付', orderTime:'2026-07-03 10:25', validFrom:'2026-07-03', validTo:'2026-08-03', statusText:'支付成功', statusClass:'bg', amount:99, invoiceStatus:'ready', invoiceStatusText:'可申请', invoiceStatusClass:'bpu', invoiceType:'', invoiceTitle:'', invoiceEmail:'', invoiceTaxNo:'' },
+    { id:'MT2026062800088', planLabel:'季卡', paymentMethod:'支付宝', orderTime:'2026-06-28 15:40', validFrom:'2026-04-01', validTo:'2026-07-03', statusText:'支付成功', statusClass:'bg', amount:299, invoiceStatus:'processing', invoiceStatusText:'开票中', invoiceStatusClass:'by', invoiceType:'电子普通发票', invoiceTitle:'杭州云图科技有限公司', invoiceEmail:'finance@aitest.com', invoiceTaxNo:'91330100MA8XXXXX9K' },
+    { id:'MT2026062000055', planLabel:'月卡', paymentMethod:'微信支付', orderTime:'2026-06-20 09:12', validFrom:'2026-03-01', validTo:'2026-04-01', statusText:'支付成功', statusClass:'bg', amount:99, invoiceStatus:'issued', invoiceStatusText:'已开票', invoiceStatusClass:'bg', invoiceType:'电子普通发票', invoiceTitle:'雷蕾', invoiceEmail:'lele@example.com', invoiceTaxNo:'' },
     { id:'MT2026061000032', planLabel:'年卡', paymentMethod:'银行卡', orderTime:'2026-06-10 21:03', validFrom:'2026-01-01', validTo:'2027-01-01', statusText:'已退款', statusClass:'br', amount:999, invoiceStatus:'unavailable', invoiceStatusText:'不可开票', invoiceStatusClass:'bgr', invoiceType:'', invoiceTitle:'', invoiceEmail:'', invoiceTaxNo:'' }
   ],
   currentOrderFilter: '全部',
+  currentOrderType: '全部',
   selectedInvoiceOrderIds: [],
   selectedPlan: {
     name: '标准包',
@@ -3294,9 +3298,13 @@ function getSelectedInvoiceReadyOrders(){
 }
 
 function getFilteredOrders(){
-  if(appState.currentOrderFilter === '全部') return appState.orders;
   return appState.orders.filter(function(order){
-    return order.statusText === appState.currentOrderFilter;
+    // 类型过滤
+    if(appState.currentOrderType === '订阅订单' && !order.validFrom) return false;
+    if(appState.currentOrderType === '充値订单' && order.validFrom) return false;
+    // 状态过滤
+    if(appState.currentOrderFilter !== '全部' && order.statusText !== appState.currentOrderFilter) return false;
+    return true;
   });
 }
 
@@ -3653,6 +3661,19 @@ function doLogout(){
   document.getElementById('sb-logined').style.display='none';
   updateLoginUI();
   go('p01', document.querySelectorAll('.ni')[0], '总控台');
+}
+
+function orderTypeClick(el){
+  var p=el.parentElement;
+  if(p) p.querySelectorAll('.ft').forEach(function(t){ t.classList.remove('on'); });
+  el.classList.add('on');
+  appState.currentOrderType = el.getAttribute('data-type') || el.textContent.trim();
+  renderOrderTable();
+}
+
+function orderStatusChange(sel){
+  appState.currentOrderFilter = sel.value;
+  renderOrderTable();
 }
 
 function ftClick(el){
