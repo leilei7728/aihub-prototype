@@ -2376,6 +2376,8 @@ function closeModelDetail(){
   if(panel){ panel.style.transform = 'translateX(100%)'; setTimeout(function(){ panel.style.display='none'; },250); }
   if(overlay) overlay.style.display = 'none';
 }
+
+var modelPriceMap = {
   'Qwen3.5-Flash':        { in: 0.18,  out: 1.8  },
   'DeepSeek-V4-Flash':    { in: 0.92,  out: 1.75 },
   'Deepseek V3.2':        { in: 1.75,  out: 2.67 },
