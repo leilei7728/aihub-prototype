@@ -425,10 +425,13 @@ input:checked+.sl:before{transform:translateX(16px)}
   <div id="heroLoggedIn" class="hero" style="display:none">
     <div class="hl">
       <h2 id="heroGreeting">早上好，雷蕾 👋</h2>
-      <!-- 会员状态标签 -->
-      <div id="heroMemberBadge" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 12px;font-size:12px;color:#fff;margin-bottom:10px">
-        <span style="width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0"></span>
-        <span id="heroMemberLabel">订阅会员 · 2026-08-24 到期</span>
+      <!-- 会员状态标签 + 续订按钮 -->
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+        <div id="heroMemberBadge" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 12px;font-size:12px;color:#fff">
+          <span style="width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0"></span>
+          <span id="heroMemberLabel">订阅会员 · 2026-08-24 到期</span>
+        </div>
+        <button onclick="needLogin(()=>{go('p05',nv(4),'购买 Tokens');setTimeout(()=>switchBuyTab('subscription'),100)})" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);border-radius:20px;color:rgba(255,255,255,.85);font-size:12px;padding:4px 12px;cursor:pointer">续订会员</button>
       </div>
       <!-- 今日 Tokens 进度 -->
       <div style="margin-bottom:12px">
@@ -445,13 +448,13 @@ input:checked+.sl:before{transform:translateX(16px)}
         ⚠️ <span id="heroWarningText">今日 Tokens 已使用 85%，剩余不多，建议充值余额备用</span>
         <span onclick="needLogin(()=>{go('p05',nv(4),'购买 Tokens');setTimeout(()=>switchBuyTab('topup'),100)})" style="margin-left:8px;text-decoration:underline;cursor:pointer;color:#fde68a;font-weight:700">去充值 →</span>
       </div>
-      <div class="rcbtn" onclick="needLogin(()=>{go('p05',nv(4),'购买 Tokens');setTimeout(()=>switchBuyTab('topup'),100)})" id="heroChargeBtn">充值备用余额</div>
     </div>
     <div class="hr" style="display:flex;flex-direction:column;gap:8px;min-width:160px;text-align:right">
       <div>
         <div style="font-size:11px;color:rgba(255,255,255,.65);margin-bottom:2px">充值余额</div>
         <div style="font-size:24px;font-weight:800;color:#fff;line-height:1" id="heroCashValue">¥48.50</div>
         <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:2px">今日 Tokens 耗尽后按模型单价扣除</div>
+        <button onclick="needLogin(()=>{go('p05',nv(4),'购买 Tokens');setTimeout(()=>switchBuyTab('topup'),100)})" id="heroChargeBtn" style="margin-top:10px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);border-radius:20px;color:#fff;font-size:12px;padding:5px 16px;cursor:pointer;white-space:nowrap;backdrop-filter:blur(4px)">充值备用余额 →</button>
       </div>
     </div>
   </div>
