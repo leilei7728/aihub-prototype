@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -237,6 +237,16 @@ input:checked+.sl:before{transform:translateX(16px)}
 .uc-filter input::-webkit-calendar-picker-indicator{transform:scale(1.25);transform-origin:center;cursor:pointer;opacity:.95}
 .uc-desc{display:none}
 .uc-unit{font-size:12px;color:var(--t3);margin:-4px 0 12px}
+/* onboarding */
+.ob-step{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:13px 6px;font-size:12px;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
+.ob-step-on{color:var(--a);border-bottom-color:var(--a);font-weight:700}
+.ob-step-num{width:20px;height:20px;border-radius:50%;background:var(--bd);color:var(--t3);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ob-step-on .ob-step-num{background:var(--a);color:#fff}
+.ob-tool-card{border:2px solid var(--bd);border-radius:10px;padding:14px;cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .15s}
+.ob-tool-card:hover{border-color:#8ed2c9}
+.ob-tool-on{border-color:var(--a)!important;background:var(--all)}
+.ob-guide-row{display:flex;align-items:flex-start;gap:12px;font-size:13px;color:var(--t2);line-height:1.7}
+.ob-guide-num{width:22px;height:22px;border-radius:50%;background:var(--a);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
 .uc-range{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#eefaf7;border:1px solid #c7ebe5;color:var(--ah);font-size:12px;font-weight:600;margin:-2px 0 12px}
 .uc-marks{font-size:12px;color:#71717a;margin:0}
 .uc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(22px,1fr));gap:8px;align-items:end;height:220px}
@@ -385,11 +395,11 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
     </div>
     <nav class="sb-nav">
-      <div class="ni on" onclick="go('p01',this,'总控台')"><span class="ic"><i data-lucide="layout-dashboard"></i></span>总控台</div>
-      <div class="ni" onclick="go('p02',this,'AI 软件管理')"><span class="ic"><i data-lucide="package"></i></span>AI 软件</div>
-      <div class="ni" onclick="go('p03',this,'模型 / 路由管理')"><span class="ic"><i data-lucide="git-fork"></i></span>模型路由</div>
-      <div class="ni" onclick="(function(el){needLogin(function(){go('p05',el,'购买');setTimeout(function(){switchBuyTab('subscription')},50)})})(this)"><span class="ic"><i data-lucide="credit-card"></i></span>购买</div>
-      <div class="ni" onclick="(function(el){needLogin(function(){go('p05',el,'订单记录');setTimeout(function(){switchBuyTab('orders')},50)})})(this)"><span class="ic"><i data-lucide="receipt-text"></i></span>订单记录</div>
+      <div class="ni on" onclick="go('p01',this,'Tokens 管理')"><span class="ic"><i data-lucide="layout-dashboard"></i></span>Tokens 管理</div>
+      <div class="ni" onclick="go('p02',this,'AI 工具')"><span class="ic"><i data-lucide="package"></i></span>AI 工具</div>
+      <div class="ni" onclick="go('p03',this,'模型设置')"><span class="ic"><i data-lucide="git-fork"></i></span>模型设置</div>
+      <div class="ni" onclick="(function(el){needLogin(function(){go('p05',el,'订阅 / 充值');setTimeout(function(){switchBuyTab('subscription')},50)})})(this)"><span class="ic"><i data-lucide="credit-card"></i></span>订阅 / 充值</div>
+      <div class="ni" onclick="(function(el){needLogin(function(){go('p05',el,'消费记录');setTimeout(function(){switchBuyTab('orders')},50)})})(this)"><span class="ic"><i data-lucide="receipt-text"></i></span>消费记录</div>
     </nav>
     <div class="sb-bot">
       <div class="ni" onclick="go('p07',this,'设置')"><span class="ic"><i data-lucide="settings"></i></span>设置</div>
@@ -420,6 +430,7 @@ input:checked+.sl:before{transform:translateX(16px)}
     <div class="topbar">
       <div class="tb-title" id="tbt">总控台</div>
       <div class="tb-r" style="gap:8px">
+        <button class="btn bo bsm" style="font-size:12px;padding:5px 12px;white-space:nowrap" onclick="obStart()">AI 工具配置教程</button>
         <div class="chip chip-v" style="cursor:default">
           <span class="cl" style="color:#7c3aed">订阅 Tokens<span class="ih">?<span class="ih-b">订阅套餐每日发放的 Tokens 总余量，用完当天清零。</span></span></span>
           <span class="cv" id="balTokens" style="color:#7c3aed">登录查看</span>
@@ -487,18 +498,6 @@ input:checked+.sl:before{transform:translateX(16px)}
     </div>
   </div>
 
-  <div class="qg">
-    <div class="qb" onclick="go('p02',nv(1),'AI 软件管理')">
-      <div class="qi"><i data-lucide="package" style="width:22px;height:22px"></i></div><div class="qn">管理 AI 软件</div>
-    </div>
-    <div class="qb" onclick="go('p03',nv(2),'模型 / 路由管理')">
-      <div class="qi"><i data-lucide="git-fork" style="width:22px;height:22px"></i></div><div class="qn">切换模型</div>
-    </div>
-    <div class="qb" onclick="needLogin(()=>go('p05',nv(4),'购买 Tokens'))">
-      <div class="qi"><i data-lucide="credit-card" style="width:22px;height:22px"></i></div><div class="qn">充值 Tokens</div>
-    </div>
-  </div>
-
   <!-- 未登录时数据遮罩 -->
   <div id="statsGuest" style="background:var(--wh);border:1px solid var(--bd);border-radius:12px;padding:40px;text-align:center;margin-bottom:16px">
     <div style="font-size:32px;margin-bottom:10px">🔐</div>
@@ -510,112 +509,105 @@ input:checked+.sl:before{transform:translateX(16px)}
   <div id="statsLoggedIn" style="display:none">
   <div class="g g2 mb16">
     <div class="sc">
-      <div class="lb">今日消耗<span class="ih">?<span class="ih-b">今天通过本站路由产生的 Tokens 消耗。</span></span></div>
-      <div class="vl" id="tokensTodayUsageValue">3,241</div>
-      <div class="sb2">调用量稳定</div>
+      <div class="lb">今日消耗<span class="ih">?<span class="ih-b">只统计今天通过本站路由产生的 Tokens 消耗，包含订阅额度和按量充値消耗，站外使用不计入。</span></span></div>
+      <div class="vl" id="tokensTodayUsageValue">3,241 <span style="font-size:14px;color:var(--t2)">Tokens</span></div>
+      <div class="sb2">较昨日 ↑12%</div>
     </div>
     <div class="sc">
-      <div class="lb">近30天累计消耗<span class="ih">?<span class="ih-b">近30天通过本站路由产生的 Tokens 累计消耗。</span></span></div>
-      <div class="vl" id="tokensMonthUsageValue">128,540</div>
-      <div class="sb2">近30天调用活跃</div>
+      <div class="lb">近30天消耗<span class="ih">?<span class="ih-b">只统计近30天通过本站路由产生的 Tokens 消耗，包含订阅额度和按量充値消耗，站外使用不计入。</span></span></div>
+      <div class="vl" id="tokensMonthUsageValue">128,540 <span style="font-size:14px;color:var(--t2)">Tokens</span></div>
+      <div class="sb2">最近一笔 18 天后到期（2026-07-23）</div>
     </div>
   </div>
-
-  <!-- 当前订阅状态（会员显示） -->
-  <div class="card mb16" id="p04SubscriptionCard">
-    <div class="fxb mb16">
-      <div class="tb2">当前订阅<span class="ih">?<span class="ih-b">每日 0:00 自动发放固定额度，当日未用完于次日 0:00 清零；额度用完后自动切换充值余额按量计费。</span></span></div>
-      <button onclick="needLogin((function(el){return function(){go('p05',el,'购买');setTimeout(function(){switchBuyTab('subscription')},50)}})(document.querySelectorAll('.ni')[4]))" class="btn bo bsm">续订会员</button>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px">
+  <div class="card mb16">
+    <div class="uc-head">
       <div>
-        <div style="font-size:11px;color:var(--t3);margin-bottom:4px">套餐</div>
-        <div style="font-size:15px;font-weight:700;color:var(--t)" id="p04InfoPlan">月卡</div>
+        <div class="tb2">使用额度趋势<span class="ih">?<span class="ih-b">只统计本站内实际扣减的 Tokens。同一天表示查看单日小时分布，不同日期表示查看该时间段的按天趋势。</span></span></div>
       </div>
-      <div>
-        <div style="font-size:11px;color:var(--t3);margin-bottom:4px">每日额度</div>
-        <div style="font-size:15px;font-weight:700;color:var(--t)" id="p04InfoDaily">16,667 T</div>
-      </div>
-      <div>
-        <div style="font-size:11px;color:var(--t3);margin-bottom:4px">有效期</div>
-        <div style="font-size:13px;font-weight:600;color:var(--t)" id="p04InfoValidity">—</div>
-      </div>
-      <div>
-        <div style="font-size:11px;color:var(--t3);margin-bottom:4px">到期后</div>
-        <div style="font-size:12px;color:var(--t2)">自动切换充值余额<br>按量计费</div>
-      </div>
-    </div>
-    <div style="background:var(--all);border-radius:10px;padding:14px 16px">
-      <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--t2);margin-bottom:6px">
-        <span>今日已用 <strong id="p04InfoUsed" style="color:var(--t)">3,241</strong> / <span id="p04InfoTotal">16,667</span> T</span>
-        <span id="p04InfoPct" style="font-weight:700;color:var(--t)">19%</span>
-      </div>
-      <div style="height:8px;border-radius:4px;background:rgba(0,0,0,.08);overflow:hidden;margin-bottom:8px">
-        <div id="p04InfoBar" style="height:100%;border-radius:4px;background:#10b981;width:19%;transition:width .5s"></div>
-      </div>
-      <div style="font-size:12px;color:var(--t3)">今日剩余 <strong style="color:#0f766e" id="p04InfoRemainVal">13,426</strong> T · 耗尽后自动从充值余额按模型单价扣除</div>
-    </div>
-  </div>
-
-  <!-- 非会员引导（无订阅时显示） -->
-  <div class="card mb16" id="p04NoSubCard" style="display:none;text-align:center;padding:32px 24px">
-    <div style="font-size:28px;margin-bottom:10px">📦</div>
-    <div style="font-size:15px;font-weight:700;margin-bottom:6px">当前没有订阅套餐</div>
-    <div style="font-size:13px;color:var(--t3);margin-bottom:20px">订阅后每日自动获得 <strong>16,667 Tokens</strong>，低至 <strong>¥3.3/天</strong></div>
-    <button class="btn bp" onclick="needLogin((function(el){return function(){go('p05',el,'购买');setTimeout(function(){switchBuyTab('subscription')},50)}})(document.querySelectorAll('.ni')[4]))" style="padding:10px 32px;font-size:14px">立即订阅</button>
-  </div>
-
-  <div class="card">
-      <div class="fxb mb16">
-        <div class="tb2">消耗记录<span class="ih">?<span class="ih-b">这里只记录本站内实际扣减的 Tokens 消耗，外部供应商侧的使用不会计入这里。</span></span></div>
-        <div class="fxc g6">
-          <div class="ft on" onclick="ftClick(this)">全部</div>
-          <div class="ft" onclick="ftClick(this)">今日</div>
-          <div class="ft" onclick="ftClick(this)">本周</div>
+      <div class="uc-head-actions">
+        <div class="uc-quick">
+          <button class="uc-quick-btn" id="usagePresetToday" onclick="setUsageChartPreset('today')">今日</button>
+          <button class="uc-quick-btn" id="usagePresetMonth" onclick="setUsageChartPreset('month')">近30天</button>
+        </div>
+        <div class="uc-filter" id="usageRangePickerWrap">
+          <span class="uc-filter-label">日期范围</span>
+          <input type="date" id="usageRangeStart" onchange="setUsageChartRange(this.value, document.getElementById('usageRangeEnd').value)">
+          <span class="uc-range-sep">至</span>
+          <input type="date" id="usageRangeEnd" onchange="setUsageChartRange(document.getElementById('usageRangeStart').value, this.value)">
+        </div>
+        <div class="uc-head-meta" id="usageChartMarksWrap">
+          <div class="uc-marks" id="usageChartMarks">小时范围：00:00 - 23:59</div>
         </div>
       </div>
-      <table class="tb">
-        <thead><tr><th>时间</th><th>工具 / 模型</th><th>Tokens</th></tr></thead>
-        <tbody id="tokenUsageTableBody">
-          <tr><td class="tgr ts">今天 14:32</td><td>Claude · Sonnet</td><td>1,248</td></tr>
-          <tr><td class="tgr ts">今天 13:10</td><td>Codex · Haiku</td><td>876</td></tr>
-          <tr><td class="tgr ts">今天 11:47</td><td>Claude · DeepSeek V3</td><td>654</td></tr>
-          <tr><td class="tgr ts">今天 10:22</td><td>OpenCode · Sonnet</td><td>463</td></tr>
-          <tr><td class="tgr ts">昨天 18:05</td><td>Claude · Haiku</td><td>2,310</td></tr>
-          <tr><td class="tgr ts">昨天 15:33</td><td>Codex · DeepSeek V3</td><td>1,890</td></tr>
-        </tbody>
-      </table>
     </div>
+    <div class="uc-desc" id="usageChartDesc">今天按小时查看本站 Tokens 使用额度。</div>
+    <div class="uc-unit" id="usageChartUnit">单位：Tokens</div>
+    <div id="usageChartMain"></div>
+  </div>
+  <div class="card">
+    <div class="fxb mb16">
+      <div class="tb2">使用记录<span class="ih">?<span class="ih-b">这里只展示通过本站路由产生的站内使用记录，站外调用不会出现在这里。</span></span></div>
+      <div class="uc-filter">
+        <select id="usageFilterTool" onchange="filterUsageTable()">
+          <option value="">全部工具</option>
+          <option value="Claude Desktop">Claude Desktop</option>
+          <option value="Codex CLI">Codex CLI</option>
+          <option value="OpenCode">OpenCode</option>
+        </select>
+        <select id="usageFilterBilling" onchange="filterUsageTable()">
+          <option value="">全部计费</option>
+          <option value="subscription">订阅</option>
+          <option value="topup">¥按量</option>
+        </select>
+        <select id="usageRecordPeriod" onchange="filterUsageTable()">
+          <option value="today" selected>今日</option>
+          <option value="7d">近 7 天</option>
+          <option value="30d">近 30 天</option>
+          <option value="all">全部</option>
+        </select>
+      </div>
+    </div>
+    <table class="tb">
+      <thead><tr><th>时间</th><th>AI 工具</th><th>模型</th><th>消耗 Tokens</th><th>计费</th></tr></thead>
+      <tbody id="tokenUsageTableBody">
+        <tr><td class="tgr ts">今天 14:32</td><td>Claude Desktop</td><td><span class="bd2 bpu">Claude Sonnet</span></td><td>1,248</td><td><span class="bd2 bg">订阅</span></td></tr>
+        <tr><td class="tgr ts">今天 13:10</td><td>Codex CLI</td><td><span class="bd2 bpu">Claude Haiku</span></td><td>876</td><td><span class="bd2 bg">订阅</span></td></tr>
+        <tr><td class="tgr ts">今天 11:47</td><td>Claude Desktop</td><td><span class="bd2 bg">DeepSeek V3</span></td><td>654</td><td><span class="bd2 bg">订阅</span></td></tr>
+        <tr><td class="tgr ts">今天 10:22</td><td>OpenCode</td><td><span class="bd2 bpu">Claude Sonnet</span></td><td>463</td><td><span class="bd2 by">¥按量</span></td></tr>
+      </tbody>
+    </table>
+  </div>
   </div><!-- /statsLoggedIn -->
 </div><!-- /p01 -->
 
+<!-- ─────── P02 AI 软件 ─────── -->
 <div id="p02" class="pg">
   <div class="fxb mb16">
-    <div style="font-size:15px;font-weight:700">AI 杞欢绠＄悊</div>
-    <div class="ts tgr" id="toolInstallSummary">宸插畨瑁?3 / 6</div>
+    <div style="font-size:15px;font-weight:700">AI 软件管理</div>
+    <div class="ts tgr" id="toolInstallSummary">已安装 3 / 6</div>
   </div>
   <div class="g g3" id="toolCardGrid">
 
     <div class="tc" data-tool-card="claude-desktop">
       <div class="tc-h">
-        <div class="tc-ico" style="background:#f0f0f0">馃</div>
-        <div><div class="tc-nm">Claude</div><div class="tc-vr">妗岄潰鐗?路 v0.10.4 路 宸插畨瑁?/div></div>
+        <div class="tc-ico" style="background:#f0f0f0">🤖</div>
+        <div><div class="tc-nm">Claude</div><div class="tc-vr">桌面版 · v0.10.4 · 已安装</div></div>
       </div>
-      <div class="tc-ds">Anthropic 瀹樻柟妗岄潰绔紝鏀寔 Claude 鍏ㄧ郴妯″瀷锛屽凡閫氳繃 CC Switch 璺敱銆?/div>
+      <div class="tc-ds">Anthropic 官方桌面端，支持 Claude 全系模型，已通过 CC Switch 路由。</div>
       <div class="tmx">
         <div class="row">
           <div>
 
-            <div class="lb">鏀寔妯″瀷</div>
-            <div class="bd2 bpu" data-tool-mode="claude-desktop">6 涓彲閫?/div>
+            <div class="lb">支持模型</div>
+            <div class="bd2 bpu" data-tool-mode="claude-desktop">6 个可选</div>
           </div>
           <div style="text-align:right">
-            <div class="lb">褰撳墠浣跨敤妯″瀷</div>
+            <div class="lb">当前使用模型</div>
             <div class="val" data-tool-current="claude-desktop">DeepSeek V3</div>
           </div>
         </div>
-        <div class="txs tgr mb8" data-tool-note="claude-desktop">褰撳墠浣跨敤 DeepSeek V3锛屽钩鍙颁細鑷姩瀹屾垚鍏煎鎺ュ叆</div>
-        <div class="lb">璇ュ伐鍏峰綋鍓嶅彲鐢ㄦā鍨?/div>
+        <div class="txs tgr mb8" data-tool-note="claude-desktop">当前使用 DeepSeek V3，平台会自动完成兼容接入</div>
+        <div class="lb">该工具当前可用模型</div>
         <select class="sel" data-tool-select="claude-desktop" onchange="needLogin(()=>changeToolModel('claude-desktop', this.value))">
           <option value="DeepSeek V3">DeepSeek V3</option>
           <option value="DeepSeek R1">DeepSeek R1</option>
@@ -626,33 +618,33 @@ input:checked+.sl:before{transform:translateX(16px)}
         </select>
       </div>
       <div class="tc-ft">
-        <span class="bd2 bg">鈼?杩愯涓?/span>
+        <span class="bd2 bg">● 运行中</span>
         <div class="fxc g6">
-          <button class="btn bo bsm">鏇存柊</button>
-          <button class="btn bp bsm">鎵撳紑</button>
+          <button class="btn bo bsm">更新</button>
+          <button class="btn bp bsm">打开</button>
         </div>
       </div>
     </div>
 
     <div class="tc" data-tool-card="codex-cli">
       <div class="tc-h">
-        <div class="tc-ico" style="background:#e8f4fd">馃捇</div>
-        <div><div class="tc-nm">Codex</div><div class="tc-vr">鍛戒护琛屽伐鍏?路 v1.2.1 路 宸插畨瑁?/div></div>
+        <div class="tc-ico" style="background:#e8f4fd">💻</div>
+        <div><div class="tc-nm">Codex</div><div class="tc-vr">命令行工具 · v1.2.1 · 已安装</div></div>
       </div>
-      <div class="tc-ds">OpenAI 瀹樻柟鍛戒护琛屽伐鍏凤紝閫傚悎浠ｇ爜鐢熸垚鍦烘櫙锛屽凡閰嶇疆璺敱杞彂銆?/div>
+      <div class="tc-ds">OpenAI 官方命令行工具，适合代码生成场景，已配置路由转发。</div>
       <div class="tmx">
         <div class="row">
           <div>
-            <div class="lb">鏀寔妯″瀷</div>
-            <div class="bd2 bg" data-tool-mode="codex-cli">3 涓彲閫?/div>
+            <div class="lb">支持模型</div>
+            <div class="bd2 bg" data-tool-mode="codex-cli">3 个可选</div>
           </div>
           <div style="text-align:right">
-            <div class="lb">褰撳墠浣跨敤妯″瀷</div>
+            <div class="lb">当前使用模型</div>
             <div class="val" data-tool-current="codex-cli">DeepSeek V3</div>
           </div>
         </div>
-        <div class="txs tgr mb8" data-tool-note="codex-cli">褰撳墠浣跨敤 DeepSeek V3锛屽彲鐩存帴鍒囨崲鍏朵粬鍙敤妯″瀷</div>
-        <div class="lb">璇ュ伐鍏峰綋鍓嶅彲鐢ㄦā鍨?/div>
+        <div class="txs tgr mb8" data-tool-note="codex-cli">当前使用 DeepSeek V3，可直接切换其他可用模型</div>
+        <div class="lb">该工具当前可用模型</div>
         <select class="sel" data-tool-select="codex-cli" onchange="needLogin(()=>changeToolModel('codex-cli', this.value))">
           <option value="DeepSeek R1">DeepSeek R1</option>
           <option value="Gemini 1.5 Pro">Gemini 1.5 Pro</option>
@@ -663,33 +655,33 @@ input:checked+.sl:before{transform:translateX(16px)}
         </select>
       </div>
       <div class="tc-ft">
-        <span class="bd2 bg">鈼?杩愯涓?/span>
+        <span class="bd2 bg">● 运行中</span>
         <div class="fxc g6">
-          <button class="btn bo bsm">鏇存柊</button>
-          <button class="btn bp bsm">鎵撳紑</button>
+          <button class="btn bo bsm">更新</button>
+          <button class="btn bp bsm">打开</button>
         </div>
       </div>
     </div>
 
     <div class="tc" data-tool-card="opencode">
       <div class="tc-h">
-        <div class="tc-ico" style="background:#fef3cd">馃敺</div>
-        <div><div class="tc-nm">OpenCode</div><div class="tc-vr">v0.1.89 路 宸插畨瑁?/div></div>
+        <div class="tc-ico" style="background:#fef3cd">🔷</div>
+        <div><div class="tc-nm">OpenCode</div><div class="tc-vr">v0.1.89 · 已安装</div></div>
       </div>
-      <div class="tc-ds">寮€婧?AI 缂栫▼鍔╂墜锛屾敮鎸佸绉嶆ā鍨嬫帴鍏ワ紝杞婚噺楂樻晥銆?/div>
+      <div class="tc-ds">开源 AI 编程助手，支持多种模型接入，轻量高效。</div>
       <div class="tmx">
         <div class="row">
           <div>
-            <div class="lb">鏀寔妯″瀷</div>
-            <div class="bd2 bpu" data-tool-mode="opencode">3 涓彲閫?/div>
+            <div class="lb">支持模型</div>
+            <div class="bd2 bpu" data-tool-mode="opencode">3 个可选</div>
           </div>
           <div style="text-align:right">
-            <div class="lb">褰撳墠浣跨敤妯″瀷</div>
+            <div class="lb">当前使用模型</div>
             <div class="val" data-tool-current="opencode">Gemini 1.5 Pro</div>
           </div>
         </div>
-        <div class="txs tgr mb8" data-tool-note="opencode">褰撳墠浣跨敤 Gemini 1.5 Pro锛屽彲鐩存帴鍒囨崲鍏朵粬鍙敤妯″瀷</div>
-        <div class="lb">璇ュ伐鍏峰綋鍓嶅彲鐢ㄦā鍨?/div>
+        <div class="txs tgr mb8" data-tool-note="opencode">当前使用 Gemini 1.5 Pro，可直接切换其他可用模型</div>
+        <div class="lb">该工具当前可用模型</div>
         <select class="sel" data-tool-select="opencode" onchange="needLogin(()=>changeToolModel('opencode', this.value))">
           <option value="DeepSeek V3">DeepSeek V3</option>
           <option value="DeepSeek R1">DeepSeek R1</option>
@@ -700,74 +692,73 @@ input:checked+.sl:before{transform:translateX(16px)}
         </select>
       </div>
       <div class="tc-ft">
-        <span class="bd2 by">鈼?鍙洿鏂?/span>
+        <span class="bd2 by">● 可更新</span>
         <div class="fxc g6">
-          <button class="btn bsm" style="background:var(--wa);color:#fff;border:none">绔嬪嵆鏇存柊</button>
-          <button class="btn bp bsm">鎵撳紑</button>
+          <button class="btn bsm" style="background:var(--wa);color:#fff;border:none">立即更新</button>
+          <button class="btn bp bsm">打开</button>
         </div>
       </div>
     </div>
 
     <div class="tc" data-tool-card="gemini">
       <div class="tc-h">
-        <div class="tc-ico" style="background:#f0fdf4">馃尶</div>
-        <div><div class="tc-nm">Gemini</div><div class="tc-vr" data-tool-version="gemini">鍛戒护琛屽伐鍏?路 鏈畨瑁?/div></div>
+        <div class="tc-ico" style="background:#f0fdf4">🌿</div>
+        <div><div class="tc-nm">Gemini</div><div class="tc-vr" data-tool-version="gemini">命令行工具 · 未安装</div></div>
       </div>
-      <div class="tc-ds">Google 瀹樻柟鍛戒护琛屽伐鍏凤紝鏀寔 Gemini 1.5 Pro / Flash 绛夋ā鍨嬨€?/div>
+      <div class="tc-ds">Google 官方命令行工具，支持 Gemini 1.5 Pro / Flash 等模型。</div>
       <div class="tc-ft" data-tool-actions="gemini">
-        <span class="bd2 bgr" data-tool-status="gemini">鏈畨瑁?/span>
-        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('gemini'))">瀹夎</button>
+        <span class="bd2 bgr" data-tool-status="gemini">未安装</span>
+        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('gemini'))">安装</button>
       </div>
     </div>
 
     <div class="tc" data-tool-card="openclaw">
       <div class="tc-h">
-        <div class="tc-ico" style="background:#fff4f0">馃</div>
-        <div><div class="tc-nm">OpenClaw</div><div class="tc-vr" data-tool-version="openclaw">鏈畨瑁?/div></div>
+        <div class="tc-ico" style="background:#fff4f0">🦞</div>
+        <div><div class="tc-nm">OpenClaw</div><div class="tc-vr" data-tool-version="openclaw">未安装</div></div>
       </div>
-      <div class="tc-ds">寮€婧?AI 瀹㈡埛绔紝鏀寔澶氱妯″瀷鎺ュ叆锛岀晫闈㈣交閲忛€傚悎鏃ュ父瀵硅瘽鍦烘櫙銆?/div>
+      <div class="tc-ds">开源 AI 客户端，支持多种模型接入，界面轻量适合日常对话场景。</div>
       <div class="tc-ft" data-tool-actions="openclaw">
-        <span class="bd2 bgr" data-tool-status="openclaw">鏈畨瑁?/span>
-        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('openclaw'))">瀹夎</button>
+        <span class="bd2 bgr" data-tool-status="openclaw">未安装</span>
+        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('openclaw'))">安装</button>
       </div>
     </div>
 
     <div class="tc" data-tool-card="hermes">
       <div class="tc-h">
-        <div class="tc-ico" style="background:#f0f4ff">馃摝</div>
-        <div><div class="tc-nm">Hermes</div><div class="tc-vr" data-tool-version="hermes">鏈畨瑁?/div></div>
+        <div class="tc-ico" style="background:#f0f4ff">📦</div>
+        <div><div class="tc-nm">Hermes</div><div class="tc-vr" data-tool-version="hermes">未安装</div></div>
       </div>
-      <div class="tc-ds">AI 宸ュ叿绠＄悊骞冲彴锛屾敮鎸佸涓?AI 瀹㈡埛绔殑缁熶竴閰嶇疆涓庡垏鎹€?/div>
+      <div class="tc-ds">AI 工具管理平台，支持多个 AI 客户端的统一配置与切换。</div>
       <div class="tc-ft" data-tool-actions="hermes">
-        <span class="bd2 bgr" data-tool-status="hermes">鏈畨瑁?/span>
-        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('hermes'))">瀹夎</button>
+        <span class="bd2 bgr" data-tool-status="hermes">未安装</span>
+        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('hermes'))">安装</button>
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- 鈹€鈹€鈹€鈹€鈹€鈹€鈹€ P03 妯″瀷璺敱 鈹€鈹€鈹€鈹€鈹€鈹€鈹€ -->
-
+<!-- ─────── P03 模型路由 ─────── -->
 <div id="p03" class="pg">
-  <div style="font-size:15px;font-weight:700" class="mb16">妯″瀷 / 璺敱绠＄悊</div>
+  <div style="font-size:15px;font-weight:700" class="mb16">模型 / 路由管理</div>
 
   <div class="stbar run">
-    <div class="stl ok"><span class="dot dg"></span>鏈湴璺敱杩愯涓?/div>
-    <div class="str">缃戝叧鍦板潃锛歨ttp://127.0.0.1:15721 路 浠婃棩璇锋眰 128 娆?span class="ih">?<span class="ih-b">缁熻浠婃棩閫氳繃鏈湴璺敱瀹為檯杞彂鐨勬ā鍨嬭姹傛鏁帮紝涓嶇瓑浜庢秷鎭潯鏁般€備竴娆℃秷鎭彲鑳借Е鍙戝娆¤姹傦紝濡傞噸璇曘€佽ˉ鍏ㄤ笂涓嬫枃鎴栧伐鍏疯皟鐢ㄣ€?/span></span></div>
+    <div class="stl ok"><span class="dot dg"></span>本地路由运行中</div>
+    <div class="str">网关地址：http://127.0.0.1:15721 · 今日请求 128 次<span class="ih">?<span class="ih-b">统计今日通过本地路由实际转发的模型请求次数，不等于消息条数。一次消息可能触发多次请求，如重试、补全上下文或工具调用。</span></span></div>
   </div>
 
   <div class="card mb16">
     <div class="fxb mb16">
-      <div style="font-size:15px;font-weight:700">璺敱妯″紡<span class="ih">?<span class="ih-b">鎺у埗绯荤粺鑷姩閫夋ā绛栫暐銆傛櫤鑳芥ā寮忔寜浠诲姟闅惧害鍒嗛厤妯″瀷锛涚ǔ瀹氭ā寮忓湪鎶ラ敊銆佽秴鏃躲€侀搴︿笉瓒虫椂鑷姩鍒囨崲锛涢€熷害妯″紡浼樺厛鍝嶅簲鏇村揩鐨勬ā鍨嬨€傛櫤鑳芥ā寮忎笌閫熷害妯″紡浜岄€変竴锛岀ǔ瀹氭ā寮忓彲鍙犲姞寮€鍚€?/span></span></div>
-      <div class="txs tgr" id="routeModeSummaryText">褰撳墠寮€鍚細鏅鸿兘妯″紡銆佺ǔ瀹氭ā寮?/div>
+      <div style="font-size:15px;font-weight:700">路由模式<span class="ih">?<span class="ih-b">控制系统自动选模策略。智能模式按任务难度分配模型；稳定模式在报错、超时、额度不足时自动切换；速度模式优先响应更快的模型。智能模式与速度模式二选一，稳定模式可叠加开启。</span></span></div>
+      <div class="txs tgr" id="routeModeSummaryText">当前开启：智能模式、稳定模式</div>
     </div>
     <div class="g g3" style="gap:10px">
       <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:10px;padding:14px">
         <div class="fxb" style="align-items:center;gap:12px">
           <div>
-            <div class="tb2">鏅鸿兘妯″紡</div>
-            <div class="txs tgr mt4">绯荤粺浼氭牴鎹换鍔￠毦搴﹀垎閰嶆ā鍨嬶紝绠€鍗曚换鍔℃洿鐪侊紝澶嶆潅浠诲姟鏇村己</div>
+            <div class="tb2">智能模式</div>
+            <div class="txs tgr mt4">系统会根据任务难度分配模型，简单任务更省，复杂任务更强</div>
           </div>
           <label class="sw"><input type="checkbox" data-route-mode="saveFlow" checked onchange="toggleRouteMode('saveFlow', this.checked)"><span class="sl"></span></label>
         </div>
@@ -775,8 +766,8 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:10px;padding:14px">
         <div class="fxb" style="align-items:center;gap:12px">
           <div>
-            <div class="tb2">绋冲畾妯″紡</div>
-            <div class="txs tgr mt4">鎶ラ敊銆佽秴鏃躲€侀搴︿笉瓒虫椂锛岃嚜鍔ㄦ崲鍒板叾浠栧彲鐢ㄦā鍨?/div>
+            <div class="tb2">稳定模式</div>
+            <div class="txs tgr mt4">报错、超时、额度不足时，自动换到其他可用模型</div>
           </div>
           <label class="sw"><input type="checkbox" data-route-mode="failover" checked onchange="toggleRouteMode('failover', this.checked)"><span class="sl"></span></label>
         </div>
@@ -784,8 +775,8 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:10px;padding:14px">
         <div class="fxb" style="align-items:center;gap:12px">
           <div>
-            <div class="tb2">閫熷害妯″紡</div>
-            <div class="txs tgr mt4">鏇寸湅閲嶉€熷害鏃剁敤瀹冿紝浼樺厛閫夊搷搴旀洿蹇殑妯″瀷</div>
+            <div class="tb2">速度模式</div>
+            <div class="txs tgr mt4">更看重速度时用它，优先选响应更快的模型</div>
           </div>
           <label class="sw"><input type="checkbox" data-route-mode="speedFirst" onchange="toggleRouteMode('speedFirst', this.checked)"><span class="sl"></span></label>
         </div>
@@ -794,110 +785,110 @@ input:checked+.sl:before{transform:translateX(16px)}
   </div>
 
   <div class="card mb16">
-    <!-- 鍒囨崲 Tab -->
+    <!-- 切换 Tab -->
     <div style="display:flex;justify-content:center;margin-bottom:20px">
       <div style="display:flex;background:#f4f4f5;border-radius:10px;padding:3px;gap:2px">
-        <button id="tabBuiltin" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:var(--a);color:#fff;box-shadow:0 2px 8px rgba(15,118,110,.25);border:none" onclick="switchModelTab('builtin')">鍐呯疆妯″瀷</button>
-        <button id="tabCustom" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchModelTab('custom')">鏂板妯″瀷</button>
+        <button id="tabBuiltin" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:var(--a);color:#fff;box-shadow:0 2px 8px rgba(15,118,110,.25);border:none" onclick="switchModelTab('builtin')">内置模型</button>
+        <button id="tabCustom" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchModelTab('custom')">新增模型</button>
       </div>
     </div>
 
-    <!-- 骞冲彴鏀寔妯″瀷闈㈡澘 -->
+    <!-- 平台支持模型面板 -->
     <div id="panelBuiltin">
-    <!-- 鍘傚晢 Tab 绛涢€?-->
+    <!-- 厂商 Tab 筛选 -->
     <div style="overflow-x:auto;padding-bottom:4px;margin-bottom:10px">
       <div id="vendorTabs" style="display:flex;gap:6px;min-width:max-content">
-        <button class="vt on" onclick="setVendorFilter('all',this)">鍏ㄩ儴</button>
+        <button class="vt on" onclick="setVendorFilter('all',this)">全部</button>
         <button class="vt" onclick="setVendorFilter('Anthropic',this)">Anthropic</button>
         <button class="vt" onclick="setVendorFilter('OpenAI',this)">OpenAI</button>
         <button class="vt" onclick="setVendorFilter('Google',this)">Google</button>
         <button class="vt" onclick="setVendorFilter('DeepSeek',this)">DeepSeek</button>
-        <button class="vt" onclick="setVendorFilter('\u963f\u91cc\u4e91',this)">闃块噷浜?/button>
-        <button class="vt" onclick="setVendorFilter('\u5b57\u8282\u8df3\u52a8',this)">瀛楄妭璺冲姩</button>
+        <button class="vt" onclick="setVendorFilter('\u963f\u91cc\u4e91',this)">阿里云</button>
+        <button class="vt" onclick="setVendorFilter('\u5b57\u8282\u8df3\u52a8',this)">字节跳动</button>
         <button class="vt" onclick="setVendorFilter('MiniMax',this)">MiniMax</button>
-        <button class="vt" onclick="setVendorFilter('\u667a\u8c31AI',this)">鏅鸿氨 AI</button>
-        <button class="vt" onclick="setVendorFilter('\u6708\u4e4b\u6697\u9762',this)">鏈堜箣鏆楅潰</button>
+        <button class="vt" onclick="setVendorFilter('\u667a\u8c31AI',this)">智谱 AI</button>
+        <button class="vt" onclick="setVendorFilter('\u6708\u4e4b\u6697\u9762',this)">月之暗面</button>
         <button class="vt" onclick="setVendorFilter('xAI',this)">xAI</button>
         <button class="vt" onclick="setVendorFilter('Meta',this)">Meta</button>
         <button class="vt" onclick="setVendorFilter('Mistral',this)">Mistral</button>
       </div>
     </div>
-    <!-- 鑳藉姏 Tag 澶氶€?-->
+    <!-- 能力 Tag 多选 -->
     <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;align-items:center">
-      <span style="font-size:12px;color:var(--t3);flex-shrink:0">鑳藉姏锛?/span>
-      <span class="cft" onclick="toggleCapFilter('\u51fd\u6570\u8c03\u7528',this)">鍑芥暟璋冪敤</span>
-      <span class="cft" onclick="toggleCapFilter('\u89c6瑙塡u7406\u89e3',this)">瑙嗚鐞嗚В</span>
-      <span class="cft" onclick="toggleCapFilter('\u89c6\u9891\u8f93\u5165',this)">瑙嗛杈撳叆</span>
-      <span class="cft" onclick="toggleCapFilter('\u97f3\u9891\u8f93\u5165',this)">闊抽杈撳叆</span>
-      <span class="cft" onclick="toggleCapFilter('\u6df1\u5ea6\u601d\u8003',this)">娣卞害鎬濊€?/span>
-      <span class="cft" onclick="toggleCapFilter('\u590d\u6742\u63a8\u7406',this)">澶嶆潅鎺ㄧ悊</span>
-      <span class="cft" onclick="toggleCapFilter('\u8054\u7f51\u641c\u7d22',this)">鑱旂綉鎼滅储</span>
+      <span style="font-size:12px;color:var(--t3);flex-shrink:0">能力：</span>
+      <span class="cft" onclick="toggleCapFilter('\u51fd\u6570\u8c03\u7528',this)">函数调用</span>
+      <span class="cft" onclick="toggleCapFilter('\u89c6觉\u7406\u89e3',this)">视觉理解</span>
+      <span class="cft" onclick="toggleCapFilter('\u89c6\u9891\u8f93\u5165',this)">视频输入</span>
+      <span class="cft" onclick="toggleCapFilter('\u97f3\u9891\u8f93\u5165',this)">音频输入</span>
+      <span class="cft" onclick="toggleCapFilter('\u6df1\u5ea6\u601d\u8003',this)">深度思考</span>
+      <span class="cft" onclick="toggleCapFilter('\u590d\u6742\u63a8\u7406',this)">复杂推理</span>
+      <span class="cft" onclick="toggleCapFilter('\u8054\u7f51\u641c\u7d22',this)">联网搜索</span>
       <span id="capFilterCount" style="font-size:11px;color:var(--t3);margin-left:4px"></span>
     </div>
     <div class="g g2" style="gap:10px" id="platformModelGrid">
-      <!-- 鐢?JS renderPlatformModelGrid() 鍔ㄦ€佺敓鎴?-->
+      <!-- 由 JS renderPlatformModelGrid() 动态生成 -->
     </div><!-- /platformModelGrid -->
     </div><!-- /panelBuiltin -->
 
-    <!-- 鏂板妯″瀷闈㈡澘 -->
+    <!-- 新增模型面板 -->
     <div id="panelCustom" style="display:none">
-    <!-- 鐢ㄦ埛鏂板妯″瀷鍒楄〃 -->
+    <!-- 用户新增模型列表 -->
     <div id="customModelList" style="display:none;margin-bottom:16px">
       <table class="tb" id="customModelTable">
-        <thead><tr><th>妯″瀷鍚嶇О</th><th>璋冪敤鍦板潃</th><th>妯″瀷 ID</th><th>杩炴帴鐘舵€?/th><th>鎿嶄綔</th></tr></thead>
+        <thead><tr><th>模型名称</th><th>调用地址</th><th>模型 ID</th><th>连接状态</th><th>操作</th></tr></thead>
         <tbody id="customModelTableBody"></tbody>
       </table>
     </div>
-    <div id="noCustomModel" style="text-align:center;padding:20px 0 8px;color:var(--t3);font-size:13px">鏆傛棤鑷畾涔夋ā鍨嬶紝濉啓涓嬫柟琛ㄥ崟鍗冲彲鎺ュ叆</div>
+    <div id="noCustomModel" style="text-align:center;padding:20px 0 8px;color:var(--t3);font-size:13px">暂无自定义模型，填写下方表单即可接入</div>
 
     <div class="adv-t mt8" onclick="togAdv()">
-      <span>鉃?/span> 灞曞紑閰嶇疆<span class="ih">?<span class="ih-b">鐢ㄤ簬鏂板澶栭儴妯″瀷鎺ュ叆閰嶇疆銆備繚瀛樺悗绯荤粺浼氳嚜鍔ㄦ娴嬭繛鎺ャ€佽皟鐢ㄧ粨鏋滀笌澶栭儴棰濆害鐘舵€併€?/span></span> <span id="adva">鈻?/span>
+      <span>➕</span> 展开配置<span class="ih">?<span class="ih-b">用于新增外部模型接入配置。保存后系统会自动检测连接、调用结果与外部额度状态。</span></span> <span id="adva">▲</span>
     </div>
     <div class="adv-p op" id="advp">
       <div class="g g2" style="gap:12px">
         <div class="fg" style="margin-bottom:0">
-          <label class="fl">璋冪敤鍦板潃</label>
-          <input class="fi" value="https://api.deepseek.com/anthropic" placeholder="濉緵搴斿晢缁欎綘鐨勮皟鐢ㄥ湴鍧€锛屼緥濡?https://api.deepseek.com/anthropic">
-          <div class="txs tgr mt4">杩欓噷濉緵搴斿晢缁欎綘鐨勬帴鍙ｅ湴鍧€銆備笉浼氬～灏卞幓渚涘簲鍟嗘枃妗ｉ噷鎵?API 鍦板潃鎴?Base URL銆?/div>
+          <label class="fl">调用地址</label>
+          <input class="fi" value="https://api.deepseek.com/anthropic" placeholder="填供应商给你的调用地址，例如 https://api.deepseek.com/anthropic">
+          <div class="txs tgr mt4">这里填供应商给你的接口地址。不会填就去供应商文档里找 API 地址或 Base URL。</div>
         </div>
         <div class="fg" style="margin-bottom:0">
-          <label class="fl">妯″瀷鍚嶇О</label>
-          <input class="fi" id="newModelName" value="Kimi K2" placeholder="濉敤鎴风湅鍒扮殑妯″瀷鍚嶇О锛屼緥濡?Kimi K2銆丟LM 4.5銆丩lama 3.1 70B">
-          <div class="txs tgr mt4">浠呯敤浜庡睍绀猴紝涓嶅奖鍝嶇湡瀹炶皟鐢?/div>
+          <label class="fl">模型名称</label>
+          <input class="fi" id="newModelName" value="Kimi K2" placeholder="填用户看到的模型名称，例如 Kimi K2、GLM 4.5、Llama 3.1 70B">
+          <div class="txs tgr mt4">仅用于展示，不影响真实调用</div>
         </div>
         <div class="fg" style="margin-bottom:0">
-          <label class="fl">璋冪敤瀵嗛挜</label>
-          <input class="fi" type="password" value="sk-鈥⑩€⑩€⑩€⑩€⑩€⑩€⑩€⑩€⑩€⑩€⑩€⑩€⑩€⑩€⑩€? placeholder="濉緵搴斿晢缁欎綘鐨勫瘑閽ワ紝渚嬪 sk-xxxxxx">
-          <div class="txs tgr mt4">杩欓噷濉緵搴斿晢缁欎綘鐨?API Key銆傚缓璁崟鐙垱寤轰竴涓粰鏈钩鍙颁娇鐢紝鍚庨潰鏇村ソ绠＄悊銆?/div>
+          <label class="fl">调用密钥</label>
+          <input class="fi" type="password" value="sk-••••••••••••••••" placeholder="填供应商给你的密钥，例如 sk-xxxxxx">
+          <div class="txs tgr mt4">这里填供应商给你的 API Key。建议单独创建一个给本平台使用，后面更好管理。</div>
         </div>
         <div class="fg" style="margin-bottom:0">
-          <label class="fl">妯″瀷 ID</label>
-          <input class="fi" id="mappingInput" value="deepseek-v3" placeholder="濉郴缁熷疄闄呰皟鐢ㄧ殑妯″瀷 ID锛屼緥濡?deepseek-v3">
-          <div class="txs tgr mt4">妯″瀷 ID 灏辨槸绯荤粺鐪熸鍙戣捣璋冪敤鏃朵娇鐢ㄧ殑妯″瀷鏍囪瘑锛屼緥濡?deepseek-v3銆乹wen-max銆?/div>
+          <label class="fl">模型 ID</label>
+          <input class="fi" id="mappingInput" value="deepseek-v3" placeholder="填系统实际调用的模型 ID，例如 deepseek-v3">
+          <div class="txs tgr mt4">模型 ID 就是系统真正发起调用时使用的模型标识，例如 deepseek-v3、qwen-max。</div>
         </div>
       </div>
       <div style="background:var(--wh);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-top:14px">
-        <div class="tb2 mb8">绯荤粺妫€娴嬬粨鏋?span class="ih">?<span class="ih-b">淇濆瓨鍚庤嚜鍔ㄦ娴嬭妯″瀷鎺ュ叆鏄惁鍙敤锛屽苟鍙嶉杩炴帴銆佽皟鐢ㄤ笌棰濆害鐘舵€併€?/span></span></div>
+        <div class="tb2 mb8">系统检测结果<span class="ih">?<span class="ih-b">保存后自动检测该模型接入是否可用，并反馈连接、调用与额度状态。</span></span></div>
         <div class="g g3" style="gap:10px">
           <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:8px;padding:12px">
-            <div class="txs tlt mb8">杩炴帴鐘舵€?/div>
-            <div id="extConnStatus" class="tb2">寰呮娴?/div>
-            <div id="extConnDesc" class="txs tgr mt4">淇濆瓨鍚庤嚜鍔ㄦ娴?/div>
+            <div class="txs tlt mb8">连接状态</div>
+            <div id="extConnStatus" class="tb2">待检测</div>
+            <div id="extConnDesc" class="txs tgr mt4">保存后自动检测</div>
           </div>
           <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:8px;padding:12px">
-            <div class="txs tlt mb8">鏈€杩戜竴娆¤皟鐢?/div>
-            <div id="extCallStatus" class="tb2">灏氭湭楠岃瘉</div>
-            <div id="extCallDesc" class="txs tgr mt4">淇濆瓨鍚庤嚜鍔ㄥ彂璧锋娴?/div>
+            <div class="txs tlt mb8">最近一次调用</div>
+            <div id="extCallStatus" class="tb2">尚未验证</div>
+            <div id="extCallDesc" class="txs tgr mt4">保存后自动发起检测</div>
           </div>
           <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:8px;padding:12px">
-            <div class="txs tlt mb8">澶栭儴渚涘簲鍟嗛搴?/div>
-            <div id="extBalanceStatus" class="tb2">寰呮煡璇?/div>
-            <div id="extBalanceDesc" class="txs tgr mt4">淇濆瓨鍚庤嚜鍔ㄦ娴?/div>
+            <div class="txs tlt mb8">外部供应商额度</div>
+            <div id="extBalanceStatus" class="tb2">待查询</div>
+            <div id="extBalanceDesc" class="txs tgr mt4">保存后自动检测</div>
           </div>
         </div>
       </div>
       <div class="mt12" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
-        <button class="btn bp" style="min-width:220px;padding:12px 28px;font-size:15px" onclick="needLogin(()=>saveConf(this))">淇濆瓨骞舵娴?/button>
+        <button class="btn bp" style="min-width:220px;padding:12px 28px;font-size:15px" onclick="needLogin(()=>saveConf(this))">保存并检测</button>
       <span id="connResult" style="font-size:12px;display:none;text-align:center"></span>
       </div>
     </div>
@@ -906,7 +897,7 @@ input:checked+.sl:before{transform:translateX(16px)}
   </div>
 </div>
 
-<!-- 鈹€鈹€鈹€鈹€鈹€鈹€鈹€ P04 Tokens 涓績 鈹€鈹€鈹€鈹€鈹€鈹€鈹€ -->
+<!-- ─────── P04 Tokens 中心 ─────── -->
 
 <div id="p05" class="pg">
   <div id="buyTabBar" style="display:flex;align-items:center;margin-bottom:16px">
@@ -1142,6 +1133,19 @@ input:checked+.sl:before{transform:translateX(16px)}
       <span class="txs tgr">充值或订阅后即可使用</span>
     </div>
     <div class="txs tgr mb16">用这个 Key 在任意支持 OpenAI / Anthropic 协议的工具里直接调用，消耗平台余额，无需配置各家供应商账号。</div>
+
+    <!-- 无订阅/无余额时的引导提示 -->
+    <div id="apiKeyLocked" style="display:none;background:#fffbeb;border:1.5px solid #fde68a;border-radius:10px;padding:18px;margin-bottom:16px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:6px;color:#92400e">⚠️ 你的 API Key 暂时无法使用</div>
+      <div style="font-size:13px;color:#a16207;line-height:1.8;margin-bottom:14px">
+        API Key 已生成，但需要<strong>有效订阅</strong>或<strong>充值余额 &gt; ¥0</strong>才能正常调用模型。<br>
+        请先订阅套餐或充值，激活后 Key 立即生效。
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn bp bsm" style="font-size:13px;padding:6px 16px" onclick="needLogin(function(){go('p05',nv(4),'订阅 / 充值');setTimeout(function(){switchBuyTab('subscription')},50)})">去订阅套餐</button>
+        <button class="btn bo bsm" style="font-size:13px;padding:6px 16px" onclick="needLogin(function(){go('p05',nv(4),'订阅 / 充值');setTimeout(function(){switchBuyTab('topup')},50)})">按量充值</button>
+      </div>
+    </div>
 
     <!-- Key 展示区 -->
     <div style="background:#f8fffe;border:1.5px solid #a7f3d0;border-radius:10px;padding:16px;margin-bottom:16px">
@@ -1459,6 +1463,156 @@ input:checked+.sl:before{transform:translateX(16px)}
       </tbody>
     </table>
   </div>
+  <div style="padding:0 20px 24px">
+    <button id="mdUseBtn" class="btn bp bfw" style="width:100%;padding:10px 0;font-size:14px" onclick="var n=document.getElementById('mdName').textContent;closeModelDetail();openUseModelModal(n)">立即使用</button>
+  </div>
+</div>
+
+<!-- M12 立即使用 - 选择工具 -->
+<div class="ov" id="m12">
+  <div class="mo" style="max-width:480px">
+    <div class="mo-ti">选择要使用此模型的 AI 工具</div>
+    <div class="mo-ds" id="m12ModelName" style="color:var(--a);font-weight:700;margin-bottom:4px"></div>
+    <div class="mo-ds" style="margin-top:0">点击某个工具，将此模型设为该工具的默认模型并直接生效。</div>
+    <div id="m12ToolList" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0"></div>
+    <div class="mo-ft">
+      <button class="btn bo" onclick="cm('m12')">取消</button>
+    </div>
+  </div>
+</div>
+
+<!-- M13 新手引导 -->
+<div class="ov" id="m13" style="align-items:center;justify-content:center">
+  <div class="mo" style="max-width:560px;padding:0;overflow:hidden">
+    <!-- 标题头 -->
+    <div style="padding:20px 28px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-size:16px;font-weight:800">🚀 AI 工具快速配置指南</div>
+        <div style="font-size:12px;color:var(--t3);margin-top:3px">4 步完成安装，5 分钟内开始使用 AI</div>
+      </div>
+      <button onclick="cm('m13')" style="border:none;background:none;font-size:20px;color:var(--t3);cursor:pointer;padding:4px;line-height:1">&#x2715;</button>
+    </div>
+    <!-- 步骤进度条 -->
+    <div style="display:flex;border-bottom:1px solid var(--bd)">
+      <div id="ob-step-1" class="ob-step ob-step-on" onclick="obGo(1)">
+        <div class="ob-step-num">1</div><span>安装工具</span>
+      </div>
+      <div id="ob-step-2" class="ob-step" onclick="obGo(2)">
+        <div class="ob-step-num">2</div><span>获取 Key</span>
+      </div>
+      <div id="ob-step-3" class="ob-step" onclick="obGo(3)">
+        <div class="ob-step-num">3</div><span>配置模型</span>
+      </div>
+      <div id="ob-step-4" class="ob-step" onclick="obGo(4)">
+        <div class="ob-step-num">4</div><span>开始使用</span>
+      </div>
+    </div>
+    <!-- 步骤内容区 -->
+    <div style="padding:28px 28px 20px">
+      <!-- Step 1 -->
+      <div id="ob-panel-1" class="ob-panel">
+        <div style="font-size:28px;margin-bottom:10px">🛠️</div>
+        <div style="font-size:16px;font-weight:800;margin-bottom:8px">第一步：选择你要使用的 AI 工具</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:18px">以下是平台支持的全部 AI 工具，选择你常用的一个，后续教程会针对该工具展示配置步骤。</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="ob-tool-card ob-tool-on" onclick="obSelectTool(this,'Claude Desktop')">
+            <div style="font-size:20px">🤖</div>
+            <div style="font-weight:700;font-size:13px">Claude Desktop</div>
+            <div style="font-size:11px;color:var(--t3)">图形界面 · 最常用</div>
+          </div>
+          <div class="ob-tool-card" onclick="obSelectTool(this,'Codex CLI')">
+            <div style="font-size:20px">⌨️</div>
+            <div style="font-weight:700;font-size:13px">Codex CLI</div>
+            <div style="font-size:11px;color:var(--t3)">命令行 · 开发者</div>
+          </div>
+          <div class="ob-tool-card" onclick="obSelectTool(this,'OpenCode')">
+            <div style="font-size:20px">💻</div>
+            <div style="font-weight:700;font-size:13px">OpenCode</div>
+            <div style="font-size:11px;color:var(--t3)">VSCode 插件</div>
+          </div>
+          <div class="ob-tool-card" onclick="obSelectTool(this,'Gemini CLI')">
+            <div style="font-size:20px">✨</div>
+            <div style="font-weight:700;font-size:13px">Gemini CLI</div>
+            <div style="font-size:11px;color:var(--t3)">命令行 · Google</div>
+          </div>
+          <div class="ob-tool-card" onclick="obSelectTool(this,'OpenClaw')">
+            <div style="font-size:20px">🦞</div>
+            <div style="font-weight:700;font-size:13px">OpenClaw</div>
+            <div style="font-size:11px;color:var(--t3)">图形界面 · 轻量</div>
+          </div>
+          <div class="ob-tool-card" onclick="obSelectTool(this,'Hermes')">
+            <div style="font-size:20px">🪄</div>
+            <div style="font-weight:700;font-size:13px">Hermes</div>
+            <div style="font-size:11px;color:var(--t3)">多模态 · 进阶</div>
+          </div>
+        </div>
+        <div style="margin-top:14px;padding:10px 14px;background:#f0fdf9;border-radius:8px;font-size:12px;color:var(--t2)">
+          💡 已选择：<span id="ob-selected-tool" style="color:var(--a);font-weight:700">Claude Desktop</span>　·　点击「下一步」查看该工具的配置教程
+        </div>
+      </div>
+      <!-- Step 2 -->
+      <div id="ob-panel-2" class="ob-panel" style="display:none">
+        <div style="font-size:28px;margin-bottom:10px">🔑</div>
+        <div style="font-size:16px;font-weight:800;margin-bottom:8px">第二步：生成你的 API Key</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:16px">你需要先在「设置」中生成一个专属转发 Key，再填入 AI 工具。生成后 Key 仅显示一次，请立即复制保存。</div>
+        <!-- 引导去设置生成 -->
+        <div style="background:#f8fffe;border:1.5px solid #b2e0da;border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--a);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
+            <div style="font-size:13px;color:var(--t2);line-height:1.7">点击下方按钮，跳转到「设置 → API Key 管理」页面</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--a);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
+            <div style="font-size:13px;color:var(--t2);line-height:1.7">点击「<strong>生成新 Key</strong>」，Key 仅显示一次，立即点复制</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--a);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
+            <div style="font-size:13px;color:var(--t2);line-height:1.7">复制完成后回到此引导，继续下一步配置</div>
+          </div>
+          <button class="btn bp bsm" style="align-self:flex-start;font-size:13px;padding:7px 18px" onclick="cm('m13');go('p07',document.querySelector('.ni[onclick*=p07]'),'设置')">前往设置 → 生成 API Key</button>
+        </div>
+        <div style="margin-top:12px;padding:10px 14px;background:#fffbeb;border-radius:8px;font-size:12px;color:#92400e">
+          ⚠️ 生成的 Key 请妥善保管，不要分享给他人，唯一绑定你的账号。
+        </div>
+      </div>
+      <!-- Step 3 -->
+      <div id="ob-panel-3" class="ob-panel" style="display:none">
+        <div style="font-size:28px;margin-bottom:10px">⚙️</div>
+        <div style="font-size:16px;font-weight:800;margin-bottom:8px">第三步：在工具里填入 Key</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:16px">以 <span id="ob-tool-label" style="color:var(--a);font-weight:700">Claude Desktop</span> 为例：</div>
+        <div id="ob-guide-steps" style="display:flex;flex-direction:column;gap:10px"></div>
+      </div>
+      <!-- Step 4 -->
+      <div id="ob-panel-4" class="ob-panel" style="display:none">
+        <div style="font-size:28px;margin-bottom:10px">🎉</div>
+        <div style="font-size:16px;font-weight:800;margin-bottom:8px">配置完成，开始使用吧！</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:18px">你现在可以在 AI 工具里直接发起对话，所有请求都会通过 AIHub 路由到你选择的模型。</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+          <div style="background:#f0fdf9;border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:22px;margin-bottom:4px">🚀</div>
+            <div style="font-size:12px;font-weight:700">今日剩余额度</div>
+            <div style="font-size:20px;font-weight:800;color:var(--a);margin-top:4px">13,426 T</div>
+          </div>
+          <div style="background:#f0fdf9;border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:22px;margin-bottom:4px">🤖</div>
+            <div style="font-size:12px;font-weight:700">可用模型</div>
+            <div style="font-size:20px;font-weight:800;color:var(--a);margin-top:4px">18 个</div>
+          </div>
+        </div>
+        <div style="padding:10px 14px;background:#f0fdf9;border-radius:8px;font-size:12px;color:var(--t2)">
+          💡 遇到问题？可随时在「模型设置」里调整路由，或前往「AI 工具」查看安装教程。
+        </div>
+      </div>
+    </div>
+    <!-- 底部按钮 -->
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 28px 20px;border-top:1px solid var(--bd)">
+      <button id="ob-btn-skip" class="btn bo bsm" onclick="cm('m13')" style="color:var(--t3);border-color:transparent">跳过引导</button>
+      <div style="display:flex;gap:8px">
+        <button id="ob-btn-prev" class="btn bo bsm" onclick="obPrev()" style="display:none">上一步</button>
+        <button id="ob-btn-next" class="btn bp bsm" onclick="obNext()">下一步</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- M08 需要登录提示 -->
@@ -1642,12 +1796,12 @@ var appState = {
   selectedUsageRangeStart: '2026-07-05',
   selectedUsageRangeEnd: '2026-07-05',
   usageRecords: [
-    { date: '2026-07-05', time: '14:32', tool: 'Claude Desktop', toolModelLabel: 'Claude · Sonnet', model: 'Claude Sonnet', badgeClass: 'bpu', tokens: 1248 },
-    { date: '2026-07-05', time: '13:10', tool: 'Codex CLI', toolModelLabel: 'Codex · Haiku', model: 'Claude Haiku', badgeClass: 'bpu', tokens: 876 },
-    { date: '2026-07-05', time: '11:47', tool: 'Claude Desktop', toolModelLabel: 'Claude · DeepSeek V3', model: 'DeepSeek V3', badgeClass: 'bg', tokens: 654 },
-    { date: '2026-07-05', time: '10:22', tool: 'OpenCode', toolModelLabel: 'OpenCode · Claude Sonnet', model: 'Claude Sonnet', badgeClass: 'bpu', tokens: 463 },
-    { date: '2026-07-04', time: '18:05', tool: 'Claude Desktop', toolModelLabel: 'Claude · Haiku', model: 'Claude Haiku', badgeClass: 'bpu', tokens: 2310 },
-    { date: '2026-07-04', time: '15:33', tool: 'Codex CLI', toolModelLabel: 'Codex · DeepSeek V3', model: 'DeepSeek V3', badgeClass: 'bg', tokens: 1890 }
+    { date: '2026-07-05', time: '14:32', tool: 'Claude Desktop', toolModelLabel: 'Claude · Sonnet', model: 'Claude Sonnet', badgeClass: 'bpu', tokens: 1248, billing: 'subscription' },
+    { date: '2026-07-05', time: '13:10', tool: 'Codex CLI', toolModelLabel: 'Codex · Haiku', model: 'Claude Haiku', badgeClass: 'bpu', tokens: 876, billing: 'subscription' },
+    { date: '2026-07-05', time: '11:47', tool: 'Claude Desktop', toolModelLabel: 'Claude · DeepSeek V3', model: 'DeepSeek V3', badgeClass: 'bg', tokens: 654, billing: 'subscription' },
+    { date: '2026-07-05', time: '10:22', tool: 'OpenCode', toolModelLabel: 'OpenCode · Claude Sonnet', model: 'Claude Sonnet', badgeClass: 'bpu', tokens: 463, billing: 'topup' },
+    { date: '2026-07-04', time: '18:05', tool: 'Claude Desktop', toolModelLabel: 'Claude · Haiku', model: 'Claude Haiku', badgeClass: 'bpu', tokens: 2310, billing: 'subscription' },
+    { date: '2026-07-04', time: '15:33', tool: 'Codex CLI', toolModelLabel: 'Codex · DeepSeek V3', model: 'DeepSeek V3', badgeClass: 'bg', tokens: 1890, billing: 'topup' }
   ],
   usageAnalytics: {
     currentDayProgress: {
@@ -1828,9 +1982,9 @@ function toApp(){
   loggedIn = true;
   updateLoginUI();
   // 若有挂起的操作（如充值），登录后自动执行
-  if(_pendingFn){ var f=_pendingFn; _pendingFn=null; setTimeout(f,350); }
-  // 登录成功后弹设置密码提示（可关闭）
-  setTimeout(()=>om('m06'),300);
+  if(_pendingFn){ var f=_pendingFn; _pendingFn=null; setTimeout(f,350); return; }
+  // 新手引导（首次登录）
+  setTimeout(function(){ obStart(); }, 400);
 }
 
 var loggedIn = false;
@@ -1855,6 +2009,13 @@ function updateLoginUI(){
   document.getElementById('heroLoggedIn').style.display = loggedIn ? '' : 'none';
   document.getElementById('statsGuest').style.display   = loggedIn ? 'none' : '';
   document.getElementById('statsLoggedIn').style.display= loggedIn ? '' : 'none';
+  // API Key 锁定状态：无订阅且无余额时显示引导
+  var keyLocked = document.getElementById('apiKeyLocked');
+  if(keyLocked){
+    var hasSubscription = !!(userPlan && userPlan.name);
+    var hasBalance = userCashBalance > 0;
+    keyLocked.style.display = (loggedIn && !hasSubscription && !hasBalance) ? '' : 'none';
+  }
   syncBalanceViews();
   renderUsageChart();
 }
@@ -1924,21 +2085,54 @@ function getRecentUsageTotal(){
   }, 0);
 }
 
-function renderUsageTables(){
-  const homeBody=document.getElementById('homeRecentUsageBody');
+function billingTag(b){
+  return b==='topup'
+    ? '<span class="bd2 by">¥按量</span>'
+    : '<span class="bd2 bg">订阅</span>';
+}
+
+function filterUsageTable(period){
   const tokensBody=document.getElementById('tokenUsageTableBody');
+  if(!tokensBody) return;
+  const periodSel=document.getElementById('usageRecordPeriod');
+  const toolSel=document.getElementById('usageFilterTool');
+  const billingSel=document.getElementById('usageFilterBilling');
+  // 如果传入 period 参数（占位兼容旧调用）则同步到 select
+  if(period && periodSel) periodSel.value=period;
+  const activePeriod=periodSel ? periodSel.value : (period||'today');
+  const activeTool=toolSel ? toolSel.value : '';
+  const activeBilling=billingSel ? billingSel.value : '';
+  const today=appState.currentDate;
   const rows=(appState.usageRecords || []).slice();
-  if(homeBody){
-    homeBody.innerHTML=rows.slice(0,4).map(function(item){
-      return '<tr><td class="tgr ts">' + item.time + '</td><td>' + item.tool + '</td><td><span class="bd2 ' + item.badgeClass + '">' + item.model + '</span></td><td>' + item.tokens.toLocaleString() + '</td></tr>';
-    }).join('');
+  function inPeriod(item){
+    if(activePeriod==='today') return item.date===today;
+    if(activePeriod==='7d'){
+      const d=new Date(today+'T00:00:00'); d.setDate(d.getDate()-6);
+      return item.date>=d.toISOString().slice(0,10);
+    }
+    if(activePeriod==='30d'){
+      const d=new Date(today+'T00:00:00'); d.setDate(d.getDate()-29);
+      return item.date>=d.toISOString().slice(0,10);
+    }
+    return true;
   }
-  if(tokensBody){
-    tokensBody.innerHTML=rows.map(function(item){
-      const dateLabel=item.date === appState.currentDate ? '今天 ' + item.time : '昨天 ' + item.time;
-      return '<tr><td class="tgr ts">' + dateLabel + '</td><td>' + item.toolModelLabel + '</td><td>' + item.tokens.toLocaleString() + '</td></tr>';
-    }).join('');
+  const filtered=rows.filter(function(item){
+    return inPeriod(item)
+      && (activeTool==='' || item.tool===activeTool)
+      && (activeBilling==='' || item.billing===activeBilling);
+  });
+  if(filtered.length===0){
+    tokensBody.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--t2);padding:24px 0">暂无记录</td></tr>';
+    return;
   }
+  tokensBody.innerHTML=filtered.map(function(item){
+    const dateLabel=item.date===today?'今天 '+item.time:item.date.slice(5)+' '+item.time;
+    return '<tr><td class="tgr ts">'+dateLabel+'</td><td>'+item.tool+'</td><td><span class="bd2 '+item.badgeClass+'">'+item.model+'</span></td><td>'+item.tokens.toLocaleString()+'</td><td>'+billingTag(item.billing)+'</td></tr>';
+  }).join('');
+}
+
+function renderUsageTables(){
+  filterUsageTable('today');
 }
 
 function syncUsageSummaryViews(){
@@ -2682,11 +2876,167 @@ function openModelDetail(modelName){
   requestAnimationFrame(function(){ panel.style.transform = 'translateX(0)'; });
 }
 
+// ── 新手引导 ──────────────────────────────────────────
+var _obStep = 1;
+var _obSelectedTool = 'Claude Desktop';
+
+var _obGuideMap = {
+  'Claude Desktop': [
+    '打开 Claude Desktop → 点击右上角头像 → <strong>Settings</strong>',
+    '进入 <strong>API Configuration</strong> 标签',
+    'API Provider 选择 <strong>Custom</strong>',
+    'Base URL 填入：<code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">http://127.0.0.1:15721/v1</code>',
+    'API Key 填入上一步复制的 Key，保存后重启工具'
+  ],
+  'Codex CLI': [
+    '在终端执行：<code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">codex config</code>',
+    '将 <strong>base_url</strong> 设为 <code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">http://127.0.0.1:15721/v1</code>',
+    '将 <strong>api_key</strong> 设为上一步复制的 Key',
+    '保存配置文件（默认路径 <code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">~/.codex/config.json</code>）',
+    '执行 <code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">codex "你好"</code> 验证是否成功'
+  ],
+  'OpenCode': [
+    '在 VSCode 中打开命令面板（Ctrl+Shift+P）',
+    '搜索并打开 <strong>OpenCode: Settings</strong>',
+    'Base URL 填入：<code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">http://127.0.0.1:15721/v1</code>',
+    'API Key 填入上一步复制的 Key',
+    '保存后在侧边栏打开 OpenCode 面板即可使用'
+  ],
+  'Gemini CLI': [
+    '在终端执行：<code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">gemini config set api-endpoint http://127.0.0.1:15721/v1</code>',
+    '执行：<code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">gemini config set api-key &lt;你的Key&gt;</code>',
+    '执行 <code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">gemini chat</code> 发起对话验证',
+    '如遇问题可检查 <code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">~/.gemini/config.yaml</code> 中的配置'
+  ],
+  'OpenClaw': [
+    '打开 OpenClaw → 点击左下角 <strong>⚙ 设置</strong>',
+    '进入 <strong>模型提供商</strong> → 点击 <strong>添加自定义</strong>',
+    'Base URL 填入：<code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">http://127.0.0.1:15721/v1</code>',
+    'API Key 填入上一步复制的 Key，名称随意填写',
+    '保存后在对话框顶部切换到该提供商即可'
+  ],
+  'Hermes': [
+    '打开 Hermes → 进入 <strong>Settings → Model Provider</strong>',
+    '点击 <strong>Add Provider → OpenAI Compatible</strong>',
+    'Endpoint 填入：<code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">http://127.0.0.1:15721/v1</code>',
+    'API Key 填入上一步复制的 Key',
+    '保存后在新建对话时选择该 Provider 下的模型'
+  ]
+};
+
+function obStart(){
+  _obStep = 1;
+  _obSelectedTool = 'Claude Desktop';
+  obRender();
+  om('m13');
+}
+
+function obRender(){
+  // 步骤高亮
+  for(var i=1;i<=4;i++){
+    var s=document.getElementById('ob-step-'+i);
+    if(s){ s.className = 'ob-step' + (i===_obStep?' ob-step-on':''); }
+    var p=document.getElementById('ob-panel-'+i);
+    if(p) p.style.display = i===_obStep?'':'none';
+  }
+  // 按钮显示
+  var prev=document.getElementById('ob-btn-prev');
+  var next=document.getElementById('ob-btn-next');
+  var skip=document.getElementById('ob-btn-skip');
+  if(prev) prev.style.display = _obStep>1 ? '' : 'none';
+  if(next) next.textContent = _obStep===4 ? '完成' : '下一步';
+  if(skip) skip.style.display = _obStep===4 ? 'none' : '';
+  // 工具名同步
+  var tl=document.getElementById('ob-tool-label');
+  if(tl) tl.textContent = _obSelectedTool;
+  // Step 3：动态渲染该工具的配置教程
+  if(_obStep===3){
+    var stepsEl=document.getElementById('ob-guide-steps');
+    var guide=_obGuideMap[_obSelectedTool]||_obGuideMap['Claude Desktop'];
+    if(stepsEl){
+      stepsEl.innerHTML=guide.map(function(s,i){
+        return '<div class="ob-guide-row"><div class="ob-guide-num">'+(i+1)+'</div><div>'+s+'</div></div>';
+      }).join('');
+    }
+  }
+}
+
+function obGo(step){
+  if(step < _obStep) { _obStep=step; obRender(); }
+}
+
+function obNext(){
+  if(_obStep===4){ cm('m13'); return; }
+  _obStep++;
+  obRender();
+}
+
+function obPrev(){
+  if(_obStep>1){ _obStep--; obRender(); }
+}
+
+function obSelectTool(el, name){
+  _obSelectedTool = name;
+  document.querySelectorAll('.ob-tool-card').forEach(function(c){ c.classList.remove('ob-tool-on'); });
+  el.classList.add('ob-tool-on');
+  var sel=document.getElementById('ob-selected-tool');
+  if(sel) sel.textContent = name;
+}
+
+function copyObKey(){
+  var key = 'sk-aihub-x7k2m9p4q1r8t3v6w0y5z';
+  if(navigator.clipboard){ navigator.clipboard.writeText(key); }
+  var tip=document.getElementById('ob-copy-tip');
+  if(tip){ tip.style.display=''; setTimeout(function(){ tip.style.display='none'; },2000); }
+}
+// ── end 新手引导 ──────────────────────────────────────
+
 function closeModelDetail(){
   var panel = document.getElementById('modelDetailPanel');
   var overlay = document.getElementById('modelDetailOverlay');
   if(panel){ panel.style.transform = 'translateX(100%)'; setTimeout(function(){ panel.style.display='none'; },250); }
   if(overlay) overlay.style.display = 'none';
+}
+
+var _pendingUseModel = '';
+
+function openUseModelModal(modelName){
+  _pendingUseModel = modelName;
+  var nameEl = document.getElementById('m12ModelName');
+  if(nameEl) nameEl.textContent = modelName;
+  var list = document.getElementById('m12ToolList');
+  if(!list) return;
+  var tools = appState.toolRouting || {};
+  list.innerHTML = Object.keys(tools).map(function(key){
+    var t = tools[key];
+    var alreadyIn = t.options && t.options.indexOf(modelName) >= 0;
+    var isCurrent = alreadyIn && t.selection === modelName;
+    var badge = isCurrent
+      ? '<span style="font-size:10px;color:#15803d;background:#dcfce7;padding:1px 6px;border-radius:4px;margin-left:6px">当前默认</span>'
+      : alreadyIn
+        ? '<span style="font-size:10px;color:#a16207;background:#fef9c3;padding:1px 6px;border-radius:4px;margin-left:6px">已在列表</span>'
+        : '';
+    return '<div onclick="confirmUseModel(\''+key+'\')" style="border:2px solid var(--bd);border-radius:10px;padding:12px 14px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor=\'#8ed2c9\'" onmouseout="this.style.borderColor=\'var(--bd)\'">'
+      + '<div style="font-size:13px;font-weight:700;display:flex;align-items:center">' + t.name + badge + '</div>'
+      + '<div style="font-size:11px;color:var(--t3);margin-top:3px">当前默认：' + (t.selection||'未设置') + '</div>'
+      + '</div>';
+  }).join('');
+  om('m12');
+}
+
+function confirmUseModel(toolKey){
+  var tool = appState.toolRouting[toolKey];
+  if(!tool || !_pendingUseModel) return;
+  if(!tool.options) tool.options = [];
+  if(tool.options.indexOf(_pendingUseModel) < 0){
+    tool.options.push(_pendingUseModel);
+  }
+  tool.selection = _pendingUseModel;
+  cm('m12');
+  appState.activeToolKey = toolKey;
+  renderToolRoutingViews();
+  var ni = document.querySelector('.ni[onclick*="p03"]');
+  if(ni) go('p03', ni, '模型设置');
 }
 
 var modelPriceMap = {
@@ -2776,14 +3126,22 @@ function buildPlatformModelCard(modelName, providerLabel){
     'bytedance.com':'#fff0f6','minimax.io':'#f4f0ff','zhipuai.cn':'#edfff4','moonshot.cn':'#f0eeff'
   };
   var bg = (logo && bgMap[logo]) ? bgMap[logo] : '#f5f3ff';
+  var safeModel = modelName.replace(/'/g, "\\'");
   var card=document.createElement('div');
   card.className='mc';
+  card.style.cssText='display:flex;align-items:center;gap:10px;cursor:default;padding:12px 14px';
   card.setAttribute('data-model-name', modelName);
-  card.setAttribute('onclick', "openModelDetail('" + modelName.replace(/'/g, "\\'") + "')");
   card.innerHTML=''
-    + '<div class="mi" style="background:'+bg+';padding:4px">'+logoHtml+'</div>'
-    + '<div class="f1"><div class="mn">' + modelName + '</div><div class="mp">' + (providerLabel || getModelMetaLine(modelName)) + '</div></div>'
-    + rightHtml;
+    + '<div class="mi" style="background:'+bg+';padding:4px;flex-shrink:0;cursor:pointer" onclick="openModelDetail(\'' + safeModel + '\')">'+logoHtml+'</div>'
+    + '<div style="flex:1;min-width:0;cursor:pointer" onclick="openModelDetail(\'' + safeModel + '\')">'
+    +   '<div class="mn" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + modelName + '</div>'
+    +   '<div class="mp">' + (providerLabel || getModelMetaLine(modelName)) + '</div>'
+    + '</div>'
+    + rightHtml
+    + '<div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;align-items:flex-end">'
+    +   '<button class="btn bo bsm" style="font-size:11px;padding:3px 10px;white-space:nowrap" onclick="event.stopPropagation();openUseModelModal(\'' + safeModel + '\')">立即使用</button>'
+    +   '<span style="font-size:11px;color:var(--t3);cursor:pointer;white-space:nowrap;padding:3px 2px" onclick="event.stopPropagation();openModelDetail(\'' + safeModel + '\')">查看详情</span>'
+    + '</div>';
   return card;
 }
 
@@ -3613,7 +3971,7 @@ function handlePurchase(buttonEl){
     if(topupContent) topupContent.style.display = '';
     if(m05Title) m05Title.textContent = '充值成功';
     if(m05Desc) m05Desc.textContent = '余额已到账，可随时按量使用。';
-    if(m05PrimaryBtn){ m05PrimaryBtn.textContent = '查看余额'; m05PrimaryBtn.onclick = function(){ cm('m05'); go('p04', nv(3), 'Tokens 中心'); }; }
+    if(m05PrimaryBtn){ m05PrimaryBtn.textContent = '查看余额'; m05PrimaryBtn.onclick = function(){ cm('m05'); go('p01', nv(0), '总控台'); }; }
     var m05TopupAmount = document.getElementById('m05TopupAmount');
     var m05TopupBalance = document.getElementById('m05TopupBalance');
     if(m05TopupAmount) m05TopupAmount.textContent = '¥' + appState.selectedPlan.price + (appState.selectedPlan.credit > appState.selectedPlan.price ? '（到账 ¥' + appState.selectedPlan.credit + '）' : '');
