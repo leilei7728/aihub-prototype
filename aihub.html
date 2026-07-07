@@ -1128,15 +1128,17 @@ input:checked+.sl:before{transform:translateX(16px)}
 
   <!-- Tab3: 订单记录 -->
   <div id="buyPanelOrders" style="display:none">
-    <div class="fxb mb16" style="align-items:center;flex-wrap:wrap;gap:10px">
-      <!-- 订单类型 Tab -->
-      <div class="fxc g6">
-        <div class="ft on" onclick="orderTypeClick(this)" data-type="全部">全部</div>
-        <div class="ft" onclick="orderTypeClick(this)" data-type="订阅订单">订阅订单</div>
-        <div class="ft" onclick="orderTypeClick(this)" data-type="充値订单">充値订单</div>
+    <div style="display:flex;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+      <!-- 居中：订单类型 Tab -->
+      <div style="flex:1;display:flex;justify-content:center">
+        <div class="fxc g6">
+          <div class="ft on" onclick="orderTypeClick(this)" data-type="全部">全部</div>
+          <div class="ft" onclick="orderTypeClick(this)" data-type="订阅订单">订阅订单</div>
+          <div class="ft" onclick="orderTypeClick(this)" data-type="充値订单">充値订单</div>
+        </div>
       </div>
-      <!-- 订单状态下拉 + 批量开票 -->
-      <div class="fxc g6" style="margin-left:auto">
+      <!-- 靠右：订单状态下拉 + 批量开票 -->
+      <div class="fxc g6">
         <select id="orderStatusFilter" onchange="orderStatusChange(this)" style="padding:5px 10px;border-radius:6px;border:1px solid var(--bd);font-size:13px;color:var(--t);background:var(--wh);cursor:pointer">
           <option value="全部">订单状态：全部</option>
           <option value="待支付">待支付</option>
