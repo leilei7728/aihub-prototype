@@ -953,17 +953,16 @@ input:checked+.sl:before{transform:translateX(16px)}
     </div>
 </div>
 <div id="p05" class="pg">
-  <div class="fxb mb16">
-    <div style="display:flex;background:#f4f4f5;border-radius:10px;padding:3px;gap:2px">
-      <button id="buyTab1" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:var(--a);color:#fff;box-shadow:0 2px 8px rgba(15,118,110,.25);border:none" onclick="switchBuyTab('subscription')">订阅制</button>
-      <button id="buyTab2" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchBuyTab('topup')">按量充值</button>
-      <button id="buyTab3" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchBuyTab('orders')">订单记录</button>
+  <div style="display:flex;align-items:center;margin-bottom:16px">
+    <!-- 居中：订阅制 + 按量充值 -->
+    <div style="flex:1;display:flex;justify-content:center">
+      <div style="display:flex;background:#f4f4f5;border-radius:10px;padding:3px;gap:2px">
+        <button id="buyTab1" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:var(--a);color:#fff;box-shadow:0 2px 8px rgba(15,118,110,.25);border:none" onclick="switchBuyTab('subscription')">订阅制</button>
+        <button id="buyTab2" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchBuyTab('topup')">按量充值</button>
+      </div>
     </div>
-    <div class="ts tgr" id="buyPageBalanceBar" style="display:flex;gap:16px;align-items:center">
-      <span>订阅 Tokens：<span class="tac tb2" id="buyPageTokensValue">256,000</span><span class="ih">?<span class="ih-b">订阅套餐每日发放的可用 Tokens。</span></span></span>
-      <span style="color:var(--bd)">|</span>
-      <span>充値余额：<span style="color:#0f766e;font-weight:700" id="buyPageCashValue">¥48.50</span><span class="ih">?<span class="ih-b">按量充値的人民币余额。</span></span></span>
-    </div>
+    <!-- 靠右：订单记录 -->
+    <button id="buyTab3" class="btn bo bsm" style="font-size:13px;font-weight:600;border-radius:8px" onclick="switchBuyTab('orders')">订单记录</button>
   </div>
   <!-- Tab1: 订阅制 -->
   <div id="buyPanelSubscription">
@@ -3258,12 +3257,6 @@ function syncBalanceViews(){
   if(cashCenterBalance)   cashCenterBalance.textContent   = cashStr;
   var tokensSub = document.getElementById('tokensCenterBalanceHint');
   if(tokensSub) tokensSub.textContent = '最近到期 ' + getNearestExpiryLabel();
-
-  // P05 购买页
-  var buyPageTokens = document.getElementById('buyPageTokensValue');
-  var buyPageCash   = document.getElementById('buyPageCashValue');
-  if(buyPageTokens) buyPageTokens.textContent = tokenEstimate;
-  if(buyPageCash)   buyPageCash.textContent   = cashStr;
 
   // 顶栏
   var balTokens = document.getElementById('balTokens');
