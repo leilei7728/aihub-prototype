@@ -399,10 +399,14 @@ input:checked+.sl:before{transform:translateX(16px)}
   <div class="main">
     <div class="topbar">
       <div class="tb-title" id="tbt">总控台</div>
-      <div class="tb-r">
-        <div class="chip chip-v" id="balChip" onclick="needLogin(()=>go('p04',nv(3),'Tokens 中心'))">
-          <span class="cl">剩余 Tokens<span class="ih">?<span class="ih-b">展示平台账户当前剩余的 Tokens，不包含外部供应商账户中的其他额度。</span></span></span>
-          <span class="cv" id="balVal">登录查看</span>
+      <div class="tb-r" style="gap:8px">
+        <div class="chip chip-v" onclick="needLogin(()=>go('p04',nv(3),'Tokens 中心'))" style="cursor:pointer">
+          <span class="cl" style="color:#7c3aed">订阅 Tokens<span class="ih">?<span class="ih-b">订阅套餐每日发放的 Tokens 总余量，用完当天清零。</span></span></span>
+          <span class="cv" id="balTokens" style="color:#7c3aed">登录查看</span>
+        </div>
+        <div class="chip chip-v" onclick="needLogin(()=>go('p04',nv(3),'Tokens 中心'))" style="cursor:pointer">
+          <span class="cl" style="color:#0f766e">充値余额<span class="ih">?<span class="ih-b">按量充値的人民币余额，按各模型 API 单价扫减。</span></span></span>
+          <span class="cv" id="balCash" style="color:#0f766e">登录查看</span>
         </div>
       </div>
     </div>
@@ -833,12 +837,19 @@ input:checked+.sl:before{transform:translateX(16px)}
     <button class="btn bp bsm" onclick="go('p05',nv(4),'购买 Tokens')">立即充值</button>
   </div>
 
-  <div class="g g3 mb16">
+  <div class="g g2 mb16" style="grid-template-columns:1fr 1fr">
     <div class="sc" style="background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:none">
-      <div class="lb" style="color:rgba(255,255,255,.8)">剩余 Tokens<span class="ih">?<span class="ih-b">展示平台套餐当前剩余的 Tokens 总量。</span></span></div>
+      <div class="lb" style="color:rgba(255,255,255,.8)">订阅 Tokens<span class="ih">?<span class="ih-b">订阅套餐每日发放的可用 Tokens 总量，次日 0:00 清零重放。</span></span></div>
       <div class="vl" id="tokensCenterBalanceValue" style="color:#fff">256,000</div>
       <div class="sb2" id="tokensCenterBalanceHint" style="color:rgba(255,255,255,.7)">最近到期 18 天后（2026-07-23）</div>
     </div>
+    <div class="sc" style="background:linear-gradient(135deg,#0f766e,#1f9d8f);color:#fff;border:none">
+      <div class="lb" style="color:rgba(255,255,255,.8)">充値余额<span class="ih">?<span class="ih-b">按量充値的人民币余额，订阅 Tokens 用完后自动按各模型单价扫减此余额。</span></span></div>
+      <div class="vl" id="cashCenterBalanceValue" style="color:#fff">¥48.50</div>
+      <div class="sb2" style="color:rgba(255,255,255,.7)">无到期，用完为止</div>
+    </div>
+  </div>
+  <div class="g g2 mb16">
     <div class="sc">
       <div class="lb">今日消耗<span class="ih">?<span class="ih-b">与首页口径一致，只统计今天通过本站路由产生的 Tokens 消耗。</span></span></div>
       <div class="vl" id="tokensTodayUsageValue">3,241</div>
@@ -894,7 +905,11 @@ input:checked+.sl:before{transform:translateX(16px)}
       <button id="buyTab2" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchBuyTab('topup')">按量充值</button>
       <button id="buyTab3" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchBuyTab('orders')">订单记录</button>
     </div>
-    <div class="ts tgr" id="buyPageBalanceBar">当前剩余 Tokens：<span class="tac tb2" id="buyPageTokensValue">256,000</span><span class="ih">?<span class="ih-b">展示当前平台剩余的 Tokens，方便判断本次需要购买多少。</span></span></div>
+    <div class="ts tgr" id="buyPageBalanceBar" style="display:flex;gap:16px;align-items:center">
+      <span>订阅 Tokens：<span class="tac tb2" id="buyPageTokensValue">256,000</span><span class="ih">?<span class="ih-b">订阅套餐每日发放的可用 Tokens。</span></span></span>
+      <span style="color:var(--bd)">|</span>
+      <span>充値余额：<span style="color:#0f766e;font-weight:700" id="buyPageCashValue">¥48.50</span><span class="ih">?<span class="ih-b">按量充値的人民币余额。</span></span></span>
+    </div>
   </div>
   <!-- Tab1: 订阅制 -->
   <div id="buyPanelSubscription">
@@ -1778,11 +1793,15 @@ function toApp(){
 }
 
 var loggedIn = false;
+var userTokensBalance = 256000;   // 订阅 Tokens
+var userCashBalance   = 48.50;    // 充值余额（人民币）
 
 function updateLoginUI(){
-  // 顶栏额度芯片
-  var balVal = document.getElementById('balVal');
-  if(balVal) balVal.textContent = loggedIn ? getTotalRemainingTokens().toLocaleString() : '登录查看';
+  // 顶栏两个芯片
+  var balTokens = document.getElementById('balTokens');
+  var balCash   = document.getElementById('balCash');
+  if(balTokens) balTokens.textContent = loggedIn ? userTokensBalance.toLocaleString() + ' T' : '登录查看';
+  if(balCash)   balCash.textContent   = loggedIn ? '¥' + userCashBalance.toFixed(2)           : '登录查看';
   // P01 首页切换
   document.getElementById('heroGuest').style.display    = loggedIn ? 'none' : '';
   document.getElementById('heroLoggedIn').style.display = loggedIn ? '' : 'none';
@@ -3059,17 +3078,34 @@ function saveConf(buttonEl){
 }
 
 function syncBalanceViews(){
-  const heroBalance = document.getElementById('heroTokensValue');
-  const tokensCenterBalance = document.getElementById('tokensCenterBalanceValue');
-  const buyPageBalance = document.getElementById('buyPageTokensValue');
-  const topBalance = document.getElementById('balVal');
-  const tokensSub = document.getElementById('tokensCenterBalanceHint');
-  const tokenEstimate = getTotalRemainingTokens().toLocaleString();
-  if(heroBalance) heroBalance.textContent = tokenEstimate;
+  var tokenEstimate = userTokensBalance.toLocaleString();
+  var cashStr = '¥' + userCashBalance.toFixed(2);
+
+  // P01 Hero
+  var heroTokens = document.getElementById('heroTokensValue');
+  var heroCash   = document.getElementById('heroCashValue');
+  if(heroTokens) heroTokens.textContent = tokenEstimate;
+  if(heroCash)   heroCash.textContent   = cashStr;
+
+  // P04 Tokens 中心
+  var tokensCenterBalance = document.getElementById('tokensCenterBalanceValue');
+  var cashCenterBalance   = document.getElementById('cashCenterBalanceValue');
   if(tokensCenterBalance) tokensCenterBalance.textContent = tokenEstimate;
-  if(buyPageBalance) buyPageBalance.textContent = tokenEstimate;
-  if(topBalance && loggedIn) topBalance.textContent = tokenEstimate;
+  if(cashCenterBalance)   cashCenterBalance.textContent   = cashStr;
+  var tokensSub = document.getElementById('tokensCenterBalanceHint');
   if(tokensSub) tokensSub.textContent = '最近到期 ' + getNearestExpiryLabel();
+
+  // P05 购买页
+  var buyPageTokens = document.getElementById('buyPageTokensValue');
+  var buyPageCash   = document.getElementById('buyPageCashValue');
+  if(buyPageTokens) buyPageTokens.textContent = tokenEstimate;
+  if(buyPageCash)   buyPageCash.textContent   = cashStr;
+
+  // 顶栏
+  var balTokens = document.getElementById('balTokens');
+  var balCash   = document.getElementById('balCash');
+  if(balTokens && loggedIn) balTokens.textContent = tokenEstimate + ' T';
+  if(balCash   && loggedIn) balCash.textContent   = cashStr;
 }
 
 function getInvoiceActionLabel(order){
