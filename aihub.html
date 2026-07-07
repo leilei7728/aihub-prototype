@@ -3054,28 +3054,42 @@ function changeToolModel(toolKey, value){
 function updatePlanSummary(el){
   if(!el) return;
   const name=el.getAttribute('data-plan-name') || '';
-  const tokens=el.getAttribute('data-plan-tokens') || '';
   const price=el.getAttribute('data-plan-price') || '0';
   const discount=el.getAttribute('data-plan-discount') || '0';
+  const planType=el.getAttribute('data-plan-type') || 'subscription';
+  const credit=Number(el.getAttribute('data-plan-credit') || 0);
+  const daily=Number(el.getAttribute('data-plan-daily') || 0);
   const tokensValue=parseInt((el.querySelector('.pl-tk') || {textContent:'0'}).textContent.replace(/[^0-9]/g,''),10) || 0;
-  const summary=document.getElementById('selectedPlanSummary');
-  const discountEl=document.getElementById('selectedPlanDiscount');
-  const totalEl=document.getElementById('selectedPlanTotal');
-  const payBtn=document.getElementById('selectedPlanPayBtn');
   appState.selectedPlan = {
     name: name,
-    type: el.getAttribute('data-plan-type') || 'subscription',
-    tokensLabel: tokens,
+    type: planType,
+    tokensLabel: el.getAttribute('data-plan-tokens') || '',
     tokensValue: tokensValue,
     price: Number(price),
     discount: Number(discount),
-    credit: Number(el.getAttribute('data-plan-credit') || 0),
-    daily: Number(el.getAttribute('data-plan-daily') || 0)
+    credit: credit,
+    daily: daily
   };
-  if(summary) summary.textContent=name + ' · ' + tokens;
-  if(discountEl) discountEl.textContent='-¥' + discount;
-  if(totalEl) totalEl.textContent='¥' + price;
-  if(payBtn) payBtn.textContent='确认支付 ¥' + price;
+  if(planType === 'subscription'){
+    const summary=document.getElementById('selectedSubSummary');
+    const totalEl=document.getElementById('selectedSubTotal');
+    const payBtn=document.getElementById('selectedSubPayBtn');
+    // 读套餐文字描述
+    var tkText='';
+    var plTk=el.querySelector('.pl-tk');
+    if(plTk){ tkText = plTk.textContent.replace(/\s+/g,' ').trim(); }
+    if(summary) summary.textContent=name + ' · ' + tkText;
+    if(totalEl) totalEl.textContent='¥' + price + '/月';
+    if(payBtn)  payBtn.textContent='确认支付 ¥' + price;
+  } else {
+    const summary=document.getElementById('selectedTopupSummary');
+    const totalEl=document.getElementById('selectedTopupTotal');
+    const payBtn=document.getElementById('selectedTopupPayBtn');
+    var creditText = credit > Number(price) ? '到账 ¥' + credit + ' 余额（含赠送 ¥' + (credit - Number(price)) + '）' : '到账 ¥' + credit + ' 余额';
+    if(summary) summary.textContent=name + ' · ' + creditText;
+    if(totalEl) totalEl.textContent='¥' + price;
+    if(payBtn)  payBtn.textContent='确认支付 ¥' + price;
+  }
 }
 
 function selPl(el){
@@ -3525,30 +3539,39 @@ function prependOrderRecord(){
 function handlePurchase(buttonEl){
   if(appState.purchaseLocked) return;
   appState.purchaseLocked=true;
-  var payBtn=buttonEl || document.getElementById('selectedPlanPayBtn');
+  var payBtn=buttonEl || null;
   var originalText=payBtn ? payBtn.textContent : '';
   if(payBtn){
     payBtn.disabled=true;
     payBtn.textContent='支付处理中...';
   }
-  const expiryMeta={
-    '新手包': { expiryLabel:'6 个月后到期（2027-01-05）', expiryDate:'2027-01-05' },
-    '标准包': { expiryLabel:'12 个月后到期（2027-07-05）', expiryDate:'2027-07-05' },
-    '高级包': { expiryLabel:'24 个月后到期（2028-07-05）', expiryDate:'2028-07-05' }
-  }[appState.selectedPlan.name] || { expiryLabel:'12 个月后到期（2027-07-05）', expiryDate:'2027-07-05' };
-  appState.packages.push({
-    name: appState.selectedPlan.name,
-    remainingTokens: appState.selectedPlan.tokensValue,
-    purchaseDate: '2026-07-05',
-    expiryLabel: expiryMeta.expiryLabel,
-    expiryDate: expiryMeta.expiryDate,
-    statusText: '生效中',
-    statusClass: 'bg',
-    balanceValue: appState.selectedPlan.price
-  });
 
-  // 支付成功弹窗：根据类型展示对应内容
   var isSubPlan2 = appState.selectedPlan.type === 'subscription';
+
+  // 计算有效期（与 prependOrderRecord 保持一致）
+  var validFrom='', validTo='';
+  if(isSubPlan2){
+    var daysMap2={'月卡':30,'季卡':90,'年卡':365};
+    var days2 = daysMap2[appState.selectedPlan.name] || 30;
+    var baseDate2 = userPlan.expireDate || '2026-07-07';
+    var base2 = new Date(baseDate2);
+    validFrom = baseDate2;
+    var end2 = new Date(base2); end2.setDate(base2.getDate() + days2);
+    validTo = end2.toISOString().slice(0,10);
+    // 更新 userPlan
+    userPlan = {
+      name: appState.selectedPlan.name,
+      expireDate: validTo,
+      dailyTokens: appState.selectedPlan.daily || 16667,
+      todayUsed: userPlan.todayUsed || 0
+    };
+    userTokensBalance = userPlan.dailyTokens - userPlan.todayUsed;
+  } else {
+    // 充值：增加余额
+    userCashBalance += appState.selectedPlan.credit || appState.selectedPlan.price;
+  }
+
+  // 填充并展示支付成功弹窗
   var subContent = document.getElementById('m05SubContent');
   var topupContent = document.getElementById('m05TopupContent');
   var m05Title = document.getElementById('m05Title');
@@ -3560,29 +3583,28 @@ function handlePurchase(buttonEl){
     if(m05Title) m05Title.textContent = '订阅成功';
     if(m05Desc) m05Desc.textContent = '套餐已生效，今日额度已自动发放。';
     if(m05PrimaryBtn){ m05PrimaryBtn.textContent = '开始使用'; m05PrimaryBtn.onclick = function(){ cm('m05'); }; }
-    // 填充订阅内容
     var m05SubPlan = document.getElementById('m05SubPlan');
     var m05SubDaily = document.getElementById('m05SubDaily');
     var m05SubValidity = document.getElementById('m05SubValidity');
     var m05SubRenewNote = document.getElementById('m05SubRenewNote');
     var m05SubBalance = document.getElementById('m05SubBalance');
-    if(m05SubPlan) m05SubPlan.textContent = appState.selectedPlan.name + '（￥' + appState.selectedPlan.price + '/月）';
+    if(m05SubPlan) m05SubPlan.textContent = appState.selectedPlan.name + '（¥' + appState.selectedPlan.price + '/月）';
     if(m05SubDaily) m05SubDaily.textContent = (appState.selectedPlan.daily || 16667).toLocaleString() + ' Tokens/天';
     if(m05SubValidity) m05SubValidity.textContent = validFrom + ' – ' + validTo;
-    if(m05SubRenewNote) m05SubRenewNote.style.display = userPlan.expireDate ? '' : 'none';
+    if(m05SubRenewNote) m05SubRenewNote.style.display = (originalText && userPlan.expireDate !== validTo) ? 'none' : (validFrom === (new Date().toISOString().slice(0,10)) ? 'none' : '');
     if(m05SubBalance) m05SubBalance.textContent = userTokensBalance.toLocaleString() + ' T';
   } else {
     if(subContent) subContent.style.display = 'none';
     if(topupContent) topupContent.style.display = '';
-    if(m05Title) m05Title.textContent = '充値成功';
+    if(m05Title) m05Title.textContent = '充值成功';
     if(m05Desc) m05Desc.textContent = '余额已到账，可随时按量使用。';
     if(m05PrimaryBtn){ m05PrimaryBtn.textContent = '查看余额'; m05PrimaryBtn.onclick = function(){ cm('m05'); go('p04', nv(3), 'Tokens 中心'); }; }
-    // 填充充値内容
     var m05TopupAmount = document.getElementById('m05TopupAmount');
     var m05TopupBalance = document.getElementById('m05TopupBalance');
-    if(m05TopupAmount) m05TopupAmount.textContent = '￥' + appState.selectedPlan.price;
-    if(m05TopupBalance) m05TopupBalance.textContent = '￥' + userCashBalance.toFixed(2);
+    if(m05TopupAmount) m05TopupAmount.textContent = '¥' + appState.selectedPlan.price + (appState.selectedPlan.credit > appState.selectedPlan.price ? '（到账 ¥' + appState.selectedPlan.credit + '）' : '');
+    if(m05TopupBalance) m05TopupBalance.textContent = '¥' + userCashBalance.toFixed(2);
   }
+
   prependOrderRecord();
   renderPackageTable();
   syncBalanceViews();
