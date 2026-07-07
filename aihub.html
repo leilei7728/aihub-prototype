@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -588,6 +588,325 @@ input:checked+.sl:before{transform:translateX(16px)}
     </div>
   </div><!-- /statsLoggedIn -->
 </div><!-- /p01 -->
+
+<div id="p02" class="pg">
+  <div class="fxb mb16">
+    <div style="font-size:15px;font-weight:700">AI 杞欢绠＄悊</div>
+    <div class="ts tgr" id="toolInstallSummary">宸插畨瑁?3 / 6</div>
+  </div>
+  <div class="g g3" id="toolCardGrid">
+
+    <div class="tc" data-tool-card="claude-desktop">
+      <div class="tc-h">
+        <div class="tc-ico" style="background:#f0f0f0">馃</div>
+        <div><div class="tc-nm">Claude</div><div class="tc-vr">妗岄潰鐗?路 v0.10.4 路 宸插畨瑁?/div></div>
+      </div>
+      <div class="tc-ds">Anthropic 瀹樻柟妗岄潰绔紝鏀寔 Claude 鍏ㄧ郴妯″瀷锛屽凡閫氳繃 CC Switch 璺敱銆?/div>
+      <div class="tmx">
+        <div class="row">
+          <div>
+
+            <div class="lb">鏀寔妯″瀷</div>
+            <div class="bd2 bpu" data-tool-mode="claude-desktop">6 涓彲閫?/div>
+          </div>
+          <div style="text-align:right">
+            <div class="lb">褰撳墠浣跨敤妯″瀷</div>
+            <div class="val" data-tool-current="claude-desktop">DeepSeek V3</div>
+          </div>
+        </div>
+        <div class="txs tgr mb8" data-tool-note="claude-desktop">褰撳墠浣跨敤 DeepSeek V3锛屽钩鍙颁細鑷姩瀹屾垚鍏煎鎺ュ叆</div>
+        <div class="lb">璇ュ伐鍏峰綋鍓嶅彲鐢ㄦā鍨?/div>
+        <select class="sel" data-tool-select="claude-desktop" onchange="needLogin(()=>changeToolModel('claude-desktop', this.value))">
+          <option value="DeepSeek V3">DeepSeek V3</option>
+          <option value="DeepSeek R1">DeepSeek R1</option>
+          <option value="Qwen Max">Qwen Max</option>
+          <option value="Gemini 1.5 Pro">Gemini 1.5 Pro</option>
+          <option value="Claude Sonnet 4.5">Claude Sonnet 4.5</option>
+          <option value="Claude Haiku 3.5">Claude Haiku 3.5</option>
+        </select>
+      </div>
+      <div class="tc-ft">
+        <span class="bd2 bg">鈼?杩愯涓?/span>
+        <div class="fxc g6">
+          <button class="btn bo bsm">鏇存柊</button>
+          <button class="btn bp bsm">鎵撳紑</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tc" data-tool-card="codex-cli">
+      <div class="tc-h">
+        <div class="tc-ico" style="background:#e8f4fd">馃捇</div>
+        <div><div class="tc-nm">Codex</div><div class="tc-vr">鍛戒护琛屽伐鍏?路 v1.2.1 路 宸插畨瑁?/div></div>
+      </div>
+      <div class="tc-ds">OpenAI 瀹樻柟鍛戒护琛屽伐鍏凤紝閫傚悎浠ｇ爜鐢熸垚鍦烘櫙锛屽凡閰嶇疆璺敱杞彂銆?/div>
+      <div class="tmx">
+        <div class="row">
+          <div>
+            <div class="lb">鏀寔妯″瀷</div>
+            <div class="bd2 bg" data-tool-mode="codex-cli">3 涓彲閫?/div>
+          </div>
+          <div style="text-align:right">
+            <div class="lb">褰撳墠浣跨敤妯″瀷</div>
+            <div class="val" data-tool-current="codex-cli">DeepSeek V3</div>
+          </div>
+        </div>
+        <div class="txs tgr mb8" data-tool-note="codex-cli">褰撳墠浣跨敤 DeepSeek V3锛屽彲鐩存帴鍒囨崲鍏朵粬鍙敤妯″瀷</div>
+        <div class="lb">璇ュ伐鍏峰綋鍓嶅彲鐢ㄦā鍨?/div>
+        <select class="sel" data-tool-select="codex-cli" onchange="needLogin(()=>changeToolModel('codex-cli', this.value))">
+          <option value="DeepSeek R1">DeepSeek R1</option>
+          <option value="Gemini 1.5 Pro">Gemini 1.5 Pro</option>
+          <option value="DeepSeek V3">DeepSeek V3</option>
+          <option value="Claude Sonnet 4.5">Claude Sonnet 4.5</option>
+          <option value="Claude Haiku 3.5">Claude Haiku 3.5</option>
+          <option value="Qwen Max">Qwen Max</option>
+        </select>
+      </div>
+      <div class="tc-ft">
+        <span class="bd2 bg">鈼?杩愯涓?/span>
+        <div class="fxc g6">
+          <button class="btn bo bsm">鏇存柊</button>
+          <button class="btn bp bsm">鎵撳紑</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tc" data-tool-card="opencode">
+      <div class="tc-h">
+        <div class="tc-ico" style="background:#fef3cd">馃敺</div>
+        <div><div class="tc-nm">OpenCode</div><div class="tc-vr">v0.1.89 路 宸插畨瑁?/div></div>
+      </div>
+      <div class="tc-ds">寮€婧?AI 缂栫▼鍔╂墜锛屾敮鎸佸绉嶆ā鍨嬫帴鍏ワ紝杞婚噺楂樻晥銆?/div>
+      <div class="tmx">
+        <div class="row">
+          <div>
+            <div class="lb">鏀寔妯″瀷</div>
+            <div class="bd2 bpu" data-tool-mode="opencode">3 涓彲閫?/div>
+          </div>
+          <div style="text-align:right">
+            <div class="lb">褰撳墠浣跨敤妯″瀷</div>
+            <div class="val" data-tool-current="opencode">Gemini 1.5 Pro</div>
+          </div>
+        </div>
+        <div class="txs tgr mb8" data-tool-note="opencode">褰撳墠浣跨敤 Gemini 1.5 Pro锛屽彲鐩存帴鍒囨崲鍏朵粬鍙敤妯″瀷</div>
+        <div class="lb">璇ュ伐鍏峰綋鍓嶅彲鐢ㄦā鍨?/div>
+        <select class="sel" data-tool-select="opencode" onchange="needLogin(()=>changeToolModel('opencode', this.value))">
+          <option value="DeepSeek V3">DeepSeek V3</option>
+          <option value="DeepSeek R1">DeepSeek R1</option>
+          <option value="Qwen Max">Qwen Max</option>
+          <option value="Gemini 1.5 Pro">Gemini 1.5 Pro</option>
+          <option value="Claude Sonnet 4.5">Claude Sonnet 4.5</option>
+          <option value="Claude Haiku 3.5">Claude Haiku 3.5</option>
+        </select>
+      </div>
+      <div class="tc-ft">
+        <span class="bd2 by">鈼?鍙洿鏂?/span>
+        <div class="fxc g6">
+          <button class="btn bsm" style="background:var(--wa);color:#fff;border:none">绔嬪嵆鏇存柊</button>
+          <button class="btn bp bsm">鎵撳紑</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tc" data-tool-card="gemini">
+      <div class="tc-h">
+        <div class="tc-ico" style="background:#f0fdf4">馃尶</div>
+        <div><div class="tc-nm">Gemini</div><div class="tc-vr" data-tool-version="gemini">鍛戒护琛屽伐鍏?路 鏈畨瑁?/div></div>
+      </div>
+      <div class="tc-ds">Google 瀹樻柟鍛戒护琛屽伐鍏凤紝鏀寔 Gemini 1.5 Pro / Flash 绛夋ā鍨嬨€?/div>
+      <div class="tc-ft" data-tool-actions="gemini">
+        <span class="bd2 bgr" data-tool-status="gemini">鏈畨瑁?/span>
+        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('gemini'))">瀹夎</button>
+      </div>
+    </div>
+
+    <div class="tc" data-tool-card="openclaw">
+      <div class="tc-h">
+        <div class="tc-ico" style="background:#fff4f0">馃</div>
+        <div><div class="tc-nm">OpenClaw</div><div class="tc-vr" data-tool-version="openclaw">鏈畨瑁?/div></div>
+      </div>
+      <div class="tc-ds">寮€婧?AI 瀹㈡埛绔紝鏀寔澶氱妯″瀷鎺ュ叆锛岀晫闈㈣交閲忛€傚悎鏃ュ父瀵硅瘽鍦烘櫙銆?/div>
+      <div class="tc-ft" data-tool-actions="openclaw">
+        <span class="bd2 bgr" data-tool-status="openclaw">鏈畨瑁?/span>
+        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('openclaw'))">瀹夎</button>
+      </div>
+    </div>
+
+    <div class="tc" data-tool-card="hermes">
+      <div class="tc-h">
+        <div class="tc-ico" style="background:#f0f4ff">馃摝</div>
+        <div><div class="tc-nm">Hermes</div><div class="tc-vr" data-tool-version="hermes">鏈畨瑁?/div></div>
+      </div>
+      <div class="tc-ds">AI 宸ュ叿绠＄悊骞冲彴锛屾敮鎸佸涓?AI 瀹㈡埛绔殑缁熶竴閰嶇疆涓庡垏鎹€?/div>
+      <div class="tc-ft" data-tool-actions="hermes">
+        <span class="bd2 bgr" data-tool-status="hermes">鏈畨瑁?/span>
+        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('hermes'))">瀹夎</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 鈹€鈹€鈹€鈹€鈹€鈹€鈹€ P03 妯″瀷璺敱 鈹€鈹€鈹€鈹€鈹€鈹€鈹€ -->
+
+<div id="p03" class="pg">
+  <div style="font-size:15px;font-weight:700" class="mb16">妯″瀷 / 璺敱绠＄悊</div>
+
+  <div class="stbar run">
+    <div class="stl ok"><span class="dot dg"></span>鏈湴璺敱杩愯涓?/div>
+    <div class="str">缃戝叧鍦板潃锛歨ttp://127.0.0.1:15721 路 浠婃棩璇锋眰 128 娆?span class="ih">?<span class="ih-b">缁熻浠婃棩閫氳繃鏈湴璺敱瀹為檯杞彂鐨勬ā鍨嬭姹傛鏁帮紝涓嶇瓑浜庢秷鎭潯鏁般€備竴娆℃秷鎭彲鑳借Е鍙戝娆¤姹傦紝濡傞噸璇曘€佽ˉ鍏ㄤ笂涓嬫枃鎴栧伐鍏疯皟鐢ㄣ€?/span></span></div>
+  </div>
+
+  <div class="card mb16">
+    <div class="fxb mb16">
+      <div style="font-size:15px;font-weight:700">璺敱妯″紡<span class="ih">?<span class="ih-b">鎺у埗绯荤粺鑷姩閫夋ā绛栫暐銆傛櫤鑳芥ā寮忔寜浠诲姟闅惧害鍒嗛厤妯″瀷锛涚ǔ瀹氭ā寮忓湪鎶ラ敊銆佽秴鏃躲€侀搴︿笉瓒虫椂鑷姩鍒囨崲锛涢€熷害妯″紡浼樺厛鍝嶅簲鏇村揩鐨勬ā鍨嬨€傛櫤鑳芥ā寮忎笌閫熷害妯″紡浜岄€変竴锛岀ǔ瀹氭ā寮忓彲鍙犲姞寮€鍚€?/span></span></div>
+      <div class="txs tgr" id="routeModeSummaryText">褰撳墠寮€鍚細鏅鸿兘妯″紡銆佺ǔ瀹氭ā寮?/div>
+    </div>
+    <div class="g g3" style="gap:10px">
+      <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:10px;padding:14px">
+        <div class="fxb" style="align-items:center;gap:12px">
+          <div>
+            <div class="tb2">鏅鸿兘妯″紡</div>
+            <div class="txs tgr mt4">绯荤粺浼氭牴鎹换鍔￠毦搴﹀垎閰嶆ā鍨嬶紝绠€鍗曚换鍔℃洿鐪侊紝澶嶆潅浠诲姟鏇村己</div>
+          </div>
+          <label class="sw"><input type="checkbox" data-route-mode="saveFlow" checked onchange="toggleRouteMode('saveFlow', this.checked)"><span class="sl"></span></label>
+        </div>
+      </div>
+      <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:10px;padding:14px">
+        <div class="fxb" style="align-items:center;gap:12px">
+          <div>
+            <div class="tb2">绋冲畾妯″紡</div>
+            <div class="txs tgr mt4">鎶ラ敊銆佽秴鏃躲€侀搴︿笉瓒虫椂锛岃嚜鍔ㄦ崲鍒板叾浠栧彲鐢ㄦā鍨?/div>
+          </div>
+          <label class="sw"><input type="checkbox" data-route-mode="failover" checked onchange="toggleRouteMode('failover', this.checked)"><span class="sl"></span></label>
+        </div>
+      </div>
+      <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:10px;padding:14px">
+        <div class="fxb" style="align-items:center;gap:12px">
+          <div>
+            <div class="tb2">閫熷害妯″紡</div>
+            <div class="txs tgr mt4">鏇寸湅閲嶉€熷害鏃剁敤瀹冿紝浼樺厛閫夊搷搴旀洿蹇殑妯″瀷</div>
+          </div>
+          <label class="sw"><input type="checkbox" data-route-mode="speedFirst" onchange="toggleRouteMode('speedFirst', this.checked)"><span class="sl"></span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb16">
+    <!-- 鍒囨崲 Tab -->
+    <div style="display:flex;justify-content:center;margin-bottom:20px">
+      <div style="display:flex;background:#f4f4f5;border-radius:10px;padding:3px;gap:2px">
+        <button id="tabBuiltin" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:var(--a);color:#fff;box-shadow:0 2px 8px rgba(15,118,110,.25);border:none" onclick="switchModelTab('builtin')">鍐呯疆妯″瀷</button>
+        <button id="tabCustom" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchModelTab('custom')">鏂板妯″瀷</button>
+      </div>
+    </div>
+
+    <!-- 骞冲彴鏀寔妯″瀷闈㈡澘 -->
+    <div id="panelBuiltin">
+    <!-- 鍘傚晢 Tab 绛涢€?-->
+    <div style="overflow-x:auto;padding-bottom:4px;margin-bottom:10px">
+      <div id="vendorTabs" style="display:flex;gap:6px;min-width:max-content">
+        <button class="vt on" onclick="setVendorFilter('all',this)">鍏ㄩ儴</button>
+        <button class="vt" onclick="setVendorFilter('Anthropic',this)">Anthropic</button>
+        <button class="vt" onclick="setVendorFilter('OpenAI',this)">OpenAI</button>
+        <button class="vt" onclick="setVendorFilter('Google',this)">Google</button>
+        <button class="vt" onclick="setVendorFilter('DeepSeek',this)">DeepSeek</button>
+        <button class="vt" onclick="setVendorFilter('\u963f\u91cc\u4e91',this)">闃块噷浜?/button>
+        <button class="vt" onclick="setVendorFilter('\u5b57\u8282\u8df3\u52a8',this)">瀛楄妭璺冲姩</button>
+        <button class="vt" onclick="setVendorFilter('MiniMax',this)">MiniMax</button>
+        <button class="vt" onclick="setVendorFilter('\u667a\u8c31AI',this)">鏅鸿氨 AI</button>
+        <button class="vt" onclick="setVendorFilter('\u6708\u4e4b\u6697\u9762',this)">鏈堜箣鏆楅潰</button>
+        <button class="vt" onclick="setVendorFilter('xAI',this)">xAI</button>
+        <button class="vt" onclick="setVendorFilter('Meta',this)">Meta</button>
+        <button class="vt" onclick="setVendorFilter('Mistral',this)">Mistral</button>
+      </div>
+    </div>
+    <!-- 鑳藉姏 Tag 澶氶€?-->
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;align-items:center">
+      <span style="font-size:12px;color:var(--t3);flex-shrink:0">鑳藉姏锛?/span>
+      <span class="cft" onclick="toggleCapFilter('\u51fd\u6570\u8c03\u7528',this)">鍑芥暟璋冪敤</span>
+      <span class="cft" onclick="toggleCapFilter('\u89c6瑙塡u7406\u89e3',this)">瑙嗚鐞嗚В</span>
+      <span class="cft" onclick="toggleCapFilter('\u89c6\u9891\u8f93\u5165',this)">瑙嗛杈撳叆</span>
+      <span class="cft" onclick="toggleCapFilter('\u97f3\u9891\u8f93\u5165',this)">闊抽杈撳叆</span>
+      <span class="cft" onclick="toggleCapFilter('\u6df1\u5ea6\u601d\u8003',this)">娣卞害鎬濊€?/span>
+      <span class="cft" onclick="toggleCapFilter('\u590d\u6742\u63a8\u7406',this)">澶嶆潅鎺ㄧ悊</span>
+      <span class="cft" onclick="toggleCapFilter('\u8054\u7f51\u641c\u7d22',this)">鑱旂綉鎼滅储</span>
+      <span id="capFilterCount" style="font-size:11px;color:var(--t3);margin-left:4px"></span>
+    </div>
+    <div class="g g2" style="gap:10px" id="platformModelGrid">
+      <!-- 鐢?JS renderPlatformModelGrid() 鍔ㄦ€佺敓鎴?-->
+    </div><!-- /platformModelGrid -->
+    </div><!-- /panelBuiltin -->
+
+    <!-- 鏂板妯″瀷闈㈡澘 -->
+    <div id="panelCustom" style="display:none">
+    <!-- 鐢ㄦ埛鏂板妯″瀷鍒楄〃 -->
+    <div id="customModelList" style="display:none;margin-bottom:16px">
+      <table class="tb" id="customModelTable">
+        <thead><tr><th>妯″瀷鍚嶇О</th><th>璋冪敤鍦板潃</th><th>妯″瀷 ID</th><th>杩炴帴鐘舵€?/th><th>鎿嶄綔</th></tr></thead>
+        <tbody id="customModelTableBody"></tbody>
+      </table>
+    </div>
+    <div id="noCustomModel" style="text-align:center;padding:20px 0 8px;color:var(--t3);font-size:13px">鏆傛棤鑷畾涔夋ā鍨嬶紝濉啓涓嬫柟琛ㄥ崟鍗冲彲鎺ュ叆</div>
+
+    <div class="adv-t mt8" onclick="togAdv()">
+      <span>鉃?/span> 灞曞紑閰嶇疆<span class="ih">?<span class="ih-b">鐢ㄤ簬鏂板澶栭儴妯″瀷鎺ュ叆閰嶇疆銆備繚瀛樺悗绯荤粺浼氳嚜鍔ㄦ娴嬭繛鎺ャ€佽皟鐢ㄧ粨鏋滀笌澶栭儴棰濆害鐘舵€併€?/span></span> <span id="adva">鈻?/span>
+    </div>
+    <div class="adv-p op" id="advp">
+      <div class="g g2" style="gap:12px">
+        <div class="fg" style="margin-bottom:0">
+          <label class="fl">璋冪敤鍦板潃</label>
+          <input class="fi" value="https://api.deepseek.com/anthropic" placeholder="濉緵搴斿晢缁欎綘鐨勮皟鐢ㄥ湴鍧€锛屼緥濡?https://api.deepseek.com/anthropic">
+          <div class="txs tgr mt4">杩欓噷濉緵搴斿晢缁欎綘鐨勬帴鍙ｅ湴鍧€銆備笉浼氬～灏卞幓渚涘簲鍟嗘枃妗ｉ噷鎵?API 鍦板潃鎴?Base URL銆?/div>
+        </div>
+        <div class="fg" style="margin-bottom:0">
+          <label class="fl">妯″瀷鍚嶇О</label>
+          <input class="fi" id="newModelName" value="Kimi K2" placeholder="濉敤鎴风湅鍒扮殑妯″瀷鍚嶇О锛屼緥濡?Kimi K2銆丟LM 4.5銆丩lama 3.1 70B">
+          <div class="txs tgr mt4">浠呯敤浜庡睍绀猴紝涓嶅奖鍝嶇湡瀹炶皟鐢?/div>
+        </div>
+        <div class="fg" style="margin-bottom:0">
+          <label class="fl">璋冪敤瀵嗛挜</label>
+          <input class="fi" type="password" value="sk-鈥⑩€⑩€⑩€⑩€⑩€⑩€⑩€⑩€⑩€⑩€⑩€⑩€⑩€⑩€⑩€? placeholder="濉緵搴斿晢缁欎綘鐨勫瘑閽ワ紝渚嬪 sk-xxxxxx">
+          <div class="txs tgr mt4">杩欓噷濉緵搴斿晢缁欎綘鐨?API Key銆傚缓璁崟鐙垱寤轰竴涓粰鏈钩鍙颁娇鐢紝鍚庨潰鏇村ソ绠＄悊銆?/div>
+        </div>
+        <div class="fg" style="margin-bottom:0">
+          <label class="fl">妯″瀷 ID</label>
+          <input class="fi" id="mappingInput" value="deepseek-v3" placeholder="濉郴缁熷疄闄呰皟鐢ㄧ殑妯″瀷 ID锛屼緥濡?deepseek-v3">
+          <div class="txs tgr mt4">妯″瀷 ID 灏辨槸绯荤粺鐪熸鍙戣捣璋冪敤鏃朵娇鐢ㄧ殑妯″瀷鏍囪瘑锛屼緥濡?deepseek-v3銆乹wen-max銆?/div>
+        </div>
+      </div>
+      <div style="background:var(--wh);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-top:14px">
+        <div class="tb2 mb8">绯荤粺妫€娴嬬粨鏋?span class="ih">?<span class="ih-b">淇濆瓨鍚庤嚜鍔ㄦ娴嬭妯″瀷鎺ュ叆鏄惁鍙敤锛屽苟鍙嶉杩炴帴銆佽皟鐢ㄤ笌棰濆害鐘舵€併€?/span></span></div>
+        <div class="g g3" style="gap:10px">
+          <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:8px;padding:12px">
+            <div class="txs tlt mb8">杩炴帴鐘舵€?/div>
+            <div id="extConnStatus" class="tb2">寰呮娴?/div>
+            <div id="extConnDesc" class="txs tgr mt4">淇濆瓨鍚庤嚜鍔ㄦ娴?/div>
+          </div>
+          <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:8px;padding:12px">
+            <div class="txs tlt mb8">鏈€杩戜竴娆¤皟鐢?/div>
+            <div id="extCallStatus" class="tb2">灏氭湭楠岃瘉</div>
+            <div id="extCallDesc" class="txs tgr mt4">淇濆瓨鍚庤嚜鍔ㄥ彂璧锋娴?/div>
+          </div>
+          <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:8px;padding:12px">
+            <div class="txs tlt mb8">澶栭儴渚涘簲鍟嗛搴?/div>
+            <div id="extBalanceStatus" class="tb2">寰呮煡璇?/div>
+            <div id="extBalanceDesc" class="txs tgr mt4">淇濆瓨鍚庤嚜鍔ㄦ娴?/div>
+          </div>
+        </div>
+      </div>
+      <div class="mt12" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+        <button class="btn bp" style="min-width:220px;padding:12px 28px;font-size:15px" onclick="needLogin(()=>saveConf(this))">淇濆瓨骞舵娴?/button>
+      <span id="connResult" style="font-size:12px;display:none;text-align:center"></span>
+      </div>
+    </div>
+    </div><!-- /panelCustom -->
+
+  </div>
+</div>
+
+<!-- 鈹€鈹€鈹€鈹€鈹€鈹€鈹€ P04 Tokens 涓績 鈹€鈹€鈹€鈹€鈹€鈹€鈹€ -->
 
 <div id="p05" class="pg">
   <div id="buyTabBar" style="display:flex;align-items:center;margin-bottom:16px">
