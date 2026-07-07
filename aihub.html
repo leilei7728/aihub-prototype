@@ -1968,11 +1968,12 @@ function toApp(){
   var role = roleEl ? roleEl.value : 'member';
   if(role === 'member'){
     userPlan = { name:'月卡', expireDate:'2026-08-07', dailyTokens:16667, todayUsed:3241 };
+    userCashBalance = 48.50;
   } else {
     userPlan = { name:null, expireDate:null, dailyTokens:0, todayUsed:0 };
+    userCashBalance = 0;
   }
   userTokensBalance = userPlan.dailyTokens - userPlan.todayUsed;
-  userCashBalance   = 48.50;
   // 关闭登录页
   cm('ls');
   // 切换侧边栏状态
@@ -2009,14 +2010,7 @@ function updateLoginUI(){
   document.getElementById('heroLoggedIn').style.display = loggedIn ? '' : 'none';
   document.getElementById('statsGuest').style.display   = loggedIn ? 'none' : '';
   document.getElementById('statsLoggedIn').style.display= loggedIn ? '' : 'none';
-  // API Key 锁定状态：无订阅且无余额时显示引导
-  var keyLocked = document.getElementById('apiKeyLocked');
-  if(keyLocked){
-    var hasSubscription = !!(userPlan && userPlan.name);
-    var hasBalance = userCashBalance > 0;
-    keyLocked.style.display = (loggedIn && !hasSubscription && !hasBalance) ? '' : 'none';
-  }
-  syncBalanceViews();
+  syncBalanceViews();  // 含 API Key 锁定状态刷新
   renderUsageChart();
 }
 
@@ -3675,6 +3669,14 @@ function syncBalanceViews(){
   var balCash   = document.getElementById('balCash');
   if(balTokens && loggedIn) balTokens.textContent = tokenEstimate + ' T';
   if(balCash   && loggedIn) balCash.textContent   = cashStr;
+
+  // API Key 锁定状态联动：订阅/充值后自动解锁
+  var keyLocked = document.getElementById('apiKeyLocked');
+  if(keyLocked){
+    var hasSubscription = !!(userPlan && userPlan.name);
+    var hasBalance = userCashBalance > 0;
+    keyLocked.style.display = (loggedIn && !hasSubscription && !hasBalance) ? '' : 'none';
+  }
 }
 
 function getInvoiceActionLabel(order){
