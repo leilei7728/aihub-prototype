@@ -161,8 +161,8 @@ input:checked+.sl:before{transform:translateX(16px)}
 .mc .mp{font-size:11px;color:var(--t3);margin-top:2px}
 .mc .ck{width:18px;height:18px;border-radius:50%;border:2px solid var(--bd);flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .mc.on .ck{background:var(--a);border-color:var(--a);color:#fff;font-size:10px}
-#platformModelGrid .mc{cursor:default}
-#platformModelGrid .mc:hover{border-color:var(--bd)}
+#platformModelGrid .mc{cursor:pointer}
+#platformModelGrid .mc:hover{border-color:#8ed2c9;transform:translateY(-1px);box-shadow:0 2px 8px rgba(15,118,110,.1)}
 #platformModelGrid .mc.on{border-color:var(--bd);background:var(--wh)}
 /* ── plan card ── */
 .plc{border:2px solid var(--bd);border-radius:18px;padding:24px 22px;cursor:pointer;transition:all .2s;position:relative;text-align:center;background:rgba(255,253,250,.94)}
@@ -1288,6 +1288,50 @@ input:checked+.sl:before{transform:translateX(16px)}
   </div>
 </div>
 
+<!-- 模型详情侧边抽屉面板 -->
+<div id="modelDetailOverlay" onclick="closeModelDetail()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:900"></div>
+<div id="modelDetailPanel" style="display:none;position:fixed;top:0;right:0;bottom:0;width:420px;max-width:95vw;background:#fff;z-index:901;box-shadow:-4px 0 24px rgba(0,0,0,.15);overflow-y:auto;flex-direction:column;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1)">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 20px 0">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div id="mdLogo" style="width:44px;height:44px;border-radius:10px;background:#f5f3ff;display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden;padding:4px;flex-shrink:0"></div>
+      <div>
+        <div id="mdName" style="font-size:17px;font-weight:800"></div>
+        <div id="mdId" style="font-size:12px;color:var(--t3);margin-top:2px"></div>
+      </div>
+    </div>
+    <button onclick="closeModelDetail()" style="border:none;background:none;font-size:22px;color:var(--t3);cursor:pointer;padding:4px">&#x2715;</button>
+  </div>
+  <div id="mdDesc" style="margin:14px 20px 0;font-size:13px;color:var(--t2);line-height:1.7;padding:12px;background:#f8fffe;border-radius:8px;border-left:3px solid var(--a)"></div>
+  <div style="margin:16px 20px 0">
+    <div style="font-size:13px;font-weight:700;margin-bottom:10px">模型基本信息</div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <tr><td style="padding:7px 0;color:var(--t3);width:90px">上下文窗口</td><td id="mdCtx" style="font-weight:600"></td></tr>
+      <tr><td style="padding:7px 0;color:var(--t3)">最大输出</td><td id="mdMaxOut" style="font-weight:600"></td></tr>
+      <tr><td style="padding:7px 0;color:var(--t3)">发布日期</td><td id="mdRelease" style="font-weight:600"></td></tr>
+      <tr><td style="padding:7px 0;color:var(--t3)">支持协议</td><td id="mdProtocol" style="font-weight:600"></td></tr>
+      <tr><td style="padding:7px 0;color:var(--t3)">可用供应商</td><td id="mdProviders"></td></tr>
+    </table>
+  </div>
+  <div style="margin:16px 20px 0">
+    <div style="font-size:13px;font-weight:700;margin-bottom:10px">模型能力</div>
+    <div id="mdCaps" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+  </div>
+  <div style="margin:16px 20px 20px">
+    <div style="font-size:13px;font-weight:700;margin-bottom:10px">计费价格</div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px;border-radius:8px;overflow:hidden">
+      <thead><tr style="background:#f4f4f5">
+        <th style="padding:8px 12px;text-align:left;font-weight:600">功能</th>
+        <th style="padding:8px 12px;text-align:right;font-weight:600">价格</th>
+      </tr></thead>
+      <tbody>
+        <tr style="border-top:1px solid #f4f4f5"><td style="padding:8px 12px;color:var(--t2)">输入 Tokens</td><td id="mdPriceIn" style="padding:8px 12px;text-align:right;font-weight:700;color:var(--a)"></td></tr>
+        <tr style="border-top:1px solid #f4f4f5"><td style="padding:8px 12px;color:var(--t2)">输出 Tokens</td><td id="mdPriceOut" style="padding:8px 12px;text-align:right;font-weight:700;color:var(--a)"></td></tr>
+        <tr style="border-top:1px solid #f4f4f5"><td style="padding:8px 12px;color:var(--t2)">订阅消耗档</td><td id="mdTier" style="padding:8px 12px;text-align:right"></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <!-- M08 需要登录提示 -->
 <div class="ov" id="m08">
   <div class="mo mo-sm" style="text-align:center">
@@ -2249,7 +2293,127 @@ function getModelMetaLine(modelName){
   return providerLabel + ' · ' + protocols[0] + ' 链路可用';
 }
 
-var modelPriceMap = {
+var modelDetailMap = {
+  'Qwen3.5-Flash':        { ctx:'32K', maxOut:'8K',  release:'2025-09', desc:'Qwen3.5原生视觉语言系列 Flash 模型，基于混合架构设计，融合线性注意力气稀疏混合专家模型，响应速度快，兼具推理速度和性能。', caps:['函数调用','复杂推理','深度思考','联网搜索','视频输入'] },
+  'DeepSeek-V4-Flash':    { ctx:'1M',  maxOut:'32K', release:'2026-04', desc:'DeepSeek V4 Flash 是一种经过效率优化的专家混合模型，拥有 284B 参数和 13B 激活参数，支持 1M 标记上下文窗口。', caps:['函数调用','深度思考','复杂推理','联网搜索'] },
+  'Deepseek V3.2':        { ctx:'128K',maxOut:'16K', release:'2026-03', desc:'DeepSeek-V3.2 引入稀疏注意力机制的正式版模型，支持思考模式与非思考模式的工具调用。', caps:['函数调用','复杂推理','深度思考','联网搜索'] },
+  'Qwen3.5-Plus':         { ctx:'128K',maxOut:'16K', release:'2025-11', desc:'Qwen3.5 Plus 模型，在多项任务评测中展现出与当前顶尖前沿模型相媲的卓越性能，支持多模态输入。', caps:['函数调用','复杂推理','联网搜索','视频输入','视觉理解'] },
+  'Doubao-Seed 2.0 Lite': { ctx:'128K',maxOut:'16K', release:'2026-05', desc:'应对高频企业场景兼顾性能与成本的均衡型模型，在保障稳定效果的同时显著优化成本。', caps:['深度思考','复杂推理','函数调用','视觉理解','音频输入','联网搜索'] },
+  'Qwen3.6-Flash':        { ctx:'128K',maxOut:'16K', release:'2026-05', desc:'Qwen3.6原生视觉语言系列 Flash 模型，模型效果相较3.5-Flash 显著提升，空间智能能力显著增强。', caps:['函数调用','视觉理解','复杂推理','深度思考','视频输入','联网搜索'] },
+  'DeepSeek-V3':          { ctx:'64K', maxOut:'8K',  release:'2024-12', desc:'DeepSeek-V3 为自研 MoE 模型，671B 参数，激活 37B，在 14.8T token 上进行了预训练，在长文本、代码、数学、百科、中文能力上表现优秀。', caps:['函数调用','深度思考','联网搜索'] },
+  'MiniMax-M2.1':         { ctx:'1M',  maxOut:'64K', release:'2025-10', desc:'专为代理能力优化的开源大型语言模型，在编程、工具使用、指令遵循和长期规划方面表现出色。', caps:['函数调用','复杂推理','联网搜索'] },
+  'MiniMax-M2.5':         { ctx:'1M',  maxOut:'64K', release:'2026-01', desc:'MiniMax M2.5 采用 MoE 架构，2290 亿参数，在编程、智能体工具调用与搜索、办公场景等任务中达到业界领先水平。', caps:['函数调用','复杂推理','联网搜索'] },
+  'MiniMax M2.7':         { ctx:'1M',  maxOut:'64K', release:'2026-03', desc:'M2.7 在真实的软件工程中有优异的表现，包括端到端的完整项目交付、分析日志排查 Bug 等。', caps:['复杂推理','联网搜索','函数调用'] },
+  'Qwen3.6-plus':         { ctx:'128K',maxOut:'16K', release:'2026-05', desc:'Qwen3.6 Plus 展现出与当前顶尖前沿模型相媲的卓越性能，在 Agentic coding、前端编程等代码能力上显著增强。', caps:['函数调用','深度思考','视觉理解','复杂推理','联网搜索','视频输入'] },
+  'Deepseek-V3.1':        { ctx:'128K',maxOut:'16K', release:'2026-01', desc:'DeepSeek-V3.1 是一种混合型推理架构模型，同时支持思考模式与非思考模式，具备更高的推理效率和更强的代理能力。', caps:['函数调用','深度思考','联网搜索'] },
+  'Doubao-Seed 2.0 Code': { ctx:'128K',maxOut:'16K', release:'2026-05', desc:'面向企业级编程需求优化，在 Seed 2.0 优秀的 Agent、VLM 能力基础上，特别增强了代码能力。', caps:['函数调用','视觉理解','视频输入','深度思考','联网搜索'] },
+  'Doubao-Seed 2.0 Pro':  { ctx:'128K',maxOut:'16K', release:'2026-05', desc:'旗舰级全能通用模型，面向 Agent 时代的复杂推理与长链路任务执行，复杂指令与多约束执行能力突出。', caps:['函数调用','视频输入','深度思考','联网搜索','视觉理解','复杂推理'] },
+  'Qwen3-Coder-Plus':     { ctx:'128K',maxOut:'16K', release:'2025-12', desc:'通义千问代码模型，具有强大的 Coding Agent 能力，擅长工具调用和环境交互，能够实现自主编程。', caps:['函数调用','复杂推理'] },
+  'GLM-5':                { ctx:'200K',maxOut:'128K',release:'2026-04', desc:'Z.ai 的旗舰开源基础模型，专为复杂系统设计和长期代理工作流程而设计，超越了代码生成，进入了全系统构建和自主执行。', caps:['函数调用','深度思考'] },
+  'GLM-5.1':              { ctx:'200K',maxOut:'128K',release:'2026-05', desc:'智谱 AI 面向长程任务设计的模型，总参数 744B，支持 200K 超长上下文，拥有强大逻辑推理、长文本理解与代码生成能力。', caps:['函数调用','复杂推理','深度思考'] },
+  'Kimi-K2.5':            { ctx:'262K',maxOut:'16K', release:'2026-05', desc:'Moonshot AI 的原生多模态模型，具备最先进的视觉编码能力和自主导向的代理群范式，在一般推理、视觉编码和代理工具调用方面均表现出色。', caps:['视觉理解','函数调用','复杂推理','深度思考','视频输入','联网搜索'] },
+  'Kimi-K2.6':            { ctx:'262K',maxOut:'16K', release:'2026-06', desc:'Kimi 最新最智能的模型，具备更强更稳的长程代码编写能力，指令遵循和自我纠错能力显著提升，支持文本、图片与视频输入。', caps:['函数调用','视觉理解','视频输入','联网搜索','深度思考','复杂推理'] },
+  'Deepseek-V4-Pro':      { ctx:'1M',  maxOut:'64K', release:'2026-04', desc:'DeepSeek-V4-Pro 总参数量为 1.6T，激活参数量为 49B，支持一百万 Token 的上下文长度，采用混合注意力架构，单 Token 推理 FLOPs 降至 V3.2 的27%。', caps:['函数调用','复杂推理','深度思考','联网搜索'] },
+  'GPT-4o mini':          { ctx:'128K',maxOut:'16K', release:'2024-07', desc:'性价比高、智能性强的小型模型，支持文本和视觉输入，适合大量轻量级任务。', caps:['函数调用','视觉理解'] },
+  'o4-mini':              { ctx:'200K',maxOut:'100K',release:'2025-04', desc:'OpenAI 快速推理模型，在数学、科学、编程方面性能卓越，并支持视觉输入，迷你性高效。', caps:['函数调用','视觉理解','复杂推理','深度思考'] },
+  'Gemini 2.5 Flash':     { ctx:'1M',  maxOut:'8K',  release:'2025-05', desc:'Google 快速经济模型，上下文窗口高达 1M Token，在速度和成本之间实现优异平衡。', caps:['函数调用','视觉理解','复杂推理','深度思考','音频输入','视频输入'] },
+  'Gemini 2.0 Flash':     { ctx:'1M',  maxOut:'8K',  release:'2025-02', desc:'Google 第二代 Flash 模型，支持多模态输入和工具调用，性能显著上升。', caps:['函数调用','视觉理解','音频输入','视频输入'] },
+  'Claude Haiku 3.5':     { ctx:'200K',maxOut:'8K',  release:'2024-10', desc:'最快最紧凑的 Claude 模型，适合实时应用和轻量级任务，具备训练数据截止日期之前的知识。', caps:['函数调用','视觉理解'] },
+  'Grok 3 Mini':          { ctx:'131K',maxOut:'16K', release:'2025-04', desc:'xAI Grok 3 Mini 是一种轻量级思考模型，在回复之前进行思考，适合需要公开思考过程的逻辑和数学问题。', caps:['函数调用','复杂推理','深度思考'] },
+  'Llama 4 Scout':        { ctx:'10M', maxOut:'16K', release:'2025-04', desc:'Meta 开源多模态模型，支持 10M Token 超长上下文，采用 17B 激活参数的 MoE 架构，适合长文档分析。', caps:['函数调用','视觉理解'] },
+  'Mistral Small 3.1':    { ctx:'128K',maxOut:'16K', release:'2025-03', desc:'Mistral 小型开源模型，支持多语言和视觉理解，适合边缘部署与企业轻量级应用。', caps:['函数调用','视觉理解'] },
+  'GPT-4o':               { ctx:'128K',maxOut:'16K', release:'2024-05', desc:'OpenAI 旗舰多模态模型，支持文本、图像、音频输入，在智能性、速度和成本之间实现了优异平衡。', caps:['函数调用','视觉理解','音频输入'] },
+  'GPT-4.1':              { ctx:'1M',  maxOut:'32K', release:'2025-04', desc:'OpenAI 最新旗舰模型，具备卖点强大的指令遵循能力和最新世界知识，支持 1M Token 上下文。', caps:['函数调用','视觉理解'] },
+  'Claude Sonnet 4.5':    { ctx:'200K',maxOut:'16K', release:'2025-07', desc:'具备极强擅所的智能性，能够执行复杂任务并快速处理。加强的编程、推理和 Agent 能力，适合高要求工作场景。', caps:['函数调用','视觉理解','复杂推理'] },
+  'Gemini 2.5 Pro':       { ctx:'1M',  maxOut:'8K',  release:'2025-05', desc:'Google 旗舰模型，具备强大的上下文理解能力，在代码、数学、文字和图像理解方面表现出色。', caps:['函数调用','视觉理解','复杂推理','深度思考','音频输入','视频输入'] },
+  'Grok 3':               { ctx:'131K',maxOut:'16K', release:'2025-02', desc:'xAI Grok 3 实时联网推理旗舰模型，具有优异的推理能力，可访问实时信息，适合复杂分析和实时搜索任务。', caps:['函数调用','复杂推理','联网搜索'] },
+  'Llama 4 Maverick':     { ctx:'1M',  maxOut:'16K', release:'2025-04', desc:'Meta 开源多模态模型，采用 128 个专家的 MoE 架构，具有优异的图像理解和代码能力，支持超长上下文。', caps:['函数调用','视觉理解'] },
+  'Llama 3.3 70B':        { ctx:'128K',maxOut:'32K', release:'2024-12', desc:'Meta 开源旗舰 70B 模型，在文字生成、对话和代码方面表现优异，适合实验室和云计算场景。', caps:['函数调用','复杂推理'] },
+  'Mistral Large 2':      { ctx:'128K',maxOut:'16K', release:'2024-07', desc:'欧洲旗舰开源模型，具有卖点强大的多语言、代码生成和指令遵循能力，适合企业级应用。', caps:['函数调用','复杂推理'] },
+  'Claude Opus 4':        { ctx:'200K',maxOut:'32K', release:'2025-05', desc:'Anthropic 最强模型，在复杂分析、实验室级研究、编程和数学方面表现出色，适合高要求长上下文任务。', caps:['函数调用','视觉理解','复杂推理','深度思考'] },
+  'o3':                   { ctx:'200K',maxOut:'100K',release:'2025-04', desc:'OpenAI 最强推理模型，针对数学、科学和编程方面具有卓越能力，适合需要深层思考的复杂任务。', caps:['函数调用','视觉理解','复杂推理','深度思考'] }
+};
+
+var capColorMap = {
+  '函数调用':   ['#dbeafe','#1d4ed8'],
+  '视觉理解':   ['#fce7f3','#be185d'],
+  '复杂推理':   ['#f3e8ff','#7c3aed'],
+  '深度思考':   ['#fef3c7','#d97706'],
+  '音频输入':   ['#ecfdf5','#047857'],
+  '视频输入':   ['#fff1f2','#be123c'],
+  '联网搜索':   ['#f0fdf4','#15803d']
+};
+
+function openModelDetail(modelName){
+  var d = modelDetailMap[modelName];
+  var p = modelPriceMap[modelName];
+  var panel = document.getElementById('modelDetailPanel');
+  var overlay = document.getElementById('modelDetailOverlay');
+  if(!panel) return;
+
+  // Logo
+  var logo = modelLogoMap[modelName];
+  var bgMap = { 'anthropic.com':'#f5f0eb','openai.com':'#f7f7f7','google.com':'#fff','x.ai':'#0d0d0d','meta.com':'#e8f0fe','mistral.ai':'#fff4f0','aliyun.com':'#fff3e0','deepseek.com':'#eef3ff','bytedance.com':'#fff0f6','minimax.io':'#f4f0ff','zhipuai.cn':'#edfff4','moonshot.cn':'#f0eeff' };
+  var logoBg = (logo && bgMap[logo]) ? bgMap[logo] : '#f5f3ff';
+  var logoEl = document.getElementById('mdLogo');
+  if(logoEl){
+    logoEl.style.background = logoBg;
+    logoEl.innerHTML = logo
+      ? '<img src="https://logo.clearbit.com/'+logo+'" style="width:100%;height:100%;object-fit:contain" onerror="this.parentNode.textContent=\'\u2728\'">'
+      : '\u2728';
+  }
+
+  // 基础信息
+  document.getElementById('mdName').textContent = modelName;
+  document.getElementById('mdId').textContent = modelName.toLowerCase().replace(/[\s.]/g,'-');
+  document.getElementById('mdDesc').textContent = (d && d.desc) || '模型介绍暂无。';
+  document.getElementById('mdCtx').textContent = (d && d.ctx) || '-';
+  document.getElementById('mdMaxOut').textContent = (d && d.maxOut) || '-';
+  document.getElementById('mdRelease').textContent = (d && d.release) || '-';
+  document.getElementById('mdProtocol').textContent = 'OpenAI / Anthropic';
+
+  // 供应商标签
+  var provEl = document.getElementById('mdProviders');
+  if(provEl){
+    var prov = modelProviderMap[modelName] || '内置模型';
+    provEl.innerHTML = prov.split(' \u00b7 ').map(function(s){
+      return '<span style="display:inline-block;background:#e0f2fe;color:#0369a1;padding:1px 8px;border-radius:4px;font-size:11px;margin:2px 2px 0 0">' + s + '</span>';
+    }).join('');
+  }
+
+  // 能力标签
+  var capsEl = document.getElementById('mdCaps');
+  if(capsEl){
+    var caps = (d && d.caps) || [];
+    capsEl.innerHTML = caps.map(function(c){
+      var col = capColorMap[c] || ['#f4f4f5','#444'];
+      return '<span style="background:'+col[0]+';color:'+col[1]+';padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600">'+c+'</span>';
+    }).join('');
+    if(!caps.length) capsEl.innerHTML = '<span style="color:var(--t3);font-size:12px">暂无标注</span>';
+  }
+
+  // 价格
+  if(p){
+    document.getElementById('mdPriceIn').textContent = '\u00a5' + p.in + ' / 百万 Tokens';
+    document.getElementById('mdPriceOut').textContent = '\u00a5' + p.out + ' / 百万 Tokens';
+    var tier = p.in <= 2 ? '1x 标准' : p.in <= 12 ? '2x 中级' : '4x 高级';
+    var tierColor = p.in <= 2 ? '#15803d' : p.in <= 12 ? '#a16207' : '#b91c1c';
+    var tierBg2 = p.in <= 2 ? '#dcfce7' : p.in <= 12 ? '#fef9c3' : '#fee2e2';
+    document.getElementById('mdTier').innerHTML = '<span style="background:'+tierBg2+';color:'+tierColor+';padding:2px 10px;border-radius:4px;font-weight:700;font-size:12px">'+tier+'</span>';
+  }
+
+  // 展示
+  overlay.style.display = 'block';
+  panel.style.display = 'flex';
+  requestAnimationFrame(function(){ panel.style.transform = 'translateX(0)'; });
+}
+
+function closeModelDetail(){
+  var panel = document.getElementById('modelDetailPanel');
+  var overlay = document.getElementById('modelDetailOverlay');
+  if(panel){ panel.style.transform = 'translateX(100%)'; setTimeout(function(){ panel.style.display='none'; },250); }
+  if(overlay) overlay.style.display = 'none';
+}
   'Qwen3.5-Flash':        { in: 0.18,  out: 1.8  },
   'DeepSeek-V4-Flash':    { in: 0.92,  out: 1.75 },
   'Deepseek V3.2':        { in: 1.75,  out: 2.67 },
@@ -2323,6 +2487,7 @@ function buildPlatformModelCard(modelName, providerLabel){
   var card=document.createElement('div');
   card.className='mc';
   card.setAttribute('data-model-name', modelName);
+  card.setAttribute('onclick', "openModelDetail('" + modelName.replace(/'/g, "\\'") + "')");
   card.innerHTML=''
     + '<div class="mi" style="background:'+bg+';padding:4px">'+logoHtml+'</div>'
     + '<div class="f1"><div class="mn">' + modelName + '</div><div class="mp">' + (providerLabel || getModelMetaLine(modelName)) + '</div>' + priceHtml + '</div>'
