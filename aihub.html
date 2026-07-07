@@ -1351,6 +1351,31 @@ input:checked+.sl:before{transform:translateX(16px)}
 <script>
 var currentVendorFilter = 'all';
 var currentCapFilters = [];
+var currentCtxFilter = 0;
+var _activeCtxBtn = null;
+
+function parseCtxNum(ctxStr){
+  if(!ctxStr) return 0;
+  var s = ctxStr.replace(/\s/g,'').toUpperCase();
+  if(s.indexOf('M') >= 0) return parseFloat(s) * 1000000;
+  if(s.indexOf('K') >= 0) return parseFloat(s) * 1000;
+  return parseFloat(s) || 0;
+}
+
+function setCtxFilter(minCtx, el){
+  if(_activeCtxBtn){ _activeCtxBtn.classList.remove('on'); }
+  if(currentCtxFilter === minCtx && minCtx !== 0){
+    // 再次点取消
+    currentCtxFilter = 0;
+    _activeCtxBtn = null;
+  } else {
+    currentCtxFilter = minCtx;
+    _activeCtxBtn = el;
+    if(el) el.classList.add('on');
+  }
+  updateResetBtn();
+  filterPlatformModels();
+}
 
 // 厂商归属映射
 var modelVendorTag = {};
@@ -1384,25 +1409,57 @@ function toggleCapFilter(cap, el){
   if(idx >= 0){ currentCapFilters.splice(idx,1); el.classList.remove('on'); }
   else { currentCapFilters.push(cap); el.classList.add('on'); }
   var countEl = document.getElementById('capFilterCount');
-  if(countEl) countEl.textContent = currentCapFilters.length > 0 ? '\u5df2选 ' + currentCapFilters.length + ' 项' : '';
+  if(countEl) countEl.textContent = currentCapFilters.length > 0 ? '已选 ' + currentCapFilters.length + ' 项' : '';
+  updateResetBtn();
+  filterPlatformModels();
+}
+
+function updateResetBtn(){
+  var btn = document.getElementById('filterResetBtn');
+  if(!btn) return;
+  var hasFilter = currentVendorFilter !== 'all' || currentCapFilters.length > 0 || currentCtxFilter > 0;
+  btn.style.display = hasFilter ? '' : 'none';
+}
+
+function resetAllFilters(){
+  // 厂商
+  currentVendorFilter = 'all';
+  document.querySelectorAll('#vendorTabs .vt').forEach(function(b){ b.classList.remove('on'); });
+  var allBtn = document.querySelector('#vendorTabs .vt');
+  if(allBtn) allBtn.classList.add('on');
+  // 能力
+  currentCapFilters = [];
+  document.querySelectorAll('.cft').forEach(function(b){ b.classList.remove('on'); });
+  var countEl = document.getElementById('capFilterCount');
+  if(countEl) countEl.textContent = '';
+  // 上下文
+  currentCtxFilter = 0;
+  _activeCtxBtn = null;
+  document.getElementById('filterResetBtn').style.display = 'none';
   filterPlatformModels();
 }
 
 function filterPlatformModels(){
   var cards = document.querySelectorAll('#platformModelGrid [data-model-name]');
-  var visible = 0;
   cards.forEach(function(card){
     var name = card.getAttribute('data-model-name');
+    // 厂商筛选
     var vendorOk = currentVendorFilter === 'all' || modelVendorTag[name] === currentVendorFilter;
+    // 能力筛选
     var capOk = true;
     if(currentCapFilters.length > 0){
       var d = modelDetailMap[name];
       var caps = d ? d.caps : [];
       capOk = currentCapFilters.every(function(c){ return caps.indexOf(c) >= 0; });
     }
-    var show = vendorOk && capOk;
-    card.style.display = show ? '' : 'none';
-    if(show) visible++;
+    // 上下文筛选
+    var ctxOk = true;
+    if(currentCtxFilter > 0){
+      var d2 = modelDetailMap[name];
+      var ctxNum = d2 ? parseCtxNum(d2.ctx) : 0;
+      ctxOk = ctxNum >= currentCtxFilter;
+    }
+    card.style.display = (vendorOk && capOk && ctxOk) ? '' : 'none';
   });
 }
 
