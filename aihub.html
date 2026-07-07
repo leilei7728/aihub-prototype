@@ -936,7 +936,14 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div>✅ 每天 0:00 自动发放当日额度</div>
       <div>🔄 当天未用完于次日 0:00 清零</div>
       <div>💡 订阅额度用完后自动切换按量余额</div>
-      <div>🔓 随时可取消 · 7 天内可退款，已发放天数按日折算扣除</div>
+      <div>🔓 随时可取消 · 7 天内可退款，已发放天数按日折算扣除 <span onclick="toggleRefundExample()" style="color:var(--a);cursor:pointer;text-decoration:underline;font-weight:600">查看示例</span></div>
+      <div id="refundExample" style="display:none;grid-column:1/-1;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;margin-top:4px;font-size:12px;line-height:2;color:var(--t)">
+        <div style="font-weight:700;margin-bottom:4px">📌 退款计算示例</div>
+        <div>月卡 ¥99 · 共 30 天，购买后用了 <b>5 天</b>申请退款：</div>
+        <div style="color:var(--t2)">退款金额 = ¥99 × （30 - 5）/ 30 = <b style="color:var(--a)">¥82.5</b>，原路退回</div>
+        <div style="margin-top:6px">季卡 ¥299 · 共 90 天，用了 <b>7 天</b>申请退款：</div>
+        <div style="color:var(--t2)">退款金额 = ¥299 × （90 - 7）/ 90 = <b style="color:var(--a)">¥275.8</b>，原路退回</div>
+      </div>
     </div>
     <div style="margin-top:12px;border-top:1px solid #d1fae5;padding-top:12px">
       <div style="font-size:12px;font-weight:700;color:var(--t);margin-bottom:8px">可用模型（共 10 种）及 Tokens 消耗系数</div>
@@ -2097,6 +2104,12 @@ function renderRouteModes(){
     const modeKey=input.getAttribute('data-route-mode');
     input.checked=!!appState.routeModes[modeKey];
   });
+}
+
+function toggleRefundExample(){
+  var el=document.getElementById('refundExample');
+  if(!el) return;
+  el.style.display = el.style.display==='none' ? 'block' : 'none';
 }
 
 function switchBuyTab(tab){
