@@ -718,8 +718,7 @@ input:checked+.sl:before{transform:translateX(16px)}
     <!-- 平台支持模型面板 -->
     <div id="panelBuiltin">
     <div class="g g2" style="gap:10px" id="platformModelGrid">
-
-      <!-- Anthropic -->
+      <!-- 由 JS renderPlatformModelGrid() 动态生成 -->
       <div class="mc"><div class="mi" style="background:#f5f0eb;padding:4px"><img src="https://logo.clearbit.com/anthropic.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🤖'"></div><div class="f1"><div class="mn">Claude Opus 4.5</div><div class="mp">Anthropic · 旗舰推理</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">高成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
       <div class="mc"><div class="mi" style="background:#f5f0eb;padding:4px"><img src="https://logo.clearbit.com/anthropic.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🤖'"></div><div class="f1"><div class="mn">Claude Sonnet 4.5</div><div class="mp">Anthropic · 均衡旗舰</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">中高成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
       <div class="mc"><div class="mi" style="background:#f5f0eb;padding:4px"><img src="https://logo.clearbit.com/anthropic.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='⚡'"></div><div class="f1"><div class="mn">Claude Haiku 3.5</div><div class="mp">Anthropic · 经济快速</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">低成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
@@ -758,9 +757,6 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div class="mc"><div class="mi" style="background:#fff7f0;padding:4px"><img src="https://logo.clearbit.com/01.ai" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='1️⃣'"></div><div class="f1"><div class="mn">Yi-Large</div><div class="mp">零一万物 · 旗舰</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">中成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
       <!-- Cohere -->
       <div class="mc"><div class="mi" style="background:#f0fdf4;padding:4px"><img src="https://logo.clearbit.com/cohere.com" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent='🔮'"></div><div class="f1"><div class="mn">Command R+</div><div class="mp">Cohere · 企业 RAG</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">中成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
-      <!-- xAI -->
-      <div class="mc"><div class="mi" style="background:#0d0d0d;padding:4px"><img src="https://logo.clearbit.com/x.ai" style="width:100%;height:100%;object-fit:contain;border-radius:4px;filter:invert(1)" onerror="this.parentNode.style.color='#fff';this.parentNode.textContent='𝕏'"></div><div class="f1"><div class="mn">Grok 3</div><div class="mp">xAI · 实时联网推理</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="txs tgr">高成本</div><span class="bd2 bgr" style="font-size:10px">内置</span></div></div>
-
     </div><!-- /platformModelGrid -->
     </div><!-- /panelBuiltin -->
 
@@ -986,36 +982,63 @@ input:checked+.sl:before{transform:translateX(16px)}
   <div id="buyPanelTopup" style="display:none">
 
   <div class="g g3 mb16">
-    <div class="plc" onclick="selPl(this)" data-plan-name="充值 100 万" data-plan-type="topup" data-plan-tokens="1000000" data-plan-price="50">
-      <div class="pl-nm">¥50</div>
-      <div class="pl-tk">100 <span>万 Tokens</span></div>
+    <div class="plc" onclick="selPl(this)" data-plan-name="充值 ¥50" data-plan-type="topup" data-plan-price="50" data-plan-credit="50">
+      <div class="pl-nm">充值 ¥50</div>
+      <div class="pl-tk">到账 <span>¥50</span> 余额</div>
       <ul class="pl-ft mt8">
-        <li>永久有效</li>
+        <li>余额永久有效</li>
         <li>立即到账</li>
-        <li>全部模型可用</li>
+        <li>按各模型实际单价扣款</li>
       </ul>
     </div>
 
-    <div class="plc on" onclick="selPl(this)" data-plan-name="充值 200 万" data-plan-type="topup" data-plan-tokens="2000000" data-plan-price="100">
+    <div class="plc on" onclick="selPl(this)" data-plan-name="充值 ¥100" data-plan-type="topup" data-plan-price="100" data-plan-credit="100">
       <div class="pl-tag">🔥 推荐</div>
-      <div class="pl-nm">¥100</div>
-      <div class="pl-tk">200 <span>万 Tokens</span></div>
+      <div class="pl-nm">充值 ¥100</div>
+      <div class="pl-tk">到账 <span>¥100</span> 余额</div>
       <ul class="pl-ft mt8">
-        <li>永久有效</li>
+        <li>余额永久有效</li>
         <li>立即到账</li>
-        <li>全部模型可用</li>
+        <li>按各模型实际单价扣款</li>
       </ul>
     </div>
 
-    <div class="plc" onclick="selPl(this)" data-plan-name="充值 1200 万" data-plan-type="topup" data-plan-tokens="12000000" data-plan-price="500" data-plan-original="600" data-plan-discount="100">
-      <div class="pl-nm">¥500</div>
-      <div class="pl-tk">1,200 <span>万 Tokens</span></div>
-      <div class="pl-pr"><span class="orig">原 ¥600</span></div>
+    <div class="plc" onclick="selPl(this)" data-plan-name="充值 ¥500" data-plan-type="topup" data-plan-price="500" data-plan-credit="550">
+      <div class="pl-tag">🎁 赠 ¥50</div>
+      <div class="pl-nm">充值 ¥500</div>
+      <div class="pl-tk">到账 <span>¥550</span> 余额</div>
       <ul class="pl-ft mt8">
-        <li>永久有效</li>
+        <li>余额永久有效</li>
         <li>立即到账</li>
-        <li>全部模型可用</li>
+        <li>按各模型实际单价扣款</li>
       </ul>
+    </div>
+  </div>
+
+  <!-- 按量说明 -->
+  <div class="card mb16" style="background:#fffbeb;border:1px solid #fde68a">
+    <div style="font-size:13px;font-weight:700;color:#92400e;margin-bottom:8px">💡 按量充值计费说明</div>
+    <div style="font-size:12px;color:var(--t2);line-height:2">
+      <div>· 充值后到账为<b>人民币余额</b>，不换算成 Tokens</div>
+      <div>· 每次调用按<b>该模型实际 API 单价</b>从余额扣款</div>
+      <div>· 余额永久有效，不过期，退款需在 7 天内且未使用申请</div>
+    </div>
+    <div style="margin-top:10px">
+      <div onclick="togglePriceTable()" style="font-size:12px;font-weight:700;color:#92400e;cursor:pointer;display:flex;align-items:center;gap:6px">
+        <span id="priceTableToggleIcon">▶</span> 查看全部模型单价
+      </div>
+      <div id="priceTableWrap" style="display:none;margin-top:10px;overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:11px">
+          <thead><tr style="background:#fef3c7">
+            <th style="text-align:left;padding:6px 8px;border-bottom:1px solid #fde68a">模型名称</th>
+            <th style="text-align:left;padding:6px 8px;border-bottom:1px solid #fde68a">供应商</th>
+            <th style="text-align:right;padding:6px 8px;border-bottom:1px solid #fde68a">输入 ¥/百万</th>
+            <th style="text-align:right;padding:6px 8px;border-bottom:1px solid #fde68a">输出 ¥/百万</th>
+            <th style="text-align:center;padding:6px 8px;border-bottom:1px solid #fde68a">消耗档</th>
+          </tr></thead>
+          <tbody id="priceTableBody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -1027,12 +1050,12 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div class="pm" onclick="selPm(this)">💳 银行卡</div>
     </div>
     <div class="sep"></div>
-    <div class="fxb mb8"><div class="tgr">已选套餐</div><div class="tb2" id="selectedTopupSummary">充值 200 万 Tokens</div></div>
+    <div class="fxb mb8"><div class="tgr">已选套餐</div><div class="tb2" id="selectedTopupSummary">充值 ¥100 · 到账 ¥100 余额</div></div>
     <div class="fxb" style="font-size:16px;font-weight:800;margin-bottom:20px">
       <div>合计</div><div class="tac" id="selectedTopupTotal">¥100</div>
     </div>
     <button class="btn bp bfw" id="selectedTopupPayBtn" style="padding:14px;font-size:15px" onclick="handlePurchase(this)">确认支付 ¥100</button>
-    <div class="txs tlt" style="text-align:center;margin-top:10px">充值即代表同意 <span class="tac">充值服务协议</span> · 到账时间 &lt; 1 分钟 · 支持 7 天无理由退款</div>
+    <div class="txs tlt" style="text-align:center;margin-top:10px">充值即代表同意 <span class="tac">充值服务协议</span> · 余额永久有效 · 未使用余额 7 天内可申请退款</div>
   </div>
   </div><!-- /buyPanelTopup -->
 
@@ -2226,14 +2249,100 @@ function getModelMetaLine(modelName){
   return providerLabel + ' · ' + protocols[0] + ' 链路可用';
 }
 
+var modelPriceMap = {
+  'Qwen3.5-Flash':        { in: 0.18,  out: 1.8  },
+  'DeepSeek-V4-Flash':    { in: 0.92,  out: 1.75 },
+  'Deepseek V3.2':        { in: 1.75,  out: 2.67 },
+  'Qwen3.5-Plus':         { in: 0.55,  out: 3.1  },
+  'Doubao-Seed 2.0 Lite': { in: 0.55,  out: 3.3  },
+  'Qwen3.6-Flash':        { in: 1.1,   out: 6.6  },
+  'DeepSeek-V3':          { in: 1.84,  out: 7.36 },
+  'MiniMax-M2.1':         { in: 1.93,  out: 7.7  },
+  'MiniMax-M2.5':         { in: 1.84,  out: 7.4  },
+  'MiniMax M2.7':         { in: 1.93,  out: 7.7  },
+  'Qwen3.6-plus':         { in: 1.38,  out: 8.3  },
+  'Deepseek-V3.1':        { in: 3.68,  out: 11.0 },
+  'Doubao-Seed 2.0 Code': { in: 2.9,   out: 14.7 },
+  'Doubao-Seed 2.0 Pro':  { in: 2.9,   out: 14.7 },
+  'Qwen3-Coder-Plus':     { in: 3.68,  out: 14.7 },
+  'GLM-5':                { in: 3.68,  out: 16.6 },
+  'Kimi-K2.5':            { in: 3.68,  out: 19.3 },
+  'GLM-5.1':              { in: 5.52,  out: 22.1 },
+  'Kimi-K2.6':            { in: 5.7,   out: 23.6 },
+  'Deepseek-V4-Pro':      { in: 10.5,  out: 21.0 },
+  'GPT-4o mini':          { in: 1.1,   out: 4.3  },
+  'o4-mini':              { in: 7.9,   out: 31.6 },
+  'Gemini 2.5 Flash':     { in: 1.3,   out: 5.4  },
+  'Gemini 2.0 Flash':     { in: 0.54,  out: 3.6  },
+  'Claude Haiku 3.5':     { in: 5.4,   out: 27   },
+  'Grok 3 Mini':          { in: 7.2,   out: 43.2 },
+  'Llama 4 Scout':        { in: 0.65,  out: 0.65 },
+  'Mistral Small 3.1':    { in: 0.7,   out: 2.2  },
+  'GPT-4o':               { in: 18,    out: 72   },
+  'GPT-4.1':              { in: 14.4,  out: 57.6 },
+  'Claude Sonnet 4.5':    { in: 21.6,  out: 108  },
+  'Gemini 2.5 Pro':       { in: 9,     out: 72   },
+  'Grok 3':               { in: 21.6,  out: 108  },
+  'Llama 4 Maverick':     { in: 1.4,   out: 1.4  },
+  'Llama 3.3 70B':        { in: 4.3,   out: 4.3  },
+  'Mistral Large 2':      { in: 14.4,  out: 43.2 },
+  'Claude Opus 4':        { in: 108,   out: 540  },
+  'o3':                   { in: 144,   out: 576  }
+};
+
+var modelLogoMap = {
+  'Claude Haiku 3.5': 'anthropic.com', 'Claude Sonnet 4.5': 'anthropic.com', 'Claude Opus 4': 'anthropic.com',
+  'GPT-4o': 'openai.com', 'GPT-4o mini': 'openai.com', 'GPT-4.1': 'openai.com', 'o3': 'openai.com', 'o4-mini': 'openai.com',
+  'Gemini 2.5 Pro': 'google.com', 'Gemini 2.5 Flash': 'google.com', 'Gemini 2.0 Flash': 'google.com',
+  'Grok 3': 'x.ai', 'Grok 3 Mini': 'x.ai',
+  'Llama 4 Scout': 'meta.com', 'Llama 4 Maverick': 'meta.com', 'Llama 3.3 70B': 'meta.com',
+  'Mistral Small 3.1': 'mistral.ai', 'Mistral Large 2': 'mistral.ai',
+  'Qwen3.5-Flash': 'aliyun.com', 'Qwen3.6-Flash': 'aliyun.com', 'Qwen3.5-Plus': 'aliyun.com', 'Qwen3.6-plus': 'aliyun.com', 'Qwen3-Coder-Plus': 'aliyun.com',
+  'DeepSeek-V3': 'deepseek.com', 'Deepseek-V3.1': 'deepseek.com', 'Deepseek V3.2': 'deepseek.com', 'Deepseek-V4-Flash': 'deepseek.com', 'Deepseek-V4-Pro': 'deepseek.com',
+  'Doubao-Seed 2.0 Lite': 'bytedance.com', 'Doubao-Seed 2.0 Code': 'bytedance.com', 'Doubao-Seed 2.0 Pro': 'bytedance.com',
+  'MiniMax-M2.1': 'minimax.io', 'MiniMax-M2.5': 'minimax.io', 'MiniMax M2.7': 'minimax.io',
+  'GLM-5': 'zhipuai.cn', 'GLM-5.1': 'zhipuai.cn',
+  'Kimi-K2.5': 'moonshot.cn', 'Kimi-K2.6': 'moonshot.cn'
+};
+
 function buildPlatformModelCard(modelName, providerLabel){
-  const card=document.createElement('div');
+  var price = modelPriceMap[modelName];
+  var priceHtml = price
+    ? '<div style="font-size:10px;color:var(--t3);margin-top:3px">输入 ¥' + price.in + ' · 输出 ¥' + price.out + ' / 百万</div>'
+    : '';
+  var logo = modelLogoMap[modelName];
+  var logoHtml = logo
+    ? '<img src="https://logo.clearbit.com/' + logo + '" style="width:100%;height:100%;object-fit:contain;border-radius:4px" onerror="this.parentNode.textContent=\'✨\'">'
+    : '✨';
+  var bgMap = {
+    'anthropic.com':'#f5f0eb','openai.com':'#f7f7f7','google.com':'#fff','x.ai':'#0d0d0d',
+    'meta.com':'#e8f0fe','mistral.ai':'#fff4f0','aliyun.com':'#fff3e0','deepseek.com':'#eef3ff',
+    'bytedance.com':'#fff0f6','minimax.io':'#f4f0ff','zhipuai.cn':'#edfff4','moonshot.cn':'#f0eeff'
+  };
+  var bg = (logo && bgMap[logo]) ? bgMap[logo] : '#f5f3ff';
+  var card=document.createElement('div');
   card.className='mc';
   card.setAttribute('data-model-name', modelName);
   card.innerHTML=''
-    + '<div class="mi" style="background:#f5f3ff">✨</div>'
-    + '<div class="f1"><div class="mn">' + modelName + '</div><div class="mp">' + (providerLabel || getModelMetaLine(modelName)) + '</div></div>';
+    + '<div class="mi" style="background:'+bg+';padding:4px">'+logoHtml+'</div>'
+    + '<div class="f1"><div class="mn">' + modelName + '</div><div class="mp">' + (providerLabel || getModelMetaLine(modelName)) + '</div>' + priceHtml + '</div>'
+    + '<span class="bd2 bgr" style="font-size:10px;flex-shrink:0">内置</span>';
   return card;
+}
+
+function renderPlatformModelGrid(){
+  var grid = document.getElementById('platformModelGrid');
+  if(!grid) return;
+  // 清除已有内置卡片，保留用户自定义卡片
+  Array.from(grid.querySelectorAll('[data-model-name]')).forEach(function(el){
+    if(platformModelOptions.indexOf(el.getAttribute('data-model-name')) >= 0) el.remove();
+  });
+  // 按档位分组插入
+  var firstCustom = grid.querySelector('[data-model-name]');
+  platformModelOptions.forEach(function(m){
+    var card = buildPlatformModelCard(m, modelProviderMap[m] || '');
+    grid.insertBefore(card, firstCustom || null);
+  });
 }
 
 function updatePlatformModelCard(modelName){
@@ -2313,6 +2422,35 @@ function getTotalRemainingTokens(){
 function getNearestExpiryLabel(){
   const sorted=appState.packages.slice().sort(function(a,b){ return a.expiryDate.localeCompare(b.expiryDate); });
   return sorted.length ? sorted[0].expiryLabel : '暂无有效套餐';
+}
+
+function togglePriceTable(){
+  var wrap = document.getElementById('priceTableWrap');
+  var icon = document.getElementById('priceTableToggleIcon');
+  if(!wrap) return;
+  var open = wrap.style.display !== 'none';
+  wrap.style.display = open ? 'none' : 'block';
+  if(icon) icon.textContent = open ? '▶' : '▼';
+}
+
+function renderPriceTable(){
+  var tbody = document.getElementById('priceTableBody');
+  if(!tbody) return;
+  var tierMap = {};
+  platformModelOptions.forEach(function(m){
+    var p = modelPriceMap[m];
+    if(!p) return;
+    var tier = p.in <= 2 ? '1x 标准' : p.in <= 12 ? '2x 中级' : '4x 高级';
+    var tierColor = p.in <= 2 ? '#15803d' : p.in <= 12 ? '#a16207' : '#b91c1c';
+    var tierBg = p.in <= 2 ? '#dcfce7' : p.in <= 12 ? '#fef9c3' : '#fee2e2';
+    tbody.innerHTML += '<tr style="border-bottom:1px solid #fde68a">'
+      + '<td style="padding:5px 8px;font-weight:600">' + m + '</td>'
+      + '<td style="padding:5px 8px;color:var(--t2)">' + (modelProviderMap[m] || '') + '</td>'
+      + '<td style="padding:5px 8px;text-align:right">' + p.in + '</td>'
+      + '<td style="padding:5px 8px;text-align:right">' + p.out + '</td>'
+      + '<td style="padding:5px 8px;text-align:center"><span style="background:'+tierBg+';color:'+tierColor+';padding:1px 6px;border-radius:4px;font-size:10px;font-weight:700">'+tier+'</span></td>'
+      + '</tr>';
+  });
 }
 
 function renderPackageTable(){
@@ -3030,6 +3168,8 @@ updateRouteSummary();
 renderRouteModes();
 renderToolRoutingViews();
 renderToolRoutingTable();
+renderPlatformModelGrid();
+renderPriceTable();
 renderPackageTable();
 renderOrderTable();
 renderUsageTables();
