@@ -164,6 +164,13 @@ input:checked+.sl:before{transform:translateX(16px)}
 #platformModelGrid .mc{cursor:pointer}
 #platformModelGrid .mc:hover{border-color:#8ed2c9;transform:translateY(-1px);box-shadow:0 2px 8px rgba(15,118,110,.1)}
 #platformModelGrid .mc.on{border-color:var(--bd);background:var(--wh)}
+/* ── model filter ── */
+.vt{padding:5px 14px;border-radius:20px;border:1.5px solid var(--bd);background:var(--wh);color:var(--t2);font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;transition:all .15s;line-height:1.5}
+.vt.on{background:var(--a);color:#fff;border-color:var(--a);box-shadow:0 2px 6px rgba(15,118,110,.25)}
+.vt:hover:not(.on){border-color:#8ed2c9;color:var(--t)}
+.cft{padding:4px 12px;border-radius:20px;border:1.5px solid var(--bd);background:var(--wh);color:var(--t2);font-size:12px;cursor:pointer;transition:all .15s;user-select:none;white-space:nowrap;line-height:1.5}
+.cft.on{border-color:var(--a);background:#f0fdf4;color:var(--a);font-weight:600}
+.cft:hover:not(.on){border-color:#8ed2c9}
 /* ── plan card ── */
 .plc{border:2px solid var(--bd);border-radius:18px;padding:24px 22px;cursor:pointer;transition:all .2s;position:relative;text-align:center;background:rgba(255,253,250,.94)}
 .plc:hover{border-color:#8ed2c9;transform:translateY(-2px)}
@@ -717,6 +724,36 @@ input:checked+.sl:before{transform:translateX(16px)}
 
     <!-- 平台支持模型面板 -->
     <div id="panelBuiltin">
+    <!-- 厂商 Tab 筛选 -->
+    <div style="overflow-x:auto;padding-bottom:4px;margin-bottom:10px">
+      <div id="vendorTabs" style="display:flex;gap:6px;min-width:max-content">
+        <button class="vt on" onclick="setVendorFilter('all',this)">全部</button>
+        <button class="vt" onclick="setVendorFilter('Anthropic',this)">Anthropic</button>
+        <button class="vt" onclick="setVendorFilter('OpenAI',this)">OpenAI</button>
+        <button class="vt" onclick="setVendorFilter('Google',this)">Google</button>
+        <button class="vt" onclick="setVendorFilter('DeepSeek',this)">DeepSeek</button>
+        <button class="vt" onclick="setVendorFilter('\u963f\u91cc\u4e91',this)">阿里云</button>
+        <button class="vt" onclick="setVendorFilter('\u5b57\u8282\u8df3\u52a8',this)">字节跳动</button>
+        <button class="vt" onclick="setVendorFilter('MiniMax',this)">MiniMax</button>
+        <button class="vt" onclick="setVendorFilter('\u667a\u8c31AI',this)">智谱 AI</button>
+        <button class="vt" onclick="setVendorFilter('\u6708\u4e4b\u6697\u9762',this)">月之暗面</button>
+        <button class="vt" onclick="setVendorFilter('xAI',this)">xAI</button>
+        <button class="vt" onclick="setVendorFilter('Meta',this)">Meta</button>
+        <button class="vt" onclick="setVendorFilter('Mistral',this)">Mistral</button>
+      </div>
+    </div>
+    <!-- 能力 Tag 多选 -->
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;align-items:center">
+      <span style="font-size:12px;color:var(--t3);flex-shrink:0">能力：</span>
+      <span class="cft" onclick="toggleCapFilter('\u51fd\u6570\u8c03\u7528',this)">函数调用</span>
+      <span class="cft" onclick="toggleCapFilter('\u89c6觉\u7406\u89e3',this)">视觉理解</span>
+      <span class="cft" onclick="toggleCapFilter('\u89c6\u9891\u8f93\u5165',this)">视频输入</span>
+      <span class="cft" onclick="toggleCapFilter('\u97f3\u9891\u8f93\u5165',this)">音频输入</span>
+      <span class="cft" onclick="toggleCapFilter('\u6df1\u5ea6\u601d\u8003',this)">深度思考</span>
+      <span class="cft" onclick="toggleCapFilter('\u590d\u6742\u63a8\u7406',this)">复杂推理</span>
+      <span class="cft" onclick="toggleCapFilter('\u8054\u7f51\u641c\u7d22',this)">联网搜索</span>
+      <span id="capFilterCount" style="font-size:11px;color:var(--t3);margin-left:4px"></span>
+    </div>
     <div class="g g2" style="gap:10px" id="platformModelGrid">
       <!-- 由 JS renderPlatformModelGrid() 动态生成 -->
     </div><!-- /platformModelGrid -->
@@ -1312,6 +1349,63 @@ input:checked+.sl:before{transform:translateX(16px)}
      JS
 ══════════════════════════════════════════════════ -->
 <script>
+var currentVendorFilter = 'all';
+var currentCapFilters = [];
+
+// 厂商归属映射
+var modelVendorTag = {};
+(function(){
+  var map = {
+    'Anthropic':    ['Claude Haiku 3.5','Claude Sonnet 4.5','Claude Opus 4'],
+    'OpenAI':       ['GPT-4o mini','GPT-4o','GPT-4.1','o3','o4-mini'],
+    'Google':       ['Gemini 2.5 Flash','Gemini 2.0 Flash','Gemini 2.5 Pro'],
+    'DeepSeek':     ['DeepSeek-V3','Deepseek-V3.1','Deepseek V3.2','DeepSeek-V4-Flash','Deepseek-V4-Pro'],
+    '\u963f\u91cc\u4e91':   ['Qwen3.5-Flash','Qwen3.6-Flash','Qwen3.5-Plus','Qwen3.6-plus','Qwen3-Coder-Plus'],
+    '\u5b57\u8282\u8df3\u52a8': ['Doubao-Seed 2.0 Lite','Doubao-Seed 2.0 Code','Doubao-Seed 2.0 Pro'],
+    'MiniMax':      ['MiniMax-M2.1','MiniMax-M2.5','MiniMax M2.7'],
+    '\u667a\u8c31AI':  ['GLM-5','GLM-5.1'],
+    '\u6708\u4e4b\u6697\u9762': ['Kimi-K2.5','Kimi-K2.6'],
+    'xAI':          ['Grok 3 Mini','Grok 3'],
+    'Meta':         ['Llama 4 Scout','Llama 4 Maverick','Llama 3.3 70B'],
+    'Mistral':      ['Mistral Small 3.1','Mistral Large 2']
+  };
+  Object.keys(map).forEach(function(v){ map[v].forEach(function(m){ modelVendorTag[m]=v; }); });
+})();
+
+function setVendorFilter(vendor, el){
+  currentVendorFilter = vendor;
+  document.querySelectorAll('#vendorTabs .vt').forEach(function(b){ b.classList.remove('on'); });
+  if(el) el.classList.add('on');
+  filterPlatformModels();
+}
+
+function toggleCapFilter(cap, el){
+  var idx = currentCapFilters.indexOf(cap);
+  if(idx >= 0){ currentCapFilters.splice(idx,1); el.classList.remove('on'); }
+  else { currentCapFilters.push(cap); el.classList.add('on'); }
+  var countEl = document.getElementById('capFilterCount');
+  if(countEl) countEl.textContent = currentCapFilters.length > 0 ? '\u5df2选 ' + currentCapFilters.length + ' 项' : '';
+  filterPlatformModels();
+}
+
+function filterPlatformModels(){
+  var cards = document.querySelectorAll('#platformModelGrid [data-model-name]');
+  var visible = 0;
+  cards.forEach(function(card){
+    var name = card.getAttribute('data-model-name');
+    var vendorOk = currentVendorFilter === 'all' || modelVendorTag[name] === currentVendorFilter;
+    var capOk = true;
+    if(currentCapFilters.length > 0){
+      var d = modelDetailMap[name];
+      var caps = d ? d.caps : [];
+      capOk = currentCapFilters.every(function(c){ return caps.indexOf(c) >= 0; });
+    }
+    var show = vendorOk && capOk;
+    card.style.display = show ? '' : 'none';
+    if(show) visible++;
+  });
+}
+
 function nv(i){return document.querySelectorAll('.ni')[i]}
 
 var platformModelOptions = [
