@@ -1352,17 +1352,27 @@ input:checked+.sl:before{transform:translateX(16px)}
 <div class="ov" id="m05">
   <div class="mo mo-sm" style="text-align:center">
     <div style="font-size:52px;margin-bottom:12px">🎉</div>
-    <div class="mo-ti">充值成功</div>
-    <div class="mo-ds">到账结果已更新，你现在可以继续使用平台已接入的 AI 工具。</div>
-    <div style="background:var(--all);border:1px solid #ddd6fe;border-radius:12px;padding:16px;text-align:left;margin:16px 0">
-      <div class="fxb mb8"><div class="tgr">充值 Tokens<span class="ih">?<span class="ih-b">表示本次套餐到账的 Tokens 数量，具体发放规则以正式方案为准。</span></span></div><div class="tb2" id="purchaseResultTokens">200 万</div></div>
-      <div class="fxb mb8" id="purchaseResultValidityRow" style="display:none"><div class="tgr">有效期</div><div class="tb2" id="purchaseResultValidity"></div></div>
-      <div id="purchaseResultRenewNote" style="display:none;font-size:12px;color:#7c3aed;background:#f5f3ff;border-radius:6px;padding:6px 10px;margin-bottom:8px">🔁 续订订单：新周期有效期已自动顺延到当前到期日后，不与现有周期叠加。</div>
+    <div class="mo-ti" id="m05Title">订阅成功</div>
+    <div class="mo-ds" id="m05Desc">套餐已生效，今日额度已自动发放。</div>
+    <!-- 订阅成功内容 -->
+    <div id="m05SubContent" style="background:var(--all);border:1px solid #ddd6fe;border-radius:12px;padding:16px;text-align:left;margin:16px 0">
+      <div class="fxb mb8"><div class="tgr">套餐</div><div class="tb2" id="m05SubPlan">月卡</div></div>
+      <div class="fxb mb8"><div class="tgr">每日额度</div><div class="tb2" id="m05SubDaily">16,667 Tokens/天</div></div>
+      <div class="fxb mb8"><div class="tgr">有效期</div><div class="tb2" id="m05SubValidity"></div></div>
+      <div id="m05SubRenewNote" style="display:none;font-size:12px;color:#7c3aed;background:#f5f3ff;border-radius:6px;padding:6px 10px;margin-bottom:8px">🔁 续订顺延：新周期有效期已自动连接到当前到期日后，不与现有周期叠加。</div>
       <div class="fxb" style="padding-top:8px;border-top:1px solid #ddd6fe;font-size:15px;font-weight:800">
-        <div>当前剩余 Tokens<span class="ih">?<span class="ih-b">展示购买成功后平台账户内最新剩余 Tokens。</span></span></div><div class="tac" id="purchaseResultBalance">256,000</div>
+        <div>今日剩余</div><div class="tac" id="m05SubBalance">13,426 T</div>
       </div>
     </div>
-    <button class="btn bp bfw" onclick="cm('m05');go('p04',nv(3),'Tokens 中心')">查看最新 Tokens</button>
+    <!-- 充值成功内容 -->
+    <div id="m05TopupContent" style="display:none;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:16px;text-align:left;margin:16px 0">
+      <div class="fxb mb8"><div class="tgr">本次充值</div><div style="font-size:18px;font-weight:800;color:#0f766e" id="m05TopupAmount">¥100</div></div>
+      <div class="fxb" style="padding-top:8px;border-top:1px solid #bbf7d0;font-size:15px;font-weight:800">
+        <div>当前余额</div><div style="color:#0f766e" id="m05TopupBalance">¥48.50</div>
+      </div>
+      <div style="margin-top:10px;font-size:12px;color:var(--t3)">✔ 余额永久有效 · 即时到账 · 按模型单价按量扣除</div>
+    </div>
+    <button class="btn bp bfw" id="m05PrimaryBtn" onclick="cm('m05')">开始使用</button>
     <button class="btn bo bfw mt8" onclick="cm('m05')">我知道了</button>
   </div>
 </div>
@@ -3052,7 +3062,16 @@ function updatePlanSummary(el){
   const discountEl=document.getElementById('selectedPlanDiscount');
   const totalEl=document.getElementById('selectedPlanTotal');
   const payBtn=document.getElementById('selectedPlanPayBtn');
-  appState.selectedPlan = { name:name, tokensLabel:tokens, tokensValue:tokensValue, price:Number(price), discount:Number(discount) };
+  appState.selectedPlan = {
+    name: name,
+    type: el.getAttribute('data-plan-type') || 'subscription',
+    tokensLabel: tokens,
+    tokensValue: tokensValue,
+    price: Number(price),
+    discount: Number(discount),
+    credit: Number(el.getAttribute('data-plan-credit') || 0),
+    daily: Number(el.getAttribute('data-plan-daily') || 0)
+  };
   if(summary) summary.textContent=name + ' · ' + tokens;
   if(discountEl) discountEl.textContent='-¥' + discount;
   if(totalEl) totalEl.textContent='¥' + price;
@@ -3489,7 +3508,7 @@ function prependOrderRecord(){
     orderTime: '2026-07-07 ' + new Date().toTimeString().slice(0,5),
     validFrom: validFrom,
     validTo: validTo,
-    statusText: '已完成',
+    statusText: '支付成功',
     statusClass: 'bg',
     amount: appState.selectedPlan.price,
     invoiceStatus: 'ready',
@@ -3500,19 +3519,6 @@ function prependOrderRecord(){
     invoiceEmail: '',
     invoiceTaxNo: ''
   });
-  // 支付成功弹窗：展示有效期 + 续订提示
-  var validityRow = document.getElementById('purchaseResultValidityRow');
-  var validityEl  = document.getElementById('purchaseResultValidity');
-  var renewNote   = document.getElementById('purchaseResultRenewNote');
-  if(isSubPlan && validFrom && validTo){
-    if(validityRow) validityRow.style.display='';
-    if(validityEl)  validityEl.textContent = validFrom + ' – ' + validTo;
-    // 如果是续订（原已有到期日）显示顺延提示
-    if(renewNote) renewNote.style.display = userPlan.expireDate ? '' : 'none';
-  } else {
-    if(validityRow) validityRow.style.display='none';
-    if(renewNote)   renewNote.style.display='none';
-  }
   renderOrderTable();
 }
 
@@ -3525,8 +3531,6 @@ function handlePurchase(buttonEl){
     payBtn.disabled=true;
     payBtn.textContent='支付处理中...';
   }
-  const tokens=document.getElementById('purchaseResultTokens');
-  const balance=document.getElementById('purchaseResultBalance');
   const expiryMeta={
     '新手包': { expiryLabel:'6 个月后到期（2027-01-05）', expiryDate:'2027-01-05' },
     '标准包': { expiryLabel:'12 个月后到期（2027-07-05）', expiryDate:'2027-07-05' },
@@ -3542,8 +3546,43 @@ function handlePurchase(buttonEl){
     statusClass: 'bg',
     balanceValue: appState.selectedPlan.price
   });
-  if(tokens) tokens.textContent = appState.selectedPlan.tokensLabel;
-  if(balance) balance.textContent = getTotalRemainingTokens().toLocaleString();
+
+  // 支付成功弹窗：根据类型展示对应内容
+  var isSubPlan2 = appState.selectedPlan.type === 'subscription';
+  var subContent = document.getElementById('m05SubContent');
+  var topupContent = document.getElementById('m05TopupContent');
+  var m05Title = document.getElementById('m05Title');
+  var m05Desc = document.getElementById('m05Desc');
+  var m05PrimaryBtn = document.getElementById('m05PrimaryBtn');
+  if(isSubPlan2){
+    if(subContent) subContent.style.display = '';
+    if(topupContent) topupContent.style.display = 'none';
+    if(m05Title) m05Title.textContent = '订阅成功';
+    if(m05Desc) m05Desc.textContent = '套餐已生效，今日额度已自动发放。';
+    if(m05PrimaryBtn){ m05PrimaryBtn.textContent = '开始使用'; m05PrimaryBtn.onclick = function(){ cm('m05'); }; }
+    // 填充订阅内容
+    var m05SubPlan = document.getElementById('m05SubPlan');
+    var m05SubDaily = document.getElementById('m05SubDaily');
+    var m05SubValidity = document.getElementById('m05SubValidity');
+    var m05SubRenewNote = document.getElementById('m05SubRenewNote');
+    var m05SubBalance = document.getElementById('m05SubBalance');
+    if(m05SubPlan) m05SubPlan.textContent = appState.selectedPlan.name + '（￥' + appState.selectedPlan.price + '/月）';
+    if(m05SubDaily) m05SubDaily.textContent = (appState.selectedPlan.daily || 16667).toLocaleString() + ' Tokens/天';
+    if(m05SubValidity) m05SubValidity.textContent = validFrom + ' – ' + validTo;
+    if(m05SubRenewNote) m05SubRenewNote.style.display = userPlan.expireDate ? '' : 'none';
+    if(m05SubBalance) m05SubBalance.textContent = userTokensBalance.toLocaleString() + ' T';
+  } else {
+    if(subContent) subContent.style.display = 'none';
+    if(topupContent) topupContent.style.display = '';
+    if(m05Title) m05Title.textContent = '充値成功';
+    if(m05Desc) m05Desc.textContent = '余额已到账，可随时按量使用。';
+    if(m05PrimaryBtn){ m05PrimaryBtn.textContent = '查看余额'; m05PrimaryBtn.onclick = function(){ cm('m05'); go('p04', nv(3), 'Tokens 中心'); }; }
+    // 填充充値内容
+    var m05TopupAmount = document.getElementById('m05TopupAmount');
+    var m05TopupBalance = document.getElementById('m05TopupBalance');
+    if(m05TopupAmount) m05TopupAmount.textContent = '￥' + appState.selectedPlan.price;
+    if(m05TopupBalance) m05TopupBalance.textContent = '￥' + userCashBalance.toFixed(2);
+  }
   prependOrderRecord();
   renderPackageTable();
   syncBalanceViews();
