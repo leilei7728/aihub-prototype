@@ -1090,7 +1090,9 @@ input:checked+.sl:before{transform:translateX(16px)}
 <!-- ─────── P07 设置 ─────── -->
 <div id="p07" class="pg">
   <div style="font-size:15px;font-weight:700" class="mb16">设置</div>
-  <div class="card">
+
+  <!-- 账号信息 -->
+  <div class="card mb16">
     <div class="tb2 mb16">账号信息</div>
     <div class="fg"><label class="fl">昵称</label><input class="fi" value="雷蕾" style="max-width:300px"></div>
     <div class="fg"><label class="fl">绑定手机</label><input class="fi" value="138****8888" style="max-width:300px"></div>
@@ -1102,6 +1104,84 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
     </div>
     <div class="sep"></div>
+    <button class="btn bp" onclick="saveSettings(this)">保存设置</button>
+  </div>
+
+  <!-- API Key 管理 -->
+  <div class="card mb16">
+    <div class="fxb mb4">
+      <div class="tb2">我的 API Key</div>
+      <span class="txs tgr">充值或订阅后即可使用</span>
+    </div>
+    <div class="txs tgr mb16">用这个 Key 在任意支持 OpenAI / Anthropic 协议的工具里直接调用，消耗平台余额，无需配置各家供应商账号。</div>
+
+    <!-- Key 展示区 -->
+    <div style="background:#f8fffe;border:1.5px solid #a7f3d0;border-radius:10px;padding:16px;margin-bottom:16px">
+      <div class="fxb mb10" style="align-items:center">
+        <div style="font-size:12px;font-weight:600;color:var(--t2)">平台 API Key</div>
+        <div style="display:flex;gap:6px">
+          <button class="btn bo bsm" onclick="toggleKeyVisible(this)" id="keyToggleBtn">显示</button>
+          <button class="btn bo bsm" onclick="copyApiKey()">复制</button>
+          <button class="btn bo bsm" style="color:#dc2626;border-color:#fca5a5" onclick="om('mResetKey')">重置</button>
+        </div>
+      </div>
+      <div style="font-family:monospace;font-size:13px;background:#fff;border:1px solid var(--bd);border-radius:6px;padding:10px 14px;word-break:break-all;color:var(--t);letter-spacing:.5px" id="apiKeyDisplay">aihub-••••••••••••••••••••••••••••••••</div>
+    </div>
+
+    <!-- 调用地址 -->
+    <div style="background:#f8f9fa;border-radius:10px;padding:14px;margin-bottom:16px">
+      <div style="font-size:12px;font-weight:600;color:var(--t2);margin-bottom:10px">调用地址（Base URL）</div>
+      <div class="fxb mb8" style="align-items:center;gap:8px">
+        <div style="font-size:11px;color:var(--t3);width:80px;flex-shrink:0">OpenAI 协议</div>
+        <div style="font-family:monospace;font-size:12px;flex:1;background:#fff;border:1px solid var(--bd);border-radius:6px;padding:7px 10px;color:var(--t)">https://api.aihub.ai/v1</div>
+        <button class="btn bo bsm" onclick="copyText('https://api.aihub.ai/v1',this)">复制</button>
+      </div>
+      <div class="fxb" style="align-items:center;gap:8px">
+        <div style="font-size:11px;color:var(--t3);width:80px;flex-shrink:0">Anthropic 协议</div>
+        <div style="font-family:monospace;font-size:12px;flex:1;background:#fff;border:1px solid var(--bd);border-radius:6px;padding:7px 10px;color:var(--t)">https://api.aihub.ai/anthropic</div>
+        <button class="btn bo bsm" onclick="copyText('https://api.aihub.ai/anthropic',this)">复制</button>
+      </div>
+    </div>
+
+    <!-- 快速接入指引 -->
+    <div style="font-size:12px;font-weight:600;color:var(--t2);margin-bottom:8px">快速接入</div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
+      <div style="background:#fff;border:1px solid var(--bd);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:10px">
+        <div style="width:28px;height:28px;background:#f5f0eb;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="https://logo.clearbit.com/anthropic.com" style="width:18px;height:18px;object-fit:contain" onerror="this.parentNode.textContent='🤖'"></div>
+        <div class="f1">
+          <div style="font-size:12px;font-weight:600">Claude Desktop</div>
+          <div class="txs tgr">填入 Base URL + API Key，选择任意模型即可使用</div>
+        </div>
+        <button class="btn bo bsm" onclick="go('p02',nv(1),'AI 软件管理')">去安装</button>
+      </div>
+      <div style="background:#fff;border:1px solid var(--bd);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:10px">
+        <div style="width:28px;height:28px;background:#f7f7f7;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="https://logo.clearbit.com/openai.com" style="width:18px;height:18px;object-fit:contain" onerror="this.parentNode.textContent='💻'"></div>
+        <div class="f1">
+          <div style="font-size:12px;font-weight:600">Codex CLI / OpenCode</div>
+          <div class="txs tgr">设置 OPENAI_API_KEY 和 OPENAI_BASE_URL 环境变量</div>
+        </div>
+        <button class="btn bo bsm" onclick="go('p02',nv(1),'AI 软件管理')">去安装</button>
+      </div>
+      <div style="background:#fff;border:1px solid var(--bd);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:10px">
+        <div style="width:28px;height:28px;background:#f0fdf4;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px">🔌</div>
+        <div class="f1">
+          <div style="font-size:12px;font-weight:600">其他兼容工具</div>
+          <div class="txs tgr">任何支持自定义 Base URL 的 AI 工具均可接入</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 计费说明 -->
+    <div style="background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:12px 14px;font-size:12px;color:#92400e;line-height:1.8">
+      <div style="font-weight:700;margin-bottom:4px">💡 计费说明</div>
+      <div>· 订阅用户：优先消耗每日发放的 Tokens，用完后自动切余额账户</div>
+      <div>· 按量用户：直接按各模型单价扣人民币余额</div>
+      <div>· 同一个 Key，平台自动判断扣费来源，无需额外配置</div>
+    </div>
+  </div>
+
+  <!-- 通知设置 -->
+  <div class="card mb16">
     <div class="tb2 mb16">通知设置</div>
     <div class="fxb mb16" style="max-width:400px">
       <div>
@@ -1110,15 +1190,13 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
       <label class="sw"><input type="checkbox" checked><span class="sl"></span></label>
     </div>
-    <div class="fxb mb16" style="max-width:400px">
+    <div class="fxb" style="max-width:400px">
       <div>
         <div style="font-size:13px;font-weight:600">路由异常提醒</div>
         <div class="txs tgr">路由服务中断时发送通知</div>
       </div>
       <label class="sw"><input type="checkbox" checked><span class="sl"></span></label>
     </div>
-    <div class="sep"></div>
-    <button class="btn bp" onclick="saveSettings(this)">保存设置</button>
   </div>
 </div>
 
@@ -1130,6 +1208,19 @@ input:checked+.sl:before{transform:translateX(16px)}
 <!-- ══════════════════════════════════════════════════
      MODALS
 ══════════════════════════════════════════════════ -->
+
+<!-- mResetKey 重置 API Key 确认 -->
+<div class="ov" id="mResetKey">
+  <div class="mo mo-sm" style="text-align:center">
+    <div style="font-size:40px;margin-bottom:10px">🔑</div>
+    <div class="mo-ti">确认重置 API Key？</div>
+    <div class="mo-ds">重置后旧 Key 立即失效，所有已配置该 Key 的工具需要更新为新 Key。</div>
+    <div class="mo-ft" style="justify-content:center;gap:12px">
+      <button class="btn bo" onclick="cm('mResetKey')">取消</button>
+      <button class="btn" style="background:#dc2626;color:#fff;border:none" onclick="doResetKey()">确认重置</button>
+    </div>
+  </div>
+</div>
 
 <!-- M09 修改密码 -->
 <div class="ov" id="m09">
@@ -3269,6 +3360,48 @@ function completeInstall(){
   // 安装完成后引导去配置路由
   const toolName = meta ? meta.name : '新工具';
   showToast(toolName + ' 安装成功！<span style="cursor:pointer;text-decoration:underline;margin-left:6px" onclick="go(\'p03\',document.querySelectorAll(\'.ni\')[2],\'模型 / 路由管理\')">前往配置路由 →</span>');
+}
+
+var _apiKeyVisible = false;
+var _apiKeyReal = 'aihub-sk-9f3a2b7e1c4d8f6a0e5b2c9d7f4a1e8b3c6d0f2';
+
+function toggleKeyVisible(btn){
+  _apiKeyVisible = !_apiKeyVisible;
+  var el = document.getElementById('apiKeyDisplay');
+  if(el) el.textContent = _apiKeyVisible ? _apiKeyReal : 'aihub-' + '•'.repeat(32);
+  if(btn) btn.textContent = _apiKeyVisible ? '隐藏' : '显示';
+}
+
+function doResetKey(){
+  cm('mResetKey');
+  _apiKeyReal = 'aihub-sk-' + Math.random().toString(36).slice(2,10) + Math.random().toString(36).slice(2,18);
+  _apiKeyVisible = false;
+  var el = document.getElementById('apiKeyDisplay');
+  if(el) el.textContent = 'aihub-' + '•'.repeat(32);
+  var btn = document.getElementById('keyToggleBtn');
+  if(btn) btn.textContent = '显示';
+  showToast('API Key 已重置，请重新配置你的工具');
+}
+
+function copyApiKey(){
+  copyText(_apiKeyReal, null);
+}
+
+function copyText(text, btn){
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text).then(function(){
+      showToast('已复制到剪贴板');
+    });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('已复制到剪贴板');
+  }
+  if(btn){ var orig=btn.textContent; btn.textContent='已复制'; setTimeout(function(){ btn.textContent=orig; },1500); }
 }
 
 function saveSettings(btn){
