@@ -514,449 +514,59 @@ input:checked+.sl:before{transform:translateX(16px)}
   <div id="statsLoggedIn" style="display:none">
   <div class="g g2 mb16">
     <div class="sc">
-      <div class="lb">今日消耗<span class="ih">?<span class="ih-b">只统计今天通过本站路由产生的 Tokens 消耗，站外使用不计入，当前数值为展示样例。</span></span></div>
-      <div class="vl" id="homeTodayUsageValue">3,241 <span style="font-size:14px;color:var(--t2)">Tokens</span></div>
-      <div class="sb2">较昨日 ↑12%</div>
-    </div>
-    <div class="sc">
-      <div class="lb">近30天消耗<span class="ih">?<span class="ih-b">只统计近30天通过本站路由产生的 Tokens 消耗，站外使用不计入。</span></span></div>
-      <div class="vl" id="homeMonthUsageValue">128,540 <span style="font-size:14px;color:var(--t2)">Tokens</span></div>
-      <div class="sb2">最近一笔 18 天后到期（2026-07-23）</div>
-    </div>
-  </div>
-  <div class="card mb16">
-    <div class="uc-head">
-      <div>
-        <div class="tb2">使用额度趋势<span class="ih">?<span class="ih-b">只统计本站内实际扣减的 Tokens。同一天表示查看单日小时分布，不同日期表示查看该时间段的按天趋势。</span></span></div>
-      </div>
-      <div class="uc-head-actions">
-        <div class="uc-quick">
-          <button class="uc-quick-btn" id="usagePresetToday" onclick="setUsageChartPreset('today')">今日</button>
-          <button class="uc-quick-btn" id="usagePresetMonth" onclick="setUsageChartPreset('month')">近30天</button>
-        </div>
-        <div class="uc-filter" id="usageRangePickerWrap">
-          <span class="uc-filter-label">日期范围</span>
-          <input type="date" id="usageRangeStart" onchange="setUsageChartRange(this.value, document.getElementById('usageRangeEnd').value)">
-          <span class="uc-range-sep">至</span>
-          <input type="date" id="usageRangeEnd" onchange="setUsageChartRange(document.getElementById('usageRangeStart').value, this.value)">
-        </div>
-        <div class="uc-head-meta" id="usageChartMarksWrap">
-          <div class="uc-marks" id="usageChartMarks">小时范围：00:00 - 23:59</div>
-        </div>
-      </div>
-    </div>
-    <div class="uc-desc" id="usageChartDesc">今天按小时查看本站 Tokens 使用额度。</div>
-    <div class="uc-unit" id="usageChartUnit">单位：Tokens</div>
-    <div id="usageChartMain"></div>
-  </div>
-  <div class="card">
-    <div class="fxb mb16">
-      <div class="tb2">最近使用记录<span class="ih">?<span class="ih-b">这里只展示通过本站路由产生的站内使用记录，站外调用不会出现在这里。</span></span></div>
-      <div class="ts tac" style="cursor:pointer" onclick="go('p04',nv(3),'Tokens 中心')">查看全部 →</div>
-    </div>
-      <table class="tb">
-      <thead><tr><th>时间</th><th>AI 工具</th><th>模型</th><th>消耗 Tokens</th></tr></thead>
-      <tbody id="homeRecentUsageBody">
-        <tr><td class="tgr ts">14:32</td><td>Claude Desktop</td><td><span class="bd2 bpu">Claude Sonnet</span></td><td>1,248</td></tr>
-        <tr><td class="tgr ts">13:10</td><td>Codex CLI</td><td><span class="bd2 bpu">Claude Haiku</span></td><td>876</td></tr>
-        <tr><td class="tgr ts">11:47</td><td>Claude Desktop</td><td><span class="bd2 bg">DeepSeek V3</span></td><td>654</td></tr>
-        <tr><td class="tgr ts">10:22</td><td>OpenCode</td><td><span class="bd2 bpu">Claude Sonnet</span></td><td>463</td></tr>
-      </tbody>
-    </table>
-  </div>
-  </div>
-</div>
-
-<!-- ─────── P02 AI 软件 ─────── -->
-<div id="p02" class="pg">
-  <div class="fxb mb16">
-    <div style="font-size:15px;font-weight:700">AI 软件管理</div>
-    <div class="ts tgr" id="toolInstallSummary">已安装 3 / 6</div>
-  </div>
-  <div class="g g3" id="toolCardGrid">
-
-    <div class="tc" data-tool-card="claude-desktop">
-      <div class="tc-h">
-        <div class="tc-ico" style="background:#f0f0f0">🤖</div>
-        <div><div class="tc-nm">Claude</div><div class="tc-vr">桌面版 · v0.10.4 · 已安装</div></div>
-      </div>
-      <div class="tc-ds">Anthropic 官方桌面端，支持 Claude 全系模型，已通过 CC Switch 路由。</div>
-      <div class="tmx">
-        <div class="row">
-          <div>
-
-            <div class="lb">支持模型</div>
-            <div class="bd2 bpu" data-tool-mode="claude-desktop">6 个可选</div>
-          </div>
-          <div style="text-align:right">
-            <div class="lb">当前使用模型</div>
-            <div class="val" data-tool-current="claude-desktop">DeepSeek V3</div>
-          </div>
-        </div>
-        <div class="txs tgr mb8" data-tool-note="claude-desktop">当前使用 DeepSeek V3，平台会自动完成兼容接入</div>
-        <div class="lb">该工具当前可用模型</div>
-        <select class="sel" data-tool-select="claude-desktop" onchange="needLogin(()=>changeToolModel('claude-desktop', this.value))">
-          <option value="DeepSeek V3">DeepSeek V3</option>
-          <option value="DeepSeek R1">DeepSeek R1</option>
-          <option value="Qwen Max">Qwen Max</option>
-          <option value="Gemini 1.5 Pro">Gemini 1.5 Pro</option>
-          <option value="Claude Sonnet 4.5">Claude Sonnet 4.5</option>
-          <option value="Claude Haiku 3.5">Claude Haiku 3.5</option>
-        </select>
-      </div>
-      <div class="tc-ft">
-        <span class="bd2 bg">● 运行中</span>
-        <div class="fxc g6">
-          <button class="btn bo bsm">更新</button>
-          <button class="btn bp bsm">打开</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="tc" data-tool-card="codex-cli">
-      <div class="tc-h">
-        <div class="tc-ico" style="background:#e8f4fd">💻</div>
-        <div><div class="tc-nm">Codex</div><div class="tc-vr">命令行工具 · v1.2.1 · 已安装</div></div>
-      </div>
-      <div class="tc-ds">OpenAI 官方命令行工具，适合代码生成场景，已配置路由转发。</div>
-      <div class="tmx">
-        <div class="row">
-          <div>
-            <div class="lb">支持模型</div>
-            <div class="bd2 bg" data-tool-mode="codex-cli">3 个可选</div>
-          </div>
-          <div style="text-align:right">
-            <div class="lb">当前使用模型</div>
-            <div class="val" data-tool-current="codex-cli">DeepSeek V3</div>
-          </div>
-        </div>
-        <div class="txs tgr mb8" data-tool-note="codex-cli">当前使用 DeepSeek V3，可直接切换其他可用模型</div>
-        <div class="lb">该工具当前可用模型</div>
-        <select class="sel" data-tool-select="codex-cli" onchange="needLogin(()=>changeToolModel('codex-cli', this.value))">
-          <option value="DeepSeek R1">DeepSeek R1</option>
-          <option value="Gemini 1.5 Pro">Gemini 1.5 Pro</option>
-          <option value="DeepSeek V3">DeepSeek V3</option>
-          <option value="Claude Sonnet 4.5">Claude Sonnet 4.5</option>
-          <option value="Claude Haiku 3.5">Claude Haiku 3.5</option>
-          <option value="Qwen Max">Qwen Max</option>
-        </select>
-      </div>
-      <div class="tc-ft">
-        <span class="bd2 bg">● 运行中</span>
-        <div class="fxc g6">
-          <button class="btn bo bsm">更新</button>
-          <button class="btn bp bsm">打开</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="tc" data-tool-card="opencode">
-      <div class="tc-h">
-        <div class="tc-ico" style="background:#fef3cd">🔷</div>
-        <div><div class="tc-nm">OpenCode</div><div class="tc-vr">v0.1.89 · 已安装</div></div>
-      </div>
-      <div class="tc-ds">开源 AI 编程助手，支持多种模型接入，轻量高效。</div>
-      <div class="tmx">
-        <div class="row">
-          <div>
-            <div class="lb">支持模型</div>
-            <div class="bd2 bpu" data-tool-mode="opencode">3 个可选</div>
-          </div>
-          <div style="text-align:right">
-            <div class="lb">当前使用模型</div>
-            <div class="val" data-tool-current="opencode">Gemini 1.5 Pro</div>
-          </div>
-        </div>
-        <div class="txs tgr mb8" data-tool-note="opencode">当前使用 Gemini 1.5 Pro，可直接切换其他可用模型</div>
-        <div class="lb">该工具当前可用模型</div>
-        <select class="sel" data-tool-select="opencode" onchange="needLogin(()=>changeToolModel('opencode', this.value))">
-          <option value="DeepSeek V3">DeepSeek V3</option>
-          <option value="DeepSeek R1">DeepSeek R1</option>
-          <option value="Qwen Max">Qwen Max</option>
-          <option value="Gemini 1.5 Pro">Gemini 1.5 Pro</option>
-          <option value="Claude Sonnet 4.5">Claude Sonnet 4.5</option>
-          <option value="Claude Haiku 3.5">Claude Haiku 3.5</option>
-        </select>
-      </div>
-      <div class="tc-ft">
-        <span class="bd2 by">● 可更新</span>
-        <div class="fxc g6">
-          <button class="btn bsm" style="background:var(--wa);color:#fff;border:none">立即更新</button>
-          <button class="btn bp bsm">打开</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="tc" data-tool-card="gemini">
-      <div class="tc-h">
-        <div class="tc-ico" style="background:#f0fdf4">🌿</div>
-        <div><div class="tc-nm">Gemini</div><div class="tc-vr" data-tool-version="gemini">命令行工具 · 未安装</div></div>
-      </div>
-      <div class="tc-ds">Google 官方命令行工具，支持 Gemini 1.5 Pro / Flash 等模型。</div>
-      <div class="tc-ft" data-tool-actions="gemini">
-        <span class="bd2 bgr" data-tool-status="gemini">未安装</span>
-        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('gemini'))">安装</button>
-      </div>
-    </div>
-
-    <div class="tc" data-tool-card="openclaw">
-      <div class="tc-h">
-        <div class="tc-ico" style="background:#fff4f0">🦞</div>
-        <div><div class="tc-nm">OpenClaw</div><div class="tc-vr" data-tool-version="openclaw">未安装</div></div>
-      </div>
-      <div class="tc-ds">开源 AI 客户端，支持多种模型接入，界面轻量适合日常对话场景。</div>
-      <div class="tc-ft" data-tool-actions="openclaw">
-        <span class="bd2 bgr" data-tool-status="openclaw">未安装</span>
-        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('openclaw'))">安装</button>
-      </div>
-    </div>
-
-    <div class="tc" data-tool-card="hermes">
-      <div class="tc-h">
-        <div class="tc-ico" style="background:#f0f4ff">📦</div>
-        <div><div class="tc-nm">Hermes</div><div class="tc-vr" data-tool-version="hermes">未安装</div></div>
-      </div>
-      <div class="tc-ds">AI 工具管理平台，支持多个 AI 客户端的统一配置与切换。</div>
-      <div class="tc-ft" data-tool-actions="hermes">
-        <span class="bd2 bgr" data-tool-status="hermes">未安装</span>
-        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('hermes'))">安装</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ─────── P03 模型路由 ─────── -->
-<div id="p03" class="pg">
-  <div style="font-size:15px;font-weight:700" class="mb16">模型 / 路由管理</div>
-
-  <div class="stbar run">
-    <div class="stl ok"><span class="dot dg"></span>本地路由运行中</div>
-    <div class="str">网关地址：http://127.0.0.1:15721 · 今日请求 128 次<span class="ih">?<span class="ih-b">统计今日通过本地路由实际转发的模型请求次数，不等于消息条数。一次消息可能触发多次请求，如重试、补全上下文或工具调用。</span></span></div>
-  </div>
-
-  <div class="card mb16">
-    <div class="fxb mb16">
-      <div style="font-size:15px;font-weight:700">路由模式<span class="ih">?<span class="ih-b">控制系统自动选模策略。智能模式按任务难度分配模型；稳定模式在报错、超时、额度不足时自动切换；速度模式优先响应更快的模型。智能模式与速度模式二选一，稳定模式可叠加开启。</span></span></div>
-      <div class="txs tgr" id="routeModeSummaryText">当前开启：智能模式、稳定模式</div>
-    </div>
-    <div class="g g3" style="gap:10px">
-      <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:10px;padding:14px">
-        <div class="fxb" style="align-items:center;gap:12px">
-          <div>
-            <div class="tb2">智能模式</div>
-            <div class="txs tgr mt4">系统会根据任务难度分配模型，简单任务更省，复杂任务更强</div>
-          </div>
-          <label class="sw"><input type="checkbox" data-route-mode="saveFlow" checked onchange="toggleRouteMode('saveFlow', this.checked)"><span class="sl"></span></label>
-        </div>
-      </div>
-      <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:10px;padding:14px">
-        <div class="fxb" style="align-items:center;gap:12px">
-          <div>
-            <div class="tb2">稳定模式</div>
-            <div class="txs tgr mt4">报错、超时、额度不足时，自动换到其他可用模型</div>
-          </div>
-          <label class="sw"><input type="checkbox" data-route-mode="failover" checked onchange="toggleRouteMode('failover', this.checked)"><span class="sl"></span></label>
-        </div>
-      </div>
-      <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:10px;padding:14px">
-        <div class="fxb" style="align-items:center;gap:12px">
-          <div>
-            <div class="tb2">速度模式</div>
-            <div class="txs tgr mt4">更看重速度时用它，优先选响应更快的模型</div>
-          </div>
-          <label class="sw"><input type="checkbox" data-route-mode="speedFirst" onchange="toggleRouteMode('speedFirst', this.checked)"><span class="sl"></span></label>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card mb16">
-    <!-- 切换 Tab -->
-    <div style="display:flex;justify-content:center;margin-bottom:20px">
-      <div style="display:flex;background:#f4f4f5;border-radius:10px;padding:3px;gap:2px">
-        <button id="tabBuiltin" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:var(--a);color:#fff;box-shadow:0 2px 8px rgba(15,118,110,.25);border:none" onclick="switchModelTab('builtin')">内置模型</button>
-        <button id="tabCustom" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchModelTab('custom')">新增模型</button>
-      </div>
-    </div>
-
-    <!-- 平台支持模型面板 -->
-    <div id="panelBuiltin">
-    <!-- 厂商 Tab 筛选 -->
-    <div style="overflow-x:auto;padding-bottom:4px;margin-bottom:10px">
-      <div id="vendorTabs" style="display:flex;gap:6px;min-width:max-content">
-        <button class="vt on" onclick="setVendorFilter('all',this)">全部</button>
-        <button class="vt" onclick="setVendorFilter('Anthropic',this)">Anthropic</button>
-        <button class="vt" onclick="setVendorFilter('OpenAI',this)">OpenAI</button>
-        <button class="vt" onclick="setVendorFilter('Google',this)">Google</button>
-        <button class="vt" onclick="setVendorFilter('DeepSeek',this)">DeepSeek</button>
-        <button class="vt" onclick="setVendorFilter('\u963f\u91cc\u4e91',this)">阿里云</button>
-        <button class="vt" onclick="setVendorFilter('\u5b57\u8282\u8df3\u52a8',this)">字节跳动</button>
-        <button class="vt" onclick="setVendorFilter('MiniMax',this)">MiniMax</button>
-        <button class="vt" onclick="setVendorFilter('\u667a\u8c31AI',this)">智谱 AI</button>
-        <button class="vt" onclick="setVendorFilter('\u6708\u4e4b\u6697\u9762',this)">月之暗面</button>
-        <button class="vt" onclick="setVendorFilter('xAI',this)">xAI</button>
-        <button class="vt" onclick="setVendorFilter('Meta',this)">Meta</button>
-        <button class="vt" onclick="setVendorFilter('Mistral',this)">Mistral</button>
-      </div>
-    </div>
-    <!-- 能力 Tag 多选 -->
-    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;align-items:center">
-      <span style="font-size:12px;color:var(--t3);flex-shrink:0">能力：</span>
-      <span class="cft" onclick="toggleCapFilter('\u51fd\u6570\u8c03\u7528',this)">函数调用</span>
-      <span class="cft" onclick="toggleCapFilter('\u89c6觉\u7406\u89e3',this)">视觉理解</span>
-      <span class="cft" onclick="toggleCapFilter('\u89c6\u9891\u8f93\u5165',this)">视频输入</span>
-      <span class="cft" onclick="toggleCapFilter('\u97f3\u9891\u8f93\u5165',this)">音频输入</span>
-      <span class="cft" onclick="toggleCapFilter('\u6df1\u5ea6\u601d\u8003',this)">深度思考</span>
-      <span class="cft" onclick="toggleCapFilter('\u590d\u6742\u63a8\u7406',this)">复杂推理</span>
-      <span class="cft" onclick="toggleCapFilter('\u8054\u7f51\u641c\u7d22',this)">联网搜索</span>
-      <span id="capFilterCount" style="font-size:11px;color:var(--t3);margin-left:4px"></span>
-    </div>
-    <div class="g g2" style="gap:10px" id="platformModelGrid">
-      <!-- 由 JS renderPlatformModelGrid() 动态生成 -->
-    </div><!-- /platformModelGrid -->
-    </div><!-- /panelBuiltin -->
-
-    <!-- 新增模型面板 -->
-    <div id="panelCustom" style="display:none">
-    <!-- 用户新增模型列表 -->
-    <div id="customModelList" style="display:none;margin-bottom:16px">
-      <table class="tb" id="customModelTable">
-        <thead><tr><th>模型名称</th><th>调用地址</th><th>模型 ID</th><th>连接状态</th><th>操作</th></tr></thead>
-        <tbody id="customModelTableBody"></tbody>
-      </table>
-    </div>
-    <div id="noCustomModel" style="text-align:center;padding:20px 0 8px;color:var(--t3);font-size:13px">暂无自定义模型，填写下方表单即可接入</div>
-
-    <div class="adv-t mt8" onclick="togAdv()">
-      <span>➕</span> 展开配置<span class="ih">?<span class="ih-b">用于新增外部模型接入配置。保存后系统会自动检测连接、调用结果与外部额度状态。</span></span> <span id="adva">▲</span>
-    </div>
-    <div class="adv-p op" id="advp">
-      <div class="g g2" style="gap:12px">
-        <div class="fg" style="margin-bottom:0">
-          <label class="fl">调用地址</label>
-          <input class="fi" value="https://api.deepseek.com/anthropic" placeholder="填供应商给你的调用地址，例如 https://api.deepseek.com/anthropic">
-          <div class="txs tgr mt4">这里填供应商给你的接口地址。不会填就去供应商文档里找 API 地址或 Base URL。</div>
-        </div>
-        <div class="fg" style="margin-bottom:0">
-          <label class="fl">模型名称</label>
-          <input class="fi" id="newModelName" value="Kimi K2" placeholder="填用户看到的模型名称，例如 Kimi K2、GLM 4.5、Llama 3.1 70B">
-          <div class="txs tgr mt4">仅用于展示，不影响真实调用</div>
-        </div>
-        <div class="fg" style="margin-bottom:0">
-          <label class="fl">调用密钥</label>
-          <input class="fi" type="password" value="sk-••••••••••••••••" placeholder="填供应商给你的密钥，例如 sk-xxxxxx">
-          <div class="txs tgr mt4">这里填供应商给你的 API Key。建议单独创建一个给本平台使用，后面更好管理。</div>
-        </div>
-        <div class="fg" style="margin-bottom:0">
-          <label class="fl">模型 ID</label>
-          <input class="fi" id="mappingInput" value="deepseek-v3" placeholder="填系统实际调用的模型 ID，例如 deepseek-v3">
-          <div class="txs tgr mt4">模型 ID 就是系统真正发起调用时使用的模型标识，例如 deepseek-v3、qwen-max。</div>
-        </div>
-      </div>
-      <div style="background:var(--wh);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-top:14px">
-        <div class="tb2 mb8">系统检测结果<span class="ih">?<span class="ih-b">保存后自动检测该模型接入是否可用，并反馈连接、调用与额度状态。</span></span></div>
-        <div class="g g3" style="gap:10px">
-          <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:8px;padding:12px">
-            <div class="txs tlt mb8">连接状态</div>
-            <div id="extConnStatus" class="tb2">待检测</div>
-            <div id="extConnDesc" class="txs tgr mt4">保存后自动检测</div>
-          </div>
-          <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:8px;padding:12px">
-            <div class="txs tlt mb8">最近一次调用</div>
-            <div id="extCallStatus" class="tb2">尚未验证</div>
-            <div id="extCallDesc" class="txs tgr mt4">保存后自动发起检测</div>
-          </div>
-          <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:8px;padding:12px">
-            <div class="txs tlt mb8">外部供应商额度</div>
-            <div id="extBalanceStatus" class="tb2">待查询</div>
-            <div id="extBalanceDesc" class="txs tgr mt4">保存后自动检测</div>
-          </div>
-        </div>
-      </div>
-      <div class="mt12" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
-        <button class="btn bp" style="min-width:220px;padding:12px 28px;font-size:15px" onclick="needLogin(()=>saveConf(this))">保存并检测</button>
-      <span id="connResult" style="font-size:12px;display:none;text-align:center"></span>
-      </div>
-    </div>
-    </div><!-- /panelCustom -->
-
-  </div>
-</div>
-
-<!-- ─────── P04 Tokens 中心 ─────── -->
-<div id="p04" class="pg">
-  <div class="mb16">
-    <div style="font-size:15px;font-weight:700">Tokens 中心</div>
-  </div>
-
-  <div class="g g2 mb16" style="grid-template-columns:1fr 1fr">
-    <!-- 订阅 Tokens 卡（仿 Hero 左侧） -->
-    <div class="sc" style="background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:none;padding:24px 28px">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
-        <div style="font-size:13px;color:rgba(255,255,255,.8);font-weight:600">订阅 Tokens</div>
-        <span class="ih" style="color:rgba(255,255,255,.6)">?<span class="ih-b">订阅套餐每日发放的可用 Tokens，次日 0:00 清零重放。</span></span>
-        <!-- 会员标签 -->
-        <div id="p04MemberBadge" style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:2px 10px;font-size:11px;margin-left:4px">
-          <span style="width:6px;height:6px;border-radius:50%;background:#4ade80;flex-shrink:0"></span>
-          <span id="p04MemberLabel">月卡 · 2026-08-07 到期</span>
-        </div>
-      </div>
-      <div style="font-size:36px;font-weight:800;line-height:1;margin-bottom:8px" id="tokensCenterBalanceValue">13,426</div>
-      <!-- 今日进度条 -->
-      <div id="p04SubSection">
-        <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px">
-          <span>今日已用 <strong id="p04UsedTokens" style="color:#fff">3,241</strong> / <span id="p04TotalTokens">16,667</span></span>
-          <span id="p04UsedPct" style="color:#fff;font-weight:700">19%</span>
-        </div>
-        <div style="height:4px;border-radius:2px;background:rgba(255,255,255,.2);overflow:hidden;margin-bottom:10px">
-          <div id="p04ProgressBar" style="height:100%;border-radius:2px;background:#4ade80;width:19%;transition:width .4s"></div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;justify-content:space-between">
-        <div style="font-size:11px;color:rgba(255,255,255,.6)" id="tokensCenterBalanceHint">最近到期 18 天后（2026-07-23）</div>
-        <button onclick="needLogin((function(el){return function(){go('p05',el,'购买');setTimeout(function(){switchBuyTab('subscription')},50)}})(document.querySelectorAll('.ni')[4]))" style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);border-radius:16px;color:#fff;font-size:11px;padding:4px 14px;cursor:pointer">续订会员</button>
-      </div>
-    </div>
-    <!-- 充值余额卡（仿 Hero 右侧） -->
-    <div class="sc" style="background:linear-gradient(135deg,#0f766e,#1f9d8f);color:#fff;border:none;padding:24px 28px">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
-        <div style="font-size:13px;color:rgba(255,255,255,.8);font-weight:600">充值余额</div>
-        <span class="ih" style="color:rgba(255,255,255,.6)">?<span class="ih-b">按量充值的人民币余额，订阅 Tokens 用完后自动按模型单价扣减。</span></span>
-      </div>
-      <div style="font-size:36px;font-weight:800;line-height:1;margin-bottom:8px" id="cashCenterBalanceValue">¥48.50</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.6);margin-bottom:16px">无到期，用完为止</div>
-      <div style="display:flex;align-items:center;justify-content:space-between">
-        <div style="font-size:11px;color:rgba(255,255,255,.55)">今日 Tokens 耗尽后按模型单价扣除</div>
-        <button onclick="needLogin((function(el){return function(){go('p05',el,'购买');setTimeout(function(){switchBuyTab('topup')},50)}})(document.querySelectorAll('.ni')[4]))" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);border-radius:16px;color:#fff;font-size:11px;padding:4px 14px;cursor:pointer" id="p04ChargeBtn">按量充值</button>
-      </div>
-    </div>
-  </div>
-  <div class="g g2 mb16">
-    <div class="sc">
-      <div class="lb">今日消耗<span class="ih">?<span class="ih-b">与首页口径一致，只统计今天通过本站路由产生的 Tokens 消耗。</span></span></div>
+      <div class="lb">今日消耗<span class="ih">?<span class="ih-b">今天通过本站路由产生的 Tokens 消耗。</span></span></div>
       <div class="vl" id="tokensTodayUsageValue">3,241</div>
       <div class="sb2">调用量稳定</div>
     </div>
     <div class="sc">
-      <div class="lb">近30天累计消耗<span class="ih">?<span class="ih-b">展示近30天通过本站路由产生的 Tokens 累计消耗，站外使用不计入。</span></span></div>
+      <div class="lb">近30天累计消耗<span class="ih">?<span class="ih-b">近30天通过本站路由产生的 Tokens 累计消耗。</span></span></div>
       <div class="vl" id="tokensMonthUsageValue">128,540</div>
       <div class="sb2">近30天调用活跃</div>
     </div>
   </div>
 
-  <div class="card mb16">
+  <!-- 当前订阅状态（会员显示） -->
+  <div class="card mb16" id="p04SubscriptionCard">
     <div class="fxb mb16">
-      <div class="tb2">套餐额度明细<span class="ih">?<span class="ih-b">逐笔记录各套餐的剩余 Tokens 和到期时间；首页“最近到期”只是简要提示，详细以这里为准。</span></span></div>
+      <div class="tb2">当前订阅<span class="ih">?<span class="ih-b">每日 0:00 自动发放固定额度，当日未用完于次日 0:00 清零；额度用完后自动切换充值余额按量计费。</span></span></div>
+      <button onclick="needLogin((function(el){return function(){go('p05',el,'购买');setTimeout(function(){switchBuyTab('subscription')},50)}})(document.querySelectorAll('.ni')[4]))" class="btn bo bsm">续订会员</button>
     </div>
-    <table class="tb">
-      <thead><tr><th>套餐</th><th>剩余 Tokens</th><th>购买时间</th><th>到期时间</th><th>状态</th></tr></thead>
-      <tbody id="packageTableBody">
-        <tr><td>新手包</td><td>80,000</td><td class="tgr ts">2026-01-21</td><td class="tgr ts">18 天后到期（2026-07-23）</td><td><span class="bd2 by">即将到期</span></td></tr>
-        <tr><td>标准包</td><td>126,000</td><td class="tgr ts">2026-03-03</td><td class="tgr ts">4 个月后到期（2026-11-08）</td><td><span class="bd2 bg">生效中</span></td></tr>
-        <tr><td>高级包</td><td>50,000</td><td class="tgr ts">2026-05-12</td><td class="tgr ts">11 个月后到期（2027-06-15）</td><td><span class="bd2 bg">生效中</span></td></tr>
-      </tbody>
-    </table>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px">
+      <div>
+        <div style="font-size:11px;color:var(--t3);margin-bottom:4px">套餐</div>
+        <div style="font-size:15px;font-weight:700;color:var(--t)" id="p04InfoPlan">月卡</div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--t3);margin-bottom:4px">每日额度</div>
+        <div style="font-size:15px;font-weight:700;color:var(--t)" id="p04InfoDaily">16,667 T</div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--t3);margin-bottom:4px">有效期</div>
+        <div style="font-size:13px;font-weight:600;color:var(--t)" id="p04InfoValidity">—</div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--t3);margin-bottom:4px">到期后</div>
+        <div style="font-size:12px;color:var(--t2)">自动切换充值余额<br>按量计费</div>
+      </div>
+    </div>
+    <div style="background:var(--all);border-radius:10px;padding:14px 16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--t2);margin-bottom:6px">
+        <span>今日已用 <strong id="p04InfoUsed" style="color:var(--t)">3,241</strong> / <span id="p04InfoTotal">16,667</span> T</span>
+        <span id="p04InfoPct" style="font-weight:700;color:var(--t)">19%</span>
+      </div>
+      <div style="height:8px;border-radius:4px;background:rgba(0,0,0,.08);overflow:hidden;margin-bottom:8px">
+        <div id="p04InfoBar" style="height:100%;border-radius:4px;background:#10b981;width:19%;transition:width .5s"></div>
+      </div>
+      <div style="font-size:12px;color:var(--t3)">今日剩余 <strong style="color:#0f766e" id="p04InfoRemainVal">13,426</strong> T · 耗尽后自动从充值余额按模型单价扣除</div>
+    </div>
+  </div>
+
+  <!-- 非会员引导（无订阅时显示） -->
+  <div class="card mb16" id="p04NoSubCard" style="display:none;text-align:center;padding:32px 24px">
+    <div style="font-size:28px;margin-bottom:10px">📦</div>
+    <div style="font-size:15px;font-weight:700;margin-bottom:6px">当前没有订阅套餐</div>
+    <div style="font-size:13px;color:var(--t3);margin-bottom:20px">订阅后每日自动获得 <strong>16,667 Tokens</strong>，低至 <strong>¥3.3/天</strong></div>
+    <button class="btn bp" onclick="needLogin((function(el){return function(){go('p05',el,'购买');setTimeout(function(){switchBuyTab('subscription')},50)}})(document.querySelectorAll('.ni')[4]))" style="padding:10px 32px;font-size:14px">立即订阅</button>
   </div>
 
   <div class="card">
@@ -3349,6 +2959,40 @@ function syncBalanceViews(){
       }
     }
     if(chargeBtn) chargeBtn.textContent = userCashBalance < 5 ? '立即充值 ⚡' : '按量充值';
+    // 订阅详情卡和非会员引导卡切换
+    var subCard = document.getElementById('p04SubscriptionCard');
+    var noSubCard = document.getElementById('p04NoSubCard');
+    if(subCard) subCard.style.display = isMember ? '' : 'none';
+    if(noSubCard) noSubCard.style.display = isMember ? 'none' : '';
+    // 订阅详情卡内字段更新
+    var planEl = document.getElementById('p04InfoPlan');
+    var dailyEl = document.getElementById('p04InfoDaily');
+    var validityEl = document.getElementById('p04InfoValidity');
+    var infoUsedEl = document.getElementById('p04InfoUsed');
+    var infoTotalEl = document.getElementById('p04InfoTotal');
+    var infoPctEl = document.getElementById('p04InfoPct');
+    var infoBarEl = document.getElementById('p04InfoBar');
+    var remainValEl = document.getElementById('p04InfoRemainVal');
+    if(isMember){
+      if(planEl) planEl.textContent = userPlan.name;
+      if(dailyEl) dailyEl.textContent = (userPlan.dailyTokens || 16667).toLocaleString() + ' T';
+      if(validityEl && userPlan.expireDate){
+        var today2 = new Date().toISOString().slice(0,10);
+        validityEl.textContent = today2 + ' – ' + userPlan.expireDate;
+      }
+      var used2 = userPlan.todayUsed || 0;
+      var total2 = userPlan.dailyTokens || 16667;
+      var pct2 = Math.round(used2 / total2 * 100);
+      var remain2 = Math.max(0, total2 - used2);
+      if(infoUsedEl) infoUsedEl.textContent = used2.toLocaleString();
+      if(infoTotalEl) infoTotalEl.textContent = total2.toLocaleString();
+      if(infoPctEl) infoPctEl.textContent = pct2 + '%';
+      if(infoBarEl){
+        infoBarEl.style.width = pct2 + '%';
+        infoBarEl.style.background = pct2 >= 85 ? '#ef4444' : pct2 >= 70 ? '#f59e0b' : '#10b981';
+      }
+      if(remainValEl) remainValEl.textContent = remain2.toLocaleString();
+    }
   })();
 
   // 顶栏
