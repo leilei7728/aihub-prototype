@@ -953,7 +953,7 @@ input:checked+.sl:before{transform:translateX(16px)}
     </div>
 </div>
 <div id="p05" class="pg">
-  <div style="display:flex;align-items:center;margin-bottom:16px">
+  <div id="buyTabBar" style="display:flex;align-items:center;margin-bottom:16px">
     <!-- 居中：订阅制 + 按量充值 -->
     <div style="flex:1;display:flex;justify-content:center">
       <div style="display:flex;background:#f4f4f5;border-radius:10px;padding:3px;gap:2px">
@@ -2497,6 +2497,7 @@ function toggleRefundExample(){
 function switchBuyTab(tab){
   var pSub=document.getElementById('buyPanelSubscription'), pTopup=document.getElementById('buyPanelTopup'), pOrders=document.getElementById('buyPanelOrders');
   var t1=document.getElementById('buyTab1'), t2=document.getElementById('buyTab2'), t3=document.getElementById('buyTab3');
+  var tabBar=document.getElementById('buyTabBar');
   
   // 隐藏所有面板
   if(pSub) pSub.style.display = 'none';
@@ -2512,12 +2513,14 @@ function switchBuyTab(tab){
   if(tab === 'subscription'){
     if(pSub) pSub.style.display = '';
     if(t1){ t1.style.background='var(--a)'; t1.style.color='#fff'; t1.style.boxShadow='0 2px 8px rgba(15,118,110,.25)'; }
+    if(tabBar) tabBar.style.display = 'flex';
   } else if(tab === 'topup'){
     if(pTopup) pTopup.style.display = '';
     if(t2){ t2.style.background='var(--a)'; t2.style.color='#fff'; t2.style.boxShadow='0 2px 8px rgba(15,118,110,.25)'; }
+    if(tabBar) tabBar.style.display = 'flex';
   } else if(tab === 'orders'){
     if(pOrders) pOrders.style.display = '';
-    if(t3){ t3.style.background='var(--a)'; t3.style.color='#fff'; t3.style.boxShadow='0 2px 8px rgba(15,118,110,.25)'; }
+    if(tabBar) tabBar.style.display = 'none';
   }
 }
 
