@@ -906,24 +906,55 @@ input:checked+.sl:before{transform:translateX(16px)}
 
   <div class="g g3 mb16">
     <div class="plc on" onclick="selPl(this)" data-plan-name="月卡" data-plan-type="subscription" data-plan-price="99" data-plan-monthly-tokens="500000" data-plan-daily="16667">
-      <div class="pl-nm">¥99 / 月</div>
-      <div class="pl-tk">50 <span>万 Tokens</span></div>
-      <ul class="pl-ft mt8">
-        <li>每天 8:00 自动放出 16,667 Tokens</li>
-        <li>当日未用完清零</li>
-        <li>全部 27 款模型可用</li>
-      </ul>
+      <div class="pl-nm">月卡</div>
+      <div class="pl-tk">¥99 <span>/ 月</span></div>
+      <div style="font-size:13px;font-weight:700;margin:8px 0 2px;color:var(--t)">50万 Tokens/月</div>
+      <div style="font-size:12px;color:var(--t2)">每天自动发放 16,667</div>
+    </div>
+
+    <div class="plc" onclick="selPl(this)" data-plan-name="季卡" data-plan-type="subscription" data-plan-price="299" data-plan-quarterly-tokens="1500000" data-plan-daily="16667">
+      <div class="pl-tag">⭐ 新</div>
+      <div class="pl-nm">季卡</div>
+      <div class="pl-tk">¥299 <span>/ 季</span></div>
+      <div style="font-size:13px;font-weight:700;margin:8px 0 2px;color:var(--t)">150万 Tokens/季</div>
+      <div style="font-size:12px;color:var(--t2)">每天自动发放 16,667</div>
     </div>
 
     <div class="plc" onclick="selPl(this)" data-plan-name="年卡" data-plan-type="subscription" data-plan-price="999" data-plan-yearly-tokens="6000000" data-plan-daily="16438">
-      <div class="pl-tag">🔥 划算</div>
-      <div class="pl-nm">¥999 / 年</div>
-      <div class="pl-tk">600 <span>万 Tokens</span></div>
-      <ul class="pl-ft mt8">
-        <li>每天 8:00 自动放出 16,438 Tokens</li>
-        <li>当日未用完清零</li>
-        <li>全部 27 款模型可用</li>
-      </ul>
+      <div class="pl-tag">🔥 最划算</div>
+      <div class="pl-nm">年卡</div>
+      <div class="pl-tk">¥999 <span>/ 年</span></div>
+      <div style="font-size:13px;font-weight:700;margin:8px 0 2px;color:var(--t)">600万 Tokens/年</div>
+      <div style="font-size:12px;color:var(--t2)">每天自动发放 16,438 · 约 ¥83/月</div>
+    </div>
+  </div>
+
+  <!-- 订阅公共规则说明 -->
+  <div class="card mb16" style="background:#f8fffe;border:1px solid #d1fae5">
+    <div style="font-size:13px;font-weight:700;color:var(--a);margin-bottom:10px">📋 订阅规则说明</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;font-size:12px;color:var(--t2);line-height:1.8">
+      <div>✅ 每天 0:00 自动发放当日额度</div>
+      <div>🔄 当天未用完于次日 0:00 清零</div>
+      <div>💡 订阅额度用完后自动切换按量余额</div>
+      <div>🔓 随时可取消，支持 7 天退款</div>
+    </div>
+    <div style="margin-top:12px;border-top:1px solid #d1fae5;padding-top:12px">
+      <div style="font-size:12px;font-weight:700;color:var(--t);margin-bottom:8px">可用模型（共 10 种）及 Tokens 消耗系数</div>
+      <div style="font-size:11px;color:var(--t2);margin-bottom:4px">消耗系数说明：发送同样内容，1x 模型扣 1,000，2x 扣 2,000，4x 扣 4,000</div>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+        <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px">
+          <span style="flex-shrink:0;background:#dcfce7;color:#15803d;padding:2px 7px;border-radius:4px;font-weight:700">1x 标准</span>
+          <span style="color:var(--t2)">DeepSeek V3、DeepSeek R1、Qwen Max、Claude Haiku 3.5</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px">
+          <span style="flex-shrink:0;background:#fef9c3;color:#a16207;padding:2px 7px;border-radius:4px;font-weight:700">2x 中级</span>
+          <span style="color:var(--t2)">Gemini 1.5 Pro、Claude Sonnet 4.5、GLM-4 Plus、Doubao Pro</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px">
+          <span style="flex-shrink:0;background:#fee2e2;color:#b91c1c;padding:2px 7px;border-radius:4px;font-weight:700">4x 高级</span>
+          <span style="color:var(--t2)">GPT-4.1、Claude Opus 4</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -935,12 +966,12 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div class="pm" onclick="selPm(this)">💳 银行卡</div>
     </div>
     <div class="sep"></div>
-    <div class="fxb mb8"><div class="tgr">已选套餐</div><div class="tb2" id="selectedSubSummary">月卡 · 每日 16,700 Tokens</div></div>
+    <div class="fxb mb8"><div class="tgr">已选套餐</div><div class="tb2" id="selectedSubSummary">99元/月 · 50万 Tokens</div></div>
     <div class="fxb" style="font-size:16px;font-weight:800;margin-bottom:20px">
       <div>合计</div><div class="tac" id="selectedSubTotal">¥99/月</div>
     </div>
     <button class="btn bp bfw" id="selectedSubPayBtn" style="padding:14px;font-size:15px" onclick="handlePurchase(this)">确认支付 ¥99</button>
-    <div class="txs tlt" style="text-align:center;margin-top:10px">订阅即代表同意 <span class="tac">订阅服务协议</span> · 随时可取消 · 支持 7 天无理由退款</div>
+    <div class="txs tlt" style="text-align:center;margin-top:10px">订阅即代表同意 <span class="tac">订阅服务协议</span> · 页面里的 Tokens 按标准模型计算，用中/高级模型会消耗得更快（详见规则） · 随时可取消</div>
   </div>
   </div><!-- /buyPanelSubscription -->
 
