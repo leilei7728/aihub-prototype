@@ -451,7 +451,7 @@ input:checked+.sl:before{transform:translateX(16px)}
           <span id="heroMemberDot" style="width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0"></span>
           <span id="heroMemberLabel">月卡 · 2026-08-07 到期</span>
         </div>
-        <button id="heroSubBtn" onclick="needLogin(()=>{go('p05',nv(4),'购买 Tokens');setTimeout(()=>switchBuyTab('subscription'),100)})" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);border-radius:20px;color:rgba(255,255,255,.85);font-size:12px;padding:4px 12px;cursor:pointer">续订会员</button>
+        <button id="heroSubBtn" onclick="needLogin(()=>{go('p05',nv(4),'购买 Tokens');setTimeout(()=>switchBuyTab('subscription'),100)})" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);border-radius:20px;color:rgba(255,255,255,.85);font-size:12px;padding:4px 12px;cursor:pointer">续订会员<span class="ih" style="margin-left:3px">?<span class="ih-b">再次购买同类套餐，新周期有效期自动顺延至当前到期日后，不叠加。</span></span></button>
       </div>
       <!-- 会员区：今日 Tokens 进度 -->
       <div id="heroSubSection">
@@ -3171,7 +3171,7 @@ function syncBalanceViews(){
 
     // 续订按钮（仅会员状态下用，非会员用独立立即订阅按钮）
     var heroSubBtn = document.getElementById('heroSubBtn');
-    if(heroSubBtn) heroSubBtn.textContent = '续订会员';
+    // 不用覆盖，按钮文字已内置于 HTML
 
     // 账户余额说明文字
     var heroCashHint = document.getElementById('heroCashHint');
