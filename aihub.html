@@ -445,13 +445,12 @@ input:checked+.sl:before{transform:translateX(16px)}
   <div id="heroLoggedIn" class="hero" style="display:none">
     <div class="hl">
       <h2 id="heroGreeting">早上好，雷蕾 👋</h2>
-      <!-- 会员状态标签 + 操作按钮 -->
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+      <!-- 会员状态标签 + 续订按钮（仅会员显示） -->
+      <div id="heroMemberRow" style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
         <div id="heroMemberBadge" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 12px;font-size:12px;color:#fff">
           <span id="heroMemberDot" style="width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0"></span>
           <span id="heroMemberLabel">月卡 · 2026-08-07 到期</span>
         </div>
-        <!-- 会员：续订；非会员：立即订阅 -->
         <button id="heroSubBtn" onclick="needLogin(()=>{go('p05',nv(4),'购买 Tokens');setTimeout(()=>switchBuyTab('subscription'),100)})" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);border-radius:20px;color:rgba(255,255,255,.85);font-size:12px;padding:4px 12px;cursor:pointer">续订会员</button>
       </div>
       <!-- 会员区：今日 Tokens 进度 -->
@@ -473,8 +472,9 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
       <!-- 非会员区：引导订阅 -->
       <div id="heroNoSubSection" style="display:none;margin-bottom:12px">
-        <div style="font-size:13px;color:rgba(255,255,255,.8);margin-bottom:6px">订阅会员，每日自动获得 <strong style="color:#fff">16,667 Tokens</strong>，低至 ¥3.3/天</div>
-        <div style="font-size:12px;color:rgba(255,255,255,.55)">当前仅可使用账户余额按量付费</div>
+        <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:4px">订阅会员，每日自动获得 <strong style="color:#4ade80">16,667 Tokens</strong></div>
+        <div style="font-size:12px;color:rgba(255,255,255,.65);margin-bottom:14px">低至 ¥3.3/天 · 当前仅可按量付费</div>
+        <button onclick="needLogin(()=>{go('p05',nv(4),'购买 Tokens');setTimeout(()=>switchBuyTab('subscription'),100)})" style="background:#fff;color:#0f766e;font-size:14px;font-weight:700;padding:10px 28px;border-radius:10px;border:none;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15)">立即订阅</button>
       </div>
     </div>
     <div class="hr" style="display:flex;flex-direction:column;gap:8px;min-width:160px;text-align:right">
@@ -3161,8 +3161,9 @@ function syncBalanceViews(){
   (function(){
     var isMember = !!userPlan.name;
 
-    // 会员区 / 非会员区 切换
-    var subSection   = document.getElementById('heroSubSection');
+    // 会员标签行：仅会员显示
+    var heroMemberRow = document.getElementById('heroMemberRow');
+    if(heroMemberRow) heroMemberRow.style.display = isMember ? '' : 'none';
     var noSubSection = document.getElementById('heroNoSubSection');
     if(subSection)   subSection.style.display   = isMember ? '' : 'none';
     if(noSubSection) noSubSection.style.display = isMember ? 'none' : '';
