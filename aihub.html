@@ -1060,7 +1060,6 @@ input:checked+.sl:before{transform:translateX(16px)}
     </div>
 
     <div class="plc on" onclick="selPl(this)" data-plan-name="充值 ¥100" data-plan-type="topup" data-plan-price="100" data-plan-credit="100">
-      <div class="pl-tag">🔥 推荐</div>
       <div class="pl-nm">充值 ¥100</div>
       <div class="pl-tk">到账 <span>¥100</span> 余额</div>
       <ul class="pl-ft mt8">
@@ -1145,7 +1144,7 @@ input:checked+.sl:before{transform:translateX(16px)}
           <option value="支付成功">支付成功</option>
           <option value="已退款">已退款</option>
         </select>
-        <button class="btn bo bsm" id="batchInvoiceBtn" onclick="openBatchInvoiceModal()" disabled>批量申请发票</button>
+        <button class="btn bo bsm" id="batchInvoiceBtn" onclick="openBatchInvoiceModal()">申请开票</button>
       </div>
     </div>
     <div class="card">
@@ -3313,8 +3312,8 @@ function syncBatchInvoiceButton(){
   const readyOrders=getFilteredOrders().filter(function(order){ return order.invoiceStatus === 'ready'; });
   const selectedReadyOrders=getSelectedInvoiceReadyOrders();
   if(batchBtn){
-    batchBtn.disabled=selectedReadyOrders.length === 0;
-    batchBtn.textContent=selectedReadyOrders.length > 0 ? '批量申请发票（' + selectedReadyOrders.length + '）' : '批量申请发票';
+    batchBtn.disabled=false;
+    batchBtn.textContent=selectedReadyOrders.length > 0 ? '申请开票（' + selectedReadyOrders.length + '）' : '申请开票';
   }
   if(selectAll){
     selectAll.disabled=readyOrders.length === 0;
@@ -3402,7 +3401,10 @@ function closeInvoiceModal(){
 
 function openBatchInvoiceModal(){
   const orders=getSelectedInvoiceReadyOrders();
-  if(!orders.length) return;
+  if(!orders.length){
+    showToast('请先勾选需要开票的订单', 2500);
+    return;
+  }
   openInvoiceModal(orders.map(function(order){ return order.id; }));
 }
 
