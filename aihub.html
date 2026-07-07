@@ -339,6 +339,26 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
     </div>
     <div id="loginErrorText" style="display:none;margin:-6px 0 12px;font-size:12px;color:var(--er)"></div>
+    <!-- 原型模拟：登录身份选择 -->
+    <div style="margin-bottom:14px;padding:10px 12px;background:var(--all);border-radius:8px;border:1px solid var(--bd)">
+      <div style="font-size:11px;color:var(--t3);margin-bottom:8px">🛠️ 原型模拟：选择登录身份</div>
+      <div style="display:flex;gap:8px">
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;flex:1;padding:8px 10px;border-radius:6px;border:1.5px solid var(--bd);background:var(--wh);transition:.15s" id="roleOptMember">
+          <input type="radio" name="loginRole" value="member" checked onchange="updateRoleOpt()" style="accent-color:var(--a)">
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--t)">&#x1F451; 月卡会员</div>
+            <div style="font-size:11px;color:var(--t3)">每日 16,667 Tokens</div>
+          </div>
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;flex:1;padding:8px 10px;border-radius:6px;border:1.5px solid var(--bd);background:var(--wh);transition:.15s" id="roleOptNoSub">
+          <input type="radio" name="loginRole" value="nosub" onchange="updateRoleOpt()" style="accent-color:var(--a)">
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--t)">非会员</div>
+            <div style="font-size:11px;color:var(--t3)">按量付费，无订阅</div>
+          </div>
+        </label>
+      </div>
+    </div>
     <button class="btn bp bfw" onclick="toApp()" style="margin-bottom:12px">登录 / 注册</button>
     <div style="text-align:center;font-size:12px;color:var(--t3)">
       未注册的手机号将自动创建账号 · 登录即代表同意
@@ -1808,9 +1828,25 @@ var toolMeta = {
 // 直接进 App，不强制登录
 // 点击侧边栏"未登录"才弹登录框
 
+function updateRoleOpt(){
+  var isMember = document.querySelector('input[name="loginRole"]:checked').value === 'member';
+  document.getElementById('roleOptMember').style.borderColor = isMember ? 'var(--a)' : 'var(--bd)';
+  document.getElementById('roleOptNoSub').style.borderColor  = !isMember ? 'var(--a)' : 'var(--bd)';
+}
+
 function toApp(){
   var errorEl=document.getElementById('loginErrorText');
   if(errorEl) errorEl.style.display='none';
+  // 读取身份选择，设置 userPlan
+  var roleEl = document.querySelector('input[name="loginRole"]:checked');
+  var role = roleEl ? roleEl.value : 'member';
+  if(role === 'member'){
+    userPlan = { name:'月卡', expireDate:'2026-08-07', dailyTokens:16667, todayUsed:3241 };
+  } else {
+    userPlan = { name:null, expireDate:null, dailyTokens:0, todayUsed:0 };
+  }
+  userTokensBalance = userPlan.dailyTokens - userPlan.todayUsed;
+  userCashBalance   = 48.50;
   // 关闭登录页
   cm('ls');
   // 切换侧边栏状态
