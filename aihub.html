@@ -1629,6 +1629,18 @@ input:checked+.sl:before{transform:translateX(16px)}
   </div>
 </div>
 
+<!-- M14 重启提示 -->
+<div class="ov" id="m14">
+  <div class="mo mo-sm" style="text-align:center">
+    <div style="font-size:44px;margin-bottom:12px">🔄</div>
+    <div class="mo-ti">配置已生效，请重启客户端</div>
+    <div class="mo-ds" id="m14Desc" style="line-height:1.8">模型切换已保存，需要重启对应的 AI 工具后新配置才会生效。</div>
+    <div class="mo-ft" style="justify-content:center;margin-top:4px">
+      <button class="btn bp" style="min-width:120px" onclick="cm('m14')">我知道了</button>
+    </div>
+  </div>
+</div>
+
 <!-- M08 需要登录提示 -->
 <div class="ov" id="m08">
   <div class="mo mo-sm" style="text-align:center">
@@ -3077,7 +3089,10 @@ function confirmUseModelMulti(){
   renderToolRoutingViews();
   var ni = document.querySelector('.ni[onclick*="p03"]');
   if(ni) go('p03', ni, '模型设置');
-  showToast('✅ 已将默认模型设为 <strong>' + _pendingUseModel + '</strong>，<strong>请重启对应工具</strong>使配置生效', 5000);
+  var desc = document.getElementById('m14Desc');
+  var toolNames = selected.map(function(k){ return appState.toolRouting[k] ? appState.toolRouting[k].name : k; }).join('、');
+  if(desc) desc.innerHTML = '已将 <strong>' + toolNames + '</strong> 的默认模型设为 <strong>' + _pendingUseModel + '</strong>。<br>请重启对应的 AI 工具后新配置才会生效。';
+  om('m14');
 }
 
 var modelPriceMap = {
@@ -3399,7 +3414,9 @@ function changeToolModel(toolKey, value){
   appState.activeToolKey=toolKey;
   renderToolRoutingViews();
   updateRouteSummary();
-  showToast('✅ 已将 <strong>' + (tool.name||toolKey) + '</strong> 默认模型切换为 <strong>' + value + '</strong>，请重启工具使配置生效', 5000);
+  var desc14 = document.getElementById('m14Desc');
+  if(desc14) desc14.innerHTML = '已将 <strong>' + (tool.name||toolKey) + '</strong> 的默认模型切换为 <strong>' + value + '</strong>。<br>请重启对应的 AI 工具后新配置才会生效。';
+  om('m14');
 }
 
 function updatePlanSummary(el){
