@@ -1619,11 +1619,11 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
     </div>
     <!-- 底部按钮 -->
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 28px 20px;border-top:1px solid var(--bd)">
-      <button id="ob-btn-skip" class="btn bo bsm" onclick="cm('m13')" style="color:var(--t3);border-color:transparent">跳过引导</button>
-      <div style="display:flex;gap:8px">
-        <button id="ob-btn-prev" class="btn bo bsm" onclick="obPrev()" style="display:none">上一步</button>
-        <button id="ob-btn-next" class="btn bp bsm" onclick="obNext()">下一步</button>
+    <div style="position:relative;display:flex;justify-content:center;align-items:center;padding:14px 28px 20px;border-top:1px solid var(--bd)">
+      <button id="ob-btn-skip" class="btn bo bsm" onclick="cm('m13')" style="position:absolute;left:28px;color:var(--t3);border-color:transparent">跳过引导</button>
+      <div style="display:flex;gap:12px;justify-content:center">
+        <button id="ob-btn-prev" class="btn bo" onclick="obPrev()" style="display:none;min-width:96px;height:40px;font-size:14px">上一步</button>
+        <button id="ob-btn-next" class="btn bp" onclick="obNext()" style="min-width:96px;height:40px;font-size:14px">下一步</button>
       </div>
     </div>
   </div>
