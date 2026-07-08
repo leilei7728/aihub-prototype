@@ -1058,7 +1058,6 @@ input:checked+.sl:before{transform:translateX(16px)}
             <th style="text-align:left;padding:6px 8px;border-bottom:1px solid #fde68a">供应商</th>
             <th style="text-align:right;padding:6px 8px;border-bottom:1px solid #fde68a">按量充值：输入 ¥/百万</th>
             <th style="text-align:right;padding:6px 8px;border-bottom:1px solid #fde68a">按量充值：输出 ¥/百万</th>
-            <th style="text-align:center;padding:6px 8px;border-bottom:1px solid #fde68a">消耗档</th>
           </tr></thead>
           <tbody id="priceTableBody"></tbody>
         </table>
@@ -3312,19 +3311,14 @@ function togglePriceTable(){
 function renderPriceTable(){
   var tbody = document.getElementById('priceTableBody');
   if(!tbody) return;
-  var tierMap = {};
   platformModelOptions.forEach(function(m){
     var p = modelPriceMap[m];
     if(!p) return;
-    var tier = p.in <= 2 ? '1x 标准' : p.in <= 12 ? '2x 中级' : '4x 高级';
-    var tierColor = p.in <= 2 ? '#15803d' : p.in <= 12 ? '#a16207' : '#b91c1c';
-    var tierBg = p.in <= 2 ? '#dcfce7' : p.in <= 12 ? '#fef9c3' : '#fee2e2';
     tbody.innerHTML += '<tr style="border-bottom:1px solid #fde68a">'
       + '<td style="padding:5px 8px;font-weight:600">' + m + '</td>'
       + '<td style="padding:5px 8px;color:var(--t2)">' + (modelProviderMap[m] || '') + '</td>'
       + '<td style="padding:5px 8px;text-align:right">' + p.in + '</td>'
       + '<td style="padding:5px 8px;text-align:right">' + p.out + '</td>'
-      + '<td style="padding:5px 8px;text-align:center"><span style="background:'+tierBg+';color:'+tierColor+';padding:1px 6px;border-radius:4px;font-size:10px;font-weight:700">'+tier+'</span></td>'
       + '</tr>';
   });
 }
