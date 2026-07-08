@@ -56,7 +56,7 @@ body{font-family:'Segoe UI Variable Text','PingFang SC','Microsoft YaHei UI','No
 .chip-g{background:#f0fdf4}
 .chip-g .cl{font-size:11px;color:var(--ok)}
 .chip-g .cv{font-size:13px;font-weight:800;color:var(--ok)}
-.pc{padding:28px;flex:1;overflow-y:auto;position:relative;z-index:1;background:var(--bg,#f4f7f6)}
+.pc{padding:28px;flex:1;overflow-y:auto;position:relative;z-index:1}
 /* ── page ── */
 .pg{display:none}
 .pg.on{display:block}
@@ -784,7 +784,9 @@ input:checked+.sl:before{transform:translateX(16px)}
     </div>
   </div>
 
-  <div class="card mb16" style="position:sticky;top:0;z-index:20;padding-bottom:10px">
+  <div class="card mb16" style="padding:0;overflow:visible">
+    <!-- 吸顶筛选区 -->
+    <div id="modelFilterSticky" style="position:sticky;top:0;z-index:10;background:#fff;border-radius:12px 12px 0 0;padding:20px 20px 14px;border-bottom:1px solid var(--bd)">
     <!-- 切换 Tab -->
     <div style="display:flex;justify-content:center;margin-bottom:20px">
       <div style="display:flex;background:#f4f4f5;border-radius:10px;padding:3px;gap:2px">
@@ -793,8 +795,8 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
     </div>
 
-    <!-- 平台支持模型面板 -->
-    <div id="panelBuiltin">
+    <!-- 平台支持模型面板筛选 -->
+    <div id="panelBuiltinFilter">
     <!-- 厂商 Tab 筛选 -->
     <div style="overflow-x:auto;padding-bottom:4px;margin-bottom:10px">
       <div id="vendorTabs" style="display:flex;gap:6px;min-width:max-content">
@@ -814,7 +816,7 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
     </div>
     <!-- 能力 Tag 多选 -->
-    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;align-items:center">
+    <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">
       <span style="font-size:12px;color:var(--t3);flex-shrink:0">能力：</span>
       <span class="cft" onclick="toggleCapFilter('\u51fd\u6570\u8c03\u7528',this)">函数调用</span>
       <span class="cft" onclick="toggleCapFilter('\u89c6觉\u7406\u89e3',this)">视觉理解</span>
@@ -825,6 +827,14 @@ input:checked+.sl:before{transform:translateX(16px)}
       <span class="cft" onclick="toggleCapFilter('\u8054\u7f51\u641c\u7d22',this)">联网搜索</span>
       <span id="capFilterCount" style="font-size:11px;color:var(--t3);margin-left:4px"></span>
     </div>
+    </div><!-- /panelBuiltinFilter -->
+    </div><!-- /modelFilterSticky -->
+
+    <!-- 模型列表区 -->
+    <div style="padding:16px 20px 20px">
+
+    <!-- 平台支持模型面板 -->
+    <div id="panelBuiltin">
     <div class="g g2" style="gap:10px" id="platformModelGrid">
       <!-- 由 JS renderPlatformModelGrid() 动态生成 -->
     </div><!-- /platformModelGrid -->
@@ -894,6 +904,7 @@ input:checked+.sl:before{transform:translateX(16px)}
     </div>
     </div><!-- /panelCustom -->
 
+    </div><!-- /模型列表区 -->
   </div>
 </div>
 
@@ -4166,6 +4177,8 @@ function switchModelTab(tab){
   var isBuiltin = tab === 'builtin';
   document.getElementById('panelBuiltin').style.display = isBuiltin ? '' : 'none';
   document.getElementById('panelCustom').style.display = isBuiltin ? 'none' : '';
+  var pf = document.getElementById('panelBuiltinFilter');
+  if(pf) pf.style.display = isBuiltin ? '' : 'none';
   var tb = document.getElementById('tabBuiltin');
   var tc = document.getElementById('tabCustom');
   if(tb){ tb.style.background = isBuiltin ? 'var(--a)' : 'transparent'; tb.style.color = isBuiltin ? '#fff' : 'var(--t2)'; tb.style.boxShadow = isBuiltin ? '0 2px 8px rgba(15,118,110,.25)' : 'none'; }
