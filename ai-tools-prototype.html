@@ -1,0 +1,1445 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MyTokens管家 PC端软件原型</title>
+  <style>
+    :root {
+      --bg: #f4f6fa;
+      --panel: #fff;
+      --soft: #f8fafc;
+      --line: #dbe1ea;
+      --line-strong: #c6ceda;
+      --text: #172033;
+      --muted: #667085;
+      --brand: #2563eb;
+      --brand-soft: #eaf1ff;
+      --green: #15803d;
+      --green-soft: #e9f8ef;
+      --amber: #b45309;
+      --amber-soft: #fff4df;
+      --red: #dc2626;
+      --shadow: 0 10px 28px rgba(15, 23, 42, .08);
+      font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background: linear-gradient(135deg, #dfe7f3 0%, #f7f9fc 50%, #e8eef6 100%);
+      display: grid;
+      place-items: center;
+      padding: 28px;
+    }
+
+    button, input, select { font: inherit; }
+
+    .desktop-frame {
+      width: min(1440px, 100%);
+      height: min(900px, calc(100vh - 56px));
+      min-height: 720px;
+      background: var(--panel);
+      border: 1px solid #bfc7d4;
+      border-radius: 10px;
+      box-shadow: 0 24px 70px rgba(15, 23, 42, .22);
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: 38px minmax(0, 1fr);
+    }
+
+    .window-titlebar {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 12px;
+      color: #334155;
+      background: #eef2f7;
+      border-bottom: 1px solid var(--line);
+      user-select: none;
+    }
+
+    .window-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .window-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      background: var(--brand);
+    }
+
+    .window-controls {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .window-control {
+      width: 38px;
+      height: 28px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #475569;
+      cursor: default;
+    }
+
+    .window-control.close:hover {
+      color: #fff;
+      background: var(--red);
+    }
+
+    .app {
+      height: 100%;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 232px minmax(0, 1fr);
+      background: var(--bg);
+      overflow: hidden;
+    }
+
+    .sidebar {
+      background: #111827;
+      color: #cbd5e1;
+      padding: 20px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 17px;
+      padding: 0 8px;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: var(--brand);
+    }
+
+    .nav { display: grid; gap: 6px; }
+
+    .nav-item {
+      width: 100%;
+      height: 44px;
+      border: 0;
+      border-radius: 8px;
+      color: #cbd5e1;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 10px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .nav-item:hover { background: rgba(255,255,255,.07); }
+
+    .nav-item.active {
+      color: #fff;
+      background: #1d4ed8;
+      box-shadow: inset 3px 0 0 #93c5fd;
+    }
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      flex: 0 0 auto;
+    }
+
+    main {
+      min-width: 0;
+      overflow: auto;
+      padding: 22px 24px 26px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .filter-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search, .select, .date-input {
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0 12px;
+      color: var(--text);
+      background: #fff;
+    }
+
+    .search { min-width: 260px; }
+    .select { min-width: 148px; }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(240px, 1fr));
+      gap: 14px;
+    }
+
+    .tool-card, .panel, .stat-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .tool-card {
+      min-height: 220px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+
+    .tool-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .tool-title {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tool-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 800;
+      flex: 0 0 auto;
+    }
+
+    .logo-blue { background: #2563eb; }
+    .logo-black { background: #111827; }
+    .logo-green { background: #059669; }
+    .logo-red { background: #dc2626; }
+    .logo-violet { background: #7c3aed; }
+    .logo-cyan { background: #0891b2; }
+
+    .tool-name {
+      margin: 0 0 4px;
+      font-size: 16px;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .tool-meta {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .tool-desc {
+      margin: 0;
+      color: #475569;
+      line-height: 1.55;
+      font-size: 14px;
+      flex: 1;
+    }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      height: 24px;
+      padding: 0 8px;
+      border-radius: 999px;
+      color: #334155;
+      background: #eef2f7;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .badge.green {
+      color: var(--green);
+      background: var(--green-soft);
+    }
+
+    .badge.amber {
+      color: var(--amber);
+      background: var(--amber-soft);
+    }
+
+    .tool-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    .primary-btn, .success-btn, .ghost-btn {
+      min-width: 108px;
+      height: 38px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 12px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .primary-btn {
+      color: #fff;
+      background: var(--brand);
+    }
+
+    .primary-btn[disabled] {
+      opacity: .75;
+      cursor: wait;
+    }
+
+    .success-btn {
+      color: var(--green);
+      background: var(--green-soft);
+      border-color: #bbf7d0;
+    }
+
+    .ghost-btn {
+      color: #334155;
+      background: #fff;
+      border-color: var(--line);
+    }
+
+    .spinner {
+      width: 15px;
+      height: 15px;
+      border: 2px solid rgba(255,255,255,.45);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .settings-layout {
+      display: grid;
+      grid-template-columns: 430px minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    .switch-panel, .settings-list, .chart-panel, .table-panel {
+      padding: 18px;
+    }
+
+    .section-title {
+      margin: 0 0 12px;
+      font-size: 16px;
+    }
+
+    .switch-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+    }
+
+    .switch-copy strong { display: block; margin-bottom: 4px; }
+    .switch-copy span { color: var(--muted); font-size: 13px; line-height: 1.45; }
+
+    .switch {
+      width: 54px;
+      height: 30px;
+      border: 0;
+      border-radius: 999px;
+      padding: 3px;
+      background: #94a3b8;
+      cursor: pointer;
+      transition: background .2s;
+      flex: 0 0 auto;
+    }
+
+    .switch span {
+      display: block;
+      width: 24px;
+      height: 24px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform .2s;
+      box-shadow: 0 1px 4px rgba(15, 23, 42, .22);
+    }
+
+    .switch.on { background: var(--brand); }
+    .switch.on span { transform: translateX(24px); }
+
+    .global-model {
+      margin-top: 16px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      display: none;
+      background: #fff;
+    }
+
+    .global-model.show { display: block; }
+
+    .field-label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .model-select {
+      width: 100%;
+      height: 42px;
+      color: #202938;
+      border-color: #cbd5e1;
+      background: #fff;
+      font-weight: 600;
+    }
+
+    .settings-row {
+      display: grid;
+      grid-template-columns: minmax(190px, 1fr) 170px 180px;
+      gap: 12px;
+      align-items: center;
+      min-height: 64px;
+      padding: 12px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .settings-row:first-of-type { border-top: 0; }
+    .inherit-label { display: none; justify-self: start; }
+    .settings-row.global .inherit-label { display: inline-flex; }
+    .settings-row.global .per-tool-select { display: none; }
+
+    .model-price-tag {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 3px;
+      white-space: nowrap;
+    }
+    .model-price-tag b { color: var(--brand); font-weight: 700; }
+    .model-pricing-link {
+      display: inline-flex;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--brand);
+      background: var(--brand-soft);
+      border: 1.5px solid #93c5fd;
+      border-radius: 8px;
+      padding: 5px 14px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background .15s, color .15s, border-color .15s;
+    }
+    .model-pricing-link:hover { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .model-pricing-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 18px;
+      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+      border-radius: 10px;
+      text-decoration: none;
+      color: #fff;
+      transition: opacity .15s, transform .15s;
+    }
+    .model-pricing-banner:hover { opacity: .92; transform: translateY(-1px); }
+    .model-pricing-banner-left { display: flex; align-items: center; gap: 12px; }
+    .model-pricing-banner-title { font-size: 14px; font-weight: 700; }
+    .model-pricing-banner-sub { font-size: 11px; opacity: .8; margin-top: 2px; }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .stat-card { padding: 16px; }
+    .stat-label { margin: 0 0 8px; color: var(--muted); font-size: 13px; }
+    .stat-value { margin: 0; font-size: 26px; font-weight: 800; }
+    .stat-sub { margin: 8px 0 0; color: var(--muted); font-size: 12px; }
+
+    .chart-panel, .table-panel { margin-bottom: 14px; }
+
+    .chart-wrap {
+      width: 100%;
+      height: 280px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #475569;
+      font-weight: 700;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .empty {
+      display: none;
+      margin-top: 12px;
+      padding: 24px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed var(--line-strong);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    @media (max-width: 1100px) {
+      body { padding: 0; }
+      .desktop-frame { width: 100%; height: 100vh; min-height: 0; border-radius: 0; }
+      .tool-grid { grid-template-columns: repeat(2, minmax(240px, 1fr)); }
+      .settings-layout { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, minmax(160px, 1fr)); }
+    }
+
+    /* ── 订阅充值页 ── */
+    .buy-tabs {
+      display: flex;
+      background: #f1f5f9;
+      border-radius: 10px;
+      padding: 3px;
+      gap: 2px;
+      margin: 0 auto 20px;
+      width: fit-content;
+    }
+    .buy-tab {
+      padding: 9px 28px;
+      border: 0;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      background: transparent;
+      color: var(--muted);
+      transition: all .18s;
+    }
+    .buy-tab.active {
+      background: var(--brand);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(37,99,235,.25);
+    }
+    .buy-panel { display: none; }
+    .buy-panel.active { display: block; }
+    .plan-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .plan-card {
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      padding: 22px 18px;
+      cursor: pointer;
+      transition: all .2s;
+      position: relative;
+      text-align: center;
+      background: var(--panel);
+    }
+    .plan-card:hover { border-color: #93c5fd; transform: translateY(-2px); }
+    .plan-card.active {
+      border-color: var(--brand);
+      background: #eff6ff;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(37,99,235,.12);
+    }
+    .plan-hot {
+      position: absolute;
+      top: -11px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--brand);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .plan-name { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .plan-price { font-size: 28px; font-weight: 800; color: var(--brand); }
+    .plan-price span { font-size: 13px; font-weight: 400; color: var(--muted); }
+    .plan-features { margin-top: 10px; text-align: left; list-style: none; padding: 0; }
+    .plan-features li { font-size: 12px; color: var(--muted); padding: 3px 0; }
+    .plan-features li::before { content: "✓ "; color: var(--green); font-weight: 700; }
+    .sub-info-card {
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-info-card.amber {
+      background: var(--amber-soft);
+      border-color: #fcd34d;
+    }
+    .sub-info-title { font-size: 13px; font-weight: 700; color: #0369a1; margin-bottom: 10px; }
+    .sub-info-card.amber .sub-info-title { color: var(--amber); }
+    .sub-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 20px;
+      font-size: 12px;
+      color: #475569;
+      line-height: 1.9;
+    }
+    .tier-row { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; margin-bottom: 6px; }
+    .tier-label { flex-shrink: 0; padding: 2px 7px; border-radius: 4px; font-weight: 700; }
+    .tier-1x { background: #dcfce7; color: #15803d; }
+    .tier-2x { background: #fef9c3; color: #a16207; }
+    .tier-4x { background: #fee2e2; color: #b91c1c; }
+    .pay-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+    .pay-card-title { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+    .pay-methods { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+    .pay-method {
+      border: 2px solid var(--line);
+      border-radius: 8px;
+      padding: 9px 16px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all .15s;
+      background: var(--panel);
+    }
+    .pay-method:hover, .pay-method.active { border-color: var(--brand); background: #eff6ff; color: var(--brand); }
+    .pay-sep { border: 0; border-top: 1px solid var(--line); margin: 12px 0; }
+    .pay-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; color: var(--muted); }
+    .pay-row strong { color: var(--text); font-weight: 700; }
+    .pay-total { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px; }
+    .pay-total-label { font-size: 15px; font-weight: 700; }
+    .pay-total-amount { font-size: 22px; font-weight: 800; color: var(--brand); }
+    .pay-confirm-btn {
+      width: 100%;
+      height: 48px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--brand);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .18s;
+    }
+    .pay-confirm-btn:hover { background: #1d4ed8; }
+    .pay-note { margin-top: 10px; text-align: center; font-size: 12px; color: var(--muted); }
+    .pay-note a { color: var(--brand); cursor: pointer; text-decoration: underline; }
+    .sub-layout {
+      display: grid;
+      grid-template-columns: minmax(0,1fr) 340px;
+      gap: 16px;
+      align-items: start;
+    }
+  </style>
+</head>
+<body>
+  <div class="desktop-frame">
+    <div class="window-titlebar">
+      <div class="window-title"><span class="window-dot"></span>MyTokens管家 - PC端管理器</div>
+      <div class="window-controls" aria-hidden="true">
+        <button class="window-control">—</button>
+        <button class="window-control">□</button>
+        <button class="window-control close">×</button>
+      </div>
+    </div>
+
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="7" height="7" x="3" y="3" rx="1" /><rect width="7" height="7" x="14" y="3" rx="1" />
+              <rect width="7" height="7" x="14" y="14" rx="1" /><rect width="7" height="7" x="3" y="14" rx="1" />
+            </svg>
+          </div>
+          MyTokens管家
+        </div>
+        <nav class="nav" aria-label="主导航">
+          <button class="nav-item active" data-page="tools" title="AI工具中心">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="7" height="7" x="3" y="3" rx="1" /><rect width="7" height="7" x="14" y="3" rx="1" />
+              <rect width="7" height="7" x="14" y="14" rx="1" /><rect width="7" height="7" x="3" y="14" rx="1" />
+            </svg>
+            <span>AI工具中心</span>
+          </button>
+          <button class="nav-item" data-page="settings" title="模型策略中心">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+            </svg>
+            <span>模型策略中心</span>
+          </button>
+          <button class="nav-item" data-page="tokens" title="用量成本分析">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 3v18h18" /><path d="m19 9-5 5-4-4-3 3" />
+            </svg>
+            <span>用量成本分析</span>
+          </button>
+          <button class="nav-item" data-page="subscription" title="订阅充值">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/>
+            </svg>
+            <span>订阅充值</span>
+          </button>
+        </nav>
+      </aside>
+
+      <main>
+        <div class="topbar">
+          <div>
+            <h1 id="pageTitle">AI工具中心</h1>
+            <p class="subtitle" id="pageSubtitle">管理 PC 本地可部署的 AI 工具，点击按钮即可模拟部署状态。</p>
+          </div>
+        </div>
+
+        <section class="page active" id="toolsPage">
+          <div class="toolbar">
+            <input class="search" type="search" placeholder="搜索工具名称或标签" aria-label="搜索智能工具" />
+            <div class="filter-row">
+              <select class="select" aria-label="工具类型">
+                <option>全部类型</option>
+                <option>桌面客户端</option>
+                <option>命令行工具</option>
+                <option>本地智能体</option>
+              </select>
+              <select class="select" aria-label="部署状态">
+                <option>全部状态</option>
+                <option>未部署</option>
+                <option>已部署</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="tool-grid">
+            <article class="tool-card">
+              <div class="tool-head">
+                <div class="tool-title"><div class="tool-logo logo-blue">C</div><div><h2 class="tool-name">Claude Desktop</h2><p class="tool-meta">桌面客户端 · MCP</p></div></div>
+                <span class="badge">桌面</span>
+              </div>
+              <p class="tool-desc">面向 PC 本地工作流的 AI 桌面入口，适合连接文件、浏览器和本地工具。</p>
+              <div class="tags"><span class="badge">MCP</span><span class="badge">Desktop</span><span class="badge">Local</span></div>
+              <div class="tool-actions"><span class="tool-meta">建议模型：Claude</span><button class="primary-btn deploy-btn">本地部署</button></div>
+            </article>
+
+            <article class="tool-card">
+              <div class="tool-head">
+                <div class="tool-title"><div class="tool-logo logo-black">X</div><div><h2 class="tool-name">Codex</h2><p class="tool-meta">编码智能体 · CLI</p></div></div>
+                <span class="badge green">推荐</span>
+              </div>
+              <p class="tool-desc">在本地仓库中读取代码、修改文件并运行验证命令，适合工程任务自动化。</p>
+              <div class="tags"><span class="badge">Coding</span><span class="badge">CLI</span><span class="badge">Repo</span></div>
+              <div class="tool-actions"><span class="tool-meta">建议模型：GPT-4</span><button class="primary-btn deploy-btn">本地部署</button></div>
+            </article>
+
+            <article class="tool-card">
+              <div class="tool-head">
+                <div class="tool-title"><div class="tool-logo logo-green">O</div><div><h2 class="tool-name">opencode</h2><p class="tool-meta">开源编码工具 · Terminal</p></div></div>
+                <span class="badge">开源</span>
+              </div>
+              <p class="tool-desc">轻量的终端编码助手，适合在 PC 本地开发目录中快速执行代码任务。</p>
+              <div class="tags"><span class="badge">Terminal</span><span class="badge">Code</span><span class="badge">Open Source</span></div>
+              <div class="tool-actions"><span class="tool-meta">建议模型：GPT-4</span><button class="primary-btn deploy-btn">本地部署</button></div>
+            </article>
+
+            <article class="tool-card">
+              <div class="tool-head">
+                <div class="tool-title"><div class="tool-logo logo-cyan">G</div><div><h2 class="tool-name">Gemini CLI</h2><p class="tool-meta">命令行工具 · Google</p></div></div>
+                <span class="badge">CLI</span>
+              </div>
+              <p class="tool-desc">通过命令行调用 Gemini 能力，支持脚本化处理、代码辅助和自动化任务。</p>
+              <div class="tags"><span class="badge">Gemini</span><span class="badge">Shell</span><span class="badge">Script</span></div>
+              <div class="tool-actions"><span class="tool-meta">建议模型：Gemini</span><button class="primary-btn deploy-btn">本地部署</button></div>
+            </article>
+
+            <article class="tool-card">
+              <div class="tool-head">
+                <div class="tool-title"><div class="tool-logo logo-violet">OC</div><div><h2 class="tool-name">OpenClaw</h2><p class="tool-meta">本地智能体 · 工具调用</p></div></div>
+                <span class="badge amber">实验</span>
+              </div>
+              <p class="tool-desc">面向本地自动化的智能体工具，可作为 PC 端任务编排和插件调用入口。</p>
+              <div class="tags"><span class="badge">Agent</span><span class="badge">Tools</span><span class="badge">Workflow</span></div>
+              <div class="tool-actions"><span class="tool-meta">建议模型：Claude</span><button class="primary-btn deploy-btn">本地部署</button></div>
+            </article>
+
+            <article class="tool-card">
+              <div class="tool-head">
+                <div class="tool-title"><div class="tool-logo logo-red">H</div><div><h2 class="tool-name">Hermes</h2><p class="tool-meta">本地助手 · 多模型</p></div></div>
+                <span class="badge">本地</span>
+              </div>
+              <p class="tool-desc">用于统一接入多种模型和本地能力，适合沉淀为 PC 端默认助手入口。</p>
+              <div class="tags"><span class="badge">Assistant</span><span class="badge">Multi-model</span><span class="badge">Local</span></div>
+              <div class="tool-actions"><span class="tool-meta">建议模型：GPT-4</span><button class="primary-btn deploy-btn">本地部署</button></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="page" id="settingsPage">
+          <div class="settings-layout">
+            <aside class="panel switch-panel">
+              <h2 class="section-title">CC-SWITCH</h2>
+              <div class="switch-card">
+                <div class="switch-copy">
+                  <strong>全局总控开关</strong>
+                  <span>开启后所有 AI 工具继承同一个全局模型；关闭后每个工具独立选择模型。</span>
+                </div>
+                <button class="switch on" id="ccSwitch" aria-label="CC-SWITCH" aria-pressed="true"><span></span></button>
+              </div>
+              <div class="global-model show" id="globalModelBox">
+                <label class="field-label" for="globalModel">全局模型</label>
+                <select class="select model-select" id="globalModel">
+                  <optgroup label="旗舰 · 顶级性能 / 复杂攻坚">
+                    <option value="Kimi K2.6">Kimi K2.6 · 2.4x · 图像</option>
+                    <option value="Qwen3 Max">Qwen3 Max · 2.4x</option>
+                    <option value="Deepseek V4 Pro">Deepseek V4 Pro · 2.1x</option>
+                  </optgroup>
+                  <optgroup label="高级 · 全能主力 / 专业提效">
+                    <option value="GLM-5">GLM-5 · 1.6x</option>
+                    <option value="Kimi K2.5">Kimi K2.5 · 1.5x · 图像</option>
+                    <option value="Qwen3 Coder Plus" selected>Qwen3 Coder Plus · 1.5x</option>
+                    <option value="Qwen3.6 Plus">Qwen3.6 Plus · 0.9x · 图像</option>
+                    <option value="Doubao-Seed 2.0 Pro">Doubao-Seed 2.0 Pro · 1.2x</option>
+                    <option value="Doubao-Seed 2.0 Code">Doubao-Seed 2.0 Code · 1.2x</option>
+                  </optgroup>
+                  <optgroup label="自定义 · 接入私有或第三方模型">
+                    <option value="自定义模型">自定义模型</option>
+                  </optgroup>
+                </select>
+              </div>
+            </aside>
+
+            <section class="panel settings-list">
+              <h2 class="section-title">工具模型分配</h2>
+              <div class="settings-row global">
+                <div class="tool-title"><div class="tool-logo logo-blue">C</div><div><h3 class="tool-name">Claude Desktop</h3><p class="tool-meta">桌面客户端</p></div></div>
+                <span class="badge green inherit-label">继承全局模型</span>
+                <select class="select model-select per-tool-select">
+                  <optgroup label="旗舰 · 顶级性能 / 复杂攻坚">
+                    <option value="Kimi K2.6">Kimi K2.6 · 2.4x · 图像</option>
+                    <option value="Qwen3 Max">Qwen3 Max · 2.4x</option>
+                    <option value="Deepseek V4 Pro">Deepseek V4 Pro · 2.1x</option>
+                  </optgroup>
+                  <optgroup label="高级 · 全能主力 / 专业提效">
+                    <option value="GLM-5">GLM-5 · 1.6x</option>
+                    <option value="Kimi K2.5">Kimi K2.5 · 1.5x · 图像</option>
+                    <option value="Qwen3 Coder Plus" selected>Qwen3 Coder Plus · 1.5x</option>
+                    <option value="Qwen3.6 Plus">Qwen3.6 Plus · 0.9x · 图像</option>
+                    <option value="Doubao-Seed 2.0 Pro">Doubao-Seed 2.0 Pro · 1.2x</option>
+                    <option value="Doubao-Seed 2.0 Code">Doubao-Seed 2.0 Code · 1.2x</option>
+                  </optgroup>
+                  <optgroup label="自定义 · 接入私有或第三方模型">
+                    <option value="自定义模型">自定义模型</option>
+                  </optgroup>
+                </select>
+                <div><span class="tool-meta">当前：<strong class="current-model">GPT-4</strong></span></div>
+              </div>
+              <div class="settings-row global">
+                <div class="tool-title"><div class="tool-logo logo-black">X</div><div><h3 class="tool-name">Codex</h3><p class="tool-meta">编码智能体</p></div></div>
+                <span class="badge green inherit-label">继承全局模型</span>
+                <select class="select model-select per-tool-select">
+                  <optgroup label="旗舰 · 顶级性能 / 复杂攻坚">
+                    <option value="Kimi K2.6">Kimi K2.6 · 2.4x · 图像</option>
+                    <option value="Qwen3 Max">Qwen3 Max · 2.4x</option>
+                    <option value="Deepseek V4 Pro">Deepseek V4 Pro · 2.1x</option>
+                  </optgroup>
+                  <optgroup label="高级 · 全能主力 / 专业提效">
+                    <option value="GLM-5">GLM-5 · 1.6x</option>
+                    <option value="Kimi K2.5">Kimi K2.5 · 1.5x · 图像</option>
+                    <option value="Qwen3 Coder Plus" selected>Qwen3 Coder Plus · 1.5x</option>
+                    <option value="Qwen3.6 Plus">Qwen3.6 Plus · 0.9x · 图像</option>
+                    <option value="Doubao-Seed 2.0 Pro">Doubao-Seed 2.0 Pro · 1.2x</option>
+                    <option value="Doubao-Seed 2.0 Code">Doubao-Seed 2.0 Code · 1.2x</option>
+                  </optgroup>
+                  <optgroup label="自定义 · 接入私有或第三方模型">
+                    <option value="自定义模型">自定义模型</option>
+                  </optgroup>
+                </select>
+                <div><span class="tool-meta">当前：<strong class="current-model">GPT-4</strong></span></div>
+              </div>
+              <div class="settings-row global">
+                <div class="tool-title"><div class="tool-logo logo-green">O</div><div><h3 class="tool-name">opencode</h3><p class="tool-meta">开源编码工具</p></div></div>
+                <span class="badge green inherit-label">继承全局模型</span>
+                <select class="select model-select per-tool-select">
+                  <optgroup label="旗舰 · 顶级性能 / 复杂攻坚">
+                    <option value="Kimi K2.6">Kimi K2.6 · 2.4x · 图像</option>
+                    <option value="Qwen3 Max">Qwen3 Max · 2.4x</option>
+                    <option value="Deepseek V4 Pro">Deepseek V4 Pro · 2.1x</option>
+                  </optgroup>
+                  <optgroup label="高级 · 全能主力 / 专业提效">
+                    <option value="GLM-5">GLM-5 · 1.6x</option>
+                    <option value="Kimi K2.5">Kimi K2.5 · 1.5x · 图像</option>
+                    <option value="Qwen3 Coder Plus" selected>Qwen3 Coder Plus · 1.5x</option>
+                    <option value="Qwen3.6 Plus">Qwen3.6 Plus · 0.9x · 图像</option>
+                    <option value="Doubao-Seed 2.0 Pro">Doubao-Seed 2.0 Pro · 1.2x</option>
+                    <option value="Doubao-Seed 2.0 Code">Doubao-Seed 2.0 Code · 1.2x</option>
+                  </optgroup>
+                  <optgroup label="自定义 · 接入私有或第三方模型">
+                    <option value="自定义模型">自定义模型</option>
+                  </optgroup>
+                </select>
+                <div><span class="tool-meta">当前：<strong class="current-model">GPT-4</strong></span></div>
+              </div>
+              <div class="settings-row global">
+                <div class="tool-title"><div class="tool-logo logo-cyan">G</div><div><h3 class="tool-name">Gemini CLI</h3><p class="tool-meta">命令行工具</p></div></div>
+                <span class="badge green inherit-label">继承全局模型</span>
+                <select class="select model-select per-tool-select">
+                  <optgroup label="旗舰 · 顶级性能 / 复杂攻坚">
+                    <option value="Kimi K2.6">Kimi K2.6 · 2.4x · 图像</option>
+                    <option value="Qwen3 Max">Qwen3 Max · 2.4x</option>
+                    <option value="Deepseek V4 Pro">Deepseek V4 Pro · 2.1x</option>
+                  </optgroup>
+                  <optgroup label="高级 · 全能主力 / 专业提效">
+                    <option value="GLM-5">GLM-5 · 1.6x</option>
+                    <option value="Kimi K2.5">Kimi K2.5 · 1.5x · 图像</option>
+                    <option value="Qwen3 Coder Plus">Qwen3 Coder Plus · 1.5x</option>
+                    <option value="Qwen3.6 Plus">Qwen3.6 Plus · 0.9x · 图像</option>
+                    <option value="Doubao-Seed 2.0 Pro" selected>Doubao-Seed 2.0 Pro · 1.2x</option>
+                    <option value="Doubao-Seed 2.0 Code">Doubao-Seed 2.0 Code · 1.2x</option>
+                  </optgroup>
+                  <optgroup label="自定义 · 接入私有或第三方模型">
+                    <option value="自定义模型">自定义模型</option>
+                  </optgroup>
+                </select>
+                <div><span class="tool-meta">当前：<strong class="current-model">GPT-4</strong></span></div>
+              </div>
+              <div class="settings-row global">
+                <div class="tool-title"><div class="tool-logo logo-violet">OC</div><div><h3 class="tool-name">OpenClaw</h3><p class="tool-meta">本地智能体</p></div></div>
+                <span class="badge green inherit-label">继承全局模型</span>
+                <select class="select model-select per-tool-select">
+                  <optgroup label="旗舰 · 顶级性能 / 复杂攻坚">
+                    <option value="Kimi K2.6">Kimi K2.6 · 2.4x · 图像</option>
+                    <option value="Qwen3 Max">Qwen3 Max · 2.4x</option>
+                    <option value="Deepseek V4 Pro">Deepseek V4 Pro · 2.1x</option>
+                  </optgroup>
+                  <optgroup label="高级 · 全能主力 / 专业提效">
+                    <option value="GLM-5">GLM-5 · 1.6x</option>
+                    <option value="Kimi K2.5">Kimi K2.5 · 1.5x · 图像</option>
+                    <option value="Qwen3 Coder Plus" selected>Qwen3 Coder Plus · 1.5x</option>
+                    <option value="Qwen3.6 Plus">Qwen3.6 Plus · 0.9x · 图像</option>
+                    <option value="Doubao-Seed 2.0 Pro">Doubao-Seed 2.0 Pro · 1.2x</option>
+                    <option value="Doubao-Seed 2.0 Code">Doubao-Seed 2.0 Code · 1.2x</option>
+                  </optgroup>
+                  <optgroup label="自定义 · 接入私有或第三方模型">
+                    <option value="自定义模型">自定义模型</option>
+                  </optgroup>
+                </select>
+                <div><span class="tool-meta">当前：<strong class="current-model">GPT-4</strong></span></div>
+              </div>
+              <div class="settings-row global">
+                <div class="tool-title"><div class="tool-logo logo-red">H</div><div><h3 class="tool-name">Hermes</h3><p class="tool-meta">本地助手</p></div></div>
+                <span class="badge green inherit-label">继承全局模型</span>
+                <select class="select model-select per-tool-select">
+                  <optgroup label="旗舰 · 顶级性能 / 复杂攻坚">
+                    <option value="Kimi K2.6">Kimi K2.6 · 2.4x · 图像</option>
+                    <option value="Qwen3 Max">Qwen3 Max · 2.4x</option>
+                    <option value="Deepseek V4 Pro">Deepseek V4 Pro · 2.1x</option>
+                  </optgroup>
+                  <optgroup label="高级 · 全能主力 / 专业提效">
+                    <option value="GLM-5">GLM-5 · 1.6x</option>
+                    <option value="Kimi K2.5">Kimi K2.5 · 1.5x · 图像</option>
+                    <option value="Qwen3 Coder Plus" selected>Qwen3 Coder Plus · 1.5x</option>
+                    <option value="Qwen3.6 Plus">Qwen3.6 Plus · 0.9x · 图像</option>
+                    <option value="Doubao-Seed 2.0 Pro">Doubao-Seed 2.0 Pro · 1.2x</option>
+                    <option value="Doubao-Seed 2.0 Code">Doubao-Seed 2.0 Code · 1.2x</option>
+                  </optgroup>
+                  <optgroup label="自定义 · 接入私有或第三方模型">
+                    <option value="自定义模型">自定义模型</option>
+                  </optgroup>
+                </select>
+                <div><span class="tool-meta">当前：<strong class="current-model">GPT-4</strong></span></div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="page" id="tokensPage">
+          <div class="stats-grid">
+            <article class="stat-card"><p class="stat-label">总消耗</p><p class="stat-value">8.42M</p><p class="stat-sub">近 30 天累计</p></article>
+            <article class="stat-card"><p class="stat-label">今日消耗</p><p class="stat-value">126K</p><p class="stat-sub">Codex 占比最高</p></article>
+            <article class="stat-card"><p class="stat-label">预估费用</p><p class="stat-value">$284.60</p><p class="stat-sub">按当前模型估算</p></article>
+            <article class="stat-card"><p class="stat-label">剩余Token</p><p class="stat-value">1.58M</p><p class="stat-sub">预计可用 11 天</p></article>
+          </div>
+
+          <section class="panel chart-panel">
+            <h2 class="section-title">Token消耗趋势</h2>
+            <div class="chart-wrap">
+              <svg viewBox="0 0 900 280" role="img" aria-label="Token消耗折线图" width="100%" height="100%" preserveAspectRatio="none">
+                <rect x="0" y="0" width="900" height="280" fill="#fff" />
+                <g stroke="#e2e8f0" stroke-width="1">
+                  <line x1="60" y1="35" x2="860" y2="35" /><line x1="60" y1="85" x2="860" y2="85" />
+                  <line x1="60" y1="135" x2="860" y2="135" /><line x1="60" y1="185" x2="860" y2="185" /><line x1="60" y1="235" x2="860" y2="235" />
+                </g>
+                <g fill="#64748b" font-size="12">
+                  <text x="18" y="39">200K</text><text x="18" y="89">150K</text><text x="18" y="139">100K</text><text x="26" y="189">50K</text><text x="34" y="239">0</text>
+                  <text x="58" y="262">07-01</text><text x="188" y="262">07-02</text><text x="318" y="262">07-03</text><text x="448" y="262">07-04</text><text x="578" y="262">07-05</text><text x="708" y="262">07-06</text><text x="828" y="262">07-07</text>
+                </g>
+                <polyline points="70,190 200,162 330,174 460,112 590,126 720,72 850,92" fill="none" stroke="#2563eb" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                <polygon points="70,190 200,162 330,174 460,112 590,126 720,72 850,92 850,235 70,235" fill="#2563eb" opacity=".09" />
+                <g fill="#fff" stroke="#2563eb" stroke-width="3">
+                  <circle cx="70" cy="190" r="6" /><circle cx="200" cy="162" r="6" /><circle cx="330" cy="174" r="6" />
+                  <circle cx="460" cy="112" r="6" /><circle cx="590" cy="126" r="6" /><circle cx="720" cy="72" r="6" /><circle cx="850" cy="92" r="6" />
+                </g>
+              </svg>
+            </div>
+          </section>
+
+          <section class="panel table-panel">
+            <div class="table-header">
+              <h2 class="section-title">消耗明细</h2>
+              <div class="filter-row">
+                <input class="date-input" id="dateFilter" type="date" value="2026-07-07" aria-label="按日期过滤" />
+                <input class="search" id="toolFilter" type="search" placeholder="搜索工具名称" aria-label="按工具名称搜索" />
+              </div>
+            </div>
+            <table>
+              <thead>
+                <tr><th>日期</th><th>调用工具</th><th>使用模型</th><th>消耗量</th></tr>
+              </thead>
+              <tbody id="usageBody">
+                <tr data-date="2026-07-07" data-tool="Codex"><td>2026-07-07</td><td>Codex</td><td>GPT-4</td><td>42,800</td></tr>
+                <tr data-date="2026-07-07" data-tool="Claude Desktop"><td>2026-07-07</td><td>Claude Desktop</td><td>Claude</td><td>31,250</td></tr>
+                <tr data-date="2026-07-07" data-tool="Gemini CLI"><td>2026-07-07</td><td>Gemini CLI</td><td>Gemini</td><td>27,900</td></tr>
+                <tr data-date="2026-07-06" data-tool="opencode"><td>2026-07-06</td><td>opencode</td><td>GPT-4</td><td>38,600</td></tr>
+                <tr data-date="2026-07-06" data-tool="OpenClaw"><td>2026-07-06</td><td>OpenClaw</td><td>Claude</td><td>18,740</td></tr>
+                <tr data-date="2026-07-05" data-tool="Hermes"><td>2026-07-05</td><td>Hermes</td><td>GPT-4</td><td>51,300</td></tr>
+              </tbody>
+            </table>
+            <div class="empty" id="emptyState">没有匹配的消耗记录</div>
+          </section>
+        </section>
+
+        <!-- ─── 订阅充值页 ─── -->
+        <section class="page" id="subscriptionPage">
+          <!-- Tab 切换 -->
+          <div class="buy-tabs">
+            <button class="buy-tab active" id="buyTabSub" onclick="switchBuyTab('sub')">订阅制</button>
+            <button class="buy-tab" id="buyTabTopup" onclick="switchBuyTab('topup')">按量充值</button>
+          </div>
+
+          <!-- ── 订阅制 Panel ── -->
+          <div class="buy-panel active" id="buyPanelSub">
+                <!-- Plan 选择 -->
+                <div class="plan-grid">
+                  <div class="plan-card active" onclick="selectPlan(this,'sub')"
+                    data-name="月卡" data-price="99" data-desc="月卡 · 每天 100 次请求">
+                    <div class="plan-name">月卡</div>
+                    <div class="plan-price">¥99 <span>/ 月</span></div>
+                    <div style="font-size:13px;font-weight:700;margin:8px 0 2px">每天 100 次请求</div>
+                    <div style="font-size:12px;color:var(--muted)">共 3,000 次/月 · ¥3.3/天</div>
+                  </div>
+                  <div class="plan-card" onclick="selectPlan(this,'sub')"
+                    data-name="季卡" data-price="299" data-desc="季卡 · 每天 110 次请求">
+                    <div class="plan-hot">⭐ 推荐</div>
+                    <div class="plan-name">季卡</div>
+                    <div class="plan-price">¥299 <span>/ 季</span></div>
+                    <div style="font-size:13px;font-weight:700;margin:8px 0 2px">每天 110 次请求</div>
+                    <div style="font-size:12px;color:var(--muted)">共 9,900 次/季 · 多赠 10%</div>
+                  </div>
+                  <div class="plan-card" onclick="selectPlan(this,'sub')"
+                    data-name="年卡" data-price="999" data-desc="年卡 · 每天 120 次请求">
+                    <div class="plan-hot">🔥 最划算</div>
+                    <div class="plan-name">年卡</div>
+                    <div class="plan-price">¥999 <span>/ 年</span></div>
+                    <div style="font-size:13px;font-weight:700;margin:8px 0 2px">每天 120 次请求</div>
+                    <div style="font-size:12px;color:var(--muted)">共 43,800 次/年 · 多赠 20%</div>
+                  </div>
+                </div>
+
+                <!-- 订阅规则说明 -->
+                <div class="sub-info-card">
+                  <div class="sub-info-title">📋 订阅规则说明</div>
+                  <div class="sub-info-grid">
+                    <div>✅ 每天 0:00 自动发放当日请求次数</div>
+                    <div>🔄 当天未用完于次日 0:00 清零</div>
+                    <div>💡 订阅次数用完后自动切换按量余额</div>
+                    <div>🔓 随时可取消 · 7 天内可按日折算退款</div>
+                  </div>
+                  <div style="margin-top:14px;border-top:1px solid #bae6fd;padding-top:12px">
+                    <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px">可用模型及请求次数消耗系数</div>
+                    <div style="font-size:11px;color:var(--muted);margin-bottom:8px">消耗系数说明：发起同一请求，1x 模型扣 1 次，2x 扣 2 次，4x 扣 4 次</div>
+                    <div class="tier-row">
+                      <span class="tier-label tier-1x">1x 标准</span>
+                      <span style="color:#475569">Qwen3.5-Flash、DeepSeek-V4-Flash、<b>DeepSeek-V3</b>、GPT-4o mini、Claude Haiku 3.5、Gemini 2.5 Flash、Grok 3 Mini 等</span>
+                    </div>
+                    <div class="tier-row">
+                      <span class="tier-label tier-2x">2x 中级</span>
+                      <span style="color:#475569">Claude Sonnet 4.5、GPT-4o、GPT-4.1、Gemini 2.5 Pro、Grok 3 等</span>
+                    </div>
+                    <div class="tier-row">
+                      <span class="tier-label tier-4x">4x 高级</span>
+                      <span style="color:#475569">Claude Opus 4、o3、Deepseek-V4-Pro、Kimi-K2.5 等</span>
+                    </div>
+                  </div>
+                </div>
+
+              <!-- 支付区 -->
+              <div class="pay-card">
+                <div class="pay-card-title">选择支付方式</div>
+                <div class="pay-methods" id="subPayMethods">
+                  <div class="pay-method active" onclick="selectPay(this,'sub')">💬 微信支付</div>
+                  <div class="pay-method" onclick="selectPay(this,'sub')">🔵 支付宝</div>
+                  <div class="pay-method" onclick="selectPay(this,'sub')">💳 银行卡</div>
+                </div>
+                <hr class="pay-sep">
+                <div class="pay-row"><span class="pay-summary-label">已选套餐</span><strong id="subSummaryDesc">99元/月 · 50万 Tokens</strong></div>
+                <div class="pay-total">
+                  <span class="pay-total-label">合计</span>
+                  <span class="pay-total-amount" id="subTotalAmount">¥99/月</span>
+                </div>
+                <button class="pay-confirm-btn" id="subPayBtn" onclick="confirmPay('sub', this)">确认支付 ¥99</button>
+                <div class="pay-note">订阅即代表同意 <a>订阅服务协议</a> · 7 天内可退款，按已发放天数折算扣除</div>
+              </div>
+          </div>
+
+          <!-- ── 按量充值 Panel ── -->
+          <div class="buy-panel" id="buyPanelTopup">
+                <!-- 充值金额选择 -->
+                <div class="plan-grid">
+                  <div class="plan-card" onclick="selectPlan(this,'topup')"
+                    data-name="充值 ¥50" data-price="50" data-credit="50" data-desc="充值 ¥50 · 到账 ¥50 余额">
+                    <div class="plan-name">充值 ¥50</div>
+                    <div class="plan-price">到账 <span style="font-size:20px;font-weight:800;color:var(--brand)">¥50</span> 余额</div>
+                    <ul class="plan-features">
+                      <li>余额永久有效</li>
+                      <li>立即到账</li>
+                      <li>按模型实际单价扣款</li>
+                    </ul>
+                  </div>
+                  <div class="plan-card active" onclick="selectPlan(this,'topup')"
+                    data-name="充值 ¥100" data-price="100" data-credit="100" data-desc="充值 ¥100 · 到账 ¥100 余额">
+                    <div class="plan-name">充值 ¥100</div>
+                    <div class="plan-price">到账 <span style="font-size:20px;font-weight:800;color:var(--brand)">¥100</span> 余额</div>
+                    <ul class="plan-features">
+                      <li>余额永久有效</li>
+                      <li>立即到账</li>
+                      <li>按模型实际单价扣款</li>
+                    </ul>
+                  </div>
+                  <div class="plan-card" onclick="selectPlan(this,'topup')"
+                    data-name="充值 ¥500" data-price="500" data-credit="550" data-desc="充值 ¥500 · 到账 ¥550 余额">
+                    <div class="plan-hot">🎁 赠 ¥50</div>
+                    <div class="plan-name">充值 ¥500</div>
+                    <div class="plan-price">到账 <span style="font-size:20px;font-weight:800;color:var(--brand)">¥550</span> 余额</div>
+                    <ul class="plan-features">
+                      <li>余额永久有效</li>
+                      <li>立即到账</li>
+                      <li>按模型实际单价扣款</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- 按量说明 -->
+                <div class="sub-info-card amber">
+                  <div class="sub-info-title" style="display:flex;align-items:center;justify-content:space-between">
+                    <span>💡 按量充值计费说明</span>
+                    <a href="https://www.wetokens.ai/models" target="_blank" class="model-pricing-link">查看模型定价 →</a>
+                  </div>
+                  <div style="font-size:12px;color:#475569;line-height:2">
+                    <div>· 充值后到账为<b>人民币余额</b>，不换算成 Tokens</div>
+                    <div>· 每次调用按<b>该模型实际 API 单价</b>从余额扣款</div>
+                    <div>· 余额永久有效，不过期，退款需在 7 天内且未使用申请</div>
+                    <div>· 与订阅套餐可同时持有，订阅额度优先消耗，用完后自动切余额</div>
+                  </div>
+                </div>
+
+              <!-- 支付区 -->
+              <div class="pay-card">
+                <div class="pay-card-title">选择支付方式</div>
+                <div class="pay-methods" id="topupPayMethods">
+                  <div class="pay-method active" onclick="selectPay(this,'topup')">💬 微信支付</div>
+                  <div class="pay-method" onclick="selectPay(this,'topup')">🔵 支付宝</div>
+                  <div class="pay-method" onclick="selectPay(this,'topup')">💳 银行卡</div>
+                </div>
+                <hr class="pay-sep">
+                <div class="pay-row"><span class="pay-summary-label">已选金额</span><strong id="topupSummaryDesc">充值 ¥100 · 到账 ¥100 余额</strong></div>
+                <div class="pay-total">
+                  <span class="pay-total-label">合计</span>
+                  <span class="pay-total-amount" id="topupTotalAmount">¥100</span>
+                </div>
+                <button class="pay-confirm-btn" id="topupPayBtn" onclick="confirmPay('topup', this)">确认支付 ¥100</button>
+                <div class="pay-note">充值即代表同意 <a>充值服务协议</a> · 余额永久有效 · 未使用余额 7 天内可退款</div>
+              </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const pageInfo = {
+      tools: ["AI工具中心", "管理 PC 本地可部署的 AI 工具，点击按钮即可模拟部署状态。"],
+      settings: ["模型策略中心", "通过 CC-SWITCH 管理全局模型或逐工具独立指定模型。"],
+      tokens: ["用量成本分析", "查看 Token 用量、费用预估和调用明细。"],
+      subscription: ["订阅充值", "选择订阅套餐或按量充值，激活 API Key 使用权限。"]
+    };
+
+    function setPage(page) {
+      document.querySelectorAll(".page").forEach(el => el.classList.remove("active"));
+      document.getElementById(page + "Page").classList.add("active");
+      document.querySelectorAll(".nav-item").forEach(el => {
+        el.classList.toggle("active", el.dataset.page === page);
+      });
+      document.getElementById("pageTitle").textContent = pageInfo[page][0];
+      document.getElementById("pageSubtitle").textContent = pageInfo[page][1];
+    }
+
+    document.querySelectorAll("[data-page]").forEach(btn => {
+      btn.addEventListener("click", () => setPage(btn.dataset.page));
+    });
+
+    document.querySelectorAll(".deploy-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (btn.dataset.done === "true") return;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner" aria-hidden="true"></span>部署中';
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.dataset.done = "true";
+          btn.className = "success-btn deploy-btn";
+          btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>立即启动';
+        }, 1200);
+      });
+    });
+
+    const ccSwitch = document.getElementById("ccSwitch");
+    const globalModel = document.getElementById("globalModel");
+    const globalModelBox = document.getElementById("globalModelBox");
+    const rows = document.querySelectorAll(".settings-row");
+
+    const modelPrices = {
+      "Claude Sonnet 4.5":    { in: "¥21",   out: "¥105"  },
+      "Claude Opus 4":        { in: "¥105",  out: "¥525"  },
+      "GPT-4.1":              { in: "¥14",   out: "¥56"   },
+      "GPT-4":                { in: "¥21",   out: "¥63"   },
+      "o3":                   { in: "¥70",   out: "¥280"  },
+      "Gemini 2.5 Pro":       { in: "¥18",   out: "¥72"   },
+      "Gemini 2.5 Flash":     { in: "¥1.1",  out: "¥4.4"  },
+      "DeepSeek V3":          { in: "¥2",    out: "¥8"    },
+      "DeepSeek R1":          { in: "¥4.2",  out: "¥16.8" },
+      "Qwen3 Coder Plus":     { in: "¥3.5",  out: "¥14"   },
+      "自定义模型":            { in: "—",     out: "—"     },
+    };
+
+    function getPriceForModel(name) {
+      for (const key of Object.keys(modelPrices)) {
+        if (name.includes(key) || key.includes(name)) return modelPrices[key];
+      }
+      return modelPrices[name] || { in: "—", out: "—" };
+    }
+
+    function syncSettings() {
+      const isOn = ccSwitch.classList.contains("on");
+      globalModelBox.classList.toggle("show", isOn);
+      const globalPrice = getPriceForModel(globalModel.value);
+      document.getElementById("globalPriceIn").textContent = globalPrice.in;
+      document.getElementById("globalPriceOut").textContent = globalPrice.out;
+      rows.forEach(row => {
+        row.classList.toggle("global", isOn);
+        const current = row.querySelector(".current-model");
+        const inheritLabel = row.querySelector(".inherit-label");
+        const perTool = row.querySelector(".per-tool-select");
+        if (!current || !perTool) return;
+        perTool.disabled = isOn;
+        if (inheritLabel) {
+          inheritLabel.textContent = isOn ? "继承全局模型" : "单独模型";
+          inheritLabel.classList.toggle("green", isOn);
+          inheritLabel.classList.toggle("amber", !isOn);
+        }
+        const modelName = isOn ? globalModel.value : perTool.value;
+        current.textContent = modelName;
+        const price = getPriceForModel(modelName);
+        const priceIn = row.querySelector(".price-in");
+        const priceOut = row.querySelector(".price-out");
+        if (priceIn) priceIn.textContent = price.in;
+        if (priceOut) priceOut.textContent = price.out;
+      });
+    }
+
+    ccSwitch.addEventListener("click", () => {
+      ccSwitch.classList.toggle("on");
+      ccSwitch.setAttribute("aria-pressed", ccSwitch.classList.contains("on"));
+      syncSettings();
+    });
+
+    globalModel.addEventListener("change", syncSettings);
+    document.querySelectorAll(".per-tool-select").forEach(select => select.addEventListener("change", syncSettings));
+
+    const dateFilter = document.getElementById("dateFilter");
+    const toolFilter = document.getElementById("toolFilter");
+    const usageRows = Array.from(document.querySelectorAll("#usageBody tr"));
+    const emptyState = document.getElementById("emptyState");
+
+    function filterUsage() {
+      const date = dateFilter.value;
+      const query = toolFilter.value.trim().toLowerCase();
+      let visible = 0;
+      usageRows.forEach(row => {
+        const dateMatch = !date || row.dataset.date === date;
+        const toolMatch = !query || row.dataset.tool.toLowerCase().includes(query);
+        const show = dateMatch && toolMatch;
+        row.style.display = show ? "" : "none";
+        if (show) visible += 1;
+      });
+      emptyState.style.display = visible ? "none" : "block";
+    }
+
+    dateFilter.addEventListener("input", filterUsage);
+    toolFilter.addEventListener("input", filterUsage);
+    syncSettings();
+    filterUsage();
+
+    // ─── 订阅充值页交互 ───
+    function switchBuyTab(tab) {
+      document.getElementById('buyTabSub').classList.toggle('active', tab === 'sub');
+      document.getElementById('buyTabTopup').classList.toggle('active', tab === 'topup');
+      document.getElementById('buyPanelSub').classList.toggle('active', tab === 'sub');
+      document.getElementById('buyPanelTopup').classList.toggle('active', tab === 'topup');
+    }
+
+    function selectPlan(el, type) {
+      const grid = el.closest('.plan-grid');
+      grid.querySelectorAll('.plan-card').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      const price = el.dataset.price;
+      const desc = el.dataset.desc;
+      const credit = el.dataset.credit;
+      if (type === 'sub') {
+        document.getElementById('subSummaryDesc').textContent = desc;
+        document.getElementById('subTotalAmount').textContent = '¥' + price + (el.dataset.name.includes('月') ? '/月' : el.dataset.name.includes('季') ? '/季' : '/年');
+        document.getElementById('subPayBtn').textContent = '确认支付 ¥' + price;
+      } else {
+        document.getElementById('topupSummaryDesc').textContent = desc;
+        document.getElementById('topupTotalAmount').textContent = '¥' + price;
+        document.getElementById('topupPayBtn').textContent = '确认支付 ¥' + price;
+      }
+    }
+
+    function selectPay(el, type) {
+      const wrap = el.closest('.pay-methods');
+      wrap.querySelectorAll('.pay-method').forEach(m => m.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function confirmPay(type, btn) {
+      const orig = btn.textContent;
+      btn.disabled = true;
+      btn.style.opacity = '.75';
+      btn.textContent = '处理中…';
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.style.opacity = '';
+        btn.style.background = '#15803d';
+        btn.textContent = '✓ 支付成功';
+        setTimeout(() => {
+          btn.style.background = '';
+          btn.textContent = orig;
+        }, 3000);
+      }, 1400);
+    }
+  </script>
+</body>
+</html>
