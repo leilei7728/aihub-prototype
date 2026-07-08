@@ -430,13 +430,13 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div class="tb-title" id="tbt">总控台</div>
       <div class="tb-r" style="gap:8px">
         <button class="btn bo bsm" style="font-size:12px;padding:5px 12px;white-space:nowrap" onclick="obStart()">AI 工具配置教程</button>
-        <div class="chip chip-v" style="cursor:default">
+        <div class="chip chip-v" style="cursor:pointer" onclick="needLogin(function(){go('p05',nv(4),'订阅 / 充值');setTimeout(function(){switchBuyTab('subscription')},50)})">
           <span class="cl" style="color:#7c3aed">订阅 Tokens<span class="ih">?<span class="ih-b">订阅套餐每日发放的 Tokens 总余量，用完当天清零。</span></span></span>
-          <span class="cv" id="balTokens" style="color:#7c3aed">登录查看</span>
+          <span class="cv" id="balTokens" style="color:#7c3aed"></span>
         </div>
-        <div class="chip chip-v" style="cursor:default">
+        <div class="chip chip-v" style="cursor:pointer" onclick="needLogin(function(){go('p05',nv(4),'订阅 / 充值');setTimeout(function(){switchBuyTab('topup')},50)})">
           <span class="cl" style="color:#0f766e">充値余额<span class="ih">?<span class="ih-b">按量充値的人民币余额，按各模型 API 单价扫减。</span></span></span>
-          <span class="cv" id="balCash" style="color:#0f766e">登录查看</span>
+          <span class="cv" id="balCash" style="color:#0f766e"></span>
         </div>
       </div>
     </div>
@@ -2029,8 +2029,8 @@ function updateLoginUI(){
   // 顶栏两个芯片
   var balTokens = document.getElementById('balTokens');
   var balCash   = document.getElementById('balCash');
-  if(balTokens) balTokens.textContent = loggedIn ? userTokensBalance.toLocaleString() + ' T' : '登录查看';
-  if(balCash)   balCash.textContent   = loggedIn ? '¥' + userCashBalance.toFixed(2)           : '登录查看';
+  if(balTokens) balTokens.textContent = loggedIn ? userTokensBalance.toLocaleString() + ' T' : '';
+  if(balCash)   balCash.textContent   = loggedIn ? '¥' + userCashBalance.toFixed(2)           : '';
   // P01 首页切换
   document.getElementById('heroGuest').style.display    = loggedIn ? 'none' : '';
   document.getElementById('heroLoggedIn').style.display = loggedIn ? '' : 'none';
