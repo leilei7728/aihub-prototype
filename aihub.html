@@ -1476,10 +1476,11 @@ input:checked+.sl:before{transform:translateX(16px)}
   <div class="mo" style="max-width:480px">
     <div class="mo-ti">选择要使用此模型的 AI 工具</div>
     <div class="mo-ds" id="m12ModelName" style="color:var(--a);font-weight:700;margin-bottom:4px"></div>
-    <div class="mo-ds" style="margin-top:0">点击某个工具，将此模型设为该工具的默认模型并直接生效。</div>
+    <div class="mo-ds" style="margin-top:0">可多选，将此模型设为所选工具的默认模型。</div>
     <div id="m12ToolList" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0"></div>
     <div class="mo-ft">
       <button class="btn bo" onclick="cm('m12')">取消</button>
+      <button class="btn bp" id="m12ConfirmBtn" onclick="confirmUseModelMulti()">确认设置</button>
     </div>
   </div>
 </div>
@@ -3003,40 +3004,66 @@ function closeModelDetail(){
 
 var _pendingUseModel = '';
 
+var _m12Selected = {};
+
 function openUseModelModal(modelName){
   _pendingUseModel = modelName;
+  _m12Selected = {};
   var nameEl = document.getElementById('m12ModelName');
   if(nameEl) nameEl.textContent = modelName;
+  renderM12ToolList();
+  om('m12');
+}
+
+function renderM12ToolList(){
   var list = document.getElementById('m12ToolList');
   if(!list) return;
   var tools = appState.toolRouting || {};
+  var modelName = _pendingUseModel;
   list.innerHTML = Object.keys(tools).map(function(key){
     var t = tools[key];
     var alreadyIn = t.options && t.options.indexOf(modelName) >= 0;
     var isCurrent = alreadyIn && t.selection === modelName;
+    var isSelected = !!_m12Selected[key];
     var badge = isCurrent
       ? '<span style="font-size:10px;color:#15803d;background:#dcfce7;padding:1px 6px;border-radius:4px;margin-left:6px">当前默认</span>'
       : alreadyIn
         ? '<span style="font-size:10px;color:#a16207;background:#fef9c3;padding:1px 6px;border-radius:4px;margin-left:6px">已在列表</span>'
         : '';
-    return '<div onclick="confirmUseModel(\''+key+'\')" style="border:2px solid var(--bd);border-radius:10px;padding:12px 14px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor=\'#8ed2c9\'" onmouseout="this.style.borderColor=\'var(--bd)\'">'
-      + '<div style="font-size:13px;font-weight:700;display:flex;align-items:center">' + t.name + badge + '</div>'
+    var borderColor = isSelected ? '#0f766e' : 'var(--bd)';
+    var bg = isSelected ? '#f0fdfa' : '#fff';
+    var check = isSelected ? '<span style="margin-left:auto;color:#0f766e;font-size:15px;font-weight:700">✓</span>' : '';
+    return '<div onclick="toggleM12Tool(\''+key+'\')" style="border:2px solid '+borderColor+';border-radius:10px;padding:12px 14px;cursor:pointer;transition:border-color .15s,background .15s;background:'+bg+'">'
+      + '<div style="font-size:13px;font-weight:700;display:flex;align-items:center">' + t.name + badge + check + '</div>'
       + '<div style="font-size:11px;color:var(--t3);margin-top:3px">当前默认：' + (t.selection||'未设置') + '</div>'
       + '</div>';
   }).join('');
-  om('m12');
+  var count = Object.keys(_m12Selected).filter(function(k){ return _m12Selected[k]; }).length;
+  var btn = document.getElementById('m12ConfirmBtn');
+  if(btn) btn.textContent = count > 0 ? '确认设置（' + count + '）' : '确认设置';
 }
 
-function confirmUseModel(toolKey){
-  var tool = appState.toolRouting[toolKey];
-  if(!tool || !_pendingUseModel) return;
-  if(!tool.options) tool.options = [];
-  if(tool.options.indexOf(_pendingUseModel) < 0){
-    tool.options.push(_pendingUseModel);
-  }
-  tool.selection = _pendingUseModel;
+function toggleM12Tool(toolKey){
+  _m12Selected[toolKey] = !_m12Selected[toolKey];
+  renderM12ToolList();
+}
+
+function confirmUseModelMulti(){
+  var selected = Object.keys(_m12Selected).filter(function(k){ return _m12Selected[k]; });
+  if(!selected.length || !_pendingUseModel){ cm('m12'); return; }
+  var lastKey = null;
+  selected.forEach(function(toolKey){
+    var tool = appState.toolRouting[toolKey];
+    if(!tool) return;
+    if(!tool.options) tool.options = [];
+    if(tool.options.indexOf(_pendingUseModel) < 0){
+      tool.options.push(_pendingUseModel);
+    }
+    tool.selection = _pendingUseModel;
+    lastKey = toolKey;
+  });
   cm('m12');
-  appState.activeToolKey = toolKey;
+  if(lastKey) appState.activeToolKey = lastKey;
   renderToolRoutingViews();
   var ni = document.querySelector('.ni[onclick*="p03"]');
   if(ni) go('p03', ni, '模型设置');
