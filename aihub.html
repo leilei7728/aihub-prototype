@@ -473,14 +473,16 @@ input:checked+.sl:before{transform:translateX(16px)}
   <!-- 已登录 Hero -->
   <div id="heroLoggedIn" class="hero" style="display:none">
     <div class="hl">
-      <h2 id="heroGreeting">早上好，雷蕾 👋</h2>
-      <!-- 会员状态标签（仅会员显示） -->
-      <div id="heroMemberRow" style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+      <!-- 问候语 + 会员badge 同一行 -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+        <h2 id="heroGreeting" style="margin:0">早上好，雷蕾 👋</h2>
+        <div id="heroMemberRow" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
         <div id="heroMemberBadge" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 12px;font-size:12px;color:#fff">
           <span id="heroMemberDot" style="width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0"></span>
           <span id="heroMemberLabel">月卡 · 2026-08-07 到期</span>
         </div>
-      </div>
+      </div><!-- /heroMemberRow -->
+      </div><!-- /greeting+badge row -->
       <!-- 会员区：今日 Tokens 进度 -->
       <div id="heroSubSection">
         <div style="margin-bottom:12px">
