@@ -8,7 +8,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --a:#0f766e;--ah:#115e59;--al:#def7f3;--all:#eefaf7;
-  --sw:224px;--sbg:#10212b;
+  --sw:204px;--sbg:#10212b;
   --t:#13232f;--t2:#51606d;--t3:#8a96a3;
   --bd:#dde5ea;--bg:#f3eee6;--wh:#fffdfa;
   --ok:#15803d;--okl:#dcfce7;
@@ -26,14 +26,21 @@ body{font-family:'Segoe UI Variable Text','PingFang SC','Microsoft YaHei UI','No
 .l-logo .tag{font-size:11px;color:var(--t3);margin-top:2px}
 /* ── app shell ── */
 .shell{height:100vh;overflow:hidden;display:flex;position:relative}
+.winbar{position:absolute;left:0;right:0;top:0;height:34px;background:linear-gradient(180deg,#f7fafc,#eef3f8);border-bottom:1px solid #d9e2ea;display:flex;align-items:center;justify-content:space-between;padding:0 10px 0 12px;z-index:6}
+.winbar-left{display:flex;align-items:center;gap:8px;font-size:12px;color:#20303d;font-weight:600;user-select:none}
+.winbar-dot{width:10px;height:10px;border-radius:3px;background:#2563eb;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+.winbar-right{display:flex;align-items:center;gap:2px}
+.wbtn{width:30px;height:22px;border:none;border-radius:6px;background:transparent;color:#5a6a78;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.wbtn:hover{background:#e8eff6}
+.wbtn.close:hover{background:#ef4444;color:#fff}
 /* ── sidebar ── */
-.sb{width:var(--sw);background:linear-gradient(180deg,#10212b 0%,#17303d 100%);display:flex;flex-direction:column;flex-shrink:0;border-right:1px solid rgba(255,255,255,.08);box-shadow:18px 0 40px rgba(16,33,43,.16);position:relative;z-index:2}
-.sb-logo{padding:22px 18px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb{width:var(--sw);height:calc(100vh - 34px);margin-top:34px;background:linear-gradient(180deg,#10212b 0%,#17303d 100%);display:flex;flex-direction:column;flex-shrink:0;border-right:1px solid rgba(255,255,255,.08);box-shadow:14px 0 30px rgba(16,33,43,.14);position:relative;z-index:2}
+.sb-logo{padding:16px 14px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.08)}
 .sb-logo .ico{width:36px;height:36px;background:linear-gradient(135deg,#0f766e,#1f9d8f);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:800;flex-shrink:0;box-shadow:0 10px 24px rgba(15,118,110,.32)}
 .sb-logo .nm{color:#fff;font-size:15px;font-weight:700}
 .sb-logo .vr{color:#7e95a3;font-size:10px}
-.sb-nav{flex:1;padding:14px 10px}
-.ni{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;cursor:pointer;color:#adc0cb;font-size:13px;font-weight:500;transition:all .18s;margin-bottom:4px}
+.sb-nav{flex:1;padding:10px 8px}
+.ni{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;cursor:pointer;color:#adc0cb;font-size:12px;font-weight:500;transition:all .18s;margin-bottom:3px}
 .ni:hover{background:rgba(255,255,255,.08);color:#fff;transform:translateX(2px)}
 .ni.on{background:linear-gradient(135deg,rgba(15,118,110,.34),rgba(15,118,110,.18));color:#fff;box-shadow:inset 0 0 0 1px rgba(167,243,208,.18)}
 .ni .ic{width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0}.ni .ic svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
@@ -44,34 +51,34 @@ body{font-family:'Segoe UI Variable Text','PingFang SC','Microsoft YaHei UI','No
 .u-row .un{color:#d4d4d8;font-size:12px}
 .u-row .ue{color:#7e95a3;font-size:11px}
 /* ── main ── */
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.main{height:calc(100vh - 34px);margin-top:34px;flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
 .main:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.35),transparent 22%)}
-.topbar{height:58px;background:rgba(255,253,250,.86);backdrop-filter:blur(14px);border-bottom:1px solid rgba(221,229,234,.85);padding:0 28px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:relative;z-index:1}
+.topbar{height:52px;background:rgba(255,253,250,.86);backdrop-filter:blur(14px);border-bottom:1px solid rgba(221,229,234,.85);padding:0 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:relative;z-index:1}
 .tb-title{font-size:15px;font-weight:700;letter-spacing:.02em}
 .tb-r{display:flex;align-items:center;gap:10px}
-.chip{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;cursor:pointer;border:1px solid rgba(15,118,110,.14);box-shadow:0 8px 20px rgba(19,35,47,.05)}
+.chip{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;cursor:pointer;border:1px solid rgba(15,118,110,.14);box-shadow:0 8px 20px rgba(19,35,47,.05)}
 .chip-v{background:rgba(255,255,255,.8)}
 .chip-v .cl{font-size:11px;color:var(--a)}
 .chip-v .cv{font-size:13px;font-weight:800;color:var(--a)}
 .chip-g{background:#f0fdf4}
 .chip-g .cl{font-size:11px;color:var(--ok)}
 .chip-g .cv{font-size:13px;font-weight:800;color:var(--ok)}
-.pc{padding:28px;flex:1;overflow-y:auto;position:relative;z-index:1}
+.pc{padding:18px;flex:1;overflow-y:auto;position:relative;z-index:1}
 /* ── page ── */
 .pg{display:none}
 .pg.on{display:block}
 /* ── card ── */
-.card{background:rgba(255,253,250,.92);border-radius:18px;border:1px solid rgba(221,229,234,.95);padding:22px;box-shadow:0 16px 32px rgba(19,35,47,.06)}
+.card{background:rgba(255,253,250,.92);border-radius:14px;border:1px solid rgba(221,229,234,.95);padding:16px;box-shadow:0 12px 24px rgba(19,35,47,.05)}
 .g{display:grid;gap:16px}
 .g2{grid-template-columns:1fr 1fr}
 .g3{grid-template-columns:1fr 1fr 1fr}
 /* ── stat card ── */
-.sc{background:rgba(255,253,250,.95);border-radius:18px;border:1px solid rgba(221,229,234,.95);padding:20px;box-shadow:0 14px 28px rgba(19,35,47,.05)}
+.sc{background:rgba(255,253,250,.95);border-radius:14px;border:1px solid rgba(221,229,234,.95);padding:16px;box-shadow:0 12px 22px rgba(19,35,47,.05)}
 .sc .lb{font-size:12px;color:var(--t3);margin-bottom:6px}
 .sc .vl{font-size:28px;font-weight:800;letter-spacing:-.02em}
 .sc .sb2{font-size:12px;color:var(--t2);margin-top:4px}
 /* ── btn ── */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all .18s;box-shadow:0 10px 18px rgba(19,35,47,.08)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all .18s;box-shadow:0 8px 14px rgba(19,35,47,.08)}
 .bp{background:var(--a);color:#fff}.bp:hover{background:var(--ah)}
 .bo{background:rgba(255,255,255,.76);border:1px solid var(--bd);color:var(--t)}.bo:hover{background:#f8faf9}
 .bgh{background:transparent;border:1px solid var(--bd);color:var(--t2)}.bgh:hover{background:#f8faf9}
@@ -121,7 +128,7 @@ body{font-family:'Segoe UI Variable Text','PingFang SC','Microsoft YaHei UI','No
 input:checked+.sl{background:var(--a)}
 input:checked+.sl:before{transform:translateX(16px)}
 /* ── hero banner ── */
-.hero{background:radial-gradient(circle at top left,rgba(255,255,255,.16),transparent 28%),linear-gradient(135deg,#163444 0%,#0f766e 58%,#22a58c 100%);border-radius:22px;padding:28px 30px;color:#fff;display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;box-shadow:0 22px 42px rgba(15,118,110,.22)}
+.hero{background:radial-gradient(circle at top left,rgba(255,255,255,.16),transparent 28%),linear-gradient(135deg,#163444 0%,#0f766e 58%,#22a58c 100%);border-radius:16px;padding:20px 22px;color:#fff;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;box-shadow:0 16px 28px rgba(15,118,110,.2)}
 .hero .hl h2{font-size:18px;font-weight:700;margin-bottom:4px}
 .hero .hl p{font-size:13px;opacity:.88;max-width:520px}
 .hero .hr{text-align:right}
@@ -383,6 +390,18 @@ input:checked+.sl:before{transform:translateX(16px)}
      APP SHELL（直接展示，不强制登录）
 ══════════════════════════════════════════════════ -->
 <div id="app" class="shell">
+
+  <div class="winbar">
+    <div class="winbar-left">
+      <span class="winbar-dot"></span>
+      <span>MyTokens管家 - PC端管理器</span>
+    </div>
+    <div class="winbar-right">
+      <button class="wbtn" title="最小化">─</button>
+      <button class="wbtn" title="最大化">□</button>
+      <button class="wbtn close" title="关闭">×</button>
+    </div>
+  </div>
 
   <!-- SIDEBAR -->
   <aside class="sb">
@@ -785,7 +804,7 @@ input:checked+.sl:before{transform:translateX(16px)}
 
   <div class="card mb16" style="padding:0;overflow:visible">
     <!-- 吸顶筛选区 -->
-    <div id="modelFilterSticky" style="position:sticky;top:-28px;z-index:10;background:#fff;border-radius:12px 12px 0 0;padding:20px 20px 14px;border-bottom:1px solid var(--bd);box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div id="modelFilterSticky" style="position:sticky;top:-18px;z-index:10;background:#fff;border-radius:12px 12px 0 0;padding:20px 20px 14px;border-bottom:1px solid var(--bd);box-shadow:0 2px 8px rgba(0,0,0,.06)">
     <!-- 切换 Tab -->
     <div style="display:flex;justify-content:center;margin-bottom:20px">
       <div style="display:flex;background:#f4f4f5;border-radius:10px;padding:3px;gap:2px">
