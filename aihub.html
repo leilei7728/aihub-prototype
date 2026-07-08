@@ -16,7 +16,16 @@
   --er:#dc2626;--erl:#fee2e2;
   --glow:rgba(15,118,110,.12);
 }
-body{font-family:'Segoe UI Variable Text','PingFang SC','Microsoft YaHei UI','Noto Sans SC',sans-serif;background:radial-gradient(circle at top left,rgba(209,237,228,.9),transparent 30%),radial-gradient(circle at right 10%,rgba(243,201,120,.18),transparent 26%),linear-gradient(180deg,#f6f1e8 0%,#f2f5f1 100%);color:var(--t);font-size:14px;line-height:1.5;min-height:100vh}
+body{font-family:'Segoe UI Variable Text','PingFang SC','Microsoft YaHei UI','Noto Sans SC',sans-serif;background:linear-gradient(135deg,#dfe7f3 0%,#f0f4f8 50%,#e4ecf5 100%);color:var(--t);font-size:14px;line-height:1.5;min-height:100vh;display:grid;place-items:center;padding:24px}
+/* ── desktop frame ── */
+.desktop-frame{width:min(1440px,100%);height:min(900px,calc(100vh - 48px));min-height:720px;background:#f3eee6;border:1px solid #bfc7d4;border-radius:10px;box-shadow:0 24px 70px rgba(15,23,42,.22);overflow:hidden;display:grid;grid-template-rows:38px minmax(0,1fr);position:relative}
+.win-bar{height:38px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:#eef2f7;border-bottom:1px solid #dde5ea;user-select:none;flex-shrink:0}
+.win-title{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#334155}
+.win-dot{width:13px;height:13px;border-radius:4px;background:var(--a)}
+.win-btns{display:flex;gap:2px}
+.win-btn{width:38px;height:26px;border:0;border-radius:5px;background:transparent;color:#64748b;font-size:14px;cursor:default;display:flex;align-items:center;justify-content:center}
+.win-btn:hover{background:#e2e8f0}
+.win-btn.close:hover{background:#ef4444;color:#fff}
 /* ── login ── */
 .l-bg{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a1a2e,#16213e 50%,#0f3460)}
 .l-card{background:var(--wh);border-radius:16px;padding:40px;width:400px;box-shadow:0 30px 60px rgba(0,0,0,.3)}
@@ -25,7 +34,7 @@ body{font-family:'Segoe UI Variable Text','PingFang SC','Microsoft YaHei UI','No
 .l-logo .name{font-size:22px;font-weight:800}
 .l-logo .tag{font-size:11px;color:var(--t3);margin-top:2px}
 /* ── app shell ── */
-.shell{height:100vh;overflow:hidden;display:flex;position:relative}
+.shell{height:100%;overflow:hidden;display:flex;position:relative}
 /* ── sidebar ── */
 .sb{width:var(--sw);background:linear-gradient(180deg,#10212b 0%,#17303d 100%);display:flex;flex-direction:column;flex-shrink:0;border-right:1px solid rgba(255,255,255,.08);box-shadow:18px 0 40px rgba(16,33,43,.16);position:relative;z-index:2}
 .sb-logo{padding:22px 18px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.08)}
@@ -100,7 +109,7 @@ body{font-family:'Segoe UI Variable Text','PingFang SC','Microsoft YaHei UI','No
 .fi:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(124,58,237,.1)}
 .fs{width:100%;padding:9px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;outline:none;background:var(--wh);cursor:pointer}
 /* ── modal ── */
-.ov{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:999}
+.ov{position:absolute;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:999}
 .ov.op{display:flex}
 .mo{background:var(--wh);border-radius:16px;padding:28px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.25)}
 .mo-sm{width:400px}
@@ -152,8 +161,9 @@ input:checked+.sl:before{transform:translateX(16px)}
 .tmx .sel{width:100%;padding:8px 10px;border:1px solid var(--bd);border-radius:8px;font-size:12px;background:#fff;outline:none}
 .tmx .sel:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(124,58,237,.1)}
 /* ── model card ── */
-.mc{border:2px solid var(--bd);border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:12px}
-.mc:hover{border-color:#8ed2c9}
+.mc{border:2px solid var(--bd);border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden}
+.mc-hover{position:absolute;inset:0;background:rgba(240,253,250,.15);display:flex;align-items:center;justify-content:center;gap:10px;opacity:0;pointer-events:none;transition:opacity .18s;border-radius:8px}
+.mc:hover .mc-hover{opacity:1;pointer-events:auto}
 .mc.on{border-color:var(--a);background:var(--all)}
 .mc .mi{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .mc .mn{font-size:13px;font-weight:700}
@@ -382,6 +392,15 @@ input:checked+.sl:before{transform:translateX(16px)}
 <!-- ══════════════════════════════════════════════════
      APP SHELL（直接展示，不强制登录）
 ══════════════════════════════════════════════════ -->
+<div class="desktop-frame">
+<div class="win-bar">
+  <div class="win-title"><span class="win-dot"></span>AIHub</div>
+  <div class="win-btns" aria-hidden="true">
+    <button class="win-btn">&#8212;</button>
+    <button class="win-btn">&#9633;</button>
+    <button class="win-btn close">&#x2715;</button>
+  </div>
+</div>
 <div id="app" class="shell">
 
   <!-- SIDEBAR -->
@@ -455,13 +474,12 @@ input:checked+.sl:before{transform:translateX(16px)}
   <div id="heroLoggedIn" class="hero" style="display:none">
     <div class="hl">
       <h2 id="heroGreeting">早上好，雷蕾 👋</h2>
-      <!-- 会员状态标签 + 操作按钮（仅会员显示） -->
+      <!-- 会员状态标签（仅会员显示） -->
       <div id="heroMemberRow" style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
         <div id="heroMemberBadge" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 12px;font-size:12px;color:#fff">
           <span id="heroMemberDot" style="width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0"></span>
           <span id="heroMemberLabel">月卡 · 2026-08-07 到期</span>
         </div>
-        <button id="heroSubBtn" onclick="needLogin(()=>{go('p05',nv(4),'购买 Tokens');setTimeout(()=>switchBuyTab('subscription'),100)})" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);border-radius:20px;color:rgba(255,255,255,.85);font-size:12px;padding:4px 12px;cursor:pointer">续订会员<span class="ih" style="margin-left:3px">?<span class="ih-b">再次购买同类套餐，新周期有效期自动顺延至当前到期日后，不叠加。</span></span></button>
       </div>
       <!-- 会员区：今日 Tokens 进度 -->
       <div id="heroSubSection">
@@ -486,13 +504,17 @@ input:checked+.sl:before{transform:translateX(16px)}
         <div style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:14px">当前仅可使用账户余额按量付费</div>
         <button onclick="needLogin(()=>{go('p05',nv(4),'购买 Tokens');setTimeout(()=>switchBuyTab('subscription'),100)})" style="background:#fff;color:#0f766e;font-weight:700;font-size:14px;padding:9px 28px;border-radius:24px;border:none;cursor:pointer">立即订阅</button>
       </div>
+      <!-- 续订按钮放在左列底部 -->
+      <button id="heroSubBtn" onclick="needLogin(()=>{go('p05',nv(4),'购买 Tokens');setTimeout(()=>switchBuyTab('subscription'),100)})" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);border-radius:20px;color:rgba(255,255,255,.85);font-size:12px;padding:6px 16px;cursor:pointer;margin-top:4px">续订会员<span class="ih" style="margin-left:3px">?<span class="ih-b">再次购买同类套餐，新周期有效期自动顺延至当前到期日后，不叠加。</span></span></button>
     </div>
     <div class="hr" style="display:flex;flex-direction:column;gap:8px;min-width:160px;text-align:right">
-      <div>
-        <div style="font-size:11px;color:rgba(255,255,255,.65);margin-bottom:2px">账户余额</div>
-        <div style="font-size:24px;font-weight:800;color:#fff;line-height:1" id="heroCashValue">¥48.50</div>
-        <div id="heroCashHint" style="font-size:11px;color:rgba(255,255,255,.5);margin-top:2px">今日 Tokens 耗尽后按模型单价扣除</div>
-        <button onclick="needLogin(()=>{go('p05',nv(4),'购买 Tokens');setTimeout(()=>switchBuyTab('topup'),100)})" id="heroChargeBtn" style="margin-top:10px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);border-radius:20px;color:#fff;font-size:12px;padding:5px 16px;cursor:pointer;white-space:nowrap">按量充值</button>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;height:100%;justify-content:space-between">
+        <div>
+          <div style="font-size:11px;color:rgba(255,255,255,.65);margin-bottom:2px">账户余额</div>
+          <div style="font-size:24px;font-weight:800;color:#fff;line-height:1" id="heroCashValue">¥48.50</div>
+          <div id="heroCashHint" style="font-size:11px;color:rgba(255,255,255,.5);margin-top:2px">今日 Tokens 耗尽后按模型单价扣除</div>
+        </div>
+        <button onclick="needLogin(()=>{go('p05',nv(4),'购买 Tokens');setTimeout(()=>switchBuyTab('topup'),100)})" id="heroChargeBtn" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);border-radius:20px;color:rgba(255,255,255,.85);font-size:12px;padding:6px 16px;cursor:pointer;white-space:nowrap;margin-top:4px">按量充值</button>
       </div>
     </div>
   </div>
@@ -515,7 +537,7 @@ input:checked+.sl:before{transform:translateX(16px)}
     <div class="sc">
       <div class="lb">近30天消耗<span class="ih">?<span class="ih-b">只统计近30天通过本站路由产生的 Tokens 消耗，包含订阅额度和按量充値消耗，站外使用不计入。</span></span></div>
       <div class="vl" id="tokensMonthUsageValue">128,540 <span style="font-size:14px;color:var(--t2)">Tokens</span></div>
-      <div class="sb2">最近一笔 18 天后到期（2026-07-23）</div>
+      <div class="sb2">较上月 ↑8%</div>
     </div>
   </div>
   <div class="card mb16">
@@ -745,42 +767,6 @@ input:checked+.sl:before{transform:translateX(16px)}
   <div class="stbar run">
     <div class="stl ok"><span class="dot dg"></span>本地路由运行中</div>
     <div class="str">网关地址：http://127.0.0.1:15721 · 今日请求 128 次<span class="ih">?<span class="ih-b">统计今日通过本地路由实际转发的模型请求次数，不等于消息条数。一次消息可能触发多次请求，如重试、补全上下文或工具调用。</span></span></div>
-  </div>
-
-  <div class="card mb16">
-    <div class="fxb mb16">
-      <div style="font-size:15px;font-weight:700">路由模式<span class="ih">?<span class="ih-b">控制系统自动选模策略。智能模式按任务难度分配模型；稳定模式在报错、超时、额度不足时自动切换；速度模式优先响应更快的模型。智能模式与速度模式二选一，稳定模式可叠加开启。</span></span></div>
-      <div class="txs tgr" id="routeModeSummaryText">当前开启：智能模式、稳定模式</div>
-    </div>
-    <div class="g g3" style="gap:10px">
-      <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:10px;padding:14px">
-        <div class="fxb" style="align-items:center;gap:12px">
-          <div>
-            <div class="tb2">智能模式</div>
-            <div class="txs tgr mt4">系统会根据任务难度分配模型，简单任务更省，复杂任务更强</div>
-          </div>
-          <label class="sw"><input type="checkbox" data-route-mode="saveFlow" checked onchange="toggleRouteMode('saveFlow', this.checked)"><span class="sl"></span></label>
-        </div>
-      </div>
-      <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:10px;padding:14px">
-        <div class="fxb" style="align-items:center;gap:12px">
-          <div>
-            <div class="tb2">稳定模式</div>
-            <div class="txs tgr mt4">报错、超时、额度不足时，自动换到其他可用模型</div>
-          </div>
-          <label class="sw"><input type="checkbox" data-route-mode="failover" checked onchange="toggleRouteMode('failover', this.checked)"><span class="sl"></span></label>
-        </div>
-      </div>
-      <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:10px;padding:14px">
-        <div class="fxb" style="align-items:center;gap:12px">
-          <div>
-            <div class="tb2">速度模式</div>
-            <div class="txs tgr mt4">更看重速度时用它，优先选响应更快的模型</div>
-          </div>
-          <label class="sw"><input type="checkbox" data-route-mode="speedFirst" onchange="toggleRouteMode('speedFirst', this.checked)"><span class="sl"></span></label>
-        </div>
-      </div>
-    </div>
   </div>
 
   <div class="card mb16" style="padding:0;overflow:visible">
@@ -1245,6 +1231,7 @@ input:checked+.sl:before{transform:translateX(16px)}
     </div><!-- /pc -->
   </div><!-- /main -->
 </div><!-- /shell -->
+</div><!-- /desktop-frame -->
 
 
 <!-- ══════════════════════════════════════════════════
@@ -3194,9 +3181,9 @@ function buildPlatformModelCard(modelName, providerLabel){
     +   '<div class="mp">' + (providerLabel || getModelMetaLine(modelName)) + '</div>'
     + '</div>'
     + rightHtml
-    + '<div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;align-items:flex-end">'
-    +   '<button class="btn bo bsm" style="font-size:11px;padding:3px 10px;white-space:nowrap" onclick="event.stopPropagation();openUseModelModal(\'' + safeModel + '\')">立即使用</button>'
-    +   '<span style="font-size:11px;color:var(--t3);cursor:pointer;white-space:nowrap;padding:3px 2px" onclick="event.stopPropagation();openModelDetail(\'' + safeModel + '\')">查看详情</span>'
+    + '<div class="mc-hover">'
+    +   '<button class="btn bp" style="height:36px;padding:0 20px;font-size:13px;font-weight:600" onclick="event.stopPropagation();openUseModelModal(\'' + safeModel + '\')">立即使用</button>'
+    +   '<button class="btn bo" style="height:36px;padding:0 20px;font-size:13px" onclick="event.stopPropagation();openModelDetail(\'' + safeModel + '\')">查看详情</button>'
     + '</div>';
   return card;
 }
