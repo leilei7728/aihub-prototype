@@ -1633,8 +1633,8 @@ input:checked+.sl:before{transform:translateX(16px)}
 <div class="ov" id="m14">
   <div class="mo mo-sm" style="text-align:center">
     <div style="font-size:44px;margin-bottom:12px">🔄</div>
-    <div class="mo-ti">配置已生效，请重启客户端</div>
-    <div class="mo-ds" id="m14Desc" style="line-height:1.8">模型切换已保存，需要重启对应的 AI 工具后新配置才会生效。</div>
+    <div class="mo-ti">设置已保存</div>
+    <div class="mo-ds" id="m14Desc" style="line-height:1.8">请重启 AI 工具使新模型生效。</div>
     <div class="mo-ft" style="justify-content:center;margin-top:4px">
       <button class="btn bp" style="min-width:120px" onclick="cm('m14')">我知道了</button>
     </div>
@@ -3091,7 +3091,7 @@ function confirmUseModelMulti(){
   if(ni) go('p03', ni, '模型设置');
   var desc = document.getElementById('m14Desc');
   var toolNames = selected.map(function(k){ return appState.toolRouting[k] ? appState.toolRouting[k].name : k; }).join('、');
-  if(desc) desc.innerHTML = '已将 <strong>' + toolNames + '</strong> 的默认模型设为 <strong>' + _pendingUseModel + '</strong>。<br>请重启对应的 AI 工具后新配置才会生效。';
+  if(desc) desc.innerHTML = '已将 <strong>' + toolNames + '</strong> 默认模型设为 <strong>' + _pendingUseModel + '</strong>，重启工具后生效。';
   om('m14');
 }
 
@@ -3415,7 +3415,7 @@ function changeToolModel(toolKey, value){
   renderToolRoutingViews();
   updateRouteSummary();
   var desc14 = document.getElementById('m14Desc');
-  if(desc14) desc14.innerHTML = '已将 <strong>' + (tool.name||toolKey) + '</strong> 的默认模型切换为 <strong>' + value + '</strong>。<br>请重启对应的 AI 工具后新配置才会生效。';
+  if(desc14) desc14.innerHTML = '已将 <strong>' + (tool.name||toolKey) + '</strong> 默认模型切为 <strong>' + value + '</strong>，重启工具后生效。';
   om('m14');
 }
 
