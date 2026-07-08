@@ -981,12 +981,24 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div class="pm" onclick="selPm(this)">💳 银行卡</div>
     </div>
     <div class="sep"></div>
+    <!-- 自动续费开关 -->
+    <div class="fxb mb16" style="align-items:flex-start;gap:12px">
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--t)">开启自动续费</div>
+        <div style="font-size:12px;color:var(--t3);margin-top:3px">到期前 1 天自动扣款续期，可随时取消</div>
+      </div>
+      <label class="sw" style="flex-shrink:0;margin-top:2px">
+        <input type="checkbox" id="autoRenewToggle" checked onchange="updateAutoRenewUI()">
+        <span class="sl"></span>
+      </label>
+    </div>
+    <div class="sep"></div>
     <div class="fxb mb8"><div class="tgr">已选套餐</div><div class="tb2" id="selectedSubSummary">99元/月 · 50万 Tokens</div></div>
     <div class="fxb" style="font-size:16px;font-weight:800;margin-bottom:20px">
       <div>合计</div><div class="tac" id="selectedSubTotal">¥99/月</div>
     </div>
-    <button class="btn bp bfw" id="selectedSubPayBtn" style="padding:14px;font-size:15px" onclick="handlePurchase(this)">确认支付 ¥99</button>
-    <div class="txs tlt" style="text-align:center;margin-top:10px">订阅即代表同意 <span class="tac">订阅服务协议</span> · 7 天内可退款，按已发放天数折算扣除，剩余金额原路退回</div>
+    <button class="btn bp bfw" id="selectedSubPayBtn" style="padding:14px;font-size:15px" onclick="handlePurchase(this)">同意并开启自动续费</button>
+    <div class="txs tlt" id="subAgreementText" style="text-align:center;margin-top:10px">开启自动续费即代表同意 <span class="tac">自动续费服务协议</span> · 到期前 1 天自动续费，可在「设置 - 订阅管理」中随时取消 · 7 天内可退款</div>
   </div>
   </div><!-- /buyPanelSubscription -->
 
@@ -1230,6 +1242,44 @@ input:checked+.sl:before{transform:translateX(16px)}
   </div>
 </div>
 
+<!-- 订阅管理 -->
+<div class="card mb16" id="subManageCard">
+  <div class="tb2 mb16">订阅管理</div>
+  <!-- 当前订阅状态 -->
+  <div id="subManageActive" style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:16px;margin-bottom:16px">
+    <div class="fxb mb8">
+      <div style="font-size:13px;font-weight:700;color:#0f766e">当前套餐</div>
+      <span style="font-size:12px;background:#dcfce7;color:#15803d;padding:2px 10px;border-radius:20px;font-weight:600">生效中</span>
+    </div>
+    <div class="fxb mb6"><div class="tgr">套餐</div><div class="tb2" id="subMgmtPlanName">月卡 · ¥99/月</div></div>
+    <div class="fxb mb6"><div class="tgr">有效期至</div><div class="tb2" id="subMgmtExpire">2026-08-07</div></div>
+    <div class="fxb"><div class="tgr">每日额度</div><div class="tb2" id="subMgmtDaily">16,667 Tokens/天</div></div>
+  </div>
+  <!-- 自动续费开关 -->
+  <div class="fxb mb16" style="align-items:flex-start;gap:12px">
+    <div>
+      <div style="font-size:13px;font-weight:600;color:var(--t)">自动续费</div>
+      <div class="txs tgr" style="margin-top:3px">开启后，到期前 1 天自动扣款续期当前套餐</div>
+    </div>
+    <label class="sw" style="flex-shrink:0;margin-top:2px">
+      <input type="checkbox" id="subMgmtAutoRenew" checked onchange="toggleSubAutoRenew(this.checked)">
+      <span class="sl"></span>
+    </label>
+  </div>
+  <div id="subMgmtCancelHint" style="font-size:12px;color:var(--t3);background:#fafafa;border:1px solid var(--bd);border-radius:8px;padding:10px 14px;margin-bottom:16px">
+    ✅ 自动续费已开启，下次续费日：<span id="subMgmtNextBillDate" style="font-weight:600;color:var(--t)">2026-08-06</span>
+  </div>
+  <div class="sep"></div>
+  <!-- 取消订阅 -->
+  <div class="fxb" style="align-items:center">
+    <div>
+      <div style="font-size:13px;font-weight:600;color:var(--t)">取消订阅</div>
+      <div class="txs tgr" style="margin-top:3px">取消后当前周期到期前仍可正常使用，不退费</div>
+    </div>
+    <button class="btn bo bsm" style="color:#dc2626;border-color:#fca5a5;flex-shrink:0" onclick="om('mCancelSub')">取消订阅</button>
+  </div>
+</div>
+
     </div><!-- /pc -->
   </div><!-- /main -->
 </div><!-- /shell -->
@@ -1239,6 +1289,19 @@ input:checked+.sl:before{transform:translateX(16px)}
 <!-- ══════════════════════════════════════════════════
      MODALS
 ══════════════════════════════════════════════════ -->
+
+<!-- mCancelSub 取消订阅确认 -->
+<div class="ov" id="mCancelSub">
+  <div class="mo mo-sm" style="text-align:center">
+    <div style="font-size:40px;margin-bottom:10px">⚠️</div>
+    <div class="mo-ti">确认取消订阅？</div>
+    <div class="mo-ds">取消后，当前套餐在 <span id="mCancelSubExpire" style="font-weight:700">2026-08-07</span> 到期前仍可正常使用，到期后将不再自动续费。</div>
+    <div class="mo-ft" style="justify-content:center;gap:12px">
+      <button class="btn bo" onclick="cm('mCancelSub')">我再想想</button>
+      <button class="btn" style="background:#dc2626;color:#fff;border:none" onclick="confirmCancelSub()">确认取消</button>
+    </div>
+  </div>
+</div>
 
 <!-- mResetKey 重置 API Key 确认 -->
 <div class="ov" id="mResetKey">
@@ -1318,7 +1381,12 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div class="fxb mb8"><div class="tgr">套餐</div><div class="tb2" id="m05SubPlan">月卡</div></div>
       <div class="fxb mb8"><div class="tgr">每日额度</div><div class="tb2" id="m05SubDaily">16,667 Tokens/天</div></div>
       <div class="fxb mb8"><div class="tgr">有效期</div><div class="tb2" id="m05SubValidity"></div></div>
-      <div id="m05SubRenewNote" style="display:none;font-size:12px;color:#7c3aed;background:#f5f3ff;border-radius:6px;padding:6px 10px;margin-bottom:8px">🔁 续订顺延：新周期有效期已自动连接到当前到期日后，不与现有周期叠加。</div>
+      <div id="m05SubRenewNote" style="display:none;font-size:12px;color:#7c3aed;background:#f5f3ff;border-radius:6px;padding:6px 10px;margin-bottom:8px">� 周期衔接：新套餐将从当前套餐到期后开始生效，不与现有周期叠加。</div>
+      <!-- 自动续费说明 -->
+      <div id="m05AutoRenewNote" style="font-size:12px;color:#0f766e;background:#f0fdf4;border-radius:6px;padding:8px 10px;margin-bottom:8px;display:flex;align-items:flex-start;gap:6px">
+        <span style="flex-shrink:0">🔄</span>
+        <span>已开启自动续费，下一周期将于到期前 1 天自动扣款续期。如需取消，请前往「设置 - 订阅管理」。</span>
+      </div>
       <div class="fxb" style="padding-top:8px;border-top:1px solid #ddd6fe;font-size:15px;font-weight:800">
         <div>今日剩余</div><div class="tac" id="m05SubBalance">13,426 T</div>
       </div>
@@ -1332,7 +1400,6 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div style="margin-top:10px;font-size:12px;color:var(--t3)">✔ 余额永久有效 · 即时到账 · 按模型单价按量扣除</div>
     </div>
     <div id="m05Btns" style="display:flex;flex-direction:column;gap:8px">
-      <button class="btn bp bfw" id="m05SubGoBtn" style="display:none" onclick="cm('m05');go('p01',nv(0),'总控台')">查看今日额度</button>
       <button class="btn bo bfw mt8" onclick="cm('m05')">我知道了</button>
     </div>
   </div>
@@ -3407,6 +3474,67 @@ function changeToolModel(toolKey, value){
   om('m14');
 }
 
+// 订阅管理：同步当前套餐状态到设置页
+function syncSubManageCard(){
+  var card = document.getElementById('subManageCard');
+  if(!card) return;
+  var isMember = userPlan && userPlan.expireDate && userPlan.expireDate > new Date().toISOString().slice(0,10);
+  card.style.display = isMember ? '' : 'none';
+  if(!isMember) return;
+  var nameEl = document.getElementById('subMgmtPlanName');
+  var expireEl = document.getElementById('subMgmtExpire');
+  var dailyEl = document.getElementById('subMgmtDaily');
+  var nextBillEl = document.getElementById('subMgmtNextBillDate');
+  var cancelExpireEl = document.getElementById('mCancelSubExpire');
+  if(nameEl) nameEl.textContent = (userPlan.name || '月卡') + ' · ¥' + ({月卡:99,季卡:299,年卡:999}[userPlan.name]||99) + '/月';
+  if(expireEl) expireEl.textContent = userPlan.expireDate || '';
+  if(dailyEl) dailyEl.textContent = (userPlan.dailyTokens||16667).toLocaleString() + ' Tokens/天';
+  // 下次续费日 = 到期前1天
+  if(nextBillEl && userPlan.expireDate){
+    var d = new Date(userPlan.expireDate); d.setDate(d.getDate()-1);
+    nextBillEl.textContent = d.toISOString().slice(0,10);
+  }
+  if(cancelExpireEl) cancelExpireEl.textContent = userPlan.expireDate || '';
+}
+
+// 订阅管理页自动续费开关
+function toggleSubAutoRenew(checked){
+  var hint = document.getElementById('subMgmtCancelHint');
+  if(hint) hint.textContent = checked
+    ? ('✅ 自动续费已开启，下次续费日：' + (document.getElementById('subMgmtNextBillDate')||{}).textContent)
+    : '❌ 自动续费已关闭，当前套餐到期后不再续费。';
+  // 同步购买页开关
+  var buyToggle = document.getElementById('autoRenewToggle');
+  if(buyToggle) buyToggle.checked = checked;
+}
+
+// 确认取消订阅
+function confirmCancelSub(){
+  cm('mCancelSub');
+  // 标记取消
+  var toggle = document.getElementById('subMgmtAutoRenew');
+  if(toggle){ toggle.checked = false; toggleSubAutoRenew(false); }
+  var cancelBtn = document.querySelector('#subManageCard .btn[onclick*="mCancelSub"]');
+  if(cancelBtn){ cancelBtn.disabled = true; cancelBtn.textContent = '已取消续费'; cancelBtn.style.color='#9ca3af'; cancelBtn.style.borderColor='#e5e7eb'; }
+  showToast('已取消订阅，当前套餐到期前仍可正常使用');
+}
+
+function updateAutoRenewUI(){
+  var checked = document.getElementById('autoRenewToggle') && document.getElementById('autoRenewToggle').checked;
+  var btn = document.getElementById('selectedSubPayBtn');
+  var txt = document.getElementById('subAgreementText');
+  var totalEl = document.getElementById('selectedSubTotal');
+  var price = totalEl ? totalEl.textContent.replace(/[^0-9.]/g,'') : '';
+  if(btn){
+    btn.textContent = checked ? '同意并开启自动续费' : ('确认支付 ¥' + price);
+  }
+  if(txt){
+    txt.innerHTML = checked
+      ? '开启自动续费即代表同意 <span class="tac">自动续费服务协议</span> · 到期前 1 天自动续费，可在「设置 - 订阅管理」中随时取消 · 7 天内可退款'
+      : '订阅即代表同意 <span class="tac">订阅服务协议</span> · 7 天内可退款，按已发放天数折算扣除，剩余金额原路退回';
+  }
+}
+
 function updatePlanSummary(el){
   if(!el) return;
   const name=el.getAttribute('data-plan-name') || '';
@@ -3568,9 +3696,9 @@ function syncBalanceViews(){
     if(subSection)   subSection.style.display   = isMember ? '' : 'none';
     if(noSubSection) noSubSection.style.display = isMember ? 'none' : '';
 
-    // 续订按钮（仅会员状态下用，非会员用独立立即订阅按钮）
+    // 续订按钮（仅会员状态下显示）
     var heroSubBtn = document.getElementById('heroSubBtn');
-    // 不用覆盖，按钮文字已内置于 HTML
+    if(heroSubBtn) heroSubBtn.style.display = isMember ? '' : 'none';
 
     // 账户余额说明文字
     var heroCashHint = document.getElementById('heroCashHint');
@@ -3726,6 +3854,9 @@ function syncBalanceViews(){
     var hasBalance = userCashBalance > 0;
     keyLocked.style.display = (loggedIn && !hasSubscription && !hasBalance) ? '' : 'none';
   }
+
+  // 订阅管理卡同步
+  syncSubManageCard();
 }
 
 function getInvoiceActionLabel(order){
@@ -4005,25 +4136,30 @@ function handlePurchase(buttonEl){
   if(isSubPlan2){
     if(subContent) subContent.style.display = '';
     if(topupContent) topupContent.style.display = 'none';
-    var m05SubGoBtn = document.getElementById('m05SubGoBtn');
-    if(m05SubGoBtn) m05SubGoBtn.style.display = '';
     if(m05Title) m05Title.textContent = '订阅成功';
     if(m05Desc) m05Desc.textContent = '套餐已生效，今日额度已自动发放。';
     var m05SubPlan = document.getElementById('m05SubPlan');
     var m05SubDaily = document.getElementById('m05SubDaily');
     var m05SubValidity = document.getElementById('m05SubValidity');
     var m05SubRenewNote = document.getElementById('m05SubRenewNote');
+    var m05AutoRenewNote = document.getElementById('m05AutoRenewNote');
     var m05SubBalance = document.getElementById('m05SubBalance');
     if(m05SubPlan) m05SubPlan.textContent = appState.selectedPlan.name + '（¥' + appState.selectedPlan.price + '/月）';
     if(m05SubDaily) m05SubDaily.textContent = (appState.selectedPlan.daily || 16667).toLocaleString() + ' Tokens/天';
     if(m05SubValidity) m05SubValidity.textContent = validFrom + ' – ' + validTo;
-    if(m05SubRenewNote) m05SubRenewNote.style.display = (originalText && userPlan.expireDate !== validTo) ? 'none' : (validFrom === (new Date().toISOString().slice(0,10)) ? 'none' : '');
+    // 周期衔接提示：仅当 validFrom != 今天时（即已是会员重复购买，新周期接在到期日后）才显示
+    var todayStr = new Date().toISOString().slice(0,10);
+    if(m05SubRenewNote){
+      m05SubRenewNote.textContent = '您现在已经是该套餐会员，新套餐将从当前套餐到期后开始生效，不与现有周期叠加。';
+      m05SubRenewNote.style.display = (validFrom !== todayStr) ? '' : 'none';
+    }
+    // 自动续费说明：随开关状态显示
+    var autoRenewOn = document.getElementById('autoRenewToggle') && document.getElementById('autoRenewToggle').checked;
+    if(m05AutoRenewNote) m05AutoRenewNote.style.display = autoRenewOn ? '' : 'none';
     if(m05SubBalance) m05SubBalance.textContent = userTokensBalance.toLocaleString() + ' T';
   } else {
     if(subContent) subContent.style.display = 'none';
     if(topupContent) topupContent.style.display = '';
-    var m05SubGoBtn2 = document.getElementById('m05SubGoBtn');
-    if(m05SubGoBtn2) m05SubGoBtn2.style.display = 'none';
     if(m05Title) m05Title.textContent = '充值成功';
     if(m05Desc) m05Desc.textContent = '余额已到账，可随时按量使用。';
     var m05TopupAmount = document.getElementById('m05TopupAmount');
