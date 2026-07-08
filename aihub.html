@@ -2043,7 +2043,7 @@ function updateLoginUI(){
 // 需要登录时的拦截 helper
 function needLogin(fn){
   if(loggedIn){ if(typeof fn==='function') fn(); }
-  else { om('m08'); if(typeof fn==='function') _pendingFn=fn; }
+  else { om('ls'); if(typeof fn==='function') _pendingFn=fn; }
 }
 var _pendingFn = null;
 
@@ -2051,7 +2051,7 @@ function go(pid,navEl,title){
   // 需要登录的页面拦截
   var loginRequired = ['p02','p03','p05','p06','p07'];
   if(loginRequired.indexOf(pid)>=0 && !loggedIn){
-    om('m08');
+    om('ls');
     _pendingFn = function(){ go(pid,navEl,title); };
     return;
   }
@@ -2587,7 +2587,11 @@ function renderUsageChart(){
   }));
 }
 
-function om(id){const e=document.getElementById(id);if(e)e.classList.add('op')}
+function om(id){
+  var targetId = id === 'm08' ? 'ls' : id;
+  const e=document.getElementById(targetId);
+  if(e)e.classList.add('op');
+}
 function cm(id){const e=document.getElementById(id);if(e)e.classList.remove('op')}
 
 function togAdv(){
