@@ -3077,6 +3077,7 @@ function confirmUseModelMulti(){
   renderToolRoutingViews();
   var ni = document.querySelector('.ni[onclick*="p03"]');
   if(ni) go('p03', ni, '模型设置');
+  showToast('✅ 已将默认模型设为 <strong>' + _pendingUseModel + '</strong>，<strong>请重启对应工具</strong>使配置生效', 5000);
 }
 
 var modelPriceMap = {
@@ -3398,6 +3399,7 @@ function changeToolModel(toolKey, value){
   appState.activeToolKey=toolKey;
   renderToolRoutingViews();
   updateRouteSummary();
+  showToast('✅ 已将 <strong>' + (tool.name||toolKey) + '</strong> 默认模型切换为 <strong>' + value + '</strong>，请重启工具使配置生效', 5000);
 }
 
 function updatePlanSummary(el){
