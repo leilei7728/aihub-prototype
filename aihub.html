@@ -74,6 +74,7 @@ body{font-family:'Segoe UI Variable Text','PingFang SC','Microsoft YaHei UI','No
 .g{display:grid;gap:16px}
 .g2{grid-template-columns:1fr 1fr}
 .g3{grid-template-columns:1fr 1fr 1fr}
+.g4{grid-template-columns:1fr 1fr 1fr 1fr}
 /* ── stat card ── */
 .sc{background:rgba(255,253,250,.95);border-radius:18px;border:1px solid rgba(221,229,234,.95);padding:20px;box-shadow:0 14px 28px rgba(19,35,47,.05)}
 .sc .lb{font-size:12px;color:var(--t3);margin-bottom:6px}
@@ -153,6 +154,12 @@ input:checked+.sl:before{transform:translateX(16px)}
 .tc-vr{font-size:11px;color:var(--t3);margin-top:2px}
 .tc-ds{font-size:12px;color:var(--t2);margin-bottom:14px;line-height:1.5}
 .tc-ft{display:flex;align-items:center;justify-content:space-between}
+/* 未登录时 AI 工具页展示未安装态 */
+#p02.guest .tmx{display:none}
+#p02.guest .tc-ft:not([data-tool-actions]){display:none}
+#p02.guest .tc-guest-footer{display:flex !important}
+#p02.guest #toolInstallSummary{display:none}
+#p02:not(.guest) .tc-guest-footer{display:none !important}
 .tmx{background:#f7fbfa;border:1px solid var(--bd);border-radius:14px;padding:12px;margin-bottom:12px}
 .tmx .lb{font-size:11px;color:var(--t2);margin-bottom:6px}
 .tmx .row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
@@ -209,6 +216,15 @@ input:checked+.sl:before{transform:translateX(16px)}
 .pmw{display:flex;gap:10px;margin:16px 0;flex-wrap:wrap}
 .pm{border:2px solid var(--bd);border-radius:8px;padding:10px 16px;cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px;transition:all .15s}
 .pm:hover,.pm.on{border-color:var(--a);background:var(--al);color:var(--a)}
+/* ── payment tab ── */
+.pmtab-wrap{display:flex;border-bottom:2px solid var(--bd);margin-bottom:12px}
+/* ── auto topup chips ── */
+.atp-trig,.atp-amt{padding:4px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--wh);cursor:pointer;font-size:11px;font-weight:700;color:var(--t2);transition:all .12s;white-space:nowrap;box-shadow:inset 0 0 0 1px transparent}
+.atp-trig:hover,.atp-amt:hover{border-color:var(--a);background:#eef8f5;color:var(--a)}
+.atp-trig.on,.atp-amt.on{border-color:var(--a);background:var(--a);color:#fff;box-shadow:0 6px 14px rgba(15,118,110,.16)}
+.pmtab{flex:1;text-align:center;padding:8px 0;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:5px}
+.pmtab:hover{color:var(--t)}
+.pmtab.on{color:var(--a);border-bottom-color:var(--a)}
 /* ── filter ── */
 .ft-bar{display:flex;align-items:center;gap:8px;margin-bottom:16px}
 .ft{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--bd);color:var(--t2);background:var(--wh);transition:all .15s}
@@ -604,7 +620,7 @@ input:checked+.sl:before{transform:translateX(16px)}
 </div><!-- /p01 -->
 
 <!-- ─────── P02 AI 软件 ─────── -->
-<div id="p02" class="pg">
+<div id="p02" class="pg guest">
   <div class="fxb mb16">
     <div style="font-size:15px;font-weight:700">AI 软件管理</div>
     <div class="ts tgr" id="toolInstallSummary">已安装 3 / 6</div>
@@ -614,7 +630,7 @@ input:checked+.sl:before{transform:translateX(16px)}
     <div class="tc" data-tool-card="claude-desktop">
       <div class="tc-h">
         <div class="tc-ico" style="background:#f0f0f0">🤖</div>
-        <div><div class="tc-nm">Claude</div><div class="tc-vr">桌面版 · v0.10.4 · 已安装</div></div>
+        <div><div class="tc-nm">Claude</div><div class="tc-vr tc-vr-installed">桌面版 · v0.10.4 · 已安装</div></div>
       </div>
       <div class="tc-ds">Anthropic 官方桌面端，支持 Claude 全系模型，已通过 CC Switch 路由。</div>
       <div class="tmx">
@@ -647,12 +663,16 @@ input:checked+.sl:before{transform:translateX(16px)}
           <button class="btn bp bsm">打开</button>
         </div>
       </div>
+      <div class="tc-guest-footer" style="display:none;align-items:center;justify-content:space-between">
+        <span class="bd2 bgr">未安装</span>
+        <button class="btn bo bsm" onclick="startInstall('claude-desktop')">安装</button>
+      </div>
     </div>
 
     <div class="tc" data-tool-card="codex-cli">
       <div class="tc-h">
         <div class="tc-ico" style="background:#e8f4fd">💻</div>
-        <div><div class="tc-nm">Codex</div><div class="tc-vr">命令行工具 · v1.2.1 · 已安装</div></div>
+        <div><div class="tc-nm">Codex</div><div class="tc-vr tc-vr-installed">命令行工具 · v1.2.1 · 已安装</div></div>
       </div>
       <div class="tc-ds">OpenAI 官方命令行工具，适合代码生成场景，已配置路由转发。</div>
       <div class="tmx">
@@ -684,12 +704,16 @@ input:checked+.sl:before{transform:translateX(16px)}
           <button class="btn bp bsm">打开</button>
         </div>
       </div>
+      <div class="tc-guest-footer" style="display:none;align-items:center;justify-content:space-between">
+        <span class="bd2 bgr">未安装</span>
+        <button class="btn bo bsm" onclick="startInstall('codex-cli')">安装</button>
+      </div>
     </div>
 
     <div class="tc" data-tool-card="opencode">
       <div class="tc-h">
         <div class="tc-ico" style="background:#fef3cd">🔷</div>
-        <div><div class="tc-nm">OpenCode</div><div class="tc-vr">v0.1.89 · 已安装</div></div>
+        <div><div class="tc-nm">OpenCode</div><div class="tc-vr tc-vr-installed">v0.1.89 · 已安装</div></div>
       </div>
       <div class="tc-ds">开源 AI 编程助手，支持多种模型接入，轻量高效。</div>
       <div class="tmx">
@@ -721,6 +745,10 @@ input:checked+.sl:before{transform:translateX(16px)}
           <button class="btn bp bsm">打开</button>
         </div>
       </div>
+      <div class="tc-guest-footer" style="display:none;align-items:center;justify-content:space-between">
+        <span class="bd2 bgr">未安装</span>
+        <button class="btn bo bsm" onclick="startInstall('opencode')">安装</button>
+      </div>
     </div>
 
     <div class="tc" data-tool-card="gemini">
@@ -731,7 +759,7 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div class="tc-ds">Google 官方命令行工具，支持 Gemini 1.5 Pro / Flash 等模型。</div>
       <div class="tc-ft" data-tool-actions="gemini">
         <span class="bd2 bgr" data-tool-status="gemini">未安装</span>
-        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('gemini'))">安装</button>
+        <button class="btn bo bsm" onclick="startInstall('gemini')">安装</button>
       </div>
     </div>
 
@@ -743,7 +771,7 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div class="tc-ds">开源 AI 客户端，支持多种模型接入，界面轻量适合日常对话场景。</div>
       <div class="tc-ft" data-tool-actions="openclaw">
         <span class="bd2 bgr" data-tool-status="openclaw">未安装</span>
-        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('openclaw'))">安装</button>
+        <button class="btn bo bsm" onclick="startInstall('openclaw')">安装</button>
       </div>
     </div>
 
@@ -755,7 +783,7 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div class="tc-ds">AI 工具管理平台，支持多个 AI 客户端的统一配置与切换。</div>
       <div class="tc-ft" data-tool-actions="hermes">
         <span class="bd2 bgr" data-tool-status="hermes">未安装</span>
-        <button class="btn bo bsm" onclick="needLogin(()=>startInstall('hermes'))">安装</button>
+        <button class="btn bo bsm" onclick="startInstall('hermes')">安装</button>
       </div>
     </div>
 
@@ -911,8 +939,19 @@ input:checked+.sl:before{transform:translateX(16px)}
   </div>
   <!-- Tab1: 订阅制 -->
   <div id="buyPanelSubscription">
+  <div style="display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start">
+  <!-- 左栏：套餐选择 + 规则 -->
+  <div>
+  <div class="g g4 mb16">
+    <div class="plc" onclick="selPl(this)" data-plan-name="体验卡" data-plan-type="subscription" data-plan-price="0.01" data-plan-monthly-tokens="116667" data-plan-daily="16667">
+      <div class="pl-tag" style="background:#f59e0b">🎁 新用户专享</div>
+      <div class="pl-nm">体验卡</div>
+      <div class="pl-tk" style="color:#f59e0b">¥0.01 <span>/ 7天</span></div>
+      <div style="font-size:13px;font-weight:700;margin:8px 0 2px;color:var(--t)">约 11.7万 Tokens</div>
+      <div style="font-size:12px;color:var(--t2)">每天自动发放 16,667</div>
+      <div style="font-size:11px;color:#f59e0b;margin-top:6px;font-weight:600">每账号限购 1 次</div>
+    </div>
 
-  <div class="g g3 mb16">
     <div class="plc on" onclick="selPl(this)" data-plan-name="月卡" data-plan-type="subscription" data-plan-price="99" data-plan-monthly-tokens="500000" data-plan-daily="16667">
       <div class="pl-nm">月卡</div>
       <div class="pl-tk">¥99 <span>/ 月</span></div>
@@ -973,38 +1012,68 @@ input:checked+.sl:before{transform:translateX(16px)}
     </div>
   </div>
 
-  <div class="card">
-    <div class="tb2 mb16">选择支付方式</div>
-    <div class="pmw">
-      <div class="pm on" onclick="selPm(this)">💬 微信支付</div>
-      <div class="pm" onclick="selPm(this)">🔵 支付宝</div>
-      <div class="pm" onclick="selPm(this)">💳 银行卡</div>
+  </div><!-- /左栏 -->
+
+  <!-- 右栏：支付区（固定宽度，第一屏可见） -->
+  <div class="card" style="position:sticky;top:16px;padding:16px">
+    <div style="font-size:13px;font-weight:700;margin-bottom:10px">选择支付方式</div>
+    <!-- Tab 标签 -->
+    <div class="pmtab-wrap">
+      <div class="pmtab on" onclick="selPm(this,'sub')" data-method="wechat">💬 微信支付</div>
+      <div class="pmtab" onclick="selPm(this,'sub')" data-method="alipay">🔵 支付宝</div>
     </div>
-    <div class="sep"></div>
+    <!-- 二维码区 -->
+    <div id="subQrBox" style="text-align:center;background:#f8faf9;border:1px solid #d1fae5;border-radius:10px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;margin-bottom:10px">
+        <svg width="140" height="140" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="96" height="96" rx="6" fill="#fff"/>
+          <rect x="8" y="8" width="24" height="24" rx="2" fill="none" stroke="#222" stroke-width="3"/><rect x="14" y="14" width="12" height="12" rx="1" fill="#222"/>
+          <rect x="64" y="8" width="24" height="24" rx="2" fill="none" stroke="#222" stroke-width="3"/><rect x="70" y="14" width="12" height="12" rx="1" fill="#222"/>
+          <rect x="8" y="64" width="24" height="24" rx="2" fill="none" stroke="#222" stroke-width="3"/><rect x="14" y="70" width="12" height="12" rx="1" fill="#222"/>
+          <rect x="40" y="8" width="4" height="4" fill="#222"/><rect x="48" y="8" width="4" height="4" fill="#222"/><rect x="56" y="8" width="4" height="4" fill="#222"/>
+          <rect x="40" y="16" width="4" height="4" fill="#222"/><rect x="52" y="16" width="4" height="4" fill="#222"/>
+          <rect x="44" y="24" width="4" height="4" fill="#222"/><rect x="56" y="24" width="4" height="4" fill="#222"/>
+          <rect x="8" y="40" width="4" height="4" fill="#222"/><rect x="16" y="40" width="4" height="4" fill="#222"/><rect x="28" y="40" width="4" height="4" fill="#222"/>
+          <rect x="40" y="40" width="4" height="4" fill="#222"/><rect x="48" y="40" width="4" height="4" fill="#222"/><rect x="56" y="40" width="4" height="4" fill="#222"/><rect x="64" y="40" width="4" height="4" fill="#222"/><rect x="72" y="40" width="4" height="4" fill="#222"/><rect x="80" y="40" width="4" height="4" fill="#222"/>
+          <rect x="8" y="48" width="4" height="4" fill="#222"/><rect x="24" y="48" width="4" height="4" fill="#222"/><rect x="44" y="48" width="4" height="4" fill="#222"/><rect x="60" y="48" width="4" height="4" fill="#222"/><rect x="76" y="48" width="4" height="4" fill="#222"/>
+          <rect x="12" y="56" width="4" height="4" fill="#222"/><rect x="28" y="56" width="4" height="4" fill="#222"/><rect x="40" y="56" width="4" height="4" fill="#222"/><rect x="52" y="56" width="4" height="4" fill="#222"/><rect x="68" y="56" width="4" height="4" fill="#222"/><rect x="80" y="56" width="4" height="4" fill="#222"/>
+          <rect x="40" y="64" width="4" height="4" fill="#222"/><rect x="56" y="64" width="4" height="4" fill="#222"/><rect x="72" y="64" width="4" height="4" fill="#222"/>
+          <rect x="44" y="72" width="4" height="4" fill="#222"/><rect x="60" y="72" width="4" height="4" fill="#222"/><rect x="76" y="72" width="4" height="4" fill="#222"/>
+          <rect x="40" y="80" width="4" height="4" fill="#222"/><rect x="52" y="80" width="4" height="4" fill="#222"/><rect x="64" y="80" width="4" height="4" fill="#222"/><rect x="80" y="80" width="4" height="4" fill="#222"/>
+          <!-- 微信 logo 占位块 -->
+          <rect id="subQrLogo" x="38" y="38" width="20" height="20" rx="4" fill="#07c160"/>
+          <text id="subQrLogoText" x="48" y="52" text-anchor="middle" font-size="12" fill="#fff" font-family="sans-serif">微</text>
+        </svg>
+    </div>
+    <div class="sep" style="margin:10px 0"></div>
     <!-- 自动续费开关 -->
-    <div class="fxb mb16" style="align-items:flex-start;gap:12px">
+    <div class="fxb" style="align-items:center;gap:12px;margin-bottom:12px">
       <div>
         <div style="font-size:13px;font-weight:600;color:var(--t)">开启自动续费</div>
-        <div style="font-size:12px;color:var(--t3);margin-top:3px">到期前 1 天自动扣款续期，可随时取消</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:2px">到期前 1 天自动扣款续期，可随时取消</div>
       </div>
-      <label class="sw" style="flex-shrink:0;margin-top:2px">
+      <label class="sw" style="flex-shrink:0">
         <input type="checkbox" id="autoRenewToggle" checked onchange="updateAutoRenewUI()">
         <span class="sl"></span>
       </label>
     </div>
-    <div class="sep"></div>
-    <div class="fxb mb8"><div class="tgr">已选套餐</div><div class="tb2" id="selectedSubSummary">99元/月 · 50万 Tokens</div></div>
-    <div class="fxb" style="font-size:16px;font-weight:800;margin-bottom:20px">
+    <div class="sep" style="margin:0 0 12px"></div>
+    <div class="fxb mb8"><div class="tgr" style="font-size:12px">已选套餐</div><div class="tb2" style="font-size:12px" id="selectedSubSummary">99元/月 · 50万 Tokens</div></div>
+    <div class="fxb" style="font-size:16px;font-weight:800;margin-bottom:14px">
       <div>合计</div><div class="tac" id="selectedSubTotal">¥99/月</div>
     </div>
-    <button class="btn bp bfw" id="selectedSubPayBtn" style="padding:14px;font-size:15px" onclick="handlePurchase(this)">同意并开启自动续费</button>
-    <div class="txs tlt" id="subAgreementText" style="text-align:center;margin-top:10px">开启自动续费即代表同意 <span class="tac">自动续费服务协议</span> · 到期前 1 天自动续费，可在「设置 - 订阅管理」中随时取消 · 7 天内可退款</div>
-  </div>
+    <button class="btn bp bfw" id="selectedSubPayBtn" style="padding:12px;font-size:14px" onclick="handlePurchase(this)">同意并开启自动续费</button>
+    <div class="txs tlt" id="subAgreementText" style="text-align:center;margin-top:8px;font-size:11px;line-height:1.5">开启自动续费即代表同意 <span class="tac">自动续费服务协议</span> · 到期前 1 天自动续费，可在「设置 - 订阅管理」中随时取消</div>
+  </div><!-- /右栏支付卡 -->
+
+  </div><!-- /两栏grid -->
   </div><!-- /buyPanelSubscription -->
 
   <!-- Tab2: 按量充值 -->
   <div id="buyPanelTopup" style="display:none">
+  <div style="display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start">
 
+  <!-- 左栏：套餐选择 + 规则 -->
+  <div>
   <div class="g g3 mb16">
     <div class="plc" onclick="selPl(this)" data-plan-name="充值 ¥50" data-plan-type="topup" data-plan-price="50" data-plan-credit="50">
       <div class="pl-nm">充值 ¥50</div>
@@ -1064,22 +1133,67 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
     </div>
   </div>
+  </div><!-- /左栏 -->
 
-  <div class="card">
-    <div class="tb2 mb16">选择支付方式</div>
-    <div class="pmw">
-      <div class="pm on" onclick="selPm(this)">💬 微信支付</div>
-      <div class="pm" onclick="selPm(this)">🔵 支付宝</div>
-      <div class="pm" onclick="selPm(this)">💳 银行卡</div>
+  <!-- 右栏：支付区（固定宽度，第一屏可见） -->
+  <div class="card" style="position:sticky;top:16px;padding:16px">
+    <div style="font-size:13px;font-weight:700;margin-bottom:10px">选择支付方式</div>
+    <!-- Tab 标签 -->
+    <div class="pmtab-wrap">
+      <div class="pmtab on" onclick="selPm(this,'topup')" data-method="wechat">💬 微信支付</div>
+      <div class="pmtab" onclick="selPm(this,'topup')" data-method="alipay">🔵 支付宝</div>
     </div>
-    <div class="sep"></div>
-    <div class="fxb mb8"><div class="tgr">已选套餐</div><div class="tb2" id="selectedTopupSummary">充值 ¥100 · 到账 ¥100 余额</div></div>
-    <div class="fxb" style="font-size:16px;font-weight:800;margin-bottom:20px">
+    <!-- 二维码区 -->
+    <div id="topupQrBox" style="text-align:center;background:#f8faf9;border:1px solid #d1fae5;border-radius:10px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;margin-bottom:10px">
+        <svg width="140" height="140" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="96" height="96" rx="6" fill="#fff"/>
+          <rect x="8" y="8" width="24" height="24" rx="2" fill="none" stroke="#222" stroke-width="3"/><rect x="14" y="14" width="12" height="12" rx="1" fill="#222"/>
+          <rect x="64" y="8" width="24" height="24" rx="2" fill="none" stroke="#222" stroke-width="3"/><rect x="70" y="14" width="12" height="12" rx="1" fill="#222"/>
+          <rect x="8" y="64" width="24" height="24" rx="2" fill="none" stroke="#222" stroke-width="3"/><rect x="14" y="70" width="12" height="12" rx="1" fill="#222"/>
+          <rect x="40" y="8" width="4" height="4" fill="#222"/><rect x="48" y="8" width="4" height="4" fill="#222"/><rect x="56" y="8" width="4" height="4" fill="#222"/>
+          <rect x="40" y="16" width="4" height="4" fill="#222"/><rect x="52" y="16" width="4" height="4" fill="#222"/>
+          <rect x="44" y="24" width="4" height="4" fill="#222"/><rect x="56" y="24" width="4" height="4" fill="#222"/>
+          <rect x="8" y="40" width="4" height="4" fill="#222"/><rect x="16" y="40" width="4" height="4" fill="#222"/><rect x="28" y="40" width="4" height="4" fill="#222"/>
+          <rect x="40" y="40" width="4" height="4" fill="#222"/><rect x="48" y="40" width="4" height="4" fill="#222"/><rect x="56" y="40" width="4" height="4" fill="#222"/><rect x="64" y="40" width="4" height="4" fill="#222"/><rect x="72" y="40" width="4" height="4" fill="#222"/><rect x="80" y="40" width="4" height="4" fill="#222"/>
+          <rect x="8" y="48" width="4" height="4" fill="#222"/><rect x="24" y="48" width="4" height="4" fill="#222"/><rect x="44" y="48" width="4" height="4" fill="#222"/><rect x="60" y="48" width="4" height="4" fill="#222"/><rect x="76" y="48" width="4" height="4" fill="#222"/>
+          <rect x="12" y="56" width="4" height="4" fill="#222"/><rect x="28" y="56" width="4" height="4" fill="#222"/><rect x="40" y="56" width="4" height="4" fill="#222"/><rect x="52" y="56" width="4" height="4" fill="#222"/><rect x="68" y="56" width="4" height="4" fill="#222"/><rect x="80" y="56" width="4" height="4" fill="#222"/>
+          <rect x="40" y="64" width="4" height="4" fill="#222"/><rect x="56" y="64" width="4" height="4" fill="#222"/><rect x="72" y="64" width="4" height="4" fill="#222"/>
+          <rect x="44" y="72" width="4" height="4" fill="#222"/><rect x="60" y="72" width="4" height="4" fill="#222"/><rect x="76" y="72" width="4" height="4" fill="#222"/>
+          <rect x="40" y="80" width="4" height="4" fill="#222"/><rect x="52" y="80" width="4" height="4" fill="#222"/><rect x="64" y="80" width="4" height="4" fill="#222"/><rect x="80" y="80" width="4" height="4" fill="#222"/>
+          <rect id="topupQrLogo" x="38" y="38" width="20" height="20" rx="4" fill="#07c160"/>
+          <text id="topupQrLogoText" x="48" y="52" text-anchor="middle" font-size="12" fill="#fff" font-family="sans-serif">微</text>
+        </svg>
+    </div>
+    <div class="sep" style="margin:10px 0"></div>
+    <!-- 自动充值配置 -->
+    <div class="fxb" style="align-items:center;gap:12px;margin-bottom:10px">
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--t)">开启自动充值</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:2px">余额不足时自动扣款充值</div>
+      </div>
+      <label class="sw" style="flex-shrink:0">
+        <input type="checkbox" id="autoTopupToggle" onchange="updateAutoTopupUI()">
+        <span class="sl"></span>
+      </label>
+    </div>
+    <!-- 自动充值摘要行 -->
+    <div id="autoTopupSummary" style="display:none;margin-bottom:10px;background:var(--al);border-radius:8px;padding:9px 12px;font-size:12px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <span id="autoTopupSummaryText" style="color:var(--t2)">余额 &lt; ¥10 时自动充值 ¥50</span>
+        <span onclick="om('mAutoTopupConfig')" style="color:var(--a);cursor:pointer">修改</span>
+      </div>
+      <div id="autoTopupSummaryCard" style="margin-top:5px;font-size:11px;color:#f59e0b">⚠️ 未绑定银行卡，需绑卡后生效</div>
+    </div>
+    <div class="sep" style="margin:0 0 10px"></div>
+    <div class="fxb mb8"><div class="tgr" style="font-size:12px">已选套餐</div><div class="tb2" style="font-size:12px" id="selectedTopupSummary">充值 ¥100 · 到账 ¥100 余额</div></div>
+    <div class="fxb" style="font-size:16px;font-weight:800;margin-bottom:14px">
       <div>合计</div><div class="tac" id="selectedTopupTotal">¥100</div>
     </div>
-    <button class="btn bp bfw" id="selectedTopupPayBtn" style="padding:14px;font-size:15px" onclick="handlePurchase(this)">确认支付 ¥100</button>
-    <div class="txs tlt" style="text-align:center;margin-top:10px">充值即代表同意 <span class="tac">充值服务协议</span> · 余额永久有效 · 未使用余额 7 天内可申请退款</div>
-  </div>
+    <button class="btn bp bfw" id="selectedTopupPayBtn" style="padding:12px;font-size:14px" onclick="handlePurchase(this)">确认支付 ¥100</button>
+    <div class="txs tlt" style="text-align:center;margin-top:8px;font-size:11px;line-height:1.5">充值即代表同意 <span class="tac">充值服务协议</span> · 余额永久有效 · 未使用余额 7 天内可申请退款</div>
+  </div><!-- /右栏支付卡 -->
+
+  </div><!-- /两栏grid -->
   </div><!-- /buyPanelTopup -->
 
   <!-- Tab3: 订单记录 -->
@@ -1242,43 +1356,6 @@ input:checked+.sl:before{transform:translateX(16px)}
   </div>
 </div>
 
-<!-- 订阅管理 -->
-<div class="card mb16" id="subManageCard">
-  <div class="tb2 mb16">订阅管理</div>
-  <!-- 当前订阅状态 -->
-  <div id="subManageActive" style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:16px;margin-bottom:16px">
-    <div class="fxb mb8">
-      <div style="font-size:13px;font-weight:700;color:#0f766e">当前套餐</div>
-      <span style="font-size:12px;background:#dcfce7;color:#15803d;padding:2px 10px;border-radius:20px;font-weight:600">生效中</span>
-    </div>
-    <div class="fxb mb6"><div class="tgr">套餐</div><div class="tb2" id="subMgmtPlanName">月卡 · ¥99/月</div></div>
-    <div class="fxb mb6"><div class="tgr">有效期至</div><div class="tb2" id="subMgmtExpire">2026-08-07</div></div>
-    <div class="fxb"><div class="tgr">每日额度</div><div class="tb2" id="subMgmtDaily">16,667 Tokens/天</div></div>
-  </div>
-  <!-- 自动续费开关 -->
-  <div class="fxb mb16" style="align-items:flex-start;gap:12px">
-    <div>
-      <div style="font-size:13px;font-weight:600;color:var(--t)">自动续费</div>
-      <div class="txs tgr" style="margin-top:3px">开启后，到期前 1 天自动扣款续期当前套餐</div>
-    </div>
-    <label class="sw" style="flex-shrink:0;margin-top:2px">
-      <input type="checkbox" id="subMgmtAutoRenew" checked onchange="toggleSubAutoRenew(this.checked)">
-      <span class="sl"></span>
-    </label>
-  </div>
-  <div id="subMgmtCancelHint" style="font-size:12px;color:var(--t3);background:#fafafa;border:1px solid var(--bd);border-radius:8px;padding:10px 14px;margin-bottom:16px">
-    ✅ 自动续费已开启，下次续费日：<span id="subMgmtNextBillDate" style="font-weight:600;color:var(--t)">2026-08-06</span>
-  </div>
-  <div class="sep"></div>
-  <!-- 取消订阅 -->
-  <div class="fxb" style="align-items:center">
-    <div>
-      <div style="font-size:13px;font-weight:600;color:var(--t)">取消订阅</div>
-      <div class="txs tgr" style="margin-top:3px">取消后当前周期到期前仍可正常使用，不退费</div>
-    </div>
-    <button class="btn bo bsm" style="color:#dc2626;border-color:#fca5a5;flex-shrink:0" onclick="om('mCancelSub')">取消订阅</button>
-  </div>
-</div>
 
     </div><!-- /pc -->
   </div><!-- /main -->
@@ -1289,19 +1366,6 @@ input:checked+.sl:before{transform:translateX(16px)}
 <!-- ══════════════════════════════════════════════════
      MODALS
 ══════════════════════════════════════════════════ -->
-
-<!-- mCancelSub 取消订阅确认 -->
-<div class="ov" id="mCancelSub">
-  <div class="mo mo-sm" style="text-align:center">
-    <div style="font-size:40px;margin-bottom:10px">⚠️</div>
-    <div class="mo-ti">确认取消订阅？</div>
-    <div class="mo-ds">取消后，当前套餐在 <span id="mCancelSubExpire" style="font-weight:700">2026-08-07</span> 到期前仍可正常使用，到期后将不再自动续费。</div>
-    <div class="mo-ft" style="justify-content:center;gap:12px">
-      <button class="btn bo" onclick="cm('mCancelSub')">我再想想</button>
-      <button class="btn" style="background:#dc2626;color:#fff;border:none" onclick="confirmCancelSub()">确认取消</button>
-    </div>
-  </div>
-</div>
 
 <!-- mResetKey 重置 API Key 确认 -->
 <div class="ov" id="mResetKey">
@@ -1317,6 +1381,7 @@ input:checked+.sl:before{transform:translateX(16px)}
 </div>
 
 <!-- M09 修改密码 -->
+<!-- M09 修改登录密码 -->
 <div class="ov" id="m09">
   <div class="mo mo-sm">
     <div class="mo-ti">修改登录密码</div>
@@ -1336,6 +1401,126 @@ input:checked+.sl:before{transform:translateX(16px)}
     <div class="mo-ft">
       <button class="btn bo" onclick="cm('m09')">取消</button>
       <button class="btn bp" onclick="cm('m09')">保存新密码</button>
+    </div>
+  </div>
+</div>
+
+<!-- mBindCard 绑定银行卡 -->
+<div class="ov" id="mBindCard">
+  <div class="mo mo-sm">
+    <div class="mo-ti">💳 绑定银行卡</div>
+    <div class="mo-ds">支持储蓄卡和信用卡，用于自动充值扮扣</div>
+    <!-- 卡类型选择 -->
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      <div id="cardTypeDebit" onclick="selCardType('debit')" style="flex:1;text-align:center;padding:10px 8px;border:2px solid var(--a);border-radius:10px;cursor:pointer;background:var(--al)">
+        <div style="font-size:18px;margin-bottom:4px">🏦</div>
+        <div style="font-size:12px;font-weight:700;color:var(--a)">储蓄卡</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:2px">实时扮扣账户余额</div>
+      </div>
+      <div id="cardTypeCredit" onclick="selCardType('credit')" style="flex:1;text-align:center;padding:10px 8px;border:2px solid var(--bd);border-radius:10px;cursor:pointer">
+        <div style="font-size:18px;margin-bottom:4px">💸</div>
+        <div id="cardTypeCreditLabel" style="font-size:12px;font-weight:700;color:var(--t2)">信用卡</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:2px">先消费后还款</div>
+      </div>
+    </div>
+    <div class="fg">
+      <label class="fl">持卡人姓名</label>
+      <input class="fi" type="text" placeholder="请输入持卡人姓名">
+    </div>
+    <div class="fg">
+      <label class="fl">银行卡号</label>
+      <input class="fi" type="text" placeholder="请输入 16～19 位卡号" maxlength="23" oninput="fmtCardNo(this)">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="fg">
+        <label class="fl">预留手机号</label>
+        <input class="fi" type="tel" placeholder="银行预留手机号">
+      </div>
+      <div class="fg" id="cvvGroup" style="display:none">
+        <label class="fl">CVV / CVC</label>
+        <input class="fi" type="text" placeholder="卡背 3 位" maxlength="4">
+      </div>
+    </div>
+    <div class="fg">
+      <label class="fl">验证码</label>
+      <div style="display:flex;gap:8px">
+        <input class="fi" type="text" placeholder="请输入 6 位验证码" style="flex:1">
+        <button class="btn bo bsm" style="flex-shrink:0;white-space:nowrap" onclick="sendBindCardSms(this)">获取验证码</button>
+      </div>
+    </div>
+    <div style="font-size:11px;color:var(--t3);line-height:1.7;margin-bottom:4px">🔒 银行卡信息通过加密传输，仅用于自动充值扮扣，不保存卡号原文</div>
+    <div class="mo-ft">
+      <button class="btn bo" onclick="cm('mBindCard');om('mAutoTopupConfig')">← 上一步</button>
+      <button class="btn bp" onclick="confirmBindCard()">确认绑定</button>
+    </div>
+  </div>
+</div>
+
+<!-- mAutoTopupConfig 自动充值配置 -->
+<div class="ov" id="mAutoTopupConfig">
+  <div class="mo mo-sm">
+    <div class="mo-ti">⚡ 设置自动充值</div>
+    <div class="mo-ds">余额不足时自动充值，不用担心用到一半没钱了</div>
+    <!-- 触发阈值 -->
+    <div style="margin-bottom:14px">
+      <div style="font-size:12px;color:var(--t2);margin-bottom:8px">余额低于多少时自动充值</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div class="atp-trig on" onclick="selAutoTrigger(this)" data-val="10" style="flex:1;text-align:center;padding:8px 0">余额 &lt; ¥10</div>
+        <div class="atp-trig" onclick="selAutoTrigger(this)" data-val="20" style="flex:1;text-align:center;padding:8px 0">余额 &lt; ¥20</div>
+        <div class="atp-trig" onclick="selAutoTrigger(this)" data-val="50" style="flex:1;text-align:center;padding:8px 0">余额 &lt; ¥50</div>
+        <div class="atp-trig" id="atpTrigCustomChip" onclick="selAutoTrigger(this)" data-val="custom" style="flex:1;text-align:center;padding:8px 0">自定义</div>
+      </div>
+      <div id="atpTrigCustomWrap" style="display:none;margin-top:8px;position:relative">
+        <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--t2);font-size:13px">¥</span>
+        <input id="atpTrigCustomInput" type="number" min="1" step="1" placeholder="余额低于此金额时充值（整数）" oninput="this.value=this.value.replace(/[^0-9]/g,'');_updateAutoTopupDesc()" style="width:100%;padding:8px 10px 8px 24px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--wh);color:var(--t);box-sizing:border-box;outline:none">
+      </div>
+    </div>
+    <!-- 充值金额 -->
+    <div style="margin-bottom:14px">
+      <div style="font-size:12px;color:var(--t2);margin-bottom:8px">每次充值金额</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div class="atp-amt on" onclick="selAutoAmount(this)" data-val="50" style="flex:1;text-align:center;padding:8px 0">¥50</div>
+        <div class="atp-amt" onclick="selAutoAmount(this)" data-val="100" style="flex:1;text-align:center;padding:8px 0">¥100</div>
+        <div class="atp-amt" onclick="selAutoAmount(this)" data-val="500" style="flex:1;text-align:center;padding:8px 0">¥500</div>
+        <div class="atp-amt" id="atpAmtCustomChip" onclick="selAutoAmount(this)" data-val="custom" style="flex:1;text-align:center;padding:8px 0">自定义</div>
+      </div>
+      <div id="atpAmtCustomWrap" style="display:none;margin-top:8px;position:relative">
+        <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--t2);font-size:13px">¥</span>
+        <input id="atpAmtCustomInput" type="number" min="1" step="1" placeholder="请输入金额（整数）" oninput="this.value=this.value.replace(/[^0-9]/g,'');_updateAutoTopupDesc()" style="width:100%;padding:8px 10px 8px 24px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--wh);color:var(--t);box-sizing:border-box;outline:none">
+      </div>
+    </div>
+    <!-- 绑卡区域 -->
+    <div style="border-top:1px solid var(--bd);padding-top:14px;margin-bottom:14px">
+      <div style="font-size:12px;color:var(--t2);margin-bottom:8px">扣款银行卡</div>
+      <div id="atcNoCard" style="display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px dashed var(--bd);border-radius:8px;padding:12px">
+        <div style="font-size:12px;color:var(--t3)">暂未绑定银行卡</div>
+        <span onclick="cm('mAutoTopupConfig');om('mBindCard')" style="font-size:12px;color:var(--a);cursor:pointer;font-weight:600">绑定银行卡 +</span>
+      </div>
+      <div id="atcCardInfo" style="display:none;background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:12px;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="font-size:20px">💳</div>
+          <div>
+            <div id="atcCardName" style="font-size:13px;font-weight:600;color:var(--t)">工商储蓄卡 · 6588</div>
+            <div style="font-size:11px;color:var(--t3)">储蓄卡</div>
+          </div>
+        </div>
+        <span onclick="cm('mAutoTopupConfig');om('mBindCard')" style="font-size:12px;color:var(--a);cursor:pointer">更换</span>
+      </div>
+      <div id="atcNoCardWarn" style="font-size:11px;color:#f59e0b;margin-top:6px">⚠️ 请先绑定银行卡，自动充值才能生效</div>
+    </div>
+    <!-- 说明 -->
+    <div style="background:var(--al);border-radius:6px;padding:8px 12px;font-size:11px;color:var(--t3);line-height:1.7;margin-bottom:10px">
+      <div id="atcDescText">当余额低于 ¥10 时，自动充值 ¥50</div>
+      <div>· 可随时在「设置」中关闭 · 支持随时修改配置</div>
+    </div>
+    <!-- 协议勾选 -->
+    <label style="display:flex;align-items:flex-start;gap:8px;font-size:11px;color:var(--t3);cursor:pointer;margin-bottom:4px;line-height:1.6">
+      <input type="checkbox" id="atcAgreeCheck" style="margin-top:2px;flex-shrink:0;accent-color:var(--a)">
+      <span>开启即代表同意 <span style="color:var(--a)">自动扣款服务协议</span>，授权平台在触发条件满足时从绑定银行卡自动扣款充值</span>
+    </label>
+    <div class="mo-ft">
+      <button class="btn bo" onclick="cancelAutoTopupConfig()">取消</button>
+      <button class="btn bp" onclick="confirmAutoTopupConfig()">确认开启</button>
     </div>
   </div>
 </div>
@@ -2091,6 +2276,9 @@ function updateLoginUI(){
   document.getElementById('heroGuest').style.display    = loggedIn ? 'none' : '';
   document.getElementById('heroLoggedIn').style.display = loggedIn ? '' : 'none';
   document.getElementById('statsGuest').style.display   = loggedIn ? 'none' : '';
+  // P02 AI工具页未登录态
+  var p02 = document.getElementById('p02');
+  if(p02){ if(loggedIn){ p02.classList.remove('guest'); } else { p02.classList.add('guest'); } }
   document.getElementById('statsLoggedIn').style.display= loggedIn ? '' : 'none';
   syncBalanceViews();  // 含 API Key 锁定状态刷新
   renderUsageChart();
@@ -2105,7 +2293,7 @@ var _pendingFn = null;
 
 function go(pid,navEl,title){
   // 需要登录的页面拦截
-  var loginRequired = ['p02','p03','p05','p06','p07'];
+  var loginRequired = ['p05','p06','p07'];
   if(loginRequired.indexOf(pid)>=0 && !loggedIn){
     om('ls');
     _pendingFn = function(){ go(pid,navEl,title); };
@@ -3089,6 +3277,7 @@ var _m12Selected = {};
 var _logoBgMap = {'anthropic.com':'#f5f0eb','openai.com':'#f7f7f7','google.com':'#fff','x.ai':'#0d0d0d','meta.com':'#e8f0fe','mistral.ai':'#fff4f0','aliyun.com':'#fff3e0','deepseek.com':'#eef3ff','bytedance.com':'#fff0f6','minimax.io':'#f4f0ff','zhipuai.cn':'#edfff4','moonshot.cn':'#f0eeff'};
 
 function openUseModelModal(modelName){
+  if(!loggedIn){ needLogin(function(){ openUseModelModal(modelName); }); return; }
   _pendingUseModel = modelName;
   _m12Selected = {};
   var nameEl = document.getElementById('m12ModelName');
@@ -3530,7 +3719,7 @@ function updateAutoRenewUI(){
   }
   if(txt){
     txt.innerHTML = checked
-      ? '开启自动续费即代表同意 <span class="tac">自动续费服务协议</span> · 到期前 1 天自动续费，可在「设置 - 订阅管理」中随时取消 · 7 天内可退款'
+      ? '开启自动续费即代表同意 <span class="tac">自动续费服务协议</span> · 到期前 1 天自动续费，可在「设置 - 订阅管理」中随时取消'
       : '订阅即代表同意 <span class="tac">订阅服务协议</span> · 7 天内可退款，按已发放天数折算扣除，剩余金额原路退回';
   }
 }
@@ -3563,7 +3752,8 @@ function updatePlanSummary(el){
     var plTk=el.querySelector('.pl-tk');
     if(plTk){ tkText = plTk.textContent.replace(/\s+/g,' ').trim(); }
     if(summary) summary.textContent=name + ' · ' + tkText;
-    if(totalEl) totalEl.textContent='¥' + price + '/月';
+    var periodLabel = name === '体验卡' ? '/7天' : name === '季卡' ? '/季' : name === '年卡' ? '/年' : '/月';
+    if(totalEl) totalEl.textContent='¥' + price + periodLabel;
     if(payBtn)  payBtn.textContent='确认支付 ¥' + price;
   } else {
     const summary=document.getElementById('selectedTopupSummary');
@@ -3581,7 +3771,186 @@ function selPl(el){
   el.classList.add('on');
   updatePlanSummary(el);
 }
-function selPm(el){document.querySelectorAll('.pm').forEach(m=>m.classList.remove('on'));el.classList.add('on')}
+function selPm(el, panel){
+  var pmWrap = el.closest('.pmw') || el.closest('.pmtab-wrap');
+  if(pmWrap) pmWrap.querySelectorAll('.pm,.pmtab').forEach(function(m){m.classList.remove('on');});
+  el.classList.add('on');
+  var method = el.getAttribute('data-method');
+  var isWechat = method === 'wechat';
+  var bgColor = isWechat ? '#f8faf9' : '#f0f7ff';
+  var borderColor = isWechat ? '#d1fae5' : '#bfdbfe';
+  // logo 颜色：微信绿 / 支付宝蓝
+  var logoFill = isWechat ? '#07c160' : '#1677ff';
+  var logoChar = isWechat ? '微' : '支';
+  if(panel === 'sub') {
+    var subBox = document.getElementById('subQrBox');
+    if(subBox){ subBox.style.background = bgColor; subBox.style.borderColor = borderColor; }
+    var subLogo = document.getElementById('subQrLogo');
+    var subLogoText = document.getElementById('subQrLogoText');
+    if(subLogo) subLogo.setAttribute('fill', logoFill);
+    if(subLogoText) subLogoText.textContent = logoChar;
+  }
+  if(panel === 'topup') {
+    var topBox = document.getElementById('topupQrBox');
+    if(topBox){ topBox.style.background = bgColor; topBox.style.borderColor = borderColor; }
+    var topLogo = document.getElementById('topupQrLogo');
+    var topLogoText = document.getElementById('topupQrLogoText');
+    if(topLogo) topLogo.setAttribute('fill', logoFill);
+    if(topLogoText) topLogoText.textContent = logoChar;
+  }
+}
+
+function updateAutoTopupUI(){
+  var on = document.getElementById('autoTopupToggle').checked;
+  var summary = document.getElementById('autoTopupSummary');
+  if(on){
+    // 弹出配置弹窗
+    om('mAutoTopupConfig');
+  } else {
+    if(summary) summary.style.display = 'none';
+  }
+}
+function selCardType(type){
+  var debit=document.getElementById('cardTypeDebit');
+  var credit=document.getElementById('cardTypeCredit');
+  var debitLabel=document.getElementById('cardTypeDebitLabel');
+  var creditLabel=document.getElementById('cardTypeCreditLabel');
+  var cvvGroup=document.getElementById('cvvGroup');
+  var onStyle='flex:1;text-align:center;padding:10px 8px;border:2px solid var(--a);border-radius:10px;cursor:pointer;background:var(--al)';
+  var offStyle='flex:1;text-align:center;padding:10px 8px;border:2px solid var(--bd);border-radius:10px;cursor:pointer';
+  if(type==='debit'){
+    debit.style.cssText=onStyle; if(debitLabel) debitLabel.style.color='var(--a)';
+    credit.style.cssText=offStyle; if(creditLabel) creditLabel.style.color='var(--t2)';
+    if(cvvGroup) cvvGroup.style.display='none';
+  } else {
+    credit.style.cssText=onStyle; if(creditLabel) creditLabel.style.color='var(--a)';
+    debit.style.cssText=offStyle; if(debitLabel) debitLabel.style.color='var(--t2)';
+    if(cvvGroup) cvvGroup.style.display='block';
+  }
+}
+function fmtCardNo(input){
+  var v=input.value.replace(/\D/g,'').substring(0,19);
+  input.value=v.replace(/(\d{4})(?=\d)/g,'$1 ');
+}
+function sendBindCardSms(btn){
+  btn.disabled=true; btn.textContent='60s';
+  var t=60;
+  var iv=setInterval(function(){ t--; btn.textContent=t+'s'; if(t<=0){clearInterval(iv);btn.disabled=false;btn.textContent='获取验证码';} },1000);
+}
+function confirmBindCard(){
+  // 更新 mAutoTopupConfig 弹窗内的卡信息
+  var atcNoCard=document.getElementById('atcNoCard');
+  var atcCardInfo=document.getElementById('atcCardInfo');
+  var atcNoCardWarn=document.getElementById('atcNoCardWarn');
+  if(atcNoCard){ atcNoCard.style.display='none'; }
+  if(atcCardInfo){ atcCardInfo.style.display='flex'; }
+  if(atcNoCardWarn){ atcNoCardWarn.style.display='none'; }
+  cm('mBindCard');
+  // 重新打开配置弹窗
+  setTimeout(function(){ om('mAutoTopupConfig'); }, 100);
+}
+function cancelAutoTopupConfig(){
+  // 取消时如果是首次配置（摘要未显示），将开关关掉
+  var summary = document.getElementById('autoTopupSummary');
+  var toggle = document.getElementById('autoTopupToggle');
+  if(summary && summary.style.display === 'none'){
+    if(toggle) toggle.checked = false;
+  }
+  cm('mAutoTopupConfig');
+}
+function confirmAutoTopupConfig(){
+  var trig = document.querySelector('#mAutoTopupConfig .atp-trig.on');
+  var amt  = document.querySelector('#mAutoTopupConfig .atp-amt.on');
+  var trigVal = trig ? trig.getAttribute('data-val') : '10';
+  if(trigVal === 'custom'){
+    var ti = document.getElementById('atpTrigCustomInput');
+    trigVal = (ti && ti.value && parseInt(ti.value) > 0) ? parseInt(ti.value) : null;
+    if(!trigVal){ ti && ti.focus(); return; }
+  }
+  var amtVal  = amt  ? amt.getAttribute('data-val')  : '50';
+  if(amtVal === 'custom'){
+    var inp = document.getElementById('atpAmtCustomInput');
+    amtVal = (inp && inp.value && parseInt(inp.value) > 0) ? parseInt(inp.value) : null;
+    if(!amtVal){ inp && inp.focus(); return; }
+  }
+  var hasCard = document.getElementById('atcCardInfo') && document.getElementById('atcCardInfo').style.display !== 'none';
+  // 未勾选协议：提示
+  var agreeCheck = document.getElementById('atcAgreeCheck');
+  if(!agreeCheck || !agreeCheck.checked){
+    if(agreeCheck){ agreeCheck.style.outline='2px solid #ef4444'; setTimeout(function(){ agreeCheck.style.outline=''; }, 2000); }
+    var label = agreeCheck && agreeCheck.parentElement;
+    if(label){ label.style.color='#ef4444'; setTimeout(function(){ label.style.color=''; }, 2000); }
+    return;
+  }
+  // 未绑卡：高亮提示，阻止继续
+  if(!hasCard){
+    var warn = document.getElementById('atcNoCardWarn');
+    var noCard = document.getElementById('atcNoCard');
+    if(warn){ warn.style.color='#ef4444'; warn.style.fontWeight='600'; warn.textContent='⚠️ 请先绑定银行卡才能开启自动充值'; }
+    if(noCard){ noCard.style.borderColor='#ef4444'; noCard.style.borderStyle='solid'; }
+    setTimeout(function(){ if(warn){ warn.style.color='#f59e0b'; warn.style.fontWeight=''; warn.textContent='⚠️ 请先绑定银行卡，自动充值才能生效'; } if(noCard){ noCard.style.borderColor=''; noCard.style.borderStyle='dashed'; } }, 2000);
+    return;
+  }
+  // 更新摘要行
+  var summaryText = document.getElementById('autoTopupSummaryText');
+  var summaryCard = document.getElementById('autoTopupSummaryCard');
+  var summary = document.getElementById('autoTopupSummary');
+  if(summaryText) summaryText.textContent = '余额 < ¥' + trigVal + ' 时自动充入 ¥' + amtVal;
+  if(summaryCard){
+    if(hasCard){
+      summaryCard.style.color = 'var(--t3)';
+      summaryCard.textContent = '从工商储蓄卡 · 6588 扣款';
+    } else {
+      summaryCard.style.color = '#f59e0b';
+      summaryCard.textContent = '⚠️ 未绑定银行卡，需绑卡后生效';
+    }
+  }
+  if(summary) summary.style.display = 'block';
+  cm('mAutoTopupConfig');
+}
+function selAutoTrigger(el){
+  el.parentElement.querySelectorAll('.atp-trig').forEach(function(m){m.classList.remove('on');});
+  el.classList.add('on');
+  var customWrap = document.getElementById('atpTrigCustomWrap');
+  if(el.getAttribute('data-val') === 'custom'){
+    if(customWrap) customWrap.style.display = 'block';
+    var inp = document.getElementById('atpTrigCustomInput');
+    if(inp) inp.focus();
+  } else {
+    if(customWrap) customWrap.style.display = 'none';
+  }
+  _updateAutoTopupDesc();
+}
+function selAutoAmount(el){
+  el.parentElement.querySelectorAll('.atp-amt').forEach(function(m){m.classList.remove('on');});
+  el.classList.add('on');
+  var customWrap = document.getElementById('atpAmtCustomWrap');
+  if(el.getAttribute('data-val') === 'custom'){
+    if(customWrap) customWrap.style.display = 'block';
+    var inp = document.getElementById('atpAmtCustomInput');
+    if(inp) inp.focus();
+  } else {
+    if(customWrap) customWrap.style.display = 'none';
+  }
+  _updateAutoTopupDesc();
+}
+function _updateAutoTopupDesc(){
+  var trig = document.querySelector('#mAutoTopupConfig .atp-trig.on');
+  var amt  = document.querySelector('#mAutoTopupConfig .atp-amt.on');
+  var desc = document.getElementById('atcDescText');
+  if(!trig || !amt) return;
+  var trigVal = trig.getAttribute('data-val');
+  if(trigVal === 'custom'){
+    var ti = document.getElementById('atpTrigCustomInput');
+    trigVal = (ti && ti.value) ? ti.value : '?';
+  }
+  var amtVal = amt.getAttribute('data-val');
+  if(amtVal === 'custom'){
+    var ai = document.getElementById('atpAmtCustomInput');
+    amtVal = (ai && ai.value) ? ai.value : '?';
+  }
+  if(desc) desc.textContent = '当余额低于 ¥' + trigVal + ' 时，自动充值 ¥' + amtVal;
+}
 
 function confirmSwitch(){
   updateRouteSummary();
@@ -4063,7 +4432,7 @@ function prependOrderRecord(){
   var validFrom='', validTo='';
   var isSubPlan = appState.selectedPlan.type === 'subscription';
   if(isSubPlan){
-    var daysMap={'月卡':30,'季卡':90,'年卡':365};
+    var daysMap={'体验卡':7,'月卡':30,'季卡':90,'年卡':365};
     var days = daysMap[appState.selectedPlan.name] || 30;
     // 如果当前已有订阅，从现有到期日顺延；否则从今天开始
     var baseDate = userPlan.expireDate || '2026-07-07';
@@ -4108,7 +4477,7 @@ function handlePurchase(buttonEl){
   // 计算有效期（与 prependOrderRecord 保持一致）
   var validFrom='', validTo='';
   if(isSubPlan2){
-    var daysMap2={'月卡':30,'季卡':90,'年卡':365};
+    var daysMap2={'体验卡':7,'月卡':30,'季卡':90,'年卡':365};
     var days2 = daysMap2[appState.selectedPlan.name] || 30;
     var baseDate2 = userPlan.expireDate || '2026-07-07';
     var base2 = new Date(baseDate2);
@@ -4195,15 +4564,56 @@ function completeInstall(){
   const key=appState.installingTool;
   const meta=toolMeta[key];
   if(!meta) return;
+  const routing = appState.toolRouting[key];
   const versionEl=document.querySelector('[data-tool-version="' + key + '"]');
-  const statusEl=document.querySelector('[data-tool-status="' + key + '"]');
   const actionsEl=document.querySelector('[data-tool-actions="' + key + '"]');
   if(versionEl) versionEl.textContent = meta.version;
-  if(statusEl){
-    statusEl.className='bd2 bg';
-    statusEl.textContent='● 已安装';
+
+  var card = document.querySelector('[data-tool-card="' + key + '"]');
+  if(card){
+    // 1. 隐藏 guest-footer / 未安装状态标签
+    var gf = card.querySelector('.tc-guest-footer');
+    if(gf) gf.style.display='none';
+
+    // 2. 若卡片没有 .tmx（原未安装卡），动态注入模型选择区
+    if(!card.querySelector('.tmx') && routing){
+      var sel = routing.selection || (routing.options&&routing.options[0]) || '';
+      var opts = (routing.options||[]).map(function(m){
+        return '<option value="'+m+'"'+(m===sel?' selected':'')+'>'+m+'</option>';
+      }).join('');
+      var modeLabel = routing.options ? routing.options.length+' 个可选' : '-';
+      var tmxEl = document.createElement('div');
+      tmxEl.className='tmx';
+      tmxEl.innerHTML=
+        '<div class="row">'
+        +'<div><div class="lb">支持模型</div><div class="bd2 bg" data-tool-mode="'+key+'">'+modeLabel+'</div></div>'
+        +'<div style="text-align:right"><div class="lb">当前使用模型</div><div class="val" data-tool-current="'+key+'">'+sel+'</div></div>'
+        +'</div>'
+        +'<div class="txs tgr mb8" data-tool-note="'+key+'">当前使用 '+sel+'，可直接切换其他可用模型</div>'
+        +'<div class="lb">该工具当前可用模型</div>'
+        +'<select class="sel" data-tool-select="'+key+'" onchange="needLogin(()=>changeToolModel(\''+key+'\', this.value))">'
+        +opts+'</select>';
+      // 插在 .tc-ds 之后（如果有），否则插在 .tc-ft 之前
+      var ds = card.querySelector('.tc-ds');
+      var ft = card.querySelector('.tc-ft');
+      if(ds) ds.after(tmxEl);
+      else if(ft) card.insertBefore(tmxEl, ft);
+      else card.appendChild(tmxEl);
+      tmxEl.style.setProperty('display','block','important');
+    } else if(card.querySelector('.tmx')){
+      card.querySelector('.tmx').style.setProperty('display','block','important');
+    }
+
+    // 3. 更新底部操作区（.tc-ft）为已安装状态
+    var ft = card.querySelector('.tc-ft');
+    if(ft){
+      ft.removeAttribute('data-tool-actions');
+      ft.innerHTML='<span class="bd2 bg">● 运行中</span><div class="fxc g6"><button class="btn bo bsm">更新</button><button class="btn bp bsm">打开</button></div>';
+      ft.style.setProperty('display','flex','important');
+    }
+  } else if(actionsEl){
+    actionsEl.innerHTML='<span class="bd2 bg">● 运行中</span><div class="fxc g6"><button class="btn bo bsm">更新</button><button class="btn bp bsm">打开</button></div>';
   }
-  if(actionsEl) actionsEl.innerHTML='<span class="bd2 bg">● 已安装</span><div class="fxc g6"><button class="btn bo bsm">更新</button><button class="btn bp bsm">打开</button></div>';
   appState.installedCount += 1;
   const summary=document.getElementById('toolInstallSummary');
   const totalTools = document.querySelectorAll('[data-tool-card]').length;
