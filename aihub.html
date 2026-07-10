@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AIHub</title>
+<title>My tokens</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -359,7 +359,7 @@ input:checked+.sl:before{transform:translateX(16px)}
     <div class="l-logo" style="margin-bottom:20px">
       <div class="icon">M</div>
       <div>
-        <div class="name">AIHub</div>
+        <div class="name">My tokens</div>
       </div>
     </div>
     <div class="fg">
@@ -410,7 +410,7 @@ input:checked+.sl:before{transform:translateX(16px)}
 ══════════════════════════════════════════════════ -->
 <div class="desktop-frame">
 <div class="win-bar">
-  <div class="win-title"><span class="win-dot"></span>AIHub</div>
+  <div class="win-title"><span class="win-dot"></span>My tokens</div>
   <div class="win-btns" aria-hidden="true">
     <button class="win-btn">&#8212;</button>
     <button class="win-btn">&#9633;</button>
@@ -424,14 +424,14 @@ input:checked+.sl:before{transform:translateX(16px)}
     <div class="sb-logo">
       <div class="ico">M</div>
       <div>
-        <div class="nm">AIHub</div>
+        <div class="nm">My tokens</div>
         <div class="vr">v1.0.0</div>
       </div>
     </div>
     <nav class="sb-nav">
       <div class="ni on" onclick="go('p01',this,'Tokens 管理')"><span class="ic"><i data-lucide="layout-dashboard"></i></span>Tokens 管理</div>
       <div class="ni" onclick="go('p02',this,'AI 工具')"><span class="ic"><i data-lucide="package"></i></span>AI 工具</div>
-      <div class="ni" onclick="go('p03',this,'模型设置')"><span class="ic"><i data-lucide="git-fork"></i></span>模型设置</div>
+      <div class="ni" onclick="go('p03',this,'模型厂商设置')"><span class="ic"><i data-lucide="git-fork"></i></span>模型厂商设置</div>
       <div class="ni" onclick="(function(el){needLogin(function(){go('p05',el,'订阅 / 充值');setTimeout(function(){switchBuyTab('subscription')},50)})})(this)"><span class="ic"><i data-lucide="credit-card"></i></span>订阅 / 充值</div>
       <div class="ni" onclick="(function(el){needLogin(function(){go('p05',el,'消费记录');setTimeout(function(){switchBuyTab('orders')},50)})})(this)"><span class="ic"><i data-lucide="receipt-text"></i></span>消费记录</div>
     </nav>
@@ -482,7 +482,7 @@ input:checked+.sl:before{transform:translateX(16px)}
 <div id="p01" class="pg on">
   <!-- 未登录 Hero -->
   <div id="heroGuest" class="hero" style="flex-direction:column;align-items:flex-start;gap:12px">
-    <div><h2 style="font-size:18px;font-weight:700;margin-bottom:4px">👋 欢迎使用 AIHub</h2>
+    <div><h2 style="font-size:18px;font-weight:700;margin-bottom:4px">👋 欢迎使用 My tokens</h2>
     <p style="font-size:13px;opacity:.85">一键安装主流 AI 工具，接入和使用更简单。</p></div>
     <div class="rcbtn" onclick="om('ls')">登录 / 注册</div>
   </div>
@@ -634,27 +634,55 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
       <div class="tc-ds">Anthropic 官方桌面端，支持 Claude 全系模型，已通过 CC Switch 路由。</div>
       <div class="tmx">
-        <div class="row">
-          <div>
-
-            <div class="lb">支持模型</div>
-            <div class="bd2 bpu" data-tool-mode="claude-desktop">6 个可选</div>
+        <!-- 供应商 + 刷新 -->
+        <div class="lb">供应商</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
+          <select class="sel" style="flex:1" id="claude-desktop-vendor" onchange="needLogin(()=>changeToolVendor('claude-desktop',this.value))">
+            <option value="platform" selected>平台内置</option>
+            <option value="deepseek">DeepSeek</option>
+            <option value="aliyun">阿里云百炼</option>
+            <option value="google">Google</option>
+            <option value="__add__" style="color:var(--a);font-weight:600">＋ 添加供应商</option>
+          </select>
+          <button class="btn bo bsm" id="claude-desktop-refresh" style="flex-shrink:0;padding:5px 9px;font-size:13px" title="拉取该供应商最新可用模型" onclick="needLogin(()=>refreshVendorModels('claude-desktop'))">🔄</button>
+        </div>
+        <!-- 模型映射开关 -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
+          <span class="lb" style="margin-bottom:0">模型映射 <span style="font-size:11px;color:var(--t3);font-weight:400">原厂名 → 路由至</span></span>
+          <label class="sw" title="开启后可将原厂模型名映射为国产模型">
+            <input type="checkbox" id="claude-desktop-map-toggle" onchange="needLogin(()=>toggleMapping('claude-desktop'))">
+            <span class="sl"></span>
+          </label>
+        </div>
+        <!-- 关闭时：原厂模型多行选择 -->
+        <div id="claude-desktop-map-off">
+          <div id="claude-desktop-native-list" style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;align-items:center;gap:6px">
+              <select class="sel" style="flex:1" onchange="needLogin(()=>{})"><option>claude-opus-4-5</option><option>claude-sonnet-4-5</option><option selected>claude-haiku-3-5</option><option>claude-3-opus-20240229</option><option>claude-3-5-sonnet-20241022</option></select>
+              <button style="background:none;border:none;color:var(--t3);font-size:16px;cursor:pointer;padding:2px 4px;line-height:1" title="移除" onclick="needLogin(()=>{var p=this.closest('div');if(document.getElementById('claude-desktop-native-list').children.length>1)p.remove();})">✕</button>
+            </div>
           </div>
-          <div style="text-align:right">
-            <div class="lb">当前使用模型</div>
-            <div class="val" data-tool-current="claude-desktop">DeepSeek V3</div>
+          <button class="btn bo bsm" id="claude-desktop-native-add" style="margin-top:8px;width:100%;border-style:dashed;color:var(--a);border-color:var(--a)" onclick="needLogin(()=>addNativeModelRow('claude-desktop'))">＋ 添加模型</button>
+        </div>
+        <!-- 开启时：映射下拉 -->
+        <div id="claude-desktop-map-on" style="display:none;flex-direction:column;gap:6px">
+          <div style="display:grid;grid-template-columns:130px 1fr;align-items:center;gap:8px">
+            <span style="font-size:11px;font-family:monospace;background:#f4f4f5;border-radius:4px;padding:3px 7px;color:var(--t)">claude-sonnet-*</span>
+            <select class="sel" id="claude-desktop-map-sonnet" onchange="needLogin(()=>{})"></select>
+          </div>
+          <div style="display:grid;grid-template-columns:130px 1fr;align-items:center;gap:8px">
+            <span style="font-size:11px;font-family:monospace;background:#f4f4f5;border-radius:4px;padding:3px 7px;color:var(--t)">claude-opus-*</span>
+            <select class="sel" id="claude-desktop-map-opus" onchange="needLogin(()=>{})"></select>
+          </div>
+          <div style="display:grid;grid-template-columns:130px 1fr;align-items:center;gap:8px">
+            <span style="font-size:11px;font-family:monospace;background:#f4f4f5;border-radius:4px;padding:3px 7px;color:var(--t)">claude-haiku-*</span>
+            <select class="sel" id="claude-desktop-map-haiku" onchange="needLogin(()=>{})"></select>
+          </div>
+          <div style="display:grid;grid-template-columns:130px 1fr;align-items:center;gap:8px">
+            <span style="font-size:11px;font-family:monospace;background:#f4f4f5;border-radius:4px;padding:3px 7px;color:var(--t)">claude-fable-*</span>
+            <select class="sel" id="claude-desktop-map-fable" onchange="needLogin(()=>{})"></select>
           </div>
         </div>
-        <div class="txs tgr mb8" data-tool-note="claude-desktop">当前使用 DeepSeek V3，平台会自动完成兼容接入</div>
-        <div class="lb">该工具当前可用模型</div>
-        <select class="sel" data-tool-select="claude-desktop" onchange="needLogin(()=>changeToolModel('claude-desktop', this.value))">
-          <option value="DeepSeek V3">DeepSeek V3</option>
-          <option value="DeepSeek R1">DeepSeek R1</option>
-          <option value="Qwen Max">Qwen Max</option>
-          <option value="Gemini 1.5 Pro">Gemini 1.5 Pro</option>
-          <option value="Claude Sonnet 4.5">Claude Sonnet 4.5</option>
-          <option value="Claude Haiku 3.5">Claude Haiku 3.5</option>
-        </select>
       </div>
       <div class="tc-ft">
         <span class="bd2 bg">● 运行中</span>
@@ -676,26 +704,29 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
       <div class="tc-ds">OpenAI 官方命令行工具，适合代码生成场景，已配置路由转发。</div>
       <div class="tmx">
-        <div class="row">
-          <div>
-            <div class="lb">支持模型</div>
-            <div class="bd2 bg" data-tool-mode="codex-cli">3 个可选</div>
-          </div>
-          <div style="text-align:right">
-            <div class="lb">当前使用模型</div>
-            <div class="val" data-tool-current="codex-cli">DeepSeek V3</div>
+        <!-- 供应商 + 刷新 -->
+        <div class="lb">供应商</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
+          <select class="sel" style="flex:1" id="codex-vendor" onchange="needLogin(()=>changeToolVendor('codex-cli',this.value))">
+            <option value="platform" selected>平台内置</option>
+            <option value="deepseek">DeepSeek</option>
+            <option value="aliyun">阿里云百炼</option>
+            <option value="google">Google</option>
+            <option value="__add__" style="color:var(--a);font-weight:600">＋ 添加供应商</option>
+          </select>
+          <button class="btn bo bsm" id="codex-cli-refresh" style="flex-shrink:0;padding:5px 9px;font-size:13px" title="拉取该供应商最新可用模型" onclick="needLogin(()=>refreshVendorModels('codex-cli'))">🔄</button>
+        </div>
+        <!-- 模型映射：自由添加，生成 model_catalog.json -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
+          <span class="lb" style="margin-bottom:0">模型映射 <span style="font-size:11px;color:var(--t3);font-weight:400">生成 model_catalog.json · /model 命令可见</span></span>
+        </div>
+        <div id="codex-catalog-list" style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;gap:6px">
+            <select class="sel" style="flex:1" onchange="needLogin(()=>{})"><option>codex-mini-latest</option><option>o4-mini</option><option>o3</option><option>gpt-4.1</option><option>gpt-4.1-mini</option></select>
+            <button style="background:none;border:none;color:var(--t3);font-size:16px;cursor:pointer;padding:2px 4px;line-height:1" title="移除" onclick="needLogin(()=>{var l=document.getElementById('codex-catalog-list');if(l&&l.children.length>1)this.closest('div').remove();})">✕</button>
           </div>
         </div>
-        <div class="txs tgr mb8" data-tool-note="codex-cli">当前使用 DeepSeek V3，可直接切换其他可用模型</div>
-        <div class="lb">该工具当前可用模型</div>
-        <select class="sel" data-tool-select="codex-cli" onchange="needLogin(()=>changeToolModel('codex-cli', this.value))">
-          <option value="DeepSeek R1">DeepSeek R1</option>
-          <option value="Gemini 1.5 Pro">Gemini 1.5 Pro</option>
-          <option value="DeepSeek V3">DeepSeek V3</option>
-          <option value="Claude Sonnet 4.5">Claude Sonnet 4.5</option>
-          <option value="Claude Haiku 3.5">Claude Haiku 3.5</option>
-          <option value="Qwen Max">Qwen Max</option>
-        </select>
+        <button class="btn bo bsm" style="margin-top:8px;width:100%;border-style:dashed;color:var(--a);border-color:var(--a)" onclick="needLogin(()=>addCodexCatalogRow())">＋ 添加模型</button>
       </div>
       <div class="tc-ft">
         <span class="bd2 bg">● 运行中</span>
@@ -710,6 +741,40 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
     </div>
 
+    <div class="tc" data-tool-card="gemini">
+      <div class="tc-h">
+        <div class="tc-ico" style="background:#f0fdf4">🌿</div>
+        <div><div class="tc-nm">Gemini</div><div class="tc-vr" data-tool-version="gemini">命令行工具 · 未安装</div></div>
+      </div>
+      <div class="tc-ds">Google 官方命令行工具，支持 Gemini 1.5 Pro / Flash 等模型。</div>
+      <div class="tmx">
+        <div class="lb">供应商</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
+          <select class="sel" style="flex:1" id="gemini-vendor" onchange="needLogin(()=>changeToolVendor('gemini',this.value))">
+            <option value="platform" selected>平台内置</option>
+            <option value="deepseek">DeepSeek</option>
+            <option value="aliyun">阿里云百炼</option>
+            <option value="google">Google</option>
+            <option value="__add__" style="color:var(--a);font-weight:600">＋ 添加供应商</option>
+          </select>
+          <button class="btn bo bsm" style="flex-shrink:0;padding:5px 9px;font-size:13px" title="拉取该供应商最新可用模型" onclick="needLogin(()=>refreshVendorModels('gemini'))">🔄</button>
+        </div>
+        <!-- 直接选模型，无需映射 -->
+        <div class="lb" style="margin-bottom:7px">使用模型 <span style="font-size:11px;color:var(--t3);font-weight:400">直接选择，无需别名映射</span></div>
+        <div id="gemini-model-list" style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;gap:6px">
+            <select class="sel" style="flex:1" onchange="needLogin(()=>{})"><option selected>gemini-2.5-flash</option><option>gemini-2.5-pro</option><option>gemini-2.0-flash</option><option>gemini-1.5-pro</option><option>gemini-1.5-flash</option></select>
+            <button style="background:none;border:none;color:var(--t3);font-size:16px;cursor:pointer;padding:2px 4px;line-height:1" title="移除" onclick="needLogin(()=>{var p=this.closest('div');if(document.getElementById('gemini-model-list').children.length>1)p.remove();})">✕</button>
+          </div>
+        </div>
+        <button class="btn bo bsm" style="margin-top:8px;width:100%;border-style:dashed;color:var(--a);border-color:var(--a)" onclick="needLogin(()=>addModelRow('gemini'))">＋ 添加模型</button>
+      </div>
+      <div class="tc-ft" data-tool-actions="gemini">
+        <span class="bd2 bgr" data-tool-status="gemini">未安装</span>
+        <button class="btn bo bsm" onclick="startInstall('gemini')">安装</button>
+      </div>
+    </div>
+
     <div class="tc" data-tool-card="opencode">
       <div class="tc-h">
         <div class="tc-ico" style="background:#fef3cd">🔷</div>
@@ -717,26 +782,27 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
       <div class="tc-ds">开源 AI 编程助手，支持多种模型接入，轻量高效。</div>
       <div class="tmx">
-        <div class="row">
-          <div>
-            <div class="lb">支持模型</div>
-            <div class="bd2 bpu" data-tool-mode="opencode">3 个可选</div>
-          </div>
-          <div style="text-align:right">
-            <div class="lb">当前使用模型</div>
-            <div class="val" data-tool-current="opencode">Gemini 1.5 Pro</div>
+        <!-- 供应商 + 刷新 -->
+        <div class="lb">供应商</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
+          <select class="sel" style="flex:1" id="opencode-vendor" onchange="needLogin(()=>changeToolVendor('opencode',this.value))">
+            <option value="platform" selected>平台内置</option>
+            <option value="deepseek">DeepSeek</option>
+            <option value="aliyun">阿里云百炼</option>
+            <option value="google">Google</option>
+            <option value="__add__" style="color:var(--a);font-weight:600">＋ 添加供应商</option>
+          </select>
+          <button class="btn bo bsm" id="opencode-refresh" style="flex-shrink:0;padding:5px 9px;font-size:13px" title="拉取该供应商最新可用模型" onclick="needLogin(()=>refreshVendorModels('opencode'))">🔄</button>
+        </div>
+        <!-- 无固定别名：直接选模型 -->
+        <div class="lb" style="margin-bottom:7px">使用模型 <span style="font-size:11px;color:var(--t3);font-weight:400">直接选择，无需别名映射</span></div>
+        <div id="opencode-model-list" style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;gap:6px">
+            <select class="sel" style="flex:1" onchange="needLogin(()=>{})"><option>Qwen3.5-Flash</option><option>Qwen-Max</option><option>Qwen-Plus</option><option>Qwen-Turbo</option><option>QwQ-32B</option></select>
+            <button style="background:none;border:none;color:var(--t3);font-size:16px;cursor:pointer;padding:2px 4px;line-height:1" title="移除" onclick="needLogin(()=>{var p=this.closest('div');if(document.getElementById('opencode-model-list').children.length>1)p.remove();})">✕</button>
           </div>
         </div>
-        <div class="txs tgr mb8" data-tool-note="opencode">当前使用 Gemini 1.5 Pro，可直接切换其他可用模型</div>
-        <div class="lb">该工具当前可用模型</div>
-        <select class="sel" data-tool-select="opencode" onchange="needLogin(()=>changeToolModel('opencode', this.value))">
-          <option value="DeepSeek V3">DeepSeek V3</option>
-          <option value="DeepSeek R1">DeepSeek R1</option>
-          <option value="Qwen Max">Qwen Max</option>
-          <option value="Gemini 1.5 Pro">Gemini 1.5 Pro</option>
-          <option value="Claude Sonnet 4.5">Claude Sonnet 4.5</option>
-          <option value="Claude Haiku 3.5">Claude Haiku 3.5</option>
-        </select>
+        <button class="btn bo bsm" style="margin-top:8px;width:100%;border-style:dashed;color:var(--a);border-color:var(--a)" onclick="needLogin(()=>addModelRow('opencode'))">＋ 添加模型</button>
       </div>
       <div class="tc-ft">
         <span class="bd2 by">● 可更新</span>
@@ -751,24 +817,33 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
     </div>
 
-    <div class="tc" data-tool-card="gemini">
-      <div class="tc-h">
-        <div class="tc-ico" style="background:#f0fdf4">🌿</div>
-        <div><div class="tc-nm">Gemini</div><div class="tc-vr" data-tool-version="gemini">命令行工具 · 未安装</div></div>
-      </div>
-      <div class="tc-ds">Google 官方命令行工具，支持 Gemini 1.5 Pro / Flash 等模型。</div>
-      <div class="tc-ft" data-tool-actions="gemini">
-        <span class="bd2 bgr" data-tool-status="gemini">未安装</span>
-        <button class="btn bo bsm" onclick="startInstall('gemini')">安装</button>
-      </div>
-    </div>
-
     <div class="tc" data-tool-card="openclaw">
       <div class="tc-h">
         <div class="tc-ico" style="background:#fff4f0">🦞</div>
         <div><div class="tc-nm">OpenClaw</div><div class="tc-vr" data-tool-version="openclaw">未安装</div></div>
       </div>
       <div class="tc-ds">开源 AI 客户端，支持多种模型接入，界面轻量适合日常对话场景。</div>
+      <div class="tmx">
+        <div class="lb">供应商</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
+          <select class="sel" style="flex:1" id="openclaw-vendor" onchange="needLogin(()=>changeToolVendor('openclaw',this.value))">
+            <option value="platform" selected>平台内置</option>
+            <option value="deepseek">DeepSeek</option>
+            <option value="aliyun">阿里云百炼</option>
+            <option value="google">Google</option>
+            <option value="__add__" style="color:var(--a);font-weight:600">＋ 添加供应商</option>
+          </select>
+          <button class="btn bo bsm" style="flex-shrink:0;padding:5px 9px;font-size:13px" title="拉取该供应商最新可用模型" onclick="needLogin(()=>refreshVendorModels('openclaw'))">🔄</button>
+        </div>
+        <div class="lb" style="margin-bottom:7px">使用模型 <span style="font-size:11px;color:var(--t3);font-weight:400">直接选择，无需别名映射</span></div>
+        <div id="openclaw-model-list" style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;gap:6px">
+            <select class="sel" style="flex:1" onchange="needLogin(()=>{})"><option>deepseek-chat</option><option>deepseek-reasoner</option><option>deepseek-coder-v2</option></select>
+            <button style="background:none;border:none;color:var(--t3);font-size:16px;cursor:pointer;padding:2px 4px;line-height:1" title="移除" onclick="this.closest('div').remove()">✕</button>
+          </div>
+        </div>
+        <button class="btn bo bsm" style="margin-top:8px;width:100%;border-style:dashed;color:var(--a);border-color:var(--a)" onclick="needLogin(()=>addModelRow('openclaw'))">＋ 添加模型</button>
+      </div>
       <div class="tc-ft" data-tool-actions="openclaw">
         <span class="bd2 bgr" data-tool-status="openclaw">未安装</span>
         <button class="btn bo bsm" onclick="startInstall('openclaw')">安装</button>
@@ -781,6 +856,27 @@ input:checked+.sl:before{transform:translateX(16px)}
         <div><div class="tc-nm">Hermes</div><div class="tc-vr" data-tool-version="hermes">未安装</div></div>
       </div>
       <div class="tc-ds">AI 工具管理平台，支持多个 AI 客户端的统一配置与切换。</div>
+      <div class="tmx">
+        <div class="lb">供应商</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
+          <select class="sel" style="flex:1" id="hermes-vendor" onchange="needLogin(()=>changeToolVendor('hermes',this.value))">
+            <option value="platform" selected>平台内置</option>
+            <option value="deepseek">DeepSeek</option>
+            <option value="aliyun">阿里云百炼</option>
+            <option value="google">Google</option>
+            <option value="__add__" style="color:var(--a);font-weight:600">＋ 添加供应商</option>
+          </select>
+          <button class="btn bo bsm" style="flex-shrink:0;padding:5px 9px;font-size:13px" title="拉取该供应商最新可用模型" onclick="needLogin(()=>refreshVendorModels('hermes'))">🔄</button>
+        </div>
+        <div class="lb" style="margin-bottom:7px">使用模型 <span style="font-size:11px;color:var(--t3);font-weight:400">直接选择，无需别名映射</span></div>
+        <div id="hermes-model-list" style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;gap:6px">
+            <select class="sel" style="flex:1" onchange="needLogin(()=>{})"><option>deepseek-chat</option><option>deepseek-reasoner</option><option>deepseek-coder-v2</option></select>
+            <button style="background:none;border:none;color:var(--t3);font-size:16px;cursor:pointer;padding:2px 4px;line-height:1" title="移除" onclick="this.closest('div').remove()">✕</button>
+          </div>
+        </div>
+        <button class="btn bo bsm" style="margin-top:8px;width:100%;border-style:dashed;color:var(--a);border-color:var(--a)" onclick="needLogin(()=>addModelRow('hermes'))">＋ 添加模型</button>
+      </div>
       <div class="tc-ft" data-tool-actions="hermes">
         <span class="bd2 bgr" data-tool-status="hermes">未安装</span>
         <button class="btn bo bsm" onclick="startInstall('hermes')">安装</button>
@@ -790,137 +886,232 @@ input:checked+.sl:before{transform:translateX(16px)}
   </div>
 </div>
 
-<!-- ─────── P03 模型路由 ─────── -->
+<!-- ─────── P03 模型厂商设置 ─────── -->
 <div id="p03" class="pg">
-  <div style="font-size:15px;font-weight:700" class="mb16">模型 / 路由管理</div>
+  <div style="font-size:15px;font-weight:700" class="mb16">模型厂商设置</div>
 
-  <div class="stbar run">
-    <div class="stl ok"><span class="dot dg"></span>本地路由运行中</div>
-    <div class="str">网关地址：http://127.0.0.1:15721 · 今日请求 128 次<span class="ih">?<span class="ih-b">统计今日通过本地路由实际转发的模型请求次数，不等于消息条数。一次消息可能触发多次请求，如重试、补全上下文或工具调用。</span></span></div>
+  <!-- 主 Tab 切换 -->
+  <div style="display:flex;justify-content:center;margin-bottom:20px">
+    <div style="display:flex;background:#f4f4f5;border-radius:10px;padding:3px;gap:2px">
+      <button id="tabBuiltin" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:var(--a);color:#fff;box-shadow:0 2px 8px rgba(15,118,110,.25);border:none" onclick="switchModelTab('builtin')">平台内置模型</button>
+      <button id="tabCustom" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchModelTab('custom')">外部供应商</button>
+    </div>
   </div>
 
-  <div class="card mb16" style="padding:0;overflow:visible">
-    <!-- 吸顶筛选区 -->
-    <div id="modelFilterSticky" style="position:sticky;top:-28px;z-index:10;background:#fff;border-radius:12px 12px 0 0;padding:20px 20px 14px;border-bottom:1px solid var(--bd);box-shadow:0 2px 8px rgba(0,0,0,.06)">
-    <!-- 切换 Tab -->
-    <div style="display:flex;justify-content:center;margin-bottom:20px">
-      <div style="display:flex;background:#f4f4f5;border-radius:10px;padding:3px;gap:2px">
-        <button id="tabBuiltin" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:var(--a);color:#fff;box-shadow:0 2px 8px rgba(15,118,110,.25);border:none" onclick="switchModelTab('builtin')">内置模型</button>
-        <button id="tabCustom" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchModelTab('custom')">新增模型</button>
+  <!-- ── 平台内置模型面板 ── -->
+  <div id="panelBuiltin">
+    <!-- 说明 banner -->
+    <div style="background:#f0fdf9;border:1px solid #d1fae5;border-radius:10px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
+      <div style="font-size:24px;flex-shrink:0">🏦</div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:700;color:var(--t);margin-bottom:3px">平台统一提供，充值即可调用全部模型</div>
+        <div style="font-size:12px;color:var(--t2)">所有内置模型共用平台账户余额，无需单独配置 API Key，消耗记录统一在「Tokens 管理」查看。</div>
       </div>
+      <button class="btn bp bsm" style="flex-shrink:0" onclick="go('p05',nv(3),'订阅 / 充值')">去充值 →</button>
     </div>
 
-    <!-- 平台支持模型面板筛选 -->
-    <div id="panelBuiltinFilter">
-    <!-- 厂商 Tab 筛选 -->
-    <div style="overflow-x:auto;padding-bottom:4px;margin-bottom:10px">
-      <div id="vendorTabs" style="display:flex;gap:6px;min-width:max-content">
-        <button class="vt on" onclick="setVendorFilter('all',this)">全部</button>
-        <button class="vt" onclick="setVendorFilter('Anthropic',this)">Anthropic</button>
-        <button class="vt" onclick="setVendorFilter('OpenAI',this)">OpenAI</button>
-        <button class="vt" onclick="setVendorFilter('Google',this)">Google</button>
-        <button class="vt" onclick="setVendorFilter('DeepSeek',this)">DeepSeek</button>
-        <button class="vt" onclick="setVendorFilter('\u963f\u91cc\u4e91',this)">阿里云</button>
-        <button class="vt" onclick="setVendorFilter('\u5b57\u8282\u8df3\u52a8',this)">字节跳动</button>
-        <button class="vt" onclick="setVendorFilter('MiniMax',this)">MiniMax</button>
-        <button class="vt" onclick="setVendorFilter('\u667a\u8c31AI',this)">智谱 AI</button>
-        <button class="vt" onclick="setVendorFilter('\u6708\u4e4b\u6697\u9762',this)">月之暗面</button>
-        <button class="vt" onclick="setVendorFilter('xAI',this)">xAI</button>
-        <button class="vt" onclick="setVendorFilter('Meta',this)">Meta</button>
-        <button class="vt" onclick="setVendorFilter('Mistral',this)">Mistral</button>
-      </div>
-    </div>
-    <!-- 能力 Tag 多选 -->
-    <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">
-      <span style="font-size:12px;color:var(--t3);flex-shrink:0">能力：</span>
-      <span class="cft" onclick="toggleCapFilter('\u51fd\u6570\u8c03\u7528',this)">函数调用</span>
-      <span class="cft" onclick="toggleCapFilter('\u89c6觉\u7406\u89e3',this)">视觉理解</span>
-      <span class="cft" onclick="toggleCapFilter('\u89c6\u9891\u8f93\u5165',this)">视频输入</span>
-      <span class="cft" onclick="toggleCapFilter('\u97f3\u9891\u8f93\u5165',this)">音频输入</span>
-      <span class="cft" onclick="toggleCapFilter('\u6df1\u5ea6\u601d\u8003',this)">深度思考</span>
-      <span class="cft" onclick="toggleCapFilter('\u590d\u6742\u63a8\u7406',this)">复杂推理</span>
-      <span class="cft" onclick="toggleCapFilter('\u8054\u7f51\u641c\u7d22',this)">联网搜索</span>
-      <span id="capFilterCount" style="font-size:11px;color:var(--t3);margin-left:4px"></span>
-    </div>
-    </div><!-- /panelBuiltinFilter -->
-    </div><!-- /modelFilterSticky -->
-
-    <!-- 模型列表区 -->
-    <div style="padding:16px 20px 20px">
-
-    <!-- 平台支持模型面板 -->
-    <div id="panelBuiltin">
-    <div class="g g2" style="gap:10px" id="platformModelGrid">
-      <!-- 由 JS renderPlatformModelGrid() 动态生成 -->
-    </div><!-- /platformModelGrid -->
-    </div><!-- /panelBuiltin -->
-
-    <!-- 新增模型面板 -->
-    <div id="panelCustom" style="display:none">
-    <!-- 用户新增模型列表 -->
-    <div id="customModelList" style="display:none;margin-bottom:16px">
-      <table class="tb" id="customModelTable">
-        <thead><tr><th>模型名称</th><th>调用地址</th><th>模型 ID</th><th>连接状态</th><th>操作</th></tr></thead>
-        <tbody id="customModelTableBody"></tbody>
-      </table>
-    </div>
-    <div id="noCustomModel" style="text-align:center;padding:20px 0 8px;color:var(--t3);font-size:13px">暂无自定义模型，填写下方表单即可接入</div>
-
-    <div class="adv-t mt8" onclick="togAdv()">
-      <span>➕</span> 展开配置<span class="ih">?<span class="ih-b">用于新增外部模型接入配置。保存后系统会自动检测连接、调用结果与外部额度状态。</span></span> <span id="adva">▲</span>
-    </div>
-    <div class="adv-p op" id="advp">
-      <div class="g g2" style="gap:12px">
-        <div class="fg" style="margin-bottom:0">
-          <label class="fl">调用地址</label>
-          <input class="fi" value="https://api.deepseek.com/anthropic" placeholder="填供应商给你的调用地址，例如 https://api.deepseek.com/anthropic">
-          <div class="txs tgr mt4">这里填供应商给你的接口地址。不会填就去供应商文档里找 API 地址或 Base URL。</div>
-        </div>
-        <div class="fg" style="margin-bottom:0">
-          <label class="fl">模型名称</label>
-          <input class="fi" id="newModelName" value="Kimi K2" placeholder="填用户看到的模型名称，例如 Kimi K2、GLM 4.5、Llama 3.1 70B">
-          <div class="txs tgr mt4">仅用于展示，不影响真实调用</div>
-        </div>
-        <div class="fg" style="margin-bottom:0">
-          <label class="fl">调用密钥</label>
-          <input class="fi" type="password" value="sk-••••••••••••••••" placeholder="填供应商给你的密钥，例如 sk-xxxxxx">
-          <div class="txs tgr mt4">这里填供应商给你的 API Key。建议单独创建一个给本平台使用，后面更好管理。</div>
-        </div>
-        <div class="fg" style="margin-bottom:0">
-          <label class="fl">模型 ID</label>
-          <input class="fi" id="mappingInput" value="deepseek-v3" placeholder="填系统实际调用的模型 ID，例如 deepseek-v3">
-          <div class="txs tgr mt4">模型 ID 就是系统真正发起调用时使用的模型标识，例如 deepseek-v3、qwen-max。</div>
-        </div>
-      </div>
-      <div style="background:var(--wh);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-top:14px">
-        <div class="tb2 mb8">系统检测结果<span class="ih">?<span class="ih-b">保存后自动检测该模型接入是否可用，并反馈连接、调用与额度状态。</span></span></div>
-        <div class="g g3" style="gap:10px">
-          <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:8px;padding:12px">
-            <div class="txs tlt mb8">连接状态</div>
-            <div id="extConnStatus" class="tb2">待检测</div>
-            <div id="extConnDesc" class="txs tgr mt4">保存后自动检测</div>
+    <div class="card mb16" style="padding:0;overflow:visible">
+      <!-- 筛选区 -->
+      <div id="modelFilterSticky" style="position:sticky;top:-28px;z-index:10;background:#fff;border-radius:12px 12px 0 0;padding:20px 20px 14px;border-bottom:1px solid var(--bd);box-shadow:0 2px 8px rgba(0,0,0,.06)">
+        <div id="panelBuiltinFilter">
+          <!-- 厂商 Tab 筛选 -->
+          <div style="overflow-x:auto;padding-bottom:4px;margin-bottom:10px">
+            <div id="vendorTabs" style="display:flex;gap:6px;min-width:max-content">
+              <button class="vt on" onclick="setVendorFilter('all',this)">全部</button>
+              <button class="vt" onclick="setVendorFilter('Anthropic',this)">Anthropic</button>
+              <button class="vt" onclick="setVendorFilter('OpenAI',this)">OpenAI</button>
+              <button class="vt" onclick="setVendorFilter('Google',this)">Google</button>
+              <button class="vt" onclick="setVendorFilter('DeepSeek',this)">DeepSeek</button>
+              <button class="vt" onclick="setVendorFilter('阿里云',this)">阿里云</button>
+              <button class="vt" onclick="setVendorFilter('字节跳动',this)">字节跳动</button>
+              <button class="vt" onclick="setVendorFilter('MiniMax',this)">MiniMax</button>
+              <button class="vt" onclick="setVendorFilter('智谱AI',this)">智谱 AI</button>
+              <button class="vt" onclick="setVendorFilter('月之暗面',this)">月之暗面</button>
+              <button class="vt" onclick="setVendorFilter('xAI',this)">xAI</button>
+              <button class="vt" onclick="setVendorFilter('Meta',this)">Meta</button>
+              <button class="vt" onclick="setVendorFilter('Mistral',this)">Mistral</button>
+            </div>
           </div>
-          <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:8px;padding:12px">
-            <div class="txs tlt mb8">最近一次调用</div>
-            <div id="extCallStatus" class="tb2">尚未验证</div>
-            <div id="extCallDesc" class="txs tgr mt4">保存后自动发起检测</div>
-          </div>
-          <div style="background:#fafafa;border:1px solid #f4f4f5;border-radius:8px;padding:12px">
-            <div class="txs tlt mb8">外部供应商额度</div>
-            <div id="extBalanceStatus" class="tb2">待查询</div>
-            <div id="extBalanceDesc" class="txs tgr mt4">保存后自动检测</div>
+          <!-- 能力 Tag 多选 -->
+          <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">
+            <span style="font-size:12px;color:var(--t3);flex-shrink:0">能力：</span>
+            <span class="cft" onclick="toggleCapFilter('函数调用',this)">函数调用</span>
+            <span class="cft" onclick="toggleCapFilter('视觉理解',this)">视觉理解</span>
+            <span class="cft" onclick="toggleCapFilter('视频输入',this)">视频输入</span>
+            <span class="cft" onclick="toggleCapFilter('音频输入',this)">音频输入</span>
+            <span class="cft" onclick="toggleCapFilter('深度思考',this)">深度思考</span>
+            <span class="cft" onclick="toggleCapFilter('复杂推理',this)">复杂推理</span>
+            <span class="cft" onclick="toggleCapFilter('联网搜索',this)">联网搜索</span>
+            <span id="capFilterCount" style="font-size:11px;color:var(--t3);margin-left:4px"></span>
           </div>
         </div>
-      </div>
-      <div class="mt12" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
-        <button class="btn bp" style="min-width:220px;padding:12px 28px;font-size:15px" onclick="needLogin(()=>saveConf(this))">保存并检测</button>
-      <span id="connResult" style="font-size:12px;display:none;text-align:center"></span>
+      </div><!-- /modelFilterSticky -->
+      <!-- 模型列表区 -->
+      <div style="padding:16px 20px 20px">
+        <div class="g g2" style="gap:10px" id="platformModelGrid">
+          <!-- 由 JS renderPlatformModelGrid() 动态生成 -->
+        </div>
       </div>
     </div>
-    </div><!-- /panelCustom -->
+  </div><!-- /panelBuiltin -->
 
-    </div><!-- /模型列表区 -->
-  </div>
+  <!-- ── 外部供应商面板 ── -->
+  <div id="panelCustom" style="display:none">
+
+    <!-- 说明 banner -->
+    <div style="background:#fff8f0;border:1px solid #fed7aa;border-radius:10px;padding:16px 18px;margin-bottom:16px">
+      <div style="font-size:13px;font-weight:700;color:#92400e;margin-bottom:12px">🔌 将自己购买的 API Key 接入 My tokens</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+        <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px">
+          <span style="font-size:20px;flex-shrink:0;line-height:1.2">🔄</span>
+          <div><div style="font-weight:700;color:var(--t);margin-bottom:2px">协议自动转换</div><div style="color:var(--t2);line-height:1.6">国产模型一键变 Claude 格式，直接在 Claude Code 中使用</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px">
+          <span style="font-size:20px;flex-shrink:0;line-height:1.2">📊</span>
+          <div><div style="font-weight:700;color:var(--t);margin-bottom:2px">统一计费追踪</div><div style="color:var(--t2);line-height:1.6">多家供应商的余额与 tokens 消耗，一个页面全看清</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px">
+          <span style="font-size:20px;flex-shrink:0;line-height:1.2">🧩</span>
+          <div><div style="font-weight:700;color:var(--t);margin-bottom:2px">多供应商管理</div><div style="color:var(--t2);line-height:1.6">tokens 按量 / 套餐均支持，统一入口管理和切换</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 已接入供应商列表 -->
+    <div style="font-size:13px;font-weight:600;color:var(--t2);margin-bottom:10px">已接入供应商 <span style="font-size:12px;background:#f4f4f5;color:var(--t3);border-radius:20px;padding:1px 8px;font-weight:400">2</span></div>
+
+    <!-- CC Switch 风格供应商行列表 -->
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+
+      <!-- 行：DeepSeek（使用中，选中高亮） -->
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:14px 16px;background:#eef8ff;border:2px solid #3b82f6;border-radius:12px;cursor:pointer;position:relative" onclick="openVendorConfig('DeepSeek')">
+        <!-- 拖拽柄 -->
+        <div style="display:flex;flex-direction:column;gap:2px;flex-shrink:0;cursor:grab;padding:2px 4px;opacity:.35;margin-top:2px" title="拖拽排序">
+          <span style="display:block;width:14px;height:1.5px;background:#52525b;border-radius:1px"></span>
+          <span style="display:block;width:14px;height:1.5px;background:#52525b;border-radius:1px"></span>
+          <span style="display:block;width:14px;height:1.5px;background:#52525b;border-radius:1px"></span>
+        </div>
+        <!-- logo -->
+        <img src="https://logo.clearbit.com/deepseek.com" style="width:36px;height:36px;border-radius:8px;object-fit:contain;background:#f5f5f5;flex-shrink:0;padding:4px;margin-top:2px" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div style="display:none;width:36px;height:36px;border-radius:8px;background:#e8f4ff;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#3b82f6;flex-shrink:0;margin-top:2px">D</div>
+        <!-- 名称 + 地址 + 数据 -->
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:2px">
+            <span style="font-size:14px;font-weight:700;color:var(--t)">DeepSeek</span>
+          </div>
+          <div style="font-size:12px;color:var(--t3);margin-bottom:8px">https://platform.deepseek.com</div>
+          <!-- 第一行：Key 状态 + 可用模型 + 账户余额 -->
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+            <div style="display:flex;align-items:center;gap:4px">
+              <span style="font-size:11px;color:var(--t3)">Key 状态</span>
+              <span style="font-size:11px;font-weight:600;color:#16a34a">● 正常</span>
+            </div>
+            <div style="width:1px;height:12px;background:var(--bd)"></div>
+            <div style="display:flex;align-items:center;gap:4px">
+              <span style="font-size:11px;color:var(--t3)">可用模型</span>
+              <span style="font-size:12px;font-weight:600;color:var(--t)">18 个</span>
+            </div>
+            <div style="width:1px;height:12px;background:var(--bd)"></div>
+            <div style="display:flex;align-items:center;gap:4px">
+              <span style="font-size:11px;color:var(--t3)">账户余额</span>
+              <span style="font-size:12px;font-weight:700;color:#16a34a">¥ 28.50</span>
+            </div>
+          </div>
+          <!-- 第二行：平台统计转发消耗 -->
+          <div style="background:#f8fafb;border:1px solid var(--bd);border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+            <span style="font-size:11px;color:var(--t3);flex-shrink:0">平台统计</span>
+            <div style="display:flex;align-items:center;gap:4px">
+              <span style="font-size:11px;color:var(--t3)">今日消耗</span>
+              <span style="font-size:12px;font-weight:600;color:var(--t)">3.2K tokens</span>
+            </div>
+            <div style="width:1px;height:12px;background:var(--bd)"></div>
+            <div style="display:flex;align-items:center;gap:4px">
+              <span style="font-size:11px;color:var(--t3)">本月消耗</span>
+              <span style="font-size:12px;font-weight:600;color:var(--t)">12.3K tokens</span>
+            </div>
+            <div style="width:1px;height:12px;background:var(--bd)"></div>
+            <div style="display:flex;align-items:center;gap:4px">
+              <span style="font-size:11px;color:var(--t3)">本周请求</span>
+              <span style="font-size:12px;font-weight:600;color:var(--t)">86 次</span>
+            </div>
+          </div>
+        </div>
+        <!-- 操作 -->
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0">
+          <div style="display:flex;align-items:center;gap:4px" onclick="event.stopPropagation()">
+            <button class="btn bsm bo" onclick="needLogin(()=>openAddVendorModal())">编辑</button>
+            <button class="btn bsm" style="color:#ef4444;border-color:#fca5a5;background:transparent" onclick="showToast('已移除 DeepSeek')">删除</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 行：openrouter（未使用中） -->
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:14px 16px;background:var(--wh);border:1.5px solid var(--bd);border-radius:12px;cursor:pointer;transition:border-color .15s" onclick="openVendorConfig('openrouter')" onmouseenter="this.style.borderColor='#8ed2c9'" onmouseleave="this.style.borderColor='#dde5ea'">
+        <!-- 拖拽柄 -->
+        <div style="display:flex;flex-direction:column;gap:2px;flex-shrink:0;cursor:grab;padding:2px 4px;opacity:.35;margin-top:2px" title="拖拽排序">
+          <span style="display:block;width:14px;height:1.5px;background:#52525b;border-radius:1px"></span>
+          <span style="display:block;width:14px;height:1.5px;background:#52525b;border-radius:1px"></span>
+          <span style="display:block;width:14px;height:1.5px;background:#52525b;border-radius:1px"></span>
+        </div>
+        <!-- logo 占位 -->
+        <div style="width:36px;height:36px;border-radius:8px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#71717a;flex-shrink:0;margin-top:2px">O</div>
+        <!-- 名称 + 地址 + 数据 -->
+        <div style="flex:1;min-width:0">
+          <div style="font-size:14px;font-weight:700;color:var(--t);margin-bottom:2px">openrouter</div>
+          <div style="font-size:12px;color:var(--t3);margin-bottom:8px">openrouter.ai</div>
+          <!-- 数据区 -->
+          <!-- 第一行：Key 状态 + 可用模型数 -->
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+            <div style="display:flex;align-items:center;gap:4px">
+              <span style="font-size:11px;color:var(--t3)">Key 状态</span>
+              <span style="font-size:11px;font-weight:600;color:#16a34a">● 正常</span>
+            </div>
+            <div style="width:1px;height:12px;background:var(--bd)"></div>
+            <div style="display:flex;align-items:center;gap:4px">
+              <span style="font-size:11px;color:var(--t3)">可用模型</span>
+              <span style="font-size:12px;font-weight:600;color:var(--t)">241 个</span>
+            </div>
+            <div style="width:1px;height:12px;background:var(--bd)"></div>
+            <div style="display:flex;align-items:center;gap:4px">
+              <span style="font-size:11px;color:var(--t3)">账户余额</span>
+              <span style="font-size:11px;color:var(--t3)">不支持查询</span>
+            </div>
+          </div>
+          <!-- 第二行：平台统计的转发消耗 -->
+          <div style="background:#f8fafb;border:1px solid var(--bd);border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+            <span style="font-size:11px;color:var(--t3);flex-shrink:0">平台统计</span>
+            <div style="display:flex;align-items:center;gap:4px">
+              <span style="font-size:11px;color:var(--t3)">今日消耗</span>
+              <span style="font-size:12px;font-weight:600;color:var(--t)">0 tokens</span>
+            </div>
+            <div style="width:1px;height:12px;background:var(--bd)"></div>
+            <div style="display:flex;align-items:center;gap:4px">
+              <span style="font-size:11px;color:var(--t3)">本月消耗</span>
+              <span style="font-size:12px;font-weight:600;color:var(--t)">0 tokens</span>
+            </div>
+            <div style="width:1px;height:12px;background:var(--bd)"></div>
+            <div style="display:flex;align-items:center;gap:4px">
+              <span style="font-size:11px;color:var(--t3)">本周请求</span>
+              <span style="font-size:12px;font-weight:600;color:var(--t)">0 次</span>
+            </div>
+          </div>
+        </div>
+        <!-- 操作图标 -->
+        <div style="display:flex;align-items:center;gap:4px;flex-shrink:0;margin-top:2px" onclick="event.stopPropagation()">
+          <button class="btn bsm bo" onclick="needLogin(()=>openAddVendorModal())">编辑</button>
+          <button class="btn bsm" style="color:#ef4444;border-color:#fca5a5;background:transparent" onclick="showToast('已移除 openrouter')">删除</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 添加供应商按钮 -->
+    <button class="btn bo" style="width:100%;padding:14px;font-size:14px;font-weight:600;border-radius:10px;border-style:dashed;color:var(--a);border-color:var(--a)" onclick="needLogin(()=>openAddVendorModal())">
+      ＋ 添加供应商
+    </button>
+
+  </div><!-- /panelCustom -->
+
 </div>
 
 <!-- ─────── P04 Tokens 中心 ─────── -->
@@ -947,32 +1138,32 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div class="pl-tag" style="background:#f59e0b">🎁 新用户专享</div>
       <div class="pl-nm">体验卡</div>
       <div class="pl-tk" style="color:#f59e0b">¥0.01 <span>/ 7天</span></div>
-      <div style="font-size:13px;font-weight:700;margin:8px 0 2px;color:var(--t)">约 11.7万 Tokens</div>
-      <div style="font-size:12px;color:var(--t2)">每天自动发放 16,667</div>
+      <div style="font-size:13px;font-weight:700;margin:8px 0 2px;color:var(--t)">约 11.7万 次请求</div>
+      <div style="font-size:12px;color:var(--t2)">每天自动发放 16,667 次</div>
       <div style="font-size:11px;color:#f59e0b;margin-top:6px;font-weight:600">每账号限购 1 次</div>
     </div>
 
     <div class="plc on" onclick="selPl(this)" data-plan-name="月卡" data-plan-type="subscription" data-plan-price="99" data-plan-monthly-tokens="500000" data-plan-daily="16667">
       <div class="pl-nm">月卡</div>
       <div class="pl-tk">¥99 <span>/ 月</span></div>
-      <div style="font-size:13px;font-weight:700;margin:8px 0 2px;color:var(--t)">50万 Tokens/月</div>
-      <div style="font-size:12px;color:var(--t2)">每天自动发放 16,667</div>
+      <div style="font-size:13px;font-weight:700;margin:8px 0 2px;color:var(--t)">50万 次/月</div>
+      <div style="font-size:12px;color:var(--t2)">每天自动发放 16,667 次</div>
     </div>
 
     <div class="plc" onclick="selPl(this)" data-plan-name="季卡" data-plan-type="subscription" data-plan-price="299" data-plan-quarterly-tokens="1500000" data-plan-daily="16667">
       <div class="pl-tag">⭐ 新</div>
       <div class="pl-nm">季卡</div>
       <div class="pl-tk">¥299 <span>/ 季</span></div>
-      <div style="font-size:13px;font-weight:700;margin:8px 0 2px;color:var(--t)">150万 Tokens/季</div>
-      <div style="font-size:12px;color:var(--t2)">每天自动发放 16,667</div>
+      <div style="font-size:13px;font-weight:700;margin:8px 0 2px;color:var(--t)">150万 次/季</div>
+      <div style="font-size:12px;color:var(--t2)">每天自动发放 16,667 次</div>
     </div>
 
     <div class="plc" onclick="selPl(this)" data-plan-name="年卡" data-plan-type="subscription" data-plan-price="999" data-plan-yearly-tokens="6000000" data-plan-daily="16438">
       <div class="pl-tag">🔥 最划算</div>
       <div class="pl-nm">年卡</div>
       <div class="pl-tk">¥999 <span>/ 年</span></div>
-      <div style="font-size:13px;font-weight:700;margin:8px 0 2px;color:var(--t)">600万 Tokens/年</div>
-      <div style="font-size:12px;color:var(--t2)">每天自动发放 16,438 · 约 ¥83/月</div>
+      <div style="font-size:13px;font-weight:700;margin:8px 0 2px;color:var(--t)">600万 次/年</div>
+      <div style="font-size:12px;color:var(--t2)">每天自动发放 16,438 次 · 约 ¥83/月</div>
     </div>
   </div>
 
@@ -1057,7 +1248,7 @@ input:checked+.sl:before{transform:translateX(16px)}
       </label>
     </div>
     <div class="sep" style="margin:0 0 12px"></div>
-    <div class="fxb mb8"><div class="tgr" style="font-size:12px">已选套餐</div><div class="tb2" style="font-size:12px" id="selectedSubSummary">99元/月 · 50万 Tokens</div></div>
+    <div class="fxb mb8"><div class="tgr" style="font-size:12px">已选套餐</div><div class="tb2" style="font-size:12px" id="selectedSubSummary">99元/月 · 50万 次请求</div></div>
     <div class="fxb" style="font-size:16px;font-weight:800;margin-bottom:14px">
       <div>合计</div><div class="tac" id="selectedSubTotal">¥99/月</div>
     </div>
@@ -1366,6 +1557,132 @@ input:checked+.sl:before{transform:translateX(16px)}
 <!-- ══════════════════════════════════════════════════
      MODALS
 ══════════════════════════════════════════════════ -->
+
+<!-- mVendorConfig 供应商接入配置 -->
+<div class="ov" id="mVendorConfig">
+  <div class="mo" style="max-width:620px;width:94%;max-height:88vh;overflow-y:auto;padding:0;border-radius:14px">
+    <div style="padding:20px 24px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:2;border-radius:14px 14px 0 0">
+      <div>
+        <div style="font-size:16px;font-weight:700" id="vcTitle">接入配置</div>
+        <div style="font-size:12px;color:var(--t2);margin-top:3px">在 AI 工具中配置此供应商的接入方式</div>
+      </div>
+      <button style="background:transparent;border:none;cursor:pointer;font-size:20px;color:var(--t3);line-height:1;padding:0 4px" onclick="cm('mVendorConfig')">✕</button>
+    </div>
+    <div id="vcBody" style="padding:20px 24px 28px"></div>
+  </div>
+</div>
+
+<!-- mAddVendor 添加外部供应商 -->
+<div class="ov" id="mAddVendor">
+  <div class="mo" style="max-width:700px;width:94%;max-height:90vh;overflow-y:auto;padding:0;border-radius:14px">
+    <!-- Header -->
+    <div style="padding:20px 24px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:2;border-radius:14px 14px 0 0">
+      <div>
+        <div style="font-size:16px;font-weight:700" id="avModalTitle">添加新供应商</div>
+      </div>
+      <button style="background:transparent;border:none;cursor:pointer;font-size:20px;color:var(--t3);line-height:1;padding:0 4px" onclick="cm('mAddVendor')">✕</button>
+    </div>
+
+    <!-- Step 1 -->
+    <div id="avStep1" style="padding:20px 24px">
+      <!-- 预设供应商网格 -->
+      <div style="font-size:12px;font-weight:600;color:var(--t2);margin-bottom:10px">
+        预设供应商 <span style="font-weight:400;color:var(--t3)">· 只需填写 API Key，地址已自动预设</span>
+      </div>
+      <div id="vendorPresetGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:20px">
+        <!-- 由 JS renderVendorPresets() 生成 -->
+      </div>
+      <!-- 已选供应商 icon -->
+      <div id="vendorSelectedIcon" style="display:flex;flex-direction:column;align-items:center;margin-bottom:16px">
+        <div style="width:52px;height:52px;border-radius:12px;background:#f4f4f5;display:flex;align-items:center;justify-content:center;font-size:24px">🔌</div>
+      </div>
+      <!-- 表单 -->
+      <div class="g g2" style="gap:12px;margin-bottom:12px">
+        <div class="fg" style="margin-bottom:0">
+          <label class="fl">供应商名称 <span style="color:#ef4444">*</span></label>
+          <input class="fi" id="avName" placeholder="例如：DeepSeek">
+        </div>
+        <div class="fg" style="margin-bottom:0">
+          <label class="fl">备注（可选）</label>
+          <input class="fi" id="avNote" placeholder="例如：公司专用账号">
+        </div>
+      </div>
+      <div class="fg" style="margin-bottom:12px">
+        <label class="fl">官网 / API 文档地址</label>
+        <input class="fi" id="avUrl" placeholder="https://...">
+      </div>
+      <div class="fg" style="margin-bottom:0">
+        <label class="fl">API Key <span style="color:#ef4444">*</span></label>
+        <input class="fi" id="avKey" type="password" placeholder="sk-...">
+        <div class="txs tgr mt4">密钥仅用于转发请求，平台不会挪作他用。建议创建专用 Key。</div>
+      </div>
+      <div style="background:#f0fdf9;border:1px solid #d1fae5;border-radius:8px;padding:11px 14px;margin-top:14px;font-size:12px;color:var(--t2);line-height:1.7">
+        🔄 <b style="color:var(--t)">协议路由</b>：平台支持将 Anthropic / OpenAI / Gemini 协议请求转发至该供应商，具体路由规则在 AI 工具配置中按需设置。
+      </div>
+    </div>
+
+    <!-- Step 2：模型列表（拉取后显示） -->
+    <div id="avStep2" style="display:none;padding:20px 24px">
+      <!-- 供应商信息行 -->
+      <div style="display:flex;align-items:center;gap:12px;background:#f8fffe;border:1px solid #d1fae5;border-radius:10px;padding:12px 14px;margin-bottom:18px">
+        <div id="avS2Icon" style="width:40px;height:40px;border-radius:10px;background:#f0fdf9;border:2px solid #d1fae5;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🔌</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:14px;font-weight:700" id="avS2Name">供应商</div>
+          <div style="font-size:12px;color:var(--t3);font-family:monospace" id="avS2Key">sk-••••••</div>
+        </div>
+        <span style="font-size:11px;background:#dcfce7;color:#15803d;padding:3px 10px;border-radius:20px;font-weight:600">● 连接成功</span>
+      </div>
+
+      <!-- 模型列表 header -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="font-size:13px;font-weight:700;color:var(--t)">
+          拉取到 <span id="avModelCount" style="color:var(--a)">0</span> 个可用模型 · 请选择要启用的
+        </div>
+        <div style="display:flex;gap:10px">
+          <span style="font-size:12px;color:var(--a);cursor:pointer;font-weight:600" onclick="avToggleAll(true)">全选</span>
+          <span style="font-size:12px;color:var(--t3);cursor:pointer" onclick="avToggleAll(false)">全不选</span>
+        </div>
+      </div>
+      <!-- 模型 checklist -->
+      <div id="avModelList" style="border:1px solid var(--bd);border-radius:10px;overflow:hidden;max-height:280px;overflow-y:auto">
+        <!-- 由 JS renderAvModelList() 生成 -->
+      </div>
+
+      <!-- 协议转换配置 -->
+      <div style="margin-top:16px">
+        <!-- API 格式下拉 -->
+        <div style="background:#f8fafb;border:1px solid var(--bd);border-radius:10px;padding:14px 16px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <span style="font-size:13px;font-weight:700;color:var(--t)">API 格式</span>
+          </div>
+          <select id="avProtoSelect" class="fi" style="height:36px;font-size:13px;padding:0 10px;width:100%;margin-bottom:14px" onchange="avOnProtoChange(this.value)">
+            <option value="anthropic">Anthropic Messages（需开启路由）</option>
+            <option value="openai">OpenAI Chat Completions（需开启路由）</option>
+            <option value="responses">OpenAI Responses API（需开启路由）</option>
+            <option value="gemini">Gemini Native generateContent（需开启路由）</option>
+          </select>
+          <!-- 动态配置区 -->
+          <div id="avProtoDetail"></div>
+        </div>
+
+        <!-- 隐藏的映射 select，供 avFillMappingSelects 填充 -->
+        <div style="display:none">
+          <select id="avMapSonnet"></select>
+          <select id="avMapOpus"></select>
+          <select id="avMapHaiku"></select>
+          <select id="avMapFable"></select>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div style="padding:14px 24px 20px;display:flex;justify-content:flex-end;align-items:center;gap:10px;border-top:1px solid var(--bd);position:sticky;bottom:0;background:#fff;border-radius:0 0 14px 14px">
+      <button class="btn bo" onclick="cm('mAddVendor')">取消</button>
+      <button id="avNextBtn" class="btn bp" onclick="needLogin(()=>{showToast('供应商已成功接入');cm('mAddVendor')})">保存并接入</button>
+    </div>
+  </div>
+</div>
 
 <!-- mResetKey 重置 API Key 确认 -->
 <div class="ov" id="mResetKey">
@@ -1841,7 +2158,7 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div id="ob-panel-4" class="ob-panel" style="display:none">
         <div style="font-size:28px;margin-bottom:10px">🎉</div>
         <div style="font-size:16px;font-weight:800;margin-bottom:8px">配置完成，开始使用吧！</div>
-        <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:18px">你现在可以在 AI 工具里直接发起对话，所有请求都会通过 AIHub 路由到你选择的模型。</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:18px">你现在可以在 AI 工具里直接发起对话，所有请求都会通过 My tokens 路由到你选择的模型。</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
           <div style="background:#f0fdf9;border-radius:10px;padding:14px;text-align:center">
             <div style="font-size:22px;margin-bottom:4px">🚀</div>
@@ -1855,7 +2172,7 @@ input:checked+.sl:before{transform:translateX(16px)}
           </div>
         </div>
         <div style="padding:10px 14px;background:#f0fdf9;border-radius:8px;font-size:12px;color:var(--t2)">
-          💡 遇到问题？可随时在「模型设置」里调整路由，或前往「AI 工具」查看安装教程。
+          💡 遇到问题？可随时在「模型厂商设置」里调整路由，或前往「AI 工具」查看安装教程。
         </div>
       </div>
     </div>
@@ -3337,7 +3654,7 @@ function confirmUseModelMulti(){
   if(lastKey) appState.activeToolKey = lastKey;
   renderToolRoutingViews();
   var ni = document.querySelector('.ni[onclick*="p03"]');
-  if(ni) go('p03', ni, '模型设置');
+  if(ni) go('p03', ni, '模型厂商设置');
   var desc = document.getElementById('m14Desc');
   var toolNames = selected.map(function(k){ return appState.toolRouting[k] ? appState.toolRouting[k].name : k; }).join('、');
   if(desc) desc.innerHTML = '已将 <strong>' + toolNames + '</strong> 默认模型设为 <strong>' + _pendingUseModel + '</strong>，重启工具后生效。';
@@ -3644,6 +3961,121 @@ function updateRouteSummary(){
   const activeToolModel=getToolCurrentModel(appState.activeToolKey) || activeToolConfigured;
   const enabledModeLabels=getEnabledRouteModeLabels();
   const modeSummary=enabledModeLabels.length ? enabledModeLabels.join('、') : '未开启自动切换模式';
+}
+
+// 供应商 → 模型数据
+var vendorModels = {
+  platform: ['claude-sonnet-4-5','claude-haiku-3-5','deepseek-v3','deepseek-r1','gemini-1.5-pro','qwen-max'],
+  deepseek: ['deepseek-chat','deepseek-reasoner','deepseek-coder-v2'],
+  aliyun: ['Qwen3.5-Flash','Qwen-Max','Qwen-Plus','Qwen-Turbo','QwQ-32B','Qwen2.5-Coder-32B','Qwen-VL-Max'],
+  google: ['gemini-2.0-flash','gemini-1.5-pro','gemini-2.5-flash','gemini-2.5-pro']
+};
+// 无固定槽位工具：添加模型行
+function addModelRow(toolKey){
+  var list = document.getElementById(toolKey + '-model-list');
+  if(!list) return;
+  var vendorEl = document.getElementById(toolKey + '-vendor');
+  var vendorKey = vendorEl ? vendorEl.value : 'deepseek';
+  var models = vendorModels[vendorKey] || [];
+  var opts = models.map(function(m){ return '<option>'+m+'</option>'; }).join('');
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;align-items:center;gap:6px';
+  row.innerHTML = '<select class="sel" style="flex:1" onchange="needLogin(()=>{})">'+opts+'</select>'
+    +'<button style="background:none;border:none;color:var(--t3);font-size:16px;cursor:pointer;padding:2px 4px;line-height:1" title="移除" '
+    +'onclick="needLogin(()=>{var l=document.getElementById(\''+toolKey+'-model-list\');if(l&&l.children.length>1)this.closest(\'div\').remove();})">✕</button>';
+  list.appendChild(row);
+}
+var nativeModelOptions = {
+  'claude-desktop': ['claude-opus-4-5','claude-sonnet-4-5','claude-haiku-3-5','claude-3-opus-20240229','claude-3-5-sonnet-20241022'],
+  'gemini': ['gemini-2.5-flash','gemini-2.5-pro','gemini-2.0-flash','gemini-1.5-pro','gemini-1.5-flash']
+};
+var nativeModelMaxSlots = {
+  'claude-desktop': 4,
+  'gemini': 3
+};
+function addCodexCatalogRow(){
+  var list = document.getElementById('codex-catalog-list');
+  if(!list) return;
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;align-items:center;gap:6px';
+  row.innerHTML = '<select class="sel" style="flex:1" onchange="needLogin(()=>{})"><option>codex-mini-latest</option><option>o4-mini</option><option>o3</option><option>gpt-4.1</option><option>gpt-4.1-mini</option></select>'
+    +'<button style="background:none;border:none;color:var(--t3);font-size:16px;cursor:pointer;padding:2px 4px;line-height:1" title="移除" '
+    +'onclick="needLogin(()=>{var l=document.getElementById(\'codex-catalog-list\');if(l&&l.children.length>1)this.closest(\'div\').remove();})">✕</button>';
+  list.appendChild(row);
+}
+function addNativeModelRow(toolKey){
+  var list = document.getElementById(toolKey + '-native-list');
+  if(!list) return;
+  var maxSlots = nativeModelMaxSlots[toolKey] || 99;
+  if(list.children.length >= maxSlots) return;
+  var models = nativeModelOptions[toolKey] || [];
+  var opts = models.map(function(m){ return '<option>'+m+'</option>'; }).join('');
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;align-items:center;gap:6px';
+  row.innerHTML = '<select class="sel" style="flex:1" onchange="needLogin(()=>{})">'+opts+'</select>'
+    +'<button style="background:none;border:none;color:var(--t3);font-size:16px;cursor:pointer;padding:2px 4px;line-height:1" title="移除" '
+    +'onclick="needLogin(()=>{var l=document.getElementById(\''+toolKey+'-native-list\');if(l&&l.children.length>1){this.closest(\'div\').remove();updateNativeAddBtn(\''+toolKey+'\');}})">✕</button>';
+  list.appendChild(row);
+  updateNativeAddBtn(toolKey);
+}
+function updateNativeAddBtn(toolKey){
+  var list = document.getElementById(toolKey + '-native-list');
+  var btn  = document.getElementById(toolKey + '-native-add');
+  if(!list || !btn) return;
+  var maxSlots = nativeModelMaxSlots[toolKey] || 99;
+  var full = list.children.length >= maxSlots;
+  btn.disabled = full;
+  btn.style.opacity = full ? '0.4' : '1';
+  btn.style.cursor  = full ? 'not-allowed' : 'pointer';
+  btn.title = full ? '已达最大槽位限制（'+maxSlots+'个）' : '';
+}
+// 供应商切换：更新所有映射槽位的可选模型
+var toolMappingSlots = {
+  'claude-desktop': ['map-sonnet','map-opus','map-haiku','map-fable'],
+  'codex-cli': ['map-default']
+};
+function toggleMapping(toolKey){
+  var chk = document.getElementById(toolKey+'-map-toggle');
+  var off = document.getElementById(toolKey+'-map-off');
+  var on  = document.getElementById(toolKey+'-map-on');
+  if(!chk||!off||!on) return;
+  var enabled = chk.checked;
+  off.style.display = enabled ? 'none' : '';
+  on.style.display  = enabled ? 'flex' : 'none';
+  if(enabled){
+    var vendorSelId = toolKey==='claude-desktop' ? 'claude-desktop-vendor'
+                    : toolKey==='codex-cli'       ? 'codex-vendor'
+                    : toolKey+'-vendor';
+    var vendorEl = document.getElementById(vendorSelId);
+    var vKey = vendorEl ? vendorEl.value : 'platform';
+    changeToolVendor(toolKey, vKey);
+  }
+}
+function changeToolVendor(toolKey, vendorKey){
+  var models = vendorModels[vendorKey] || [];
+  var opts = models.map(function(m){ return '<option>'+m+'</option>'; }).join('');
+  var slots = toolMappingSlots[toolKey] || [];
+  slots.forEach(function(slot){
+    var el = document.getElementById(toolKey + '-' + slot);
+    if(el){ el.innerHTML = opts; }
+  });
+}
+// 刷新按钮：模拟拉取供应商最新模型
+function refreshVendorModels(toolKey){
+  var btnId = toolKey + '-refresh';
+  // codex 的 id 是 codex-cli-refresh
+  if(toolKey === 'codex-cli') btnId = 'codex-cli-refresh';
+  var btn = document.getElementById(btnId);
+  if(btn){ btn.textContent = '⏳'; btn.disabled = true; }
+  setTimeout(function(){
+    var vendorEl = document.getElementById(
+      toolKey === 'codex-cli' ? 'codex-vendor' : toolKey + '-vendor'
+    );
+    var vendorKey = vendorEl ? vendorEl.value : 'platform';
+    changeToolVendor(toolKey, vendorKey);
+    if(btn){ btn.textContent = '🔄'; btn.disabled = false; }
+    showToast('已拉取最新可用模型');
+  }, 1000);
 }
 
 function changeToolModel(toolKey, value){
@@ -4725,16 +5157,388 @@ function switchModelTab(tab){
   var isBuiltin = tab === 'builtin';
   document.getElementById('panelBuiltin').style.display = isBuiltin ? '' : 'none';
   document.getElementById('panelCustom').style.display = isBuiltin ? 'none' : '';
-  var pf = document.getElementById('panelBuiltinFilter');
-  if(pf) pf.style.display = isBuiltin ? '' : 'none';
   var tb = document.getElementById('tabBuiltin');
   var tc = document.getElementById('tabCustom');
   if(tb){ tb.style.background = isBuiltin ? 'var(--a)' : 'transparent'; tb.style.color = isBuiltin ? '#fff' : 'var(--t2)'; tb.style.boxShadow = isBuiltin ? '0 2px 8px rgba(15,118,110,.25)' : 'none'; }
   if(tc){ tc.style.background = !isBuiltin ? 'var(--a)' : 'transparent'; tc.style.color = !isBuiltin ? '#fff' : 'var(--t2)'; tc.style.boxShadow = !isBuiltin ? '0 2px 8px rgba(15,118,110,.25)' : 'none'; }
 }
 
-// 用户自定义模型列表
-var customModels = [];
+// ── 外部供应商 ──
+var vendorPresets = [
+  {name:'DeepSeek',     url:'https://platform.deepseek.com',           icon:'🤖'},
+  {name:'OpenAI',       url:'https://platform.openai.com',             icon:'⬡'},
+  {name:'Anthropic',    url:'https://console.anthropic.com',           icon:'🔷'},
+  {name:'阿里云百炼',   url:'https://bailian.console.aliyun.com',      icon:'☁️'},
+  {name:'火山引擎',     url:'https://www.volcengine.com/product/doubao',icon:'🔥'},
+  {name:'Moonshot Kimi',url:'https://platform.moonshot.cn',            icon:'🌙'},
+  {name:'MiniMax',      url:'https://platform.minimaxi.com',           icon:'⚡'},
+  {name:'智谱 AI',      url:'https://open.bigmodel.cn',                icon:'🧠'},
+  {name:'Google AI',    url:'https://aistudio.google.com',             icon:'🔵'},
+  {name:'腾讯混元',     url:'https://hunyuan.tencent.com',             icon:'🏢'},
+  {name:'百度文心',     url:'https://qianfan.cloud.baidu.com',         icon:'🌊'},
+  {name:'讯飞星火',     url:'https://xinghuo.xfyun.cn',                icon:'✨'},
+  {name:'StepFun',      url:'https://platform.stepfun.com',            icon:'👣'},
+  {name:'自定义配置',   url:'',                                         icon:'⚙️'},
+];
+
+function renderVendorPresets(){
+  var grid = document.getElementById('vendorPresetGrid');
+  if(!grid) return;
+  grid.innerHTML = vendorPresets.map(function(v,i){
+    return '<div onclick="selectVendorPreset('+i+',this)" style="cursor:pointer;border:1.5px solid var(--bd);border-radius:10px;padding:10px 6px;text-align:center;transition:all .15s;background:#fff" onmouseenter="this.style.borderColor=\'var(--a)\';this.style.background=\'#f0fdf9\'" onmouseleave="if(!this.classList.contains(\'vp-on\')){this.style.borderColor=\'var(--bd)\';this.style.background=\'#fff\'}">'
+      + '<div style="font-size:22px;margin-bottom:5px">'+v.icon+'</div>'
+      + '<div style="font-size:11px;font-weight:600;color:var(--t);line-height:1.3">'+v.name+'</div>'
+      + '</div>';
+  }).join('');
+}
+
+function selectVendorPreset(idx, el){
+  var v = vendorPresets[idx];
+  var grid = document.getElementById('vendorPresetGrid');
+  if(grid) grid.querySelectorAll('div[onclick]').forEach(function(d){ d.classList.remove('vp-on'); d.style.borderColor='var(--bd)'; d.style.background='#fff'; });
+  el.classList.add('vp-on');
+  el.style.borderColor = 'var(--a)';
+  el.style.background = '#f0fdf9';
+  var iconArea = document.getElementById('vendorSelectedIcon');
+  if(iconArea) iconArea.innerHTML = '<div style="width:52px;height:52px;border-radius:12px;background:#f0fdf9;border:2px solid #d1fae5;display:flex;align-items:center;justify-content:center;font-size:26px">'+v.icon+'</div><div style="margin-top:5px;font-size:13px;font-weight:700;color:var(--t)">'+v.name+'</div>';
+  var nm = document.getElementById('avName');
+  var ul = document.getElementById('avUrl');
+  if(nm && v.name !== '自定义配置') nm.value = v.name;
+  if(ul) ul.value = v.url;
+  var kf = document.getElementById('avKey');
+  if(kf) kf.focus();
+}
+
+function openAddVendorModal(){
+  ['avName','avNote','avUrl','avKey'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+  var iconArea = document.getElementById('vendorSelectedIcon');
+  if(iconArea) iconArea.innerHTML = '<div style="width:52px;height:52px;border-radius:12px;background:#f4f4f5;display:flex;align-items:center;justify-content:center;font-size:24px">🔌</div>';
+  var grid = document.getElementById('vendorPresetGrid');
+  if(grid) grid.querySelectorAll('div[onclick]').forEach(function(d){ d.classList.remove('vp-on'); d.style.borderColor='var(--bd)'; d.style.background='#fff'; });
+  avGoStep1();
+  om('mAddVendor');
+}
+
+// 模拟各供应商的可用模型
+var vendorModelMap = {
+  'DeepSeek':     ['deepseek-chat','deepseek-reasoner','deepseek-coder-v2','deepseek-v2','deepseek-v2-lite'],
+  'OpenAI':       ['gpt-4o','gpt-4o-mini','gpt-4-turbo','gpt-3.5-turbo','o1','o1-mini','o3-mini'],
+  'Anthropic':    ['claude-opus-4-5','claude-sonnet-4-5','claude-haiku-3-5','claude-3-opus','claude-3-haiku'],
+  '阿里云百炼':   ['qwen-max','qwen-plus','qwen-turbo','qwq-32b','qwen-long','qwen2.5-coder-32b','qwen-vl-max','qwen-math-plus'],
+  '火山引擎':     ['doubao-pro-32k','doubao-pro-128k','doubao-lite-32k','deepseek-r1-250528'],
+  'Moonshot Kimi':['moonshot-v1-8k','moonshot-v1-32k','moonshot-v1-128k','kimi-k2-0711-preview'],
+  'MiniMax':      ['abab6.5s-chat','abab6.5g-chat','abab5.5s-chat','MiniMax-Text-01'],
+  '智谱 AI':      ['glm-4-plus','glm-4-0520','glm-4-flash','glm-z1-flash','cogvideox-2b'],
+  'Google AI':    ['gemini-2.0-flash','gemini-1.5-pro','gemini-1.5-flash','gemini-pro'],
+  '腾讯混元':     ['hunyuan-pro','hunyuan-standard','hunyuan-lite','hunyuan-code'],
+  '百度文心':     ['ernie-4.0-turbo-8k','ernie-3.5-8k','ernie-speed-8k','ernie-lite-8k'],
+  '讯飞星火':     ['spark-max','spark-pro','spark-lite','spark-4.0-ultra'],
+  'StepFun':      ['step-2-16k','step-1-8k','step-1-flash','step-1v-8k'],
+};
+
+var _avCurrentIcon = '🔌';
+
+function validateVendorKey(btn){
+  var name = (document.getElementById('avName')||{}).value||'';
+  var key  = (document.getElementById('avKey')||{}).value||'';
+  if(!name.trim()){ showToast('请填写供应商名称'); return; }
+  if(!key.trim()){ showToast('请填写 API Key'); return; }
+  // 模拟验证动画
+  btn.disabled = true;
+  btn.textContent = '验证中...';
+  setTimeout(function(){
+    btn.disabled = false;
+    btn.textContent = '验证并拉取模型 →';
+    // 获取模型列表
+    var models = vendorModelMap[name.trim()] || ['custom-model-1','custom-model-2','custom-model-3'];
+    var maskedKey = key.slice(0,3) + '••••••••••••' + key.slice(-4);
+    // 更新 step2 信息
+    var iconEl = document.getElementById('avS2Icon');
+    var nameEl = document.getElementById('avS2Name');
+    var keyEl  = document.getElementById('avS2Key');
+    // 找当前选中预设的 icon
+    var grid = document.getElementById('vendorPresetGrid');
+    var onEl = grid ? grid.querySelector('.vp-on') : null;
+    var icon = onEl ? onEl.querySelector('div').textContent : '🔌';
+    if(iconEl) iconEl.textContent = icon;
+    if(nameEl) nameEl.textContent = name.trim();
+    if(keyEl)  keyEl.textContent  = maskedKey;
+    var cntEl = document.getElementById('avModelCount');
+    if(cntEl) cntEl.textContent = models.length;
+    renderAvModelList(models);
+    avGoStep2();
+  }, 1400);
+}
+
+function renderAvModelList(models){
+  var container = document.getElementById('avModelList');
+  if(!container) return;
+  container.innerHTML = models.map(function(m, i){
+    return '<label style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--bd);background:#fff;transition:background .12s" onmouseenter="this.style.background=\'#f8fffe\'" onmouseleave="this.style.background=\'#fff\'">'
+      + '<input type="checkbox" checked style="width:16px;height:16px;accent-color:var(--a);cursor:pointer;flex-shrink:0">'
+      + '<span style="font-size:13px;font-family:monospace;color:var(--t)">'+m+'</span>'
+      + (i===0 ? '<span style="font-size:11px;background:#fef3c7;color:#92400e;border-radius:4px;padding:1px 7px;margin-left:auto;flex-shrink:0">默认</span>' : '')
+      + '</label>';
+  }).join('');
+  var items = container.querySelectorAll('label');
+  if(items.length) items[items.length-1].style.borderBottom = 'none';
+  // 更新映射下拉框选项
+  avFillMappingSelects(models);
+}
+
+function avFillMappingSelects(models){
+  ['avMapSonnet','avMapOpus','avMapHaiku','avMapFable'].forEach(function(id, idx){
+    var sel = document.getElementById(id);
+    if(!sel) return;
+    sel.innerHTML = '<option value="">— 选择映射模型 —</option>'
+      + models.map(function(m){ return '<option value="'+m+'">'+m+'</option>'; }).join('');
+    if(models.length > 0){
+      if(idx === 0) sel.value = models[0]; // Sonnet → 旗舰模型
+      if(idx === 1) sel.value = models[0]; // Opus → 旗舰模型
+      if(idx === 2) sel.value = models[models.length-1]; // Haiku → 最轻量
+      if(idx === 3) sel.value = models[Math.min(1, models.length-1)]; // Fable → 第二个
+    }
+  });
+}
+
+function avToggleAll(checked){
+  var container = document.getElementById('avModelList');
+  if(!container) return;
+  container.querySelectorAll('input[type=checkbox]').forEach(function(cb){ cb.checked = checked; });
+}
+
+function avToggleProto(type, card){} // 已废弃，保留避免旧引用报错
+
+function avOnProtoChange(val) {
+  var detail = document.getElementById('avProtoDetail');
+  if(!detail) return;
+  var needsModelMapping = (val === 'anthropic');
+  var urlMap = {
+    anthropic: 'http://127.0.0.1:15721/anthropic/v1',
+    openai:    'http://127.0.0.1:15721/openai/v1',
+    responses: 'http://127.0.0.1:15721/openai/v1/responses',
+    gemini:    'http://127.0.0.1:15721/gemini/v1'
+  };
+  var descMap = {
+    anthropic: '适用：<b>Claude Code、Claude Desktop、Cursor（Anthropic 模式）</b>',
+    openai:    '适用：<b>Cursor、VS Code、Cline、Windsurf</b> 等 OpenAI 兼容工具，按实际模型 ID 调用',
+    responses: '适用：<b>OpenAI Responses API</b> 格式工具，支持 stateful 对话接口',
+    gemini:    '适用：<b>Google Gemini 格式</b>工具，转为 generateContent 接口'
+  };
+  var url = urlMap[val] || '';
+  var html = '';
+  // 描述
+  html += '<div style="font-size:12px;color:var(--t2);margin-bottom:10px;line-height:1.6">' + (descMap[val]||'') + '</div>';
+  // 是否需要模型映射
+  html += '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);margin-bottom:12px">';
+  html += '<div style="flex:1"><div style="font-size:12px;font-weight:600;margin-bottom:4px">需要模型映射</div>';
+  html += '<div style="font-size:11px;color:var(--t3);line-height:1.6">仅当供应商直接接受 Claude Desktop 可识别的三档角色 ID（claude-sonnet-* / claude-opus-* / claude-haiku-*）时才适用直连；其他模型名（含 claude-3-5-sonnet-... 等旧式 ID）请打开此开关映射。</div></div>';
+  html += '<label style="position:relative;display:inline-block;width:40px;height:22px;cursor:pointer;flex-shrink:0;margin-top:2px"><input type="checkbox" id="avNeedMapping" ' + (needsModelMapping ? 'checked' : '') + ' onchange="avOnMappingToggle(this.checked)" style="opacity:0;width:0;height:0"><span style="position:absolute;inset:0;background:' + (needsModelMapping ? 'var(--a)' : '#ccc') + ';border-radius:22px;transition:.2s"><span style="position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:3px;' + (needsModelMapping ? 'right:3px' : 'left:3px') + ';transition:.2s"></span></span></label>';
+  html += '</div>';
+  // 接口地址
+  html += '<div style="margin-bottom:12px"><div style="font-size:11px;color:var(--t2);margin-bottom:4px;font-weight:600">本地服务地址</div>';
+  html += '<div style="display:flex;align-items:center;gap:8px;background:#f8fafb;border:1px solid var(--bd);border-radius:7px;padding:8px 12px">';
+  html += '<code style="font-size:12px;flex:1;font-family:monospace;color:var(--a)" id="avProtoUrl">' + url + '</code>';
+  html += '</div></div>';
+  // 模型映射表（仅 Anthropic）
+  html += '<div id="avMappingArea" style="display:' + (needsModelMapping ? '' : 'none') + '">';
+  html += '<div style="font-size:11px;color:var(--t2);margin-bottom:6px;font-weight:600">模型别名映射</div>';
+  html += '<div style="background:#f8fafb;border:1px solid var(--bd);border-radius:8px;padding:10px 14px;display:grid;grid-template-columns:130px 18px 1fr;gap:6px 6px;align-items:center;font-size:12px">';
+  var rows = [['claude-sonnet-4','avMapSonnet'],['claude-opus-4','avMapOpus'],['claude-haiku-3-5','avMapHaiku'],['claude-fable','avMapFable']];
+  rows.forEach(function(r){
+    html += '<span style="color:var(--t2);font-family:monospace;font-size:11px;padding:2px 6px;background:#f0fdf9;border-radius:4px">' + r[0] + '</span>';
+    html += '<span style="color:var(--t3);text-align:center">→</span>';
+    // 把隐藏 select 的当前 html 移到这里
+    var origSel = document.getElementById(r[1]);
+    html += '<select id="' + r[1] + '_vis" class="fi" style="height:28px;font-size:12px;padding:0 8px" onchange="document.getElementById(\'' + r[1] + '\').value=this.value">' + (origSel ? origSel.innerHTML : '') + '</select>';
+  });
+  html += '</div></div>';
+  // 手动指定模型列表（高级，折叠）
+  if(val === 'anthropic') {
+    html += '<div style="margin-top:10px;border:1px solid var(--bd);border-radius:8px;overflow:hidden">';
+    html += '<div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display===\'none\'?\'\':\' none\';this.querySelector(\'span.arr\').textContent=this.nextElementSibling.style.display===\'\'?\'\u25be\':\'\u25b8\'" style="display:flex;align-items:center;gap:8px;padding:10px 14px;cursor:pointer;background:#fafafa;user-select:none">';
+    html += '<span class="arr" style="color:var(--t3);font-size:12px">\u25b8</span>';
+    html += '<div><div style="font-size:12px;font-weight:600">手动指定 Claude Desktop 模型列表（高级，可选）</div>';
+    html += '<div style="font-size:11px;color:var(--t3);margin-top:1px">原生 Claude 模型供应商通常不用填写，Claude Desktop 会自动读取 /v1/models。</div></div>';
+    html += '</div>';
+    html += '<div style="display:none;padding:12px 14px;border-top:1px solid var(--bd)">';
+    html += '<textarea class="fi" style="width:100%;height:80px;font-size:12px;font-family:monospace;resize:vertical;padding:8px" placeholder="每行一个模型名，留空则自动读取"></textarea>';
+    html += '</div></div>';
+  }
+  detail.innerHTML = html;
+  // 同步可见下拉的选中值
+  rows.forEach(function(r){
+    var hidden = document.getElementById(r[1]);
+    var vis = document.getElementById(r[1]+'_vis');
+    if(hidden && vis) vis.value = hidden.value;
+  });
+}
+
+function avOnMappingToggle(on) {
+  var area = document.getElementById('avMappingArea');
+  if(area) area.style.display = on ? '' : 'none';
+  var sw = document.querySelector('#avProtoDetail label span');
+  if(sw) sw.style.background = on ? 'var(--a)' : '#ccc';
+}
+
+function avGoStep1(){
+  document.getElementById('avStep1').style.display = '';
+  document.getElementById('avStep2').style.display = 'none';
+  document.getElementById('avNextBtn').style.display = '';
+  var sb = document.getElementById('avSaveBtn'); if(sb) sb.style.display = 'none';
+  var bb = document.getElementById('avBackBtn'); if(bb) bb.style.display = 'none';
+  var d1 = document.getElementById('avDot1'), d2 = document.getElementById('avDot2');
+  var l2 = document.getElementById('avStep2Label');
+  if(d1){ d1.style.background='var(--a)'; d1.style.color='#fff'; }
+  if(d2){ d2.style.background='#e5e7eb'; d2.style.color='var(--t3)'; }
+  if(l2) l2.style.color='var(--t3)';
+}
+
+function avGoStep2(){
+  document.getElementById('avStep1').style.display = 'none';
+  document.getElementById('avStep2').style.display = '';
+  document.getElementById('avNextBtn').style.display = 'none';
+  document.getElementById('avSaveBtn').style.display = '';
+  document.getElementById('avBackBtn').style.display = '';
+  var d1 = document.getElementById('avDot1'), d2 = document.getElementById('avDot2');
+  var l2 = document.getElementById('avStep2Label');
+  if(d1){ d1.style.background='#d1fae5'; d1.style.color='#15803d'; }
+  if(d2){ d2.style.background='var(--a)'; d2.style.color='#fff'; }
+  if(l2) l2.style.color='var(--t)';
+  // 进入 Step2 时默认渲染 Anthropic（setTimeout 确保 DOM 已更新）
+  setTimeout(function(){
+    var sel = document.getElementById('avProtoSelect');
+    avOnProtoChange(sel ? sel.value : 'anthropic');
+  }, 0);
+}
+
+function saveVendorModels(){
+  var container = document.getElementById('avModelList');
+  var checked = container ? container.querySelectorAll('input:checked').length : 0;
+  var name = (document.getElementById('avS2Name')||{}).textContent||'';
+  var sel = document.getElementById('avProtoSelect');
+  var protoLabel = {anthropic:'Anthropic Messages', openai:'OpenAI Chat Completions', responses:'OpenAI Responses API', gemini:'Gemini'};
+  var proto = sel ? (protoLabel[sel.value] || sel.value) : '未选择';
+  cm('mAddVendor');
+  showToast('✅ ' + name + ' 已接入，启用 ' + checked + ' 个模型 · API 格式：' + proto);
+}
+
+var vendorConfigData = {
+  'DeepSeek': {
+    icon: 'D',
+    protocols: ['anthropic','openai'],
+    models: ['deepseek-chat','deepseek-reasoner','deepseek-coder-v2','deepseek-v2'],
+    mapping: {sonnet:'deepseek-chat', opus:'deepseek-chat', haiku:'deepseek-v2'}
+  },
+  '阿里云百炼': {
+    icon: '阿',
+    protocols: ['anthropic','openai'],
+    models: ['qwen-max','qwen-plus','qwen-turbo','qwq-32b','qwen-long','qwen2.5-coder-32b','qwen-vl-max'],
+    mapping: {sonnet:'qwen-max', opus:'qwen-max', haiku:'qwen-turbo'}
+  }
+};
+
+function openVendorConfig(name) {
+  var cfg = vendorConfigData[name];
+  if(!cfg) return;
+  var protocols = cfg.protocols, models = cfg.models, mapping = cfg.mapping;
+  var titleEl = document.getElementById('vcTitle');
+  if(titleEl) titleEl.textContent = name + ' · 接入配置';
+  var body = document.getElementById('vcBody');
+  if(!body) return;
+  var html = '';
+  // 供应商信息行
+  var proLabels = protocols.map(function(p){ return p==='anthropic'?'Anthropic Messages':p==='openai'?'OpenAI Chat Completions':'Gemini API'; });
+  html += '<div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafb;border-radius:10px;border:1px solid var(--bd);margin-bottom:20px">';
+  html += '<div style="width:36px;height:36px;border-radius:8px;background:#e8f5f3;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;color:var(--a)">' + cfg.icon + '</div>';
+  html += '<div style="flex:1"><div style="font-size:13px;font-weight:700">' + name + '</div>';
+  html += '<div style="font-size:11px;color:var(--t2)">已启用 ' + models.length + ' 个模型 · 协议：' + proLabels.join(' / ') + '</div></div>';
+  html += '<span style="font-size:11px;background:#dcfce7;color:#15803d;padding:2px 8px;border-radius:20px;font-weight:600">● 运行中</span>';
+  html += '</div>';
+  // Anthropic Messages
+  if(protocols.indexOf('anthropic') > -1) {
+    html += '<div style="margin-bottom:20px">';
+    html += '<div style="font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px">🔀 Anthropic Messages 格式 <span style="font-size:11px;background:#dbeafe;color:#1d4ed8;padding:2px 7px;border-radius:4px;font-weight:400">Claude Code · Claude Desktop · Cursor Anthropic 模式</span></div>';
+    html += '<div style="margin-bottom:10px"><div style="font-size:11px;color:var(--t2);margin-bottom:4px;font-weight:600">接口地址</div>';
+    html += '<div style="display:flex;align-items:center;gap:8px;background:#f8fafb;border:1px solid var(--bd);border-radius:8px;padding:8px 12px">';
+    html += '<code style="font-size:12px;flex:1;font-family:monospace;color:var(--a)">http://127.0.0.1:15721/anthropic/v1</code>';
+    html += '<button class="btn bo bsm" onclick="vcCopy(\'http://127.0.0.1:15721/anthropic/v1\',this)">复制</button></div></div>';
+    if(mapping) {
+      html += '<div style="margin-bottom:10px"><div style="font-size:11px;color:var(--t2);margin-bottom:4px;font-weight:600">模型别名映射</div>';
+      html += '<div style="background:#f8fafb;border:1px solid var(--bd);border-radius:8px;padding:10px 14px">';
+      html += '<div style="display:grid;grid-template-columns:130px 18px 1fr;gap:5px 6px;align-items:center;font-size:12px">';
+      html += '<span style="color:var(--t2)">claude-sonnet-4</span><span style="color:var(--t3);text-align:center">→</span><code style="font-family:monospace;color:var(--a)">' + (mapping.sonnet||'—') + '</code>';
+      html += '<span style="color:var(--t2)">claude-opus-4</span><span style="color:var(--t3);text-align:center">→</span><code style="font-family:monospace;color:var(--a)">' + (mapping.opus||'—') + '</code>';
+      html += '<span style="color:var(--t2)">claude-haiku-3-5</span><span style="color:var(--t3);text-align:center">→</span><code style="font-family:monospace;color:var(--a)">' + (mapping.haiku||'—') + '</code>';
+      html += '<span style="color:var(--t2)">claude-fable</span><span style="color:var(--t3);text-align:center">→</span><code style="font-family:monospace;color:var(--a)">' + (mapping.fable||(mapping.sonnet||'—')) + '</code>';
+      html += '</div></div></div>';
+    }
+    var jsonCode = '{\n  "env": {\n    "ANTHROPIC_BASE_URL": "http://127.0.0.1:15721/anthropic/v1",\n    "ANTHROPIC_AUTH_TOKEN": "mytoken-sk-xxxxxxxx"\n  }\n}';
+    html += '<div><div style="font-size:11px;color:var(--t2);margin-bottom:4px;font-weight:600">Claude Code / Claude Desktop &nbsp;<code style="background:#f0f0f0;padding:1px 5px;border-radius:3px;font-size:10px">~/.claude/settings.json</code></div>';
+    html += '<div style="position:relative">';
+    html += '<pre style="background:#13232f;color:#e5e7eb;border-radius:8px;padding:14px 16px;font-size:12px;font-family:monospace;margin:0;overflow-x:auto;line-height:1.7">' + jsonCode.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</pre>';
+    html += '<button onclick="vcCopy(' + JSON.stringify(jsonCode) + ',this)" style="position:absolute;top:8px;right:8px;background:rgba(255,255,255,0.12);color:#d1d5db;border:1px solid rgba(255,255,255,0.2);border-radius:5px;padding:3px 10px;font-size:11px;cursor:pointer">复制</button>';
+    html += '</div></div></div>';
+    if(protocols.indexOf('openai') > -1 || protocols.indexOf('gemini') > -1 || protocols.indexOf('responses') > -1) html += '<div style="border-top:1px solid var(--bd);margin:18px 0"></div>';
+  }
+  // OpenAI Chat Completions
+  if(protocols.indexOf('openai') > -1) {
+    html += '<div style="margin-bottom:20px">';
+    html += '<div style="font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px">🔌 OpenAI Chat Completions 格式 <span style="font-size:11px;background:#fef3c7;color:#92400e;padding:2px 7px;border-radius:4px;font-weight:400">Cursor · VS Code · Cline · Windsurf</span></div>';
+    html += '<div style="margin-bottom:12px"><div style="font-size:11px;color:var(--t2);margin-bottom:4px;font-weight:600">接口地址</div>';
+    html += '<div style="display:flex;align-items:center;gap:8px;background:#f8fafb;border:1px solid var(--bd);border-radius:8px;padding:8px 12px">';
+    html += '<code style="font-size:12px;flex:1;font-family:monospace;color:var(--a)">http://127.0.0.1:15721/openai/v1</code>';
+    html += '<button class="btn bo bsm" onclick="vcCopy(\'http://127.0.0.1:15721/openai/v1\',this)">复制</button></div></div>';
+    html += '<div><div style="font-size:11px;color:var(--t2);margin-bottom:6px;font-weight:600">已启用模型（填入工具的 Model 字段）</div>';
+    html += '<div style="display:flex;flex-wrap:wrap;gap:5px">';
+    models.forEach(function(m) {
+      html += '<div style="display:flex;align-items:center;gap:4px;background:#f0fdf9;border:1px solid #d1fae5;border-radius:5px;padding:3px 9px">';
+      html += '<code style="font-size:11px;font-family:monospace;color:var(--t)">' + m + '</code>';
+      html += '<button onclick="vcCopy(\'' + m + '\',this)" style="background:transparent;border:none;cursor:pointer;color:var(--t3);font-size:11px;padding:0 0 0 3px;line-height:1" title="复制">⧉</button>';
+      html += '</div>';
+    });
+    html += '</div></div></div>';
+    if(protocols.indexOf('gemini') > -1 || protocols.indexOf('responses') > -1) html += '<div style="border-top:1px solid var(--bd);margin:18px 0"></div>';
+  }
+  // Gemini API
+  if(protocols.indexOf('gemini') > -1) {
+    html += '<div style="margin-bottom:20px"><div style="font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px">♊ Gemini Native generateContent 格式 <span style="font-size:11px;background:#f3f4f6;color:#4b5563;padding:2px 7px;border-radius:4px;font-weight:400">Google 兼容工具</span></div>';
+    html += '<div style="font-size:11px;color:var(--t2);margin-bottom:4px;font-weight:600">接口地址</div>';
+    html += '<div style="display:flex;align-items:center;gap:8px;background:#f8fafb;border:1px solid var(--bd);border-radius:8px;padding:8px 12px">';
+    html += '<code style="font-size:12px;flex:1;font-family:monospace;color:var(--a)">http://127.0.0.1:15721/gemini/v1</code>';
+    html += '<button class="btn bo bsm" onclick="vcCopy(\'http://127.0.0.1:15721/gemini/v1\',this)">复制</button></div></div>';
+    if(protocols.indexOf('responses') > -1) html += '<div style="border-top:1px solid var(--bd);margin:18px 0"></div>';
+  }
+  // OpenAI Responses API
+  if(protocols.indexOf('responses') > -1) {
+    html += '<div><div style="font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px">📨 OpenAI Responses API 格式 <span style="font-size:11px;background:#f3f4f6;color:#4b5563;padding:2px 7px;border-radius:4px;font-weight:400">OpenAI Responses API 工具</span></div>';
+    html += '<div style="font-size:11px;color:var(--t2);margin-bottom:4px;font-weight:600">接口地址</div>';
+    html += '<div style="display:flex;align-items:center;gap:8px;background:#f8fafb;border:1px solid var(--bd);border-radius:8px;padding:8px 12px">';
+    html += '<code style="font-size:12px;flex:1;font-family:monospace;color:var(--a)">http://127.0.0.1:15721/openai/v1/responses</code>';
+    html += '<button class="btn bo bsm" onclick="vcCopy(\'http://127.0.0.1:15721/openai/v1/responses\',this)">复制</button></div></div>';
+  }
+  body.innerHTML = html;
+  om('mVendorConfig');
+}
+
+function vcCopy(text, btn) {
+  navigator.clipboard.writeText(text).then(function() {
+    var orig = btn.textContent;
+    btn.textContent = '✓ 已复制';
+    setTimeout(function(){ btn.textContent = orig; }, 1500);
+  }).catch(function() { showToast('复制失败，请手动选取'); });
+}
+
+function toggleVendorModels(id, btn){
+  var el = document.getElementById(id);
+  if(!el) return;
+  var open = el.style.display !== 'none';
+  el.style.display = open ? 'none' : '';
+  var count = btn.textContent.match(/\d+/);
+  if(count) btn.textContent = (open ? '▾ ' : '▴ ') + count[0] + ' 个模型';
+}
+
+
 var editingModelIndex = -1;
 
 function formatConnStatus(status, ts){
@@ -4894,6 +5698,7 @@ updatePlanSummary(document.querySelector('.plc.on'));
 syncBalanceViews();
 lucide.createIcons();
 updateHeroGreeting();
+renderVendorPresets();
 </script>
 </body>
 </html>
