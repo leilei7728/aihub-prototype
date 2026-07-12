@@ -1771,7 +1771,7 @@ input:checked+.sl:before{transform:translateX(16px)}
                   </div>
                   <div class="profile-overview-copy-block">
                     <h2 id="heroGreeting" class="profile-overview-greeting">早上好，雷蕾</h2>
-                    <div id="heroMemberText" class="profile-overview-member-line">当前会员：Pro 专业版 · 2026-08-10 到期</div>
+                    <div id="heroMemberText" class="profile-overview-member-line">当前会员：Pro 专业版 · 有效期：2026-08-10</div>
                   </div>
                 </div>
                 <div id="heroSubSection">
@@ -7179,7 +7179,7 @@ function syncBalanceViews(){
     }
     if(heroMemberText){
       heroMemberText.textContent = isMember
-        ? ('当前会员：' + userPlan.name + ' · ' + userPlan.expireDate + ' 到期')
+        ? ('当前会员：' + userPlan.name + ' · 有效期：' + userPlan.expireDate)
         : '当前状态：未订阅，可先充值后使用';
     }
 
