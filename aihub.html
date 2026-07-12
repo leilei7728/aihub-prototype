@@ -1752,16 +1752,14 @@ input:checked+.sl:before{transform:translateX(16px)}
         </div>
 
         <div id="profileSection-profile" class="profile-center-panel on">
-          <div class="profile-center-panel-head">
-            <div>
-              <div class="profile-center-panel-title">账号资料</div>
-              <div class="profile-center-panel-sub">把账号状态、订阅用量和基础资料放到同一处查看，避免信息分散在多个入口。</div>
-            </div>
-          </div>
           <div class="profile-overview-account-card">
             <div class="profile-overview-account-shell">
               <div class="profile-overview-account-main">
                 <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+                  <div class="sb-avatar-wrap" style="margin-right:6px">
+                    <div id="profileHeroAvatar" class="profile-center-avatar">雷</div>
+                    <div class="sb-avatar-medal">🏅</div>
+                  </div>
                   <h2 id="heroGreeting" style="margin:0;font-size:28px;font-weight:800;color:#111827">早上好，雷蕾</h2>
                   <div id="heroMemberRow" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
                     <div id="heroMemberBadge" class="member-badge-trigger" onclick="openMemberBadgeModal()" style="display:inline-flex;align-items:center;gap:6px;background:rgba(15,23,42,.04);border:1px solid rgba(15,23,42,.08);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--t)">
@@ -1808,13 +1806,6 @@ input:checked+.sl:before{transform:translateX(16px)}
                 </div>
                 <button onclick="go('p05',nv(4),'购买 Tokens');setTimeout(()=>switchBuyTab('topup'),100)" id="heroChargeBtn" style="background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:20px;color:var(--t);font-size:12px;padding:6px 16px;cursor:pointer;white-space:nowrap;margin-top:12px">充值余额</button>
               </div>
-            </div>
-          </div>
-          <div class="profile-center-quick-grid compact">
-            <div class="profile-center-quick-card">
-              <div class="profile-center-quick-title">可用模型</div>
-              <div id="profileSummaryProviders" class="profile-center-summary-value">0</div>
-              <div class="profile-center-quick-copy">当前账号可直接使用的模型总数。</div>
             </div>
           </div>
           <div class="card" style="padding:20px">
@@ -3648,13 +3639,11 @@ function syncProfileCenter(){
   var summaryPlanCopy = document.getElementById('profileSummaryPlanCopy');
   var summaryTokens = document.getElementById('profileSummaryTokens');
   var summaryCash = document.getElementById('profileSummaryCash');
-  var summaryProviders = document.getElementById('profileSummaryProviders');
 
   if(summaryPlan) summaryPlan.textContent = planName;
   if(summaryPlanCopy) summaryPlanCopy.textContent = loggedIn && userPlan && userPlan.name ? expireText : '未开通订阅时将优先按余额计费。';
   if(summaryTokens) summaryTokens.textContent = tokenText;
   if(summaryCash) summaryCash.textContent = cashText;
-  if(summaryProviders) summaryProviders.textContent = String(providerCount);
 
   var orderCountEl = document.getElementById('profileOrderCount');
   var invoiceCountEl = document.getElementById('profileInvoiceCount');
