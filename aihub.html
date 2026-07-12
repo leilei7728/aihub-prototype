@@ -304,6 +304,11 @@ body{font-family:'SF Pro Display','SF Pro Text','PingFang SC','Helvetica Neue','
 .profile-overview-account-card{margin-bottom:14px;padding:20px 22px;border-radius:24px;background:linear-gradient(180deg,#ffffff,#f8fbff);border:1px solid rgba(226,232,240,.95);box-shadow:0 14px 28px rgba(15,23,42,.05)}
 .profile-overview-account-shell{display:flex;align-items:stretch;justify-content:space-between;gap:18px;flex-wrap:wrap}
 .profile-overview-account-main{flex:1;min-width:320px}
+.profile-overview-identity{display:flex;align-items:center;gap:18px;margin-bottom:12px}
+.profile-overview-avatar-wrap{margin-right:0}
+.profile-overview-copy-block{display:grid;gap:8px;min-width:0;flex:1}
+.profile-overview-greeting{margin:0;font-size:28px;font-weight:800;color:#111827;line-height:1.15;letter-spacing:-.02em}
+.profile-overview-member-line{display:inline-flex;align-items:center;min-height:30px;padding:0 12px;border-radius:999px;background:rgba(248,250,252,.96);border:1px solid rgba(226,232,240,.95);font-size:12px;color:var(--t2);line-height:1.6;width:max-content;max-width:100%;box-shadow:0 8px 20px rgba(15,23,42,.04)}
 .profile-overview-account-side{width:220px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;text-align:right}
 .profile-overview-usage{margin-bottom:12px}
 .profile-overview-usage-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;flex-wrap:wrap}
@@ -943,6 +948,10 @@ input:checked+.sl:before{transform:translateX(16px)}
   .profile-center-summary-grid,.profile-center-highlight-grid,.profile-center-quick-grid,.profile-center-order-grid{grid-template-columns:1fr}
   .profile-overview-account-card{padding:16px}
   .profile-overview-account-main{min-width:0}
+  .profile-overview-identity{align-items:flex-start;gap:14px}
+  .profile-overview-copy-block{width:100%}
+  .profile-overview-greeting{font-size:24px}
+  .profile-overview-member-line{width:100%;max-width:none;border-radius:16px;padding:8px 12px}
   .profile-center-panel{padding:18px}
   .um-row{grid-template-columns:1fr;gap:4px}
   .tool-usage-list{grid-template-columns:1fr}
@@ -1755,14 +1764,16 @@ input:checked+.sl:before{transform:translateX(16px)}
           <div class="profile-overview-account-card">
             <div class="profile-overview-account-shell">
               <div class="profile-overview-account-main">
-                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">
-                  <div class="sb-avatar-wrap" style="margin-right:6px">
+                <div class="profile-overview-identity">
+                  <div class="sb-avatar-wrap profile-overview-avatar-wrap">
                     <div id="profileHeroAvatar" class="profile-center-avatar">雷</div>
                     <div class="sb-avatar-medal">🏅</div>
                   </div>
-                  <h2 id="heroGreeting" style="margin:0;font-size:28px;font-weight:800;color:#111827">早上好，雷蕾</h2>
+                  <div class="profile-overview-copy-block">
+                    <h2 id="heroGreeting" class="profile-overview-greeting">早上好，雷蕾</h2>
+                    <div id="heroMemberText" class="profile-overview-member-line">当前会员：Pro 专业版 · 2026-08-10 到期</div>
+                  </div>
                 </div>
-                <div id="heroMemberText" style="margin:-2px 0 12px 112px;font-size:12px;color:var(--t2)">当前会员：Pro 专业版 · 2026-08-10 到期</div>
                 <div id="heroSubSection">
                   <div class="profile-overview-usage">
                     <div class="profile-overview-usage-row">
