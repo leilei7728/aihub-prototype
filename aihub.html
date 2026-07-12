@@ -69,6 +69,9 @@ body{font-family:'SF Pro Display','SF Pro Text','PingFang SC','Helvetica Neue','
 .sb-user-copy{min-width:0}
 .sb-user-copy .un{font-size:13px;font-weight:800;line-height:1.3}
 .sb-user-badge-name{margin-top:4px;font-size:11px;color:#9a3412;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-profile-entry{display:grid;gap:0;border-radius:18px;cursor:pointer;transition:background .18s,box-shadow .18s,transform .18s}
+.sb-profile-entry:hover{background:rgba(255,255,255,.52);box-shadow:0 12px 24px rgba(15,23,42,.06);transform:translateY(-1px)}
+.sb-profile-entry:hover .sb-sub-card{border-color:rgba(96,165,250,.38);box-shadow:0 12px 24px rgba(59,130,246,.12)}
 .sb-sub-entry{margin:0 0 8px}
 .sb-sub-card{padding:12px;border-radius:16px;background:linear-gradient(180deg,#eff6ff,#dbeafe);border:1px solid rgba(147,197,253,.34);box-shadow:0 10px 20px rgba(59,130,246,.08);cursor:pointer}
 .sb-sub-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
@@ -1080,7 +1083,7 @@ input:checked+.sl:before{transform:translateX(16px)}
         </div>
       </div>
       <div id="sb-logined" class="u-row" style="display:none;flex-direction:column;align-items:stretch;padding:4px 0">
-        <div onclick="if(!event.target.closest('button'))go('p08',document.querySelector('.sb-bot .ni'),'个人中心')">
+        <div class="sb-profile-entry" onclick="if(!event.target.closest('button'))go('p08',document.querySelector('.sb-bot .ni'),'个人中心')">
           <div class="sb-user-head">
             <div class="sb-avatar-wrap">
               <div class="av sb-avatar-lg" id="sb-avatar">雷</div>
