@@ -276,7 +276,7 @@ body{font-family:'SF Pro Display','SF Pro Text','PingFang SC','Helvetica Neue','
 .profile-center-setting-btn:hover{background:rgba(255,255,255,.16)}
 .profile-center-hero-main{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
 .profile-center-identity{display:flex;align-items:center;gap:18px;min-width:0}
-.profile-center-avatar{width:96px;height:96px;border-radius:50%;background:linear-gradient(180deg,#fffdf6,#f0d7bf);border:4px solid rgba(255,255,255,.68);box-shadow:0 18px 36px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800;color:#8a5a30;flex-shrink:0;overflow:hidden}
+.profile-center-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#4ab2ff,#0a84ff);border:4px solid rgba(255,255,255,.82);box-shadow:0 16px 28px rgba(10,132,255,.2);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#fff;flex-shrink:0;overflow:hidden}
 .profile-center-avatar img{width:100%;height:100%;object-fit:cover}
 .profile-center-copy{display:grid;gap:8px;min-width:0}
 .profile-center-name{font-size:30px;font-weight:800;line-height:1.15;letter-spacing:-.02em}
@@ -940,7 +940,7 @@ input:checked+.sl:before{transform:translateX(16px)}
   .badge-detail-rail:before{display:none}
   .profile-center-hero{padding:18px 18px 20px}
   .profile-center-hero-main,.profile-center-identity{align-items:flex-start}
-  .profile-center-avatar{width:78px;height:78px;font-size:28px}
+  .profile-center-avatar{width:64px;height:64px;font-size:22px}
   .profile-center-name{font-size:24px}
   .profile-center-metrics{justify-content:flex-start;gap:14px}
   .profile-center-metric{min-width:calc(50% - 7px);text-align:left}
@@ -1097,7 +1097,7 @@ input:checked+.sl:before{transform:translateX(16px)}
           <div class="sb-user-head">
             <div class="sb-avatar-wrap">
               <div class="av sb-avatar-lg" id="sb-avatar">雷</div>
-              <div id="sbAvatarMedal" class="sb-avatar-medal">🏅</div>
+              <div id="sbAvatarMedal" class="sb-avatar-medal member-badge-trigger" onclick="event.stopPropagation();openMemberBadgeModal()">🏅</div>
             </div>
             <div class="sb-user-copy">
               <div class="un" id="sb-name">雷蕾</div>
@@ -1767,7 +1767,7 @@ input:checked+.sl:before{transform:translateX(16px)}
                 <div class="profile-overview-identity">
                   <div class="sb-avatar-wrap profile-overview-avatar-wrap">
                     <div id="profileHeroAvatar" class="profile-center-avatar">雷</div>
-                    <div class="sb-avatar-medal">🏅</div>
+                    <div class="sb-avatar-medal member-badge-trigger" onclick="event.stopPropagation();openMemberBadgeModal()">🏅</div>
                   </div>
                   <div class="profile-overview-copy-block">
                     <h2 id="heroGreeting" class="profile-overview-greeting">早上好，雷蕾</h2>
@@ -1815,7 +1815,13 @@ input:checked+.sl:before{transform:translateX(16px)}
           </div>
           <div class="card" style="padding:20px">
             <div class="fg"><label class="fl">昵称</label><input id="profileNicknameInput" class="fi" value="雷蕾" style="max-width:340px"></div>
-            <div class="fg"><label class="fl">绑定手机</label><input id="profilePhoneInput" class="fi" value="138****8888" style="max-width:340px"></div>
+            <div class="fg" style="align-items:center">
+              <label class="fl">绑定手机</label>
+              <div class="fxc g8">
+                <input id="profilePhoneInput" class="fi" value="138****8888" style="max-width:200px" readonly>
+                <button class="btn bo bsm" type="button" onclick="openChangeProfilePhoneModal()">修改手机号</button>
+              </div>
+            </div>
             <div class="fg" style="align-items:center">
               <label class="fl">登录密码</label>
               <div class="fxc g8">
@@ -2029,6 +2035,33 @@ input:checked+.sl:before{transform:translateX(16px)}
     <div class="mo-ft">
       <button class="btn bo" onclick="cm('m09')">取消</button>
       <button class="btn bp" onclick="cm('m09')">保存新密码</button>
+    </div>
+  </div>
+</div>
+
+<!-- M16 修改绑定手机号 -->
+<div class="ov" id="m16">
+  <div class="mo mo-sm">
+    <div class="mo-ti">修改绑定手机号</div>
+    <div class="mo-ds">验证新手机号后，将同步更新个人中心与侧边栏展示。</div>
+    <div class="fg">
+      <label class="fl">当前手机号</label>
+      <input class="fi" id="profilePhoneCurrent" disabled>
+    </div>
+    <div class="fg">
+      <label class="fl">新手机号</label>
+      <input class="fi" id="profilePhoneNext" type="tel" placeholder="请输入新的 11 位手机号">
+    </div>
+    <div class="fg" style="margin-bottom:0">
+      <label class="fl">验证码</label>
+      <div class="fxc g8">
+        <input class="fi" id="profilePhoneCode" type="text" placeholder="请输入 6 位验证码" style="flex:1;min-width:0">
+        <button class="btn bo bsm" id="profilePhoneCodeBtn" type="button" style="white-space:nowrap;flex-shrink:0" onclick="sendProfilePhoneCode(this)">获取验证码</button>
+      </div>
+    </div>
+    <div class="mo-ft">
+      <button class="btn bo" type="button" onclick="closeChangeProfilePhoneModal()">取消</button>
+      <button class="btn bp" type="button" onclick="confirmProfilePhoneChange()">确认修改</button>
     </div>
   </div>
 </div>
@@ -6941,6 +6974,59 @@ function sendBindCardSms(btn){
   btn.disabled=true; btn.textContent='60s';
   var t=60;
   var iv=setInterval(function(){ t--; btn.textContent=t+'s'; if(t<=0){clearInterval(iv);btn.disabled=false;btn.textContent='获取验证码';} },1000);
+}
+function maskPhoneNumber(phone){
+  var digits = String(phone || '').replace(/\D/g,'');
+  if(digits.length >= 7) return digits.slice(0,3) + '****' + digits.slice(-4);
+  return phone || '';
+}
+function openChangeProfilePhoneModal(){
+  var phoneInput = document.getElementById('profilePhoneInput');
+  var current = document.getElementById('profilePhoneCurrent');
+  var next = document.getElementById('profilePhoneNext');
+  var code = document.getElementById('profilePhoneCode');
+  var btn = document.getElementById('profilePhoneCodeBtn');
+  if(current) current.value = phoneInput ? phoneInput.value.trim() : '';
+  if(next) next.value = '';
+  if(code) code.value = '';
+  if(btn){ btn.disabled = false; btn.textContent = '获取验证码'; }
+  om('m16');
+}
+function closeChangeProfilePhoneModal(){
+  cm('m16');
+}
+function sendProfilePhoneCode(btn){
+  var next = document.getElementById('profilePhoneNext');
+  var digits = next ? next.value.replace(/\D/g,'') : '';
+  if(digits.length !== 11){ showToast('请先输入新的 11 位手机号'); return; }
+  btn.disabled = true;
+  btn.textContent = '60s';
+  var t = 60;
+  var iv = setInterval(function(){
+    t--;
+    btn.textContent = t + 's';
+    if(t <= 0){
+      clearInterval(iv);
+      btn.disabled = false;
+      btn.textContent = '获取验证码';
+    }
+  },1000);
+  showToast('验证码已发送到 ' + maskPhoneNumber(digits) + '（演示模式，任意输入即可）', 2200);
+}
+function confirmProfilePhoneChange(){
+  var phoneInput = document.getElementById('profilePhoneInput');
+  var next = document.getElementById('profilePhoneNext');
+  var code = document.getElementById('profilePhoneCode');
+  var sidePhone = document.querySelector('#sb-logined .ue');
+  var digits = next ? next.value.replace(/\D/g,'') : '';
+  if(digits.length !== 11){ showToast('请输入新的 11 位手机号'); return; }
+  if(!code || !code.value.trim()){ showToast('请输入验证码'); return; }
+  var masked = maskPhoneNumber(digits);
+  if(phoneInput) phoneInput.value = masked;
+  if(sidePhone) sidePhone.textContent = masked;
+  syncProfileCenter();
+  cm('m16');
+  showToast('绑定手机号已更新为 ' + masked, 2200);
 }
 function confirmBindCard(){
   // 更新 mAutoTopupConfig 弹窗内的卡信息
