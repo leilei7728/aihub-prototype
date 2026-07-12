@@ -1080,18 +1080,20 @@ input:checked+.sl:before{transform:translateX(16px)}
         </div>
       </div>
       <div id="sb-logined" class="u-row" style="display:none;flex-direction:column;align-items:stretch;padding:4px 0">
-        <div class="sb-user-head">
-          <div class="sb-avatar-wrap">
-            <div class="av sb-avatar-lg" id="sb-avatar">雷</div>
-            <div id="sbAvatarMedal" class="sb-avatar-medal">🏅</div>
+        <div onclick="if(!event.target.closest('button'))go('p08',document.querySelector('.sb-bot .ni'),'个人中心')">
+          <div class="sb-user-head">
+            <div class="sb-avatar-wrap">
+              <div class="av sb-avatar-lg" id="sb-avatar">雷</div>
+              <div id="sbAvatarMedal" class="sb-avatar-medal">🏅</div>
+            </div>
+            <div class="sb-user-copy">
+              <div class="un" id="sb-name">雷蕾</div>
+              <div class="ue">138****8888</div>
+              <div id="sbAvatarBadgeName" class="sb-user-badge-name">近期勋章 · 学习之星</div>
+            </div>
           </div>
-          <div class="sb-user-copy">
-            <div class="un" id="sb-name">雷蕾</div>
-            <div class="ue">138****8888</div>
-            <div id="sbAvatarBadgeName" class="sb-user-badge-name">近期勋章 · 学习之星</div>
-          </div>
+          <div id="sbSubscriptionEntry" class="sb-sub-entry"></div>
         </div>
-        <div id="sbSubscriptionEntry" class="sb-sub-entry"></div>
         <div style="padding:2px 0 8px">
           <button class="btn bgh bsm" style="width:100%;font-size:11px" onclick="doLogout()">退出登录</button>
         </div>
