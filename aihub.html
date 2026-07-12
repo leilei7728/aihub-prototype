@@ -1581,19 +1581,12 @@ input:checked+.sl:before{transform:translateX(16px)}
         <button class="profile-center-menu-btn on" type="button" data-target="overview" onclick="switchProfileSection('overview',this)"><span>账号总览</span></button>
         <button class="profile-center-menu-btn" type="button" data-target="achievement" onclick="switchProfileSection('achievement',this)"><span>我的成就</span></button>
         <button class="profile-center-menu-btn" type="button" data-target="api" onclick="switchProfileSection('api',this)"><span>API Key</span></button>
-        <button class="profile-center-menu-btn" type="button" data-target="orders" onclick="switchProfileSection('orders',this)"><span>订单中心</span></button>
         <button class="profile-center-menu-btn" type="button" data-target="notice" onclick="switchProfileSection('notice',this)"><span>通知设置</span></button>
         <button class="profile-center-menu-btn" type="button" data-target="profile" onclick="switchProfileSection('profile',this)"><span>账号资料</span></button>
       </div>
 
       <div class="profile-center-content">
         <div id="profileSection-overview" class="profile-center-panel on">
-          <div class="profile-center-panel-head">
-            <div>
-              <div class="profile-center-panel-title">账号总览</div>
-              <div class="profile-center-panel-sub">把套餐、余额、成就和常用入口放进同一层，减少来回切页。</div>
-            </div>
-          </div>
           <div class="profile-overview-account-card">
             <div class="profile-overview-account-shell">
               <div class="profile-overview-account-main">
@@ -1655,7 +1648,7 @@ input:checked+.sl:before{transform:translateX(16px)}
             <div class="profile-center-quick-card">
               <div class="profile-center-quick-title">订单中心</div>
               <div id="profileQuickOrders" class="profile-center-quick-copy">最近订单、续费节点和发票状态都集中在这里查看。</div>
-              <button class="btn bo bsm" type="button" onclick="switchProfileSection('orders',document.querySelector('.profile-center-menu-btn[data-target=orders]'))">查看订单</button>
+              <button class="btn bo bsm" type="button" onclick="switchProfileSection('orders')">查看订单</button>
             </div>
             <div class="profile-center-quick-card">
               <div class="profile-center-quick-title">充值与订阅</div>
