@@ -1071,7 +1071,7 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div class="ni" onclick="go('p02',this,'AI工具管理')"><span class="ic"><i data-lucide="package"></i></span>AI工具管理</div>
       <div class="ni" onclick="go('p03',this,'模型供应商')"><span class="ic"><i data-lucide="git-fork"></i></span>模型供应商</div>
       <div class="ni" onclick="go('p05',this,'订阅 / 充值');setTimeout(function(){switchBuyTab('subscription')},50)"><span class="ic"><i data-lucide="credit-card"></i></span>订阅 / 充值</div>
-      <div class="ni" onclick="(function(el){needLogin(function(){go('p05',el,'消费记录');setTimeout(function(){switchBuyTab('orders')},50)})})(this)"><span class="ic"><i data-lucide="receipt-text"></i></span>消费记录</div>
+      <div class="ni" onclick="(function(el){needLogin(function(){go('p05',el,'订单中心');setTimeout(function(){switchBuyTab('orders')},50)})})(this)"><span class="ic"><i data-lucide="receipt-text"></i></span>订单中心</div>
     </nav>
     <div class="sb-bot">
       <div class="ni" onclick="go('p08',this,'个人中心')"><span class="ic"><i data-lucide="settings"></i></span>个人中心</div>
@@ -1778,7 +1778,7 @@ input:checked+.sl:before{transform:translateX(16px)}
               <div class="profile-center-panel-title">订单中心</div>
               <div class="profile-center-panel-sub">把续费、充值和开票动作留在订单流里，个人中心只保留摘要和跳转。</div>
             </div>
-            <div class="fxc g8"><button class="btn bo bsm" type="button" onclick="go('p05',nv(4),'消费记录');setTimeout(function(){switchBuyTab('orders')},50)">查看订单</button><button class="btn bp bsm" type="button" onclick="go('p05',nv(4),'订阅 / 充值');setTimeout(function(){switchBuyTab('subscription')},50)">继续续费</button></div>
+            <div class="fxc g8"><button class="btn bo bsm" type="button" onclick="go('p05',nv(4),'订单中心');setTimeout(function(){switchBuyTab('orders')},50)">查看订单</button><button class="btn bp bsm" type="button" onclick="go('p05',nv(4),'订阅 / 充值');setTimeout(function(){switchBuyTab('subscription')},50)">继续续费</button></div>
           </div>
           <div class="profile-center-order-grid">
             <div class="profile-center-order-card"><div id="profileOrderCount" class="profile-center-order-value">0</div><div class="profile-center-order-label">累计订单</div><div class="profile-center-order-sub">已产生的订阅与充值订单总数。</div></div>
