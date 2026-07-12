@@ -1761,14 +1761,8 @@ input:checked+.sl:before{transform:translateX(16px)}
                     <div class="sb-avatar-medal">🏅</div>
                   </div>
                   <h2 id="heroGreeting" style="margin:0;font-size:28px;font-weight:800;color:#111827">早上好，雷蕾</h2>
-                  <div id="heroMemberRow" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-                    <div id="heroMemberBadge" class="member-badge-trigger" onclick="openMemberBadgeModal()" style="display:inline-flex;align-items:center;gap:6px;background:rgba(15,23,42,.04);border:1px solid rgba(15,23,42,.08);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--t)">
-                      <span id="heroMemberDot" style="width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0"></span>
-                      <span id="heroMemberMedal" class="plan-medal sky">研习者</span>
-                      <span id="heroMemberLabel">Pro 专业版 · 2026-08-10 到期</span>
-                    </div>
-                  </div>
                 </div>
+                <div id="heroMemberText" style="margin:-2px 0 12px 112px;font-size:12px;color:var(--t2)">当前会员：Pro 专业版 · 2026-08-10 到期</div>
                 <div id="heroSubSection">
                   <div class="profile-overview-usage">
                     <div class="profile-overview-usage-row">
@@ -7159,38 +7153,23 @@ function syncBalanceViews(){
     var isMember = !!userPlan.name;
 
     // 会员区 / 非会员区 切换
-    var memberRow    = document.getElementById('heroMemberRow');
     var subSection   = document.getElementById('heroSubSection');
     var noSubSection = document.getElementById('heroNoSubSection');
-    if(memberRow)    memberRow.style.display    = isMember ? '' : 'none';  // 非会员隐藏标签行
     if(subSection)   subSection.style.display   = isMember ? '' : 'none';
     if(noSubSection) noSubSection.style.display = isMember ? 'none' : '';
 
     // 账户余额说明文字
     var heroCashHint = document.getElementById('heroCashHint');
+    var heroMemberText = document.getElementById('heroMemberText');
     if(heroCashHint){
       heroCashHint.textContent = isMember
         ? '超出当日次数后，从余额继续扣费'
         : '按实际调用量扣费';
     }
-
-    // 会员标签
-    var heroMemberLabel = document.getElementById('heroMemberLabel');
-    var heroMemberDot   = document.getElementById('heroMemberDot');
-    var heroMemberMedal = document.getElementById('heroMemberMedal');
-    if(heroMemberLabel){
-      if(isMember){
-        heroMemberLabel.textContent = userPlan.name + ' · ' + userPlan.expireDate + ' 到期';
-        if(heroMemberMedal){
-          heroMemberMedal.style.display = '';
-          heroMemberMedal.textContent = userPlan.identity || getSubscriptionPlanMeta(userPlan.name).identity;
-        }
-        if(heroMemberDot) heroMemberDot.style.background = '#4ade80';
-      } else {
-        heroMemberLabel.textContent = '未订阅';
-        if(heroMemberMedal) heroMemberMedal.style.display = 'none';
-        if(heroMemberDot) heroMemberDot.style.background = '#94a3b8';
-      }
+    if(heroMemberText){
+      heroMemberText.textContent = isMember
+        ? ('当前会员：' + userPlan.name + ' · ' + userPlan.expireDate + ' 到期')
+        : '当前状态：未订阅，可先充值后使用';
     }
 
     if(!isMember){
