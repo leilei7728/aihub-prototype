@@ -2197,18 +2197,6 @@ input:checked+.sl:before{transform:translateX(16px)}
   </div>
 </div>
 
-<div class="ov" id="mDeleteVendorConfirm">
-  <div class="mo mo-sm" style="text-align:center">
-    <div style="width:54px;height:54px;margin:0 auto 14px;border-radius:18px;background:#fff1f2;color:#dc2626;border:1px solid #fecdd3;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800">!</div>
-    <div class="mo-ti">确认删除供应商？</div>
-    <div class="mo-ds" id="deleteVendorConfirmDesc">删除后，所有 AI 工具都将无法继续使用该供应商提供的模型，需要重新选择其他供应商或切回平台接入。</div>
-    <div class="mo-ft" style="justify-content:center;gap:12px">
-      <button class="btn bo" onclick="cancelRemoveVendorConnection()">取消</button>
-      <button class="btn" style="background:#dc2626;color:#fff;border:none" onclick="confirmRemoveVendorConnection()">确认删除</button>
-    </div>
-  </div>
-</div>
-
 <!-- M09 修改密码 -->
 <!-- M09 修改登录密码 -->
 <div class="ov" id="m09">
@@ -2767,6 +2755,7 @@ input:checked+.sl:before{transform:translateX(16px)}
     </div>
     <div class="builtin-picker-body">
       <div class="builtin-picker-toolbar">
+        <input class="fi" id="builtinModelSearchInput" placeholder="搜索模型名称或原厂" oninput="setBuiltinModelSearch(this.value)">
         <div class="builtin-picker-filter-row" id="builtinModelProviderFilters"></div>
         <div class="builtin-picker-stats" id="builtinModelPickerStats"></div>
       </div>
@@ -2867,8 +2856,6 @@ var currentCapFilters = [];
 var currentCtxFilter = 0;
 var _activeCtxBtn = null;
 var activeBuiltinModelToolKey = null;
-var activeBuiltinModelVendorName = '';
-var pendingDeleteVendorName = '';
 var builtinModelDraft = null;
 var avEditingVendorName = '';
 var currentAddVendorToolKey = 'claude-desktop';
@@ -3775,7 +3762,12 @@ function renderBadgeHub(){
         +   '</div>'
         + '</div>';
     } else {
-      sbSubscriptionEntry.innerHTML = '<button class="btn bp bsm sb-sub-cta" onclick="go(\'p05\',nv(3),\'订阅 / 充值\');setTimeout(function(){switchBuyTab(\'subscription\')},50)">订阅套餐</button>';
+      sbSubscriptionEntry.innerHTML = ''
+        + '<div style="padding:10px 12px;border:1px solid #dbe7ff;border-radius:14px;background:linear-gradient(180deg,#f8fbff 0%,#eef5ff 100%)">'
+        +   '<div style="font-size:12px;font-weight:700;color:var(--t1)">当前还没有可用 tokens</div>'
+        +   '<div style="margin-top:4px;font-size:11px;line-height:1.55;color:var(--t3)">先订阅套餐、充值余额，或者去模型供应商接入你外部购买的额度，不然工具运行不了。</div>'
+        +   '<button class="btn bp bsm sb-sub-cta" style="width:100%;margin-top:10px" onclick="go(\'p05\',nv(4),\'订阅 / 充值\');setTimeout(function(){switchBuyTab(\'subscription\')},50)">去订阅 / 充值</button>'
+        + '</div>';
     }
   }
   if(sbAvatarMedal) sbAvatarMedal.textContent = latest && latest.icon ? latest.icon : '🏅';
@@ -4599,24 +4591,6 @@ function syncUsageDerivedBalances(){
   userTokensBalance=Math.max(0, (userPlan && userPlan.dailyTokens ? userPlan.dailyTokens : 0) - todayUsage);
 }
 
-function hasMemberDataAccess(){
-  return !!(loggedIn && userPlan && userPlan.name);
-}
-
-function ensureVendorManagementAccess(retryAction){
-  if(!loggedIn){
-    showToast('请先登录后再管理供应商');
-    needLogin(typeof retryAction === 'function' ? retryAction : null);
-    return false;
-  }
-  if(!userPlan || !userPlan.name){
-    showToast('订阅后才可管理自定义供应商');
-    goSubscriptionRechargePage();
-    return false;
-  }
-  return true;
-}
-
 function updateLoginUI(){
   syncUsageDerivedBalances();
   // 顶栏两个芯片
@@ -4634,7 +4608,6 @@ function updateLoginUI(){
   syncBalanceViews();  // 含 API Key 锁定状态刷新
   renderUsageChart();
   renderToolUsageStats();
-  renderVendorConnectionList();
   renderBadgeHub();
   syncProfileCenter();
 }
@@ -4661,8 +4634,6 @@ function go(pid,navEl,title){
   if(navEl)navEl.classList.add('on');
   if(title)document.getElementById('tbt').textContent=title;
   if(pid === 'p01') renderUsageChart();
-  if(pid === 'p02') renderToolUsageStats();
-  if(pid === 'p03') renderVendorConnectionList();
   if(pid === 'p07') renderBadgeHub();
 }
 
@@ -5114,7 +5085,7 @@ function renderToolUsageStats(){
       + '<div class="tool-tab-title"><div class="tool-tab-name-row"><div class="tool-usage-name">' + activeMeta.title + '</div><div class="tool-tab-version">版本：' + versionLabel + '</div><span class="bd2 ' + status.badge + '">' + status.label + '</span></div><div class="tool-tab-meta">' + activeMeta.overview + '</div></div>'
       + '</div>'
       + '</div>'
-      + '<div class="tool-tab-actions">' + primaryAction + '</div>'
+      + '<div class="tool-tab-actions"><button class="btn bo bsm" onclick="openAddVendorModal(\'' + activeToolKey + '\')">添加供应商</button>' + primaryAction + '</div>'
       + '</div>';
     p02SupplierEl.innerHTML='<div class="builtin-supplier-shell">'
       + '<div class="builtin-supplier-card' + (focusedSupplierKey === 'builtin' ? ' is-selected' : '') + '" onclick="focusSupplierCard(\'' + activeToolKey + '\',\'builtin\')">'
@@ -6402,12 +6373,6 @@ function goOrders(navEl){
   setTimeout(function(){ switchBuyTab('orders'); }, 50);
 }
 
-function goSubscriptionRechargePage(){
-  var navEl = document.querySelector('.ni[onclick*="p05"]') || nv(3);
-  go('p05', navEl, '订阅 / 充值');
-  setTimeout(function(){ switchBuyTab('subscription'); }, 50);
-}
-
 function sendCode(btn){
   var sec=60;
   btn.disabled=true;
@@ -7064,21 +7029,6 @@ function getNearestExpiryLabel(){
   return sorted.length ? sorted[0].expiryLabel : '暂无有效套餐';
 }
 
-function hasAvailableUsageTokens(){
-  syncUsageDerivedBalances();
-  return Number(userTokensBalance || 0) > 0
-    || Number(userCashBalance || 0) > 0
-    || Number(getTotalRemainingTokens() || 0) > 0
-    || Number(getBalanceValue() || 0) > 0;
-}
-
-function ensureToolUsageTokens(toolName){
-  if(hasAvailableUsageTokens()) return true;
-  showToast((toolName || '当前工具') + ' 已安装，但当前没有可用 Tokens，已为你跳转到订阅充值页面', 2600);
-  goSubscriptionRechargePage();
-  return false;
-}
-
 function togglePriceTable(){
   var wrap = document.getElementById('priceTableWrap');
   var icon = document.getElementById('priceTableToggleIcon');
@@ -7241,39 +7191,17 @@ function changeToolModel(toolKey, value){
   om('m14');
 }
 
-function getActiveBuiltinModelConnection(){
-  if(!activeBuiltinModelVendorName) return null;
-  return vendorConnections.filter(function(item){ return item.name === activeBuiltinModelVendorName; })[0] || null;
-}
-
-function getBuiltinPickerOptions(toolKey){
-  var connection = getActiveBuiltinModelConnection();
-  return connection ? getVendorEnabledModels(connection) : getBuiltinModelOptionsForTool(toolKey);
-}
-
-function openBuiltinModelPicker(toolKey, vendorName){
+function openBuiltinModelPicker(toolKey){
   var tool=appState.toolRouting[toolKey];
   if(!tool) return;
-  var connection = vendorName ? (vendorConnections.filter(function(item){ return item.name === vendorName; })[0] || null) : null;
-  var builtinOptions=connection ? getVendorEnabledModels(connection) : getBuiltinModelOptionsForTool(toolKey);
+  var builtinOptions=getBuiltinModelOptionsForTool(toolKey);
   activeBuiltinModelToolKey=toolKey;
-  activeBuiltinModelVendorName=connection ? connection.name : '';
   builtinModelDraft=(function(){
     if(isClaudeSlotTool(toolKey)){
-      var slotMap=connection ? {
-        sonnet: ((connection.mapping || {}).sonnet && builtinOptions.indexOf((connection.mapping || {}).sonnet) >= 0) ? (connection.mapping || {}).sonnet : '',
-        opus: ((connection.mapping || {}).opus && builtinOptions.indexOf((connection.mapping || {}).opus) >= 0) ? (connection.mapping || {}).opus : '',
-        haiku: ((connection.mapping || {}).haiku && builtinOptions.indexOf((connection.mapping || {}).haiku) >= 0) ? (connection.mapping || {}).haiku : '',
-        fable: ((connection.mapping || {}).fable && builtinOptions.indexOf((connection.mapping || {}).fable) >= 0) ? (connection.mapping || {}).fable : ''
-      } : getClaudeSlotMap(toolKey);
-      var selected=(connection ? getVendorToolDisplayModels(connection, toolKey) : getClaudeSlotKeys().map(function(slotKey){ return slotMap[slotKey]; })).filter(function(modelName){
+      var slotMap=getClaudeSlotMap(toolKey);
+      var selected=getClaudeSlotKeys().map(function(slotKey){ return slotMap[slotKey]; }).filter(function(modelName){
         return !!modelName && builtinOptions.indexOf(modelName) >= 0;
       });
-      if(connection && selected.length){
-        getClaudeSlotKeys().forEach(function(slotKey, index){
-          if(!slotMap[slotKey] && selected[index]) slotMap[slotKey] = selected[index];
-        });
-      }
       var activeSlot=getClaudeSlotKeys().filter(function(slotKey){
         return !slotMap[slotKey];
       })[0] || getClaudeSlotKeys()[0];
@@ -7285,16 +7213,16 @@ function openBuiltinModelPicker(toolKey, vendorName){
         activeSlot:activeSlot
       };
     }
-    return { search:'', providerFilter:'all', selected:(connection ? getVendorToolDisplayModels(connection, toolKey) : getToolEnabledModels(toolKey)).filter(function(modelName){
+    return { search:'', providerFilter:'all', selected:getToolEnabledModels(toolKey).filter(function(modelName){
       return builtinOptions.indexOf(modelName) >= 0;
     }) };
   })();
   var title=document.getElementById('builtinModelPickerTitle');
   var subTitle=document.getElementById('builtinModelPickerSubTitle');
   var searchInput=document.getElementById('builtinModelSearchInput');
-  if(title) title.textContent=(tool.name || toolKey) + ' · 选择模型';
+  if(title) title.textContent=(tool.name || toolKey) + ' · 编辑内置模型';
   if(subTitle) subTitle.textContent=isClaudeSlotTool(toolKey)
-    ? '先选择上方槽位，再为当前工具选择可用模型；最多 4 个，保存后映射到 Sonnet、Opus、Haiku、Fable。'
+    ? '先选择上方槽位卡片，再选择下方模型；最多 4 个，保存后映射到 Sonnet、Opus、Haiku、Fable。'
     : '按模型卡片选择当前工具可用模型，暂不限制数量。';
   if(searchInput) searchInput.value='';
   renderBuiltinModelPicker();
@@ -7339,7 +7267,7 @@ function closeBuiltinModelPicker(){
     cm('mBuiltinModelPicker');
     return;
   }
-  var builtinOptions=getBuiltinPickerOptions(activeBuiltinModelToolKey);
+  var builtinOptions=getBuiltinModelOptionsForTool(activeBuiltinModelToolKey);
   var nextSelected=(isClaudeSlotTool(activeBuiltinModelToolKey)
     ? getClaudeSlotKeys().map(function(slotKey){
         return (builtinModelDraft.slotMap || {})[slotKey] || '';
@@ -7378,7 +7306,7 @@ function renderBuiltinModelPicker(){
   var isClaude=isClaudeSlotTool(activeBuiltinModelToolKey);
   var query=(builtinModelDraft.search || '').trim().toLowerCase();
   var providerFilter=builtinModelDraft.providerFilter || 'all';
-  var availableOptions=getBuiltinPickerOptions(activeBuiltinModelToolKey);
+  var availableOptions=getBuiltinModelOptionsForTool(activeBuiltinModelToolKey);
   var providerOptions=['all'].concat(Array.from(new Set(availableOptions.map(function(modelName){
     return getModelOriginLabel(modelName);
   }))).sort(function(a,b){ return a.localeCompare(b, 'zh-CN'); }));
@@ -7439,8 +7367,7 @@ function saveBuiltinModelSelection(){
   if(!activeBuiltinModelToolKey || !builtinModelDraft) return;
   var tool=appState.toolRouting[activeBuiltinModelToolKey];
   if(!tool) return;
-  var builtinOptions=getBuiltinPickerOptions(activeBuiltinModelToolKey);
-  var activeConnection=getActiveBuiltinModelConnection();
+  var builtinOptions=getBuiltinModelOptionsForTool(activeBuiltinModelToolKey);
   if(isClaudeSlotTool(activeBuiltinModelToolKey)){
     var nextClaudeSlotMap={ sonnet:'', opus:'', haiku:'', fable:'' };
     getClaudeSlotKeys().forEach(function(slotKey){
@@ -7452,24 +7379,6 @@ function saveBuiltinModelSelection(){
     }).filter(Boolean);
     if(!nextClaudeSelected.length){
       showToast('请至少选择一个 Claude 模型', 1600);
-      return;
-    }
-    if(activeConnection){
-      if(!activeConnection.toolOverrides) activeConnection.toolOverrides = {};
-      activeConnection.toolOverrides[activeBuiltinModelToolKey] = nextClaudeSelected.slice();
-      activeConnection.mapping = Object.assign({}, activeConnection.mapping || {}, nextClaudeSlotMap);
-      if(!activeConnection.toolSettings) activeConnection.toolSettings = {};
-      activeConnection.toolSettings[activeBuiltinModelToolKey] = Object.assign({}, activeConnection.toolSettings[activeBuiltinModelToolKey] || {}, { disabled:false });
-      if(appState.toolVendorSelection && appState.toolVendorSelection[activeBuiltinModelToolKey] === activeConnection.name){
-        disableGlobalRouting('已关闭全局路由，改为单独配置 ' + (tool.name || activeBuiltinModelToolKey));
-        applyVendorSelectionToToolState(activeConnection, activeBuiltinModelToolKey);
-      }
-      syncVendorConfigData();
-      cm('mBuiltinModelPicker');
-      renderToolRoutingViews();
-      renderToolRoutingTable();
-      renderToolUsageStats();
-      showToast('已为 ' + activeConnection.name + ' 保存 ' + nextClaudeSelected.length + ' 个模型', 1800);
       return;
     }
     disableGlobalRouting('已关闭全局路由，改为单独配置 ' + (tool.name || activeBuiltinModelToolKey));
@@ -7500,23 +7409,6 @@ function saveBuiltinModelSelection(){
   });
   if(!nextSelected.length){
     showToast('请至少选择一个模型', 1600);
-    return;
-  }
-  if(activeConnection){
-    if(!activeConnection.toolOverrides) activeConnection.toolOverrides = {};
-    activeConnection.toolOverrides[activeBuiltinModelToolKey] = nextSelected.slice();
-    if(!activeConnection.toolSettings) activeConnection.toolSettings = {};
-    activeConnection.toolSettings[activeBuiltinModelToolKey] = Object.assign({}, activeConnection.toolSettings[activeBuiltinModelToolKey] || {}, { disabled:false });
-    if(appState.toolVendorSelection && appState.toolVendorSelection[activeBuiltinModelToolKey] === activeConnection.name){
-      disableGlobalRouting('已关闭全局路由，改为单独配置 ' + (tool.name || activeBuiltinModelToolKey));
-      applyVendorSelectionToToolState(activeConnection, activeBuiltinModelToolKey);
-    }
-    syncVendorConfigData();
-    cm('mBuiltinModelPicker');
-    renderToolRoutingViews();
-    renderToolRoutingTable();
-    renderToolUsageStats();
-    showToast('已为 ' + activeConnection.name + ' 保存 ' + nextSelected.length + ' 个模型', 1800);
     return;
   }
   disableGlobalRouting('已关闭全局路由，改为单独配置 ' + (tool.name || activeBuiltinModelToolKey));
@@ -7996,12 +7888,16 @@ function syncBalanceViews(){
     if(heroCashHint){
       heroCashHint.textContent = isMember
         ? '超出今日可用次数后，从可使用余额继续扣费'
-        : '按实际调用量扣费';
+        : (userCashBalance > 0
+          ? '当前按实际调用量扣费'
+          : '当前没有可用 tokens，先订阅、充值，或接入外部购买额度');
     }
     if(heroMemberText){
       heroMemberText.textContent = isMember
         ? ('当前订阅：' + userPlan.name + ' · 有效期：' + userPlan.expireDate)
-        : '当前状态：未订阅，可先充值后使用';
+        : (userCashBalance > 0
+          ? '当前未订阅，可直接按余额计费使用'
+          : '当前未订阅，且可使用余额为 0');
     }
 
     if(!isMember){
@@ -8496,7 +8392,18 @@ function completeInstall(){
   renderToolRoutingTable();
   renderToolUsageStats();
   const toolName = meta ? meta.name : '新工具';
-  if(!ensureToolUsageTokens(toolName)) return;
+  const noPlan = !(userPlan && userPlan.name);
+  const noBalance = userCashBalance <= 0;
+  if(noPlan && noBalance){
+    showToast(
+      toolName + ' 安装成功！当前还没有可用 tokens，先去'
+      + '<span style="cursor:pointer;text-decoration:underline;margin:0 4px" onclick="go(\'p05\',nv(4),\'订阅 / 充值\');setTimeout(function(){switchBuyTab(\'subscription\')},50)">订阅 / 充值</span>'
+      + '，或者到'
+      + '<span style="cursor:pointer;text-decoration:underline;margin:0 4px" onclick="go(\'p03\',nv(3),\'模型供应商\')">模型供应商</span>'
+      + '接入外部购买额度，不然运行不了。'
+    );
+    return;
+  }
   showToast(toolName + ' 安装成功！<span style="cursor:pointer;text-decoration:underline;margin-left:6px" onclick="launchTool(\'' + key + '\')">直接打开 →</span>');
 }
 
@@ -8515,7 +8422,6 @@ function launchTool(toolKey){
     showToast('请先验证 ' + tool.name);
     return;
   }
-  if(!ensureToolUsageTokens(tool.name)) return;
   appState.activeToolKey=toolKey;
   showToast('已启动 ' + tool.name + '，可直接继续使用');
 }
@@ -9611,7 +9517,6 @@ function persistAddVendorToolConfig(toolKey){
 }
 
 function openAddVendorModal(toolKey){
-  if(!ensureVendorManagementAccess(function(){ openAddVendorModal(toolKey); })) return;
   currentAddVendorToolKey = toolKey || appState.activeToolKey || 'claude-desktop';
   avConfigScope = toolKey ? 'tool' : 'global';
   avEditingVendorName = '';
@@ -9650,7 +9555,7 @@ var avConfigScope = 'tool';
 var avFetchedModels = [];
 
 function getEmptyGlobalRoutingDraft(){
-  return { enabled:true, models:['','','',''] };
+  return { enabled:false, models:['','','',''] };
 }
 
 function normalizeGlobalRoutingConfig(config){
@@ -9773,34 +9678,13 @@ function getDraftGlobalRoutingConfig(){
   };
 }
 
-function resolveDefaultGlobalRoutingModels(selectedModels, availableModels){
-  var resolved = Array.isArray(selectedModels) ? selectedModels.slice(0, 4) : [];
-  while(resolved.length < 4) resolved.push('');
-  var fallbackModels = Array.isArray(availableModels) ? availableModels.slice() : [];
-  fallbackModels.forEach(function(modelName){
-    if(!modelName) return;
-    if(resolved.indexOf(modelName) >= 0) return;
-    var emptyIndex = resolved.indexOf('');
-    if(emptyIndex >= 0) resolved[emptyIndex] = modelName;
-  });
-  var seededModels = resolved.filter(Boolean);
-  if(seededModels.length){
-    var refillIndex = 0;
-    while(resolved.indexOf('') >= 0){
-      resolved[resolved.indexOf('')] = seededModels[refillIndex % seededModels.length];
-      refillIndex++;
-    }
-  }
-  return resolved.slice(0, 4);
-}
-
 function renderVendorGlobalRouteSection(connection){
   var step2Extra = document.getElementById('avStep2Extra');
   if(!step2Extra || avConfigScope !== 'global') return;
+  var hasExistingConfig = !!(connection && connection.globalRouting);
   var config = normalizeGlobalRoutingConfig(connection && connection.globalRouting);
-  config.enabled = true;
+  if(!hasExistingConfig) config.enabled = true;
   var availableModels = getVendorEnabledModels(connection);
-  var resolvedModels = resolveDefaultGlobalRoutingModels(config.models, availableModels);
   var bodyDisplay = config.enabled ? 'block' : 'none';
   step2Extra.innerHTML = ''
     + '<div style="margin-top:18px;border:1px solid #dbeafe;border-radius:14px;background:linear-gradient(180deg,#f8fbff 0%,#ffffff 100%);padding:16px">'
@@ -9820,7 +9704,7 @@ function renderVendorGlobalRouteSection(connection){
     + '</div>'
     + '</div>';
   syncGlobalRoutingSelectOptions(availableModels);
-  setGlobalRoutingModels(resolvedModels);
+  setGlobalRoutingModels(config.models);
   closeAllGlobalRouteSuggestions();
 }
 
@@ -10132,7 +10016,6 @@ function avGoStep2(){
 }
 
 function saveVendorModels(){
-  if(!ensureVendorManagementAccess()) return;
   var editingName = avEditingVendorName;
   var isEditMode = !!editingName;
   var currentScope = avConfigScope;
@@ -10392,7 +10275,6 @@ function isVendorConnectionActive(connection){
 }
 
 function getToolVisibleVendorConnections(toolKey){
-  if(!hasMemberDataAccess()) return [];
   return vendorConnections.filter(function(connection){
     if(!isVendorConnectionActive(connection)) return false;
     var toolSettings = connection.toolSettings || {};
@@ -10421,14 +10303,20 @@ function isVendorInUseForTool(connection, toolKey){
   return getVendorToolDisplayModels(connection, toolKey).indexOf(currentModel) >= 0;
 }
 
-function applyVendorSelectionToToolState(connection, toolKey){
+function useVendorConnectionForTool(name, toolKey){
+  var connection = vendorConnections.filter(function(item){ return item.name === name; })[0];
   var tool = appState.toolRouting[toolKey];
-  if(!connection || !tool) return false;
+  if(!connection || !tool) return;
+  if(!tool.installed || tool.setupStatus === 'not-installed'){
+    showToast('请先安装 AI 工具 ' + (tool.name || toolKey) + '，安装完成后再启用其他供应商');
+    return;
+  }
   if(!isVendorConnectionActive(connection)) connection.active = true;
   applyVendorConnectionToTools(connection, false);
   var models = getVendorToolDisplayModels(connection, toolKey);
   var targetModel = getVendorToolTargetModel(connection, toolKey) || models[0] || '';
-  if(!targetModel) return false;
+  if(!targetModel){ showToast(connection.name + ' 暂无可用模型'); return; }
+  disableGlobalRouting('已关闭全局路由，改为单独配置 ' + (tool.name || toolKey));
   if(isClaudeSlotTool(toolKey)){
     var mapping = connection.mapping || {};
     var slotBindings = {
@@ -10449,8 +10337,8 @@ function applyVendorSelectionToToolState(connection, toolKey){
     tool.enabledModels = Array.from(new Set(Object.keys(slotBindings).map(function(slotKey){ return slotBindings[slotKey]; }).filter(Boolean)));
     tool.selection = slotBindings.sonnet || tool.enabledModels[0] || targetModel;
   }else{
-    tool.enabledModels = models.slice();
     tool.selection = targetModel;
+    if(Array.isArray(tool.enabledModels) && tool.enabledModels.indexOf(targetModel) < 0) tool.enabledModels.unshift(targetModel);
   }
   if(!toolConfigState[toolKey]) toolConfigState[toolKey] = {};
   toolConfigState[toolKey].primaryModel = tool.selection;
@@ -10459,19 +10347,6 @@ function applyVendorSelectionToToolState(connection, toolKey){
   if(!appState.toolSupplierCardFocus) appState.toolSupplierCardFocus = {};
   appState.toolSupplierCardFocus[toolKey] = connection.name;
   appState.activeToolKey = toolKey;
-  return true;
-}
-
-function useVendorConnectionForTool(name, toolKey){
-  var connection = vendorConnections.filter(function(item){ return item.name === name; })[0];
-  var tool = appState.toolRouting[toolKey];
-  if(!connection || !tool) return;
-  if(!tool.installed || tool.setupStatus === 'not-installed'){
-    showToast('请先安装 AI 工具 ' + (tool.name || toolKey) + '，安装完成后再启用其他供应商');
-    return;
-  }
-  disableGlobalRouting('已关闭全局路由，改为单独配置 ' + (tool.name || toolKey));
-  if(!applyVendorSelectionToToolState(connection, toolKey)){ showToast(connection.name + ' 暂无可用模型'); return; }
   syncVendorConfigData();
   renderToolRoutingViews();
   renderToolRoutingTable();
@@ -10570,15 +10445,8 @@ function renderToolVendorCards(toolKey){
   var connections = getToolVisibleVendorConnections(toolKey);
   var tool = appState.toolRouting[toolKey] || {};
   var focusedSupplierKey = getFocusedSupplierCardKey(toolKey);
-  if(!hasMemberDataAccess()){
-    var actionHtml = !loggedIn
-      ? '<button class="btn bo bsm" onclick="om(\'ls\')">立即登录</button>'
-      : '<button class="btn bo bsm" onclick="goSubscriptionRechargePage()">去订阅充值</button>';
-    var desc = '暂无其他供应商，点击下方按钮添加新的API Key。';
-    return '<div style="padding:34px 12px 10px;text-align:center;color:var(--t3);font-size:12px;line-height:1.8">' + desc + '<div style="margin-top:14px">' + actionHtml + '</div></div>';
-  }
   if(!connections.length){
-    return '<div style="padding:34px 12px 10px;text-align:center;color:var(--t3);font-size:12px;line-height:1.8">暂无已接入的其他供应商；如果你已经有 API Key，可直接添加供应商接入。<div style="margin-top:14px"><button class="btn bo bsm" onclick="openAddVendorModal()">去添加供应商</button></div></div>';
+    return '<div style="padding:34px 12px 10px;text-align:center;color:var(--t3);font-size:12px;line-height:1.8">暂无已接入的其他供应商；如果你已经有 API Key，可点击上方“添加供应商”接入。</div>';
   }
   return '<div style="display:grid;gap:10px">' + connections.map(function(connection){
     var targetUrl = getVendorDisplayUrl(connection);
@@ -10595,8 +10463,9 @@ function renderToolVendorCards(toolKey){
       + '</div>'
       + '<div class="builtin-supplier-actions">'
       + '<div style="display:flex;align-items:center;gap:8px;flex-wrap:nowrap;justify-content:flex-end">'
-      + '<button class="btn bo bsm" onclick="openBuiltinModelPicker(\'' + toolKey + '\',\'' + connection.name.replace(/'/g, '\&#39;') + '\')">更换模型</button>'
+      + '<button class="btn bo bsm" onclick="openVendorConfig(\'' + connection.name.replace(/'/g, '\&#39;') + '\',\'tool\')">编辑</button>'
       + '<button class="btn bo bsm" onclick="testVendorConnectionChannel(\'' + connection.name.replace(/'/g, '\&#39;') + '\',\'' + toolKey + '\')">检测</button>'
+      + '<button class="btn bsm" style="background:#fff5f5;color:#ef4444;border:1px solid #fecaca" onclick="removeVendorConnectionForTool(\'' + connection.name.replace(/'/g, '\&#39;') + '\',\'' + toolKey + '\')">移除</button>'
       + '<button class="btn ' + (inUse ? 'bo' : 'bp') + ' bsm" style="' + (inUse ? 'background:#dcfce7;color:#15803d;border:1px solid #bbf7d0' : '') + '" onclick="' + (inUse ? 'showToast(\'' + connection.name.replace(/'/g, '\&#39;') + ' 已在使用中\',1600)' : 'useVendorConnectionForTool(\'' + connection.name.replace(/'/g, '\&#39;') + '\',\'' + toolKey + '\')') + '">' + (inUse ? '使用中' : '启用') + '</button>'
       + '</div>'
       + '</div>'
@@ -10630,9 +10499,6 @@ function applyVendorConnectionToTools(connection, assignSelections){
 function renderVendorConnectionList(){
   var list = document.getElementById('vendorConnectionList');
   if(!list) return;
-  var memberDataAccess = hasMemberDataAccess();
-  var visibleConnections = memberDataAccess ? vendorConnections.slice() : [];
-  var hiddenConnectionsCount = vendorConnections.length;
   var builtinHtml = '<div class="vendor-overview-card mb12">'
     + '<div class="vendor-overview-main">'
     + '<div class="vendor-overview-avatar">MT</div>'
@@ -10645,9 +10511,9 @@ function renderVendorConnectionList(){
     + '</div>'
     + '</div>'
     + '<div class="vendor-connection-summary">'
-    + '<div class="vendor-connection-metric"><div class="vendor-connection-metric-label">账户余额</div><div class="vendor-connection-metric-value">¥' + Number(memberDataAccess ? (getBalanceValue() || 0) : 0).toFixed(2) + '</div></div>'
-    + '<div class="vendor-connection-metric"><div class="vendor-connection-metric-label">今日消耗</div><div class="vendor-connection-metric-value is-accent">' + Number(memberDataAccess ? (getTodayUsageTotal() || 0) : 0).toLocaleString() + ' T</div></div>'
-    + '<div class="vendor-connection-metric"><div class="vendor-connection-metric-label">本月消耗</div><div class="vendor-connection-metric-value">' + Number(memberDataAccess ? (getRecentUsageTotal() || 0) : 0).toLocaleString() + ' T</div></div>'
+    + '<div class="vendor-connection-metric"><div class="vendor-connection-metric-label">账户余额</div><div class="vendor-connection-metric-value">¥' + Number(getBalanceValue() || 0).toFixed(2) + '</div></div>'
+    + '<div class="vendor-connection-metric"><div class="vendor-connection-metric-label">今日消耗</div><div class="vendor-connection-metric-value is-accent">' + Number(getTodayUsageTotal() || 0).toLocaleString() + ' T</div></div>'
+    + '<div class="vendor-connection-metric"><div class="vendor-connection-metric-label">本月消耗</div><div class="vendor-connection-metric-value">' + Number(getRecentUsageTotal() || 0).toLocaleString() + ' T</div></div>'
     + '</div>'
     + '<div class="vendor-overview-actions">'
     + '<button class="btn bo bsm" onclick="testPlatformConnectionOverview()">检测</button>'
@@ -10655,17 +10521,12 @@ function renderVendorConnectionList(){
     + '</div>'
     + '</div>'
     + '</div>';
-  var customHeader = '<div style="margin:12px 0 8px"><div style="display:flex;align-items:center;gap:8px"><div style="font-size:13px;font-weight:700;color:var(--t2)">其他供应商</div><span style="font-size:12px;background:#f4f4f5;color:var(--t3);border-radius:20px;padding:1px 8px;font-weight:400">' + visibleConnections.length + '</span></div><div style="margin-top:4px;font-size:12px;color:var(--t3);line-height:1.7">接入你自己的 API Key 后，平台会自动完成协议适配与统一路由，兼容工具可直接调用对应模型。</div></div>';
-  if(!memberDataAccess){
-    var gateDesc = '暂无其他供应商，点击下方按钮添加新的API Key。';
-    list.innerHTML = builtinHtml + customHeader + '<div class="card mb16" style="padding:24px;text-align:center;color:var(--t3);line-height:1.8">' + gateDesc + '</div>';
+  var customHeader = '<div style="margin:12px 0 8px"><div style="display:flex;align-items:center;gap:8px"><div style="font-size:13px;font-weight:700;color:var(--t2)">其他供应商</div><span style="font-size:12px;background:#f4f4f5;color:var(--t3);border-radius:20px;padding:1px 8px;font-weight:400">' + vendorConnections.length + '</span></div><div style="margin-top:4px;font-size:12px;color:var(--t3);line-height:1.7">接入你自己的 API Key 后，平台会自动完成协议适配与统一路由，兼容工具可直接调用对应模型。</div></div>';
+  if(!vendorConnections.length){
+    list.innerHTML = builtinHtml + customHeader + '<div class="card mb16" style="padding:24px;text-align:center;color:var(--t3)">暂无其他供应商，点击下方按钮添加新的 API Key。</div>';
     return;
   }
-  if(!visibleConnections.length){
-    list.innerHTML = builtinHtml + customHeader + '<div class="card mb16" style="padding:24px;text-align:center;color:var(--t3)">暂无其他供应商，点击下方按钮添加新的API Key。</div>';
-    return;
-  }
-  list.innerHTML = builtinHtml + customHeader + visibleConnections.map(function(connection, index){
+  list.innerHTML = builtinHtml + customHeader + vendorConnections.map(function(connection, index){
     var isActive = isVendorConnectionActive(connection);
     var isGlobalRouting = !!(connection.globalRouting && connection.globalRouting.enabled);
     var displayUrl = getVendorDisplayUrl(connection);
@@ -10692,7 +10553,7 @@ function renderVendorConnectionList(){
       + (isActive ? '' : '<button class="btn bp bsm" onclick="activateVendorConnection(\'' + connection.name.replace(/'/g, '\&#39;') + '\')">启用</button>')
       + '<button class="btn bo bsm" onclick="testVendorConnectionOverview(\'' + connection.name.replace(/'/g, '\&#39;') + '\')">检测</button>'
       + '<button class="btn bo bsm" onclick="openVendorConfig(\'' + connection.name.replace(/'/g, '\\&#39;') + '\',\'global\')">编辑</button>'
-      + '<button class="btn bsm" style="background:#fff5f5;color:#ef4444;border:1px solid #fecaca" onclick="requestRemoveVendorConnection(\'' + connection.name.replace(/'/g, '\&#39;') + '\')">删除</button>'
+      + '<button class="btn bsm" style="background:#fff5f5;color:#ef4444;border:1px solid #fecaca" onclick="removeVendorConnection(\'' + connection.name.replace(/'/g, '\\&#39;') + '\')">移除</button>'
       + '</div>'
       + '</div>';
   }).join('');
@@ -10712,26 +10573,6 @@ function activateVendorConnection(name){
   showToast(name + ' 已启用');
 }
 
-function requestRemoveVendorConnection(name){
-  pendingDeleteVendorName = name || '';
-  var desc = document.getElementById('deleteVendorConfirmDesc');
-  if(desc) desc.innerHTML = '确认删除「' + (name || '该供应商') + '」供应商吗？<br><br>删除后，所有 AI 工具都将无法继续使用该供应商提供的模型，需要重新选择其他供应商或切回平台接入。';
-  om('mDeleteVendorConfirm');
-}
-
-function cancelRemoveVendorConnection(){
-  pendingDeleteVendorName = '';
-  cm('mDeleteVendorConfirm');
-}
-
-function confirmRemoveVendorConnection(){
-  if(!pendingDeleteVendorName) { cm('mDeleteVendorConfirm'); return; }
-  var name = pendingDeleteVendorName;
-  pendingDeleteVendorName = '';
-  cm('mDeleteVendorConfirm');
-  removeVendorConnection(name);
-}
-
 function removeVendorConnection(name){
   var index = vendorConnections.findIndex(function(connection){ return connection.name === name; });
   if(index < 0) return;
@@ -10748,7 +10589,7 @@ function removeVendorConnection(name){
   renderToolRoutingViews();
   renderToolRoutingTable();
   renderToolUsageStats();
-  showToast('已删除 ' + name + ' 供应商' + (removingGlobal ? '，全局路由已关闭' : ''));
+  showToast('已移除 ' + name + ' 供应商' + (removingGlobal ? '，全局路由已关闭' : ''));
 }
 
 function upsertVendorConnection(payload){
@@ -10804,7 +10645,6 @@ vendorConnections.forEach(function(connection){
 renderVendorConnectionList();
 
 function openVendorConfig(name, scope) {
-  if(!ensureVendorManagementAccess(function(){ openVendorConfig(name, scope); })) return;
   var connection = vendorConnections.filter(function(item){ return item.name === name; })[0];
   if(!connection) return;
   avConfigScope = scope === 'global' ? 'global' : 'tool';
