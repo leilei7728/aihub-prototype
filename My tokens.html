@@ -6296,12 +6296,10 @@ function openNoTokenGuideModal(toolKey, source){
 }
 
 function openNoTokenVendorSetup(){
-  var toolKey = noTokenGuideToolKey || appState.activeToolKey || 'claude-desktop';
   cm('mNoTokenGuide');
-  appState.activeToolKey = toolKey;
   var ni = document.querySelector('.ni[onclick*="p03"]');
   if(ni) go('p03', ni, '模型供应商');
-  setTimeout(function(){ openAddVendorModal(toolKey); }, 50);
+  setTimeout(function(){ openAddVendorModal(); }, 50);
 }
 
 function getMappingTarget(){
