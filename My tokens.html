@@ -843,8 +843,9 @@ input:checked+.sl:before{transform:translateX(16px)}
 .builtin-picker-top{display:flex;align-items:flex-start;gap:10px;min-width:0}
 .builtin-picker-logo{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(226,232,240,.95);background:#f8fafc;overflow:hidden}
 .builtin-picker-copy{min-width:0;display:grid;gap:4px;flex:1}
-.builtin-picker-name{font-size:13px;font-weight:800;color:var(--t);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.builtin-picker-name{font-size:13px;font-weight:800;color:var(--t);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px}
 .builtin-picker-meta{font-size:11px;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.builtin-picker-badge{display:inline-flex;align-items:center;height:18px;padding:0 7px;border-radius:999px;background:#dbeafe;color:#1d4ed8;font-size:10px;font-weight:700;flex-shrink:0}
 .builtin-picker-empty{padding:36px 12px;text-align:center;font-size:12px;color:var(--t3);grid-column:1 / -1}
 .builtin-picker-footer{padding:14px 22px 20px;display:flex;justify-content:flex-end;gap:10px;border-top:1px solid var(--bd);background:#fff;border-radius:0 0 16px 16px;flex-shrink:0}
 #modelDetailOverlay{background:rgba(15,23,42,.24) !important;backdrop-filter:blur(10px)}
@@ -4321,19 +4322,45 @@ function getToolEnabledSummary(toolKey){
   if(isClaudeSlotTool(toolKey)){
     var slotMap=getClaudeSlotMap(toolKey);
     var filled=getClaudeSlotKeys().filter(function(slotKey){ return !!slotMap[slotKey]; });
+    var selectedModels=filled.map(function(slotKey){ return slotMap[slotKey]; }).filter(Boolean);
     return {
       count: filled.length,
-      text: '已配置 ' + filled.length + ' / 4 个槽位',
-      detail: filled.length ? filled.map(function(slotKey){ return getClaudeSlotLabel(slotKey) + '：' + slotMap[slotKey]; }).join(' · ') : 'Sonnet / Opus / Haiku / Fable'
+      text: '已选 ' + filled.length + ' 个模型',
+      detail: selectedModels.length ? selectedModels.join(' · ') : 'Sonnet / Opus / Haiku / Fable'
     };
   }
   var tool=appState.toolRouting[toolKey] || {};
+  var state=toolConfigState[toolKey] || {};
   var enabled=getToolEnabledModels(toolKey);
   var current=tool.selection || enabled[0] || '未设置';
+  if(toolKey === 'opencode'){
+    var scheduling=state.scheduling || 'single';
+    if(scheduling === 'primary-backup'){
+      return {
+        count: enabled.length,
+        text: '已选 ' + enabled.length + ' 个模型',
+        detail: enabled.join(' · ')
+      };
+    }
+    if(scheduling === 'round-robin'){
+      return {
+        count: enabled.length,
+        text: '已选 ' + enabled.length + ' 个模型',
+        detail: enabled.join(' · ')
+      };
+    }
+  }
+  if(toolKey === 'codex-cli'){
+    return {
+      count: enabled.length,
+      text: '已选 ' + enabled.length + ' 个模型',
+      detail: enabled.join(' · ')
+    };
+  }
   return {
     count: enabled.length,
     text: '已选 ' + enabled.length + ' 个模型',
-    detail: '当前生效：' + current
+    detail: enabled.join(' · ')
   };
 }
 
@@ -5145,6 +5172,8 @@ function renderToolUsageStats(){
     const originLabel=currentModel && currentModel !== '未设置' ? getModelOriginLabel(currentModel) : '未标记原厂';
     const lastUsedLabel=activeUsage ? formatUsageRelativeTime(activeUsage.lastUsed) : '暂无使用记录';
     const enabledSummary=getToolEnabledSummary(activeToolKey);
+    const modelSummaryText=enabledSummary ? enabledSummary.text : '当前模型';
+    const modelSummaryValue=enabledSummary ? enabledSummary.detail : currentModel;
     const builtinTitle='平台接入';
     const builtinLink=builtinLinkMap[activeToolKey] || '#';
     const setupStatus=(activeRouting && activeRouting.setupStatus) || 'not-installed';
@@ -5174,7 +5203,7 @@ function renderToolUsageStats(){
       + '<div class="builtin-supplier-main">'
       + '<div class="builtin-supplier-handle"><span></span><span></span><span></span><span></span><span></span><span></span></div>'
       + '<div class="builtin-supplier-avatar">' + getBrandLogoMarkup(activeToolKey, 40) + '</div>'
-      + '<div class="builtin-supplier-copy"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><div class="builtin-supplier-title">' + builtinTitle + '</div><span style="font-size:11px;background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;border-radius:999px;padding:2px 8px;font-weight:600">系统内置</span></div><a class="builtin-supplier-link" href="' + builtinLink + '" onclick="return false;">' + builtinLink + '</a></div>'
+      + '<div class="builtin-supplier-copy"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><div class="builtin-supplier-title">' + builtinTitle + '</div><span style="font-size:11px;background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;border-radius:999px;padding:2px 8px;font-weight:600">系统内置</span></div><div style="display:flex;align-items:center;gap:12px;flex-wrap:nowrap;min-width:0"><a class="builtin-supplier-link" href="' + builtinLink + '" onclick="return false;">' + builtinLink + '</a><div style="font-size:12px;color:var(--t3);line-height:1.6;min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + modelSummaryValue + '">' + modelSummaryText + '：<span style="font-weight:500;color:#64748b">' + modelSummaryValue + '</span></div></div></div>'
       + '</div>'
       + '<div class="builtin-supplier-actions">'
       + '<div style="display:flex;align-items:center;gap:8px;flex-wrap:nowrap;justify-content:flex-end">'
@@ -7124,9 +7153,16 @@ function getToolCurrentModel(toolKey){
 function getToolRoutingNote(toolKey){
   const tool=appState.toolRouting[toolKey];
   if(!tool) return '';
+  const state=toolConfigState[toolKey] || {};
   const configuredModel=getConfiguredToolModel(toolKey);
   const effectiveModel=getToolCurrentModel(toolKey);
+  const enabledModels=getToolEnabledModels(toolKey);
   if(tool.routingType === 'cc-shell') return '当前使用 ' + effectiveModel + '，平台会自动完成兼容接入';
+  if(toolKey === 'opencode'){
+    if((state.scheduling || 'single') === 'round-robin') return '当前按轮询策略使用 ' + enabledModels.length + ' 个模型';
+    if((state.scheduling || 'single') === 'primary-backup') return '当前主模型为 ' + effectiveModel + '，失败时自动切换到备选模型';
+  }
+  if(toolKey === 'codex-cli' && state.fallbackModel) return '当前主模型为 ' + effectiveModel + '，失败时回退到 ' + state.fallbackModel;
   if(tool.mode === 'single') return effectiveModel !== configuredModel ? '当前使用 ' + effectiveModel + '，已按当前配置生效' : '当前使用 ' + configuredModel + '，可直接切换其他可用模型';
   return effectiveModel !== configuredModel ? '当前使用 ' + effectiveModel + '，已按当前配置生效' : '当前使用 ' + configuredModel + '，可直接切换其他可用模型';
 }
@@ -7352,9 +7388,15 @@ function openBuiltinModelPicker(toolKey, vendorName){
         activeSlot:activeSlot
       };
     }
-    return { search:'', providerFilter:'all', selected:(activeConnection ? getVendorToolDisplayModels(activeConnection, toolKey) : getToolEnabledModels(toolKey)).filter(function(modelName){
+    var selectedModels=(activeConnection ? getVendorToolDisplayModels(activeConnection, toolKey) : getToolEnabledModels(toolKey)).filter(function(modelName){
       return builtinOptions.indexOf(modelName) >= 0;
-    }) };
+    });
+    return {
+      search:'',
+      providerFilter:'all',
+      selected:selectedModels,
+      primaryModel:(tool.selection && selectedModels.indexOf(tool.selection) >= 0) ? tool.selection : (selectedModels[selectedModels.length - 1] || '')
+    };
   })();
   var title=document.getElementById('builtinModelPickerTitle');
   var subTitle=document.getElementById('builtinModelPickerSubTitle');
@@ -7388,9 +7430,14 @@ function toggleBuiltinModelDraft(modelName){
     assignClaudeSlotModel(builtinModelDraft.activeSlot || getClaudeSlotKeys()[0], modelName);
     return;
   }
-  if(index >= 0) builtinModelDraft.selected.splice(index, 1);
-  else {
+  if(index >= 0){
+    builtinModelDraft.selected.splice(index, 1);
+    if(builtinModelDraft.primaryModel === modelName){
+      builtinModelDraft.primaryModel=builtinModelDraft.selected[builtinModelDraft.selected.length - 1] || '';
+    }
+  }else {
     builtinModelDraft.selected.push(modelName);
+    builtinModelDraft.primaryModel=modelName;
   }
   renderBuiltinModelPicker();
 }
@@ -7477,7 +7524,8 @@ function renderBuiltinModelPicker(){
       + '</div>';
   }else{
     stats.innerHTML=''
-      + '<span class="builtin-picker-stat">已选 ' + builtinModelDraft.selected.length + ' 个模型</span>';
+      + '<span class="builtin-picker-stat">已选 ' + builtinModelDraft.selected.length + ' 个模型</span>'
+      + (builtinModelDraft.primaryModel ? '<span class="builtin-picker-stat">主模型：' + builtinModelDraft.primaryModel + '</span>' : '');
   }
   if(!options.length){
     list.innerHTML='<div class="builtin-picker-empty">没有找到匹配的模型</div>';
@@ -7487,6 +7535,7 @@ function renderBuiltinModelPicker(){
     var checked=(isClaude ? getClaudeSlotKeys().some(function(slotKey){
       return ((builtinModelDraft.slotMap || {})[slotKey] || '') === modelName;
     }) : builtinModelDraft.selected.indexOf(modelName) >= 0);
+    var isPrimary=!isClaude && builtinModelDraft.primaryModel === modelName;
     var providerLabel=getModelOriginLabel(modelName);
     var logoDomain=modelLogoMap[modelName] || '';
     var logoBg=(logoDomain && _logoBgMap[logoDomain]) ? _logoBgMap[logoDomain] : '#f8fafc';
@@ -7496,7 +7545,7 @@ function renderBuiltinModelPicker(){
       + '<div class="builtin-picker-top">'
       + '<div class="builtin-picker-logo">' + logoHtml + '</div>'
       + '<div class="builtin-picker-copy">'
-      + '<div class="builtin-picker-name">' + modelName + '</div>'
+      + '<div class="builtin-picker-name">' + modelName + (isPrimary ? '<span class="builtin-picker-badge">主模型</span>' : '') + '</div>'
       + '<div class="builtin-picker-meta">' + providerLabel + '</div>'
       + '</div>'
       + '</div>'
@@ -7573,6 +7622,9 @@ function saveBuiltinModelSelection(){
     if(!activeConnection.toolOverrides) activeConnection.toolOverrides = {};
     activeConnection.toolOverrides[activeBuiltinModelToolKey] = nextSelected.slice();
     applyVendorSelectionToToolState(activeConnection, activeBuiltinModelToolKey);
+    if(appState.toolRouting[activeBuiltinModelToolKey]){
+      appState.toolRouting[activeBuiltinModelToolKey].selection=(builtinModelDraft.primaryModel && nextSelected.indexOf(builtinModelDraft.primaryModel) >= 0) ? builtinModelDraft.primaryModel : nextSelected[0];
+    }
     syncVendorConfigData();
     activeBuiltinModelVendorName=null;
     cm('mBuiltinModelPicker');
@@ -7584,7 +7636,7 @@ function saveBuiltinModelSelection(){
     return;
   }
   tool.enabledModels=nextSelected;
-  tool.selection=nextSelected.indexOf(tool.selection) >= 0 ? tool.selection : nextSelected[0];
+  tool.selection=(builtinModelDraft.primaryModel && nextSelected.indexOf(builtinModelDraft.primaryModel) >= 0) ? builtinModelDraft.primaryModel : nextSelected[0];
   if(!toolConfigState[activeBuiltinModelToolKey]) toolConfigState[activeBuiltinModelToolKey]={};
   toolConfigState[activeBuiltinModelToolKey].primaryModel=tool.selection;
   if(tool.installed) tool.setupStatus='configured-unverified';
