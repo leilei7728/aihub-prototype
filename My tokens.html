@@ -8449,7 +8449,7 @@ function completeInstall(){
   renderToolRoutingTable();
   renderToolUsageStats();
   const toolName = meta ? meta.name : '新工具';
-  if(shouldBlockForNoTokens(key)){
+  if(!loggedIn || shouldBlockForNoTokens(key)){
     openNoTokenGuideModal(key, 'install');
     return;
   }
