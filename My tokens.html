@@ -6277,6 +6277,7 @@ function hasExternalUsableTokens(toolKey){
 }
 
 function shouldBlockForNoTokens(toolKey){
+  if(!loggedIn) return false;
   return !hasPlatformUsageQuota() && !hasExternalUsableTokens(toolKey);
 }
 
