@@ -1342,7 +1342,12 @@ input:checked+.sl:before{transform:translateX(16px)}
         <button class="usage-insight-range" id="usageWindowToday" onclick="setUsageWindow('today')">今天</button>
         <button class="usage-insight-range" id="usageWindow7d" onclick="setUsageWindow('7d')">近7天</button>
         <button class="usage-insight-range on" id="usageWindow30d" onclick="setUsageWindow('30d')">近30天</button>
-        <button class="usage-insight-range" id="usageWindowAll" onclick="setUsageWindow('all')">全部</button>
+        <span class="usage-insight-range" id="usageWindowCustom" style="display:inline-flex;align-items:center;gap:4px;padding:0 8px;cursor:pointer" onclick="openCustomDatePicker()">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;opacity:.7"><rect x="1" y="2" width="14" height="13" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M5 1v2M11 1v2M1 6h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span id="usageCustomRangeLabel" style="font-size:12px;white-space:nowrap">自定义</span>
+          <input type="date" id="usageDateStart" style="position:absolute;opacity:0;pointer-events:none;width:0;height:0" onchange="onUsageDateChange()">
+          <input type="date" id="usageDateEnd" style="position:absolute;opacity:0;pointer-events:none;width:0;height:0" onchange="onUsageDateChange()">
+        </span>
       </div>
     </div>
     <div class="uc-meta">
@@ -4258,10 +4263,48 @@ function hideProxyHint(){
 }
 
 function toggleToolLocalProxy(toolKey, enabled){
+  if(!enabled){
+    // 关闭时弹确认提醒，防止误触
+    var checkbox = event && event.target;
+    if(checkbox) checkbox.checked = true; // 先视觉上恢复，等用户确认再真正关
+    var toolName = toolUiMeta[toolKey] ? toolUiMeta[toolKey].title : toolKey;
+    showProxyOffConfirm(toolKey, toolName);
+    return;
+  }
   if(!toolConfigState[toolKey]) toolConfigState[toolKey]={};
-  toolConfigState[toolKey].localProxyEnabled=enabled;
+  toolConfigState[toolKey].localProxyEnabled=true;
   renderToolUsageStats();
-  showToast((toolUiMeta[toolKey] ? toolUiMeta[toolKey].title : toolKey) + ' CC Switch 已' + (enabled ? '开启' : '关闭'), 1600);
+  showToast(( toolUiMeta[toolKey] ? toolUiMeta[toolKey].title : toolKey) + ' CC Switch 已开启', 1600);
+}
+
+function showProxyOffConfirm(toolKey, toolName){
+  var existing=document.getElementById('proxyOffConfirmPanel');
+  if(existing) existing.remove();
+  var panel=document.createElement('div');
+  panel.id='proxyOffConfirmPanel';
+  panel.style.cssText='position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.32)';
+  panel.innerHTML=''
+    +'<div style="background:#fff;border-radius:14px;box-shadow:0 20px 48px rgba(15,23,42,.18);padding:28px 28px 22px;max-width:360px;width:calc(100% - 48px)">'
+    +'<div style="font-size:15px;font-weight:700;color:var(--t);margin-bottom:10px">关闭本地代理？</div>'
+    +'<div style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:20px">'
+    +'关闭后，<strong>'+toolName+'</strong> 的请求将不再经由 CC Switch 转发，直接连接供应商。<br>'
+    +'<span style="color:#dc2626">若供应商与工具协议不兼容，调用可能失败。</span>'
+    +'</div>'
+    +'<div style="display:flex;gap:10px;justify-content:flex-end">'
+    +'<button class="btn bo" style="height:36px;padding:0 18px;font-size:13px" onclick="document.getElementById(\'proxyOffConfirmPanel\').remove()">取消</button>'
+    +'<button class="btn" style="height:36px;padding:0 18px;font-size:13px;background:#dc2626;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:500" onclick="confirmProxyOff(\''+toolKey+'\')">确认关闭</button>'
+    +'</div>'
+    +'</div>';
+  panel.addEventListener('mousedown', function(e){ if(e.target===panel) panel.remove(); });
+  document.body.appendChild(panel);
+}
+
+function confirmProxyOff(toolKey){
+  document.getElementById('proxyOffConfirmPanel').remove();
+  if(!toolConfigState[toolKey]) toolConfigState[toolKey]={};
+  toolConfigState[toolKey].localProxyEnabled=false;
+  renderToolUsageStats();
+  showToast((toolUiMeta[toolKey] ? toolUiMeta[toolKey].title : toolKey) + ' CC Switch 已关闭', 1600);
 }
 
 function getToolLocalRouteMeta(toolKey){
@@ -6099,6 +6142,45 @@ function setUsageInsightTab(tab){
   else renderUsageChart();
 }
 
+function openCustomDatePicker(){
+  var existing=document.getElementById('usageDatePickerPanel');
+  if(existing){ existing.remove(); return; }
+  var anchor=document.getElementById('usageWindowCustom');
+  if(!anchor) return;
+  var rect=anchor.getBoundingClientRect();
+  var startVal=appState.usageWindow==='custom' ? (appState.selectedUsageRangeStart||'') : '';
+  var endVal=appState.usageWindow==='custom' ? (appState.selectedUsageRangeEnd||'') : '';
+  var panel=document.createElement('div');
+  panel.id='usageDatePickerPanel';
+  panel.style.cssText='position:fixed;z-index:9999;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 24px rgba(15,23,42,.12);padding:14px 16px;min-width:260px;left:'+Math.min(rect.left, window.innerWidth-280)+'px;top:'+(rect.bottom+6)+'px';
+  panel.innerHTML='<div style="font-size:12px;font-weight:600;color:var(--t);margin-bottom:10px">自定义时间范围</div>'
+    +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">'
+    +'<div style="flex:1"><div style="font-size:11px;color:var(--t3);margin-bottom:4px">开始日期</div><input type="date" id="dpStart" value="'+startVal+'" style="width:100%;padding:5px 8px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px;color:var(--t);outline:none;box-sizing:border-box"></div>'
+    +'<div style="font-size:12px;color:var(--t3);padding-top:16px">—</div>'
+    +'<div style="flex:1"><div style="font-size:11px;color:var(--t3);margin-bottom:4px">结束日期</div><input type="date" id="dpEnd" value="'+endVal+'" style="width:100%;padding:5px 8px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px;color:var(--t);outline:none;box-sizing:border-box"></div>'
+    +'</div>'
+    +'<div style="display:flex;gap:8px;justify-content:flex-end">'
+    +'<button class="btn bo bsm" onclick="document.getElementById(\'usageDatePickerPanel\').remove()">取消</button>'
+    +'<button class="btn bp bsm" onclick="applyCustomDateRange()">确定</button>'
+    +'</div>';
+  document.body.appendChild(panel);
+  setTimeout(function(){
+    document.addEventListener('mousedown', function closePicker(e){
+      var p=document.getElementById('usageDatePickerPanel');
+      if(p && !p.contains(e.target) && e.target!==anchor && !anchor.contains(e.target)){ p.remove(); document.removeEventListener('mousedown',closePicker); }
+    });
+  },0);
+}
+
+function applyCustomDateRange(){
+  var s=document.getElementById('dpStart');
+  var e=document.getElementById('dpEnd');
+  if(!s||!e||!s.value||!e.value){ showToast('请选择开始和结束日期',1400); return; }
+  if(s.value>e.value){ showToast('开始日期不能晚于结束日期',1400); return; }
+  document.getElementById('usageDatePickerPanel').remove();
+  setUsageChartRange(s.value, e.value, 'custom');
+}
+
 function setUsageWindow(windowKey){
   const days=getAvailableUsageDays();
   if(!days.length) return;
@@ -6122,7 +6204,7 @@ function renderUsageChart(){
   const suppliersTab=document.getElementById('usageTabSuppliers');
   const detailTab=document.getElementById('usageTabDetail');
   const windowTodayBtn=document.getElementById('usageWindowToday');
-  const windowAllBtn=document.getElementById('usageWindowAll');
+  const windowCustomBtn=document.getElementById('usageWindowCustom');
   const window30Btn=document.getElementById('usageWindow30d');
   const window7Btn=document.getElementById('usageWindow7d');
   const marksEl=document.getElementById('usageChartMarks');
@@ -6174,16 +6256,20 @@ function renderUsageChart(){
   const last30Start=monthlyDays.length ? monthlyDays[Math.max(0, monthlyDays.length - 30)].date : '';
   const last7Start=monthlyDays.length ? monthlyDays[Math.max(0, monthlyDays.length - 7)].date : '';
   const isTodayWindow=appState.usageWindow === 'today';
-  const isAllWindow=appState.usageWindow === 'all';
+  const isCustomWindow=appState.usageWindow === 'custom';
   const is30Window=appState.usageWindow === '30d';
   const is7Window=appState.usageWindow === '7d';
   if(modelsTab) modelsTab.classList.toggle('on', appState.usageInsightTab === 'models');
   if(suppliersTab) suppliersTab.classList.toggle('on', appState.usageInsightTab === 'suppliers');
   if(detailTab) detailTab.classList.toggle('on', appState.usageInsightTab === 'detail');
   if(windowTodayBtn) windowTodayBtn.classList.toggle('on', isTodayWindow);
-  if(windowAllBtn) windowAllBtn.classList.toggle('on', isAllWindow);
   if(window30Btn) window30Btn.classList.toggle('on', is30Window);
   if(window7Btn) window7Btn.classList.toggle('on', is7Window);
+  if(windowCustomBtn){
+    windowCustomBtn.classList.toggle('on', isCustomWindow);
+    var customLabel=document.getElementById('usageCustomRangeLabel');
+    if(customLabel) customLabel.textContent=isCustomWindow ? (normalizedStart.slice(5).replace('-','/') + ' — ' + normalizedEnd.slice(5).replace('-','/')) : '自定义';
+  }
 
   if(appState.usageInsightTab === 'models'){
     if(descEl){
@@ -6230,8 +6316,7 @@ function renderUsageChart(){
       }
     }
 
-    if(isAllWindow && rangedDays.length){
-      if(descEl) descEl.textContent='按天查看全部时间范围内的模型消耗趋势。';
+    if(isCustomWindow && rangedDays.length){
       if(marksEl) marksEl.textContent='共 ' + selectedDayCount + ' 天 · ' + visibleModelKeys.length + ' 个模型';
       const lineLabelStep=Math.max(1, Math.ceil(rangedDays.length / 6));
       renderUsageBars('usageChartMain', rangedDays.map(function(item, index){
@@ -6298,8 +6383,8 @@ function renderUsageChart(){
       }
     }
 
-    if(isAllWindow && rangedDays.length){
-      if(descEl) descEl.textContent='按天查看全部时间范围内的供应商消耗趋势。';
+    if(isCustomWindow && rangedDays.length){
+      if(descEl) descEl.textContent='按天查看自定义时间范围内的供应商消耗趋势。';
       if(marksEl) marksEl.textContent='共 ' + selectedDayCount + ' 天 · ' + visibleSupplierKeys.length + ' 个供应商';
       const labelStep=Math.max(1, Math.ceil(rangedDays.length / 6));
       renderUsageBars('usageChartMain', rangedDays.map(function(item, index){
