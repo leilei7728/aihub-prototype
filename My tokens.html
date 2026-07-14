@@ -2383,6 +2383,20 @@ input:checked+.sl:before{transform:translateX(16px)}
   </div>
 </div>
 
+<!-- M02A 无可用 tokens 提醒 -->
+<div class="ov" id="mNoTokenGuide">
+  <div class="mo mo-sm" style="text-align:center">
+    <div style="width:58px;height:58px;margin:0 auto 14px;border-radius:18px;background:linear-gradient(135deg,#fff7ed 0%,#ffedd5 100%);border:1px solid #fdba74;display:flex;align-items:center;justify-content:center;font-size:28px">⚠️</div>
+    <div class="mo-ti" id="mNoTokenGuideTitle">当前没有可用 tokens</div>
+    <div class="mo-ds" id="mNoTokenGuideDesc">你已经安装成功，但当前没有订阅、没有充值余额，也没有接入外部可用额度，现在直接打开也运行不了。</div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px">
+      <button class="btn bp bfw" onclick="cm('mNoTokenGuide');go('p05',nv(4),'订阅 / 充值');setTimeout(function(){switchBuyTab('subscription')},50)">先去订阅 / 充值</button>
+      <button class="btn bo bfw" onclick="cm('mNoTokenGuide');go('p03',nv(3),'模型供应商')">接入外部购买额度</button>
+      <button class="btn bgh bfw" onclick="cm('mNoTokenGuide')">我知道了</button>
+    </div>
+  </div>
+</div>
+
 <!-- M04 安装进度 -->
 <div class="ov" id="m04">
   <div class="mo mo-sm">
@@ -6247,6 +6261,37 @@ function formatModelName(value){
     .replace(/\b\w/g,function(ch){ return ch.toUpperCase(); });
 }
 
+function hasPlatformUsageQuota(){
+  return !!(userPlan && userPlan.name) || Number(userCashBalance || 0) > 0;
+}
+
+function hasExternalUsableTokens(toolKey){
+  return (vendorConnections || []).some(function(connection){
+    if(!connection || connection.active === false) return false;
+    if(Number(connection.balance || 0) <= 0) return false;
+    var globalRoutingEnabled = !!(connection.globalRouting && connection.globalRouting.enabled && normalizeGlobalRoutingConfig(connection.globalRouting).models.filter(Boolean).length);
+    var assignedModels = getVendorToolAssignedModels(connection, toolKey);
+    return globalRoutingEnabled || assignedModels.length > 0;
+  });
+}
+
+function shouldBlockForNoTokens(toolKey){
+  return !hasPlatformUsageQuota() && !hasExternalUsableTokens(toolKey);
+}
+
+function openNoTokenGuideModal(toolKey, source){
+  var meta = toolUiMeta[toolKey] || toolMeta[toolKey] || {};
+  var toolName = meta.title || meta.name || '当前工具';
+  var title = document.getElementById('mNoTokenGuideTitle');
+  var desc = document.getElementById('mNoTokenGuideDesc');
+  var actionText = source === 'install'
+    ? (toolName + ' 已安装成功')
+    : ('当前准备打开 ' + toolName);
+  if(title) title.textContent = '当前没有可用 tokens';
+  if(desc) desc.textContent = actionText + '，但你现在没有订阅、没有充值余额，也没有接入外部可用额度，直接打开也运行不了。你可以先订阅套餐、充值余额，或者去模型供应商接入外部购买的额度。';
+  om('mNoTokenGuide');
+}
+
 function getMappingTarget(){
   const mappingInput=document.getElementById('mappingInput');
   return mappingInput ? formatModelName(mappingInput.value.trim()) : '';
@@ -8392,16 +8437,8 @@ function completeInstall(){
   renderToolRoutingTable();
   renderToolUsageStats();
   const toolName = meta ? meta.name : '新工具';
-  const noPlan = !(userPlan && userPlan.name);
-  const noBalance = userCashBalance <= 0;
-  if(noPlan && noBalance){
-    showToast(
-      toolName + ' 安装成功！当前还没有可用 tokens，先去'
-      + '<span style="cursor:pointer;text-decoration:underline;margin:0 4px" onclick="go(\'p05\',nv(4),\'订阅 / 充值\');setTimeout(function(){switchBuyTab(\'subscription\')},50)">订阅 / 充值</span>'
-      + '，或者到'
-      + '<span style="cursor:pointer;text-decoration:underline;margin:0 4px" onclick="go(\'p03\',nv(3),\'模型供应商\')">模型供应商</span>'
-      + '接入外部购买额度，不然运行不了。'
-    );
+  if(shouldBlockForNoTokens(key)){
+    openNoTokenGuideModal(key, 'install');
     return;
   }
   showToast(toolName + ' 安装成功！<span style="cursor:pointer;text-decoration:underline;margin-left:6px" onclick="launchTool(\'' + key + '\')">直接打开 →</span>');
@@ -8420,6 +8457,10 @@ function launchTool(toolKey){
   }
   if(tool.setupStatus === 'configured-unverified'){
     showToast('请先验证 ' + tool.name);
+    return;
+  }
+  if(shouldBlockForNoTokens(toolKey)){
+    openNoTokenGuideModal(toolKey, 'launch');
     return;
   }
   appState.activeToolKey=toolKey;
