@@ -2390,9 +2390,8 @@ input:checked+.sl:before{transform:translateX(16px)}
     <div class="mo-ti" id="mNoTokenGuideTitle">当前没有可用 tokens</div>
     <div class="mo-ds" id="mNoTokenGuideDesc">你已经安装成功，但当前没有订阅、没有充值余额，也没有接入外部可用额度，现在直接打开也运行不了。</div>
     <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px">
-      <button class="btn bp bfw" onclick="cm('mNoTokenGuide');go('p05',nv(4),'订阅 / 充值');setTimeout(function(){switchBuyTab('subscription')},50)">先去订阅 / 充值</button>
-      <button class="btn bo bfw" onclick="cm('mNoTokenGuide');go('p03',nv(3),'模型供应商')">接入外部购买额度</button>
-      <button class="btn bgh bfw" onclick="cm('mNoTokenGuide')">我知道了</button>
+      <button class="btn bp bfw" onclick="cm('mNoTokenGuide');go('p05',nv(4),'订阅 / 充值');setTimeout(function(){switchBuyTab('subscription')},50)">去领取新人礼包</button>
+      <button class="btn bo bfw" onclick="openNoTokenVendorSetup()">我已有 API Key</button>
     </div>
   </div>
 </div>
@@ -6265,6 +6264,8 @@ function hasPlatformUsageQuota(){
   return !!(userPlan && userPlan.name) || Number(userCashBalance || 0) > 0;
 }
 
+var noTokenGuideToolKey = '';
+
 function hasExternalUsableTokens(toolKey){
   return (vendorConnections || []).some(function(connection){
     if(!connection || connection.active === false) return false;
@@ -6284,12 +6285,22 @@ function openNoTokenGuideModal(toolKey, source){
   var toolName = meta.title || meta.name || '当前工具';
   var title = document.getElementById('mNoTokenGuideTitle');
   var desc = document.getElementById('mNoTokenGuideDesc');
+  noTokenGuideToolKey = toolKey || '';
   var actionText = source === 'install'
     ? (toolName + ' 已安装成功')
     : ('当前准备打开 ' + toolName);
   if(title) title.textContent = '当前没有可用 tokens';
   if(desc) desc.textContent = actionText + '，但你现在没有订阅、没有充值余额，也没有接入外部可用额度，直接打开也运行不了。你可以先订阅套餐、充值余额，或者去模型供应商接入外部购买的额度。';
   om('mNoTokenGuide');
+}
+
+function openNoTokenVendorSetup(){
+  var toolKey = noTokenGuideToolKey || appState.activeToolKey || 'claude-desktop';
+  cm('mNoTokenGuide');
+  appState.activeToolKey = toolKey;
+  var ni = document.querySelector('.ni[onclick*="p03"]');
+  if(ni) go('p03', ni, '模型供应商');
+  setTimeout(function(){ openAddVendorModal(toolKey); }, 50);
 }
 
 function getMappingTarget(){
