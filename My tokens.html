@@ -5228,7 +5228,7 @@ function renderToolUsageStats(){
       + '</div>'
       + '</div>'
       + '<div class="tool-tab-actions" style="display:flex;align-items:center;gap:10px">'
-      + '<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">'
+      + '<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">'
       + '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none" title="开启后，该工具的请求将经由本机 CC Switch 转发，自动完成协议适配与模型路由"><span style="font-size:12px;color:var(--t2);white-space:nowrap;font-weight:500">本地代理</span><label class="sw" style="flex-shrink:0;margin:0"><input type="checkbox" ' + (localRouteMeta.enabled ? 'checked' : '') + ' onchange="toggleToolLocalProxy(\'' + activeToolKey + '\',this.checked)"><span class="sl"></span></label></label>'
       + '<span style="font-size:11px;color:var(--t3);white-space:nowrap">开启后请求经 CC Switch 本地转发，自动适配协议</span>'
       + '</div>'
