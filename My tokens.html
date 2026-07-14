@@ -4234,7 +4234,7 @@ function toggleToolLocalProxy(toolKey, enabled){
   if(!toolConfigState[toolKey]) toolConfigState[toolKey]={};
   toolConfigState[toolKey].localProxyEnabled=enabled;
   renderToolUsageStats();
-  showToast((toolUiMeta[toolKey] ? toolUiMeta[toolKey].title : toolKey) + ' 本地代理已' + (enabled ? '开启' : '关闭'), 1600);
+  showToast((toolUiMeta[toolKey] ? toolUiMeta[toolKey].title : toolKey) + ' CC Switch 已' + (enabled ? '开启' : '关闭'), 1600);
 }
 
 function getToolLocalRouteMeta(toolKey){
@@ -5228,7 +5228,7 @@ function renderToolUsageStats(){
       + '</div>'
       + '</div>'
       + '<div class="tool-tab-actions" style="display:flex;align-items:center;gap:10px">'
-      + '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--t2);white-space:nowrap;user-select:none" title="开启后，该工具所有供应商的请求均经由本地 CC Switch 代理层转发"><span>本地代理</span><label class="sw" style="flex-shrink:0;margin:0"><input type="checkbox" ' + (localRouteMeta.enabled ? 'checked' : '') + ' onchange="toggleToolLocalProxy(\'' + activeToolKey + '\',this.checked)"><span class="sl"></span></label></label>'
+      + '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--t2);white-space:nowrap;user-select:none" title="开启后，该工具的请求将经由本机 CC Switch 转发，自动完成协议适配与模型路由"><span>CC Switch</span><label class="sw" style="flex-shrink:0;margin:0"><input type="checkbox" ' + (localRouteMeta.enabled ? 'checked' : '') + ' onchange="toggleToolLocalProxy(\'' + activeToolKey + '\',this.checked)"><span class="sl"></span></label></label>'
       + primaryAction
       + '</div>'
       + '</div>';
