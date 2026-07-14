@@ -364,6 +364,50 @@ body{font-family:'SF Pro Display','SF Pro Text','PingFang SC','Helvetica Neue','
 .mo-ti{font-size:16px;font-weight:700;margin-bottom:6px}
 .mo-ds{font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:20px}
 .mo-ft{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+.login-dialog{padding:26px 28px 30px;background:rgba(255,255,255,.9)}
+.login-close{position:absolute;top:16px;right:16px;cursor:pointer;font-size:18px;color:var(--t3);line-height:1}
+.login-brand{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.login-brand-icon{width:34px;height:34px;border-radius:11px;background:linear-gradient(180deg,#2f9cff,#0a84ff);display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 10px 18px rgba(10,132,255,.2)}
+.login-brand-icon svg{width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.login-brand-title{font-size:18px;font-weight:800;color:#1f2937;line-height:1.1}
+.login-section{margin-bottom:14px;padding:16px 14px 16px;border-radius:18px;background:linear-gradient(180deg,#f8fbff,#ffffff);border:1px solid rgba(191,219,254,.88);box-shadow:inset 0 1px 0 rgba(255,255,255,.82)}
+.login-wechat-title{text-align:center;font-size:16px;font-weight:800;color:#24476b;margin-bottom:14px}
+.login-qr-wrap{display:flex;justify-content:center;margin:0 0 16px}
+.login-qr-shell{width:182px;height:182px;border-radius:18px;padding:12px;background:#fff;border:1px solid rgba(226,232,240,.95);box-shadow:0 14px 28px rgba(15,23,42,.08);cursor:pointer;transition:transform .16s,box-shadow .16s,border-color .16s;display:flex;align-items:center;justify-content:center}
+.login-qr-shell:hover{transform:translateY(-1px);box-shadow:0 18px 34px rgba(15,23,42,.11);border-color:rgba(96,165,250,.28)}
+.login-qr-shell svg{display:block;width:156px;height:156px}
+.login-switch-row{text-align:center}
+.login-pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:122px;height:32px;padding:0 18px;border-radius:999px;background:#f8fafc;border:1px solid rgba(203,213,225,.96);font-size:12px;font-weight:600;color:#475569;cursor:pointer;transition:all .16s}
+.login-pill-btn:hover{background:#fff;border-color:rgba(147,197,253,.95);box-shadow:0 8px 18px rgba(15,23,42,.06)}
+.login-pill-ico{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;flex-shrink:0}
+.login-pill-ico.phone{color:#3b82f6}
+.login-pill-ico.wechat{color:#16a34a}
+.login-pill-ico svg{width:18px;height:18px;display:block}
+.login-phone-tabs{display:flex;align-items:center;justify-content:center;gap:18px;margin:2px 0 18px}
+.login-phone-tab{font-size:14px;color:#94a3b8;cursor:pointer;transition:color .16s}
+.login-phone-tab.on{color:#24476b;font-weight:800}
+.login-phone-form{display:grid;gap:14px}
+.login-inline-row{display:grid;grid-template-columns:minmax(0,1fr) 108px;gap:10px}
+.login-submit{margin-top:4px;margin-bottom:12px;height:40px;border-radius:10px;box-shadow:0 10px 20px rgba(10,132,255,.14)}
+.login-checkbox-row{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:10px;font-size:12px;color:var(--t2)}
+.login-checkbox-row label{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+.login-foot-copy{text-align:center;font-size:12px;color:var(--t3)}
+.login-input{height:42px;border-radius:10px !important;background:#fff !important;box-shadow:none !important;border-color:rgba(203,213,225,.96) !important}
+.login-code-btn{height:42px;border-radius:10px !important;white-space:nowrap;flex-shrink:0;box-shadow:none !important;background:#f8fafc !important;border-color:rgba(203,213,225,.96) !important;color:#334155 !important}
+.login-code-btn:hover{background:#fff !important;border-color:rgba(147,197,253,.95) !important}
+.wechat-glyph{position:relative;display:block;width:18px;height:18px}
+.wechat-glyph:before,.wechat-glyph:after{content:"";position:absolute;border-radius:50%;background:currentColor}
+.wechat-glyph:before{width:11px;height:11px;left:0;top:5px}
+.wechat-glyph:after{width:13px;height:13px;right:0;top:1px}
+.wechat-glyph i,.wechat-glyph b,.wechat-glyph em,.wechat-glyph strong{position:absolute;display:block;width:2px;height:2px;border-radius:50%;background:#fff;z-index:1}
+.wechat-glyph i{left:4px;top:9px}
+.wechat-glyph b{left:7px;top:9px}
+.wechat-glyph em{right:5px;top:6px}
+.wechat-glyph strong{right:8px;top:6px}
+.wechat-glyph span,.wechat-glyph u{position:absolute;display:block;width:0;height:0;border-style:solid;z-index:0}
+.wechat-glyph span{left:1px;top:13px;border-width:3px 3px 0 0;border-color:currentColor transparent transparent transparent;transform:rotate(8deg)}
+.wechat-glyph u{right:1px;top:11px;border-width:3px 0 0 3px;border-color:currentColor transparent transparent transparent;transform:rotate(-8deg);text-decoration:none}
+.login-qr-badge .wechat-glyph{width:18px;height:18px}
 /* ── tabs ── */
 .tabs{display:flex;border-bottom:1px solid var(--bd);margin-bottom:20px}
 .tab{padding:8px 16px;cursor:pointer;font-size:13px;color:var(--t2);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
@@ -711,6 +755,7 @@ input:checked+.sl:before{transform:translateX(16px)}
 .tool-tab-title{display:grid;gap:4px;min-width:0}
 .tool-tab-name-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .tool-tab-meta{font-size:12px;color:var(--t2);line-height:1.6}
+.tool-tab-version{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:999px;background:#f8fafc;border:1px solid rgba(203,213,225,.92);font-size:11px;font-weight:600;color:#64748b;line-height:1;white-space:nowrap}
 .tool-tab-tags{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .tool-tab-stack{display:grid;gap:14px;min-height:100%;align-content:start}
 #p02.on{height:100%}
@@ -989,26 +1034,143 @@ input:checked+.sl:before{transform:translateX(16px)}
      P00 · 登录（登录即注册，验证码模式，密码可选）
 ══════════════════════════════════════════════════ -->
 <div class="ov" id="ls">
-  <div class="mo mo-sm" style="position:relative">
-    <div style="position:absolute;top:16px;right:16px;cursor:pointer;font-size:18px;color:var(--t3);line-height:1" onclick="cm('ls')">✕</div>
-    <div class="l-logo" style="margin-bottom:20px">
-      <div class="icon"><i data-lucide="panels-top-left"></i></div>
+  <div class="mo mo-sm login-dialog" style="position:relative">
+    <div class="login-close" onclick="cm('ls')">✕</div>
+    <div class="login-brand">
+      <div class="login-brand-icon"><i data-lucide="panels-top-left"></i></div>
       <div>
-        <div class="name">My tokens</div>
-      </div>
-    </div>
-    <div class="fg">
-      <label class="fl">手机号</label>
-      <input class="fi" id="loginPhoneInput" type="text" placeholder="请输入手机号">
-    </div>
-    <div class="fg">
-      <label class="fl">验证码</label>
-      <div class="fxc g8">
-        <input class="fi" id="loginCodeInput" type="text" placeholder="请输入 6 位验证码" style="flex:1">
-        <button class="btn bo" id="sendCodeBtn" style="white-space:nowrap;flex-shrink:0" onclick="sendCode(this)">获取验证码</button>
+        <div class="login-brand-title">My tokens</div>
       </div>
     </div>
     <div id="loginErrorText" style="display:none;margin:-6px 0 12px;font-size:12px;color:var(--er)"></div>
+    <div id="wechatLoginPanel" class="login-section">
+      <div class="login-wechat-title">
+        微信扫码登录
+      </div>
+      <div class="login-qr-wrap">
+        <div class="login-qr-shell" onclick="toApp()" title="原型中点击二维码模拟扫码登录">
+          <svg viewBox="0 0 156 156" aria-hidden="true">
+            <rect x="0" y="0" width="156" height="156" rx="18" fill="#ffffff"></rect>
+            <rect x="10" y="10" width="136" height="136" rx="14" fill="#ffffff" stroke="#e2e8f0"></rect>
+
+            <g fill="#111827">
+              <rect x="18" y="18" width="34" height="34" rx="6"></rect>
+              <rect x="24" y="24" width="22" height="22" rx="4" fill="#ffffff"></rect>
+              <rect x="29" y="29" width="12" height="12" rx="2" fill="#111827"></rect>
+
+              <rect x="104" y="18" width="34" height="34" rx="6"></rect>
+              <rect x="110" y="24" width="22" height="22" rx="4" fill="#ffffff"></rect>
+              <rect x="115" y="29" width="12" height="12" rx="2" fill="#111827"></rect>
+
+              <rect x="18" y="104" width="34" height="34" rx="6"></rect>
+              <rect x="24" y="110" width="22" height="22" rx="4" fill="#ffffff"></rect>
+              <rect x="29" y="115" width="12" height="12" rx="2" fill="#111827"></rect>
+
+              <rect x="62" y="18" width="6" height="6" rx="1"></rect>
+              <rect x="72" y="18" width="6" height="6" rx="1"></rect>
+              <rect x="82" y="18" width="6" height="6" rx="1"></rect>
+              <rect x="92" y="18" width="6" height="6" rx="1"></rect>
+
+              <rect x="58" y="30" width="10" height="6" rx="1"></rect>
+              <rect x="74" y="30" width="6" height="6" rx="1"></rect>
+              <rect x="86" y="30" width="12" height="6" rx="1"></rect>
+
+              <rect x="60" y="42" width="6" height="10" rx="1"></rect>
+              <rect x="72" y="42" width="14" height="6" rx="1"></rect>
+              <rect x="92" y="42" width="6" height="10" rx="1"></rect>
+
+              <rect x="18" y="62" width="8" height="8" rx="1"></rect>
+              <rect x="30" y="62" width="12" height="8" rx="1"></rect>
+              <rect x="48" y="62" width="8" height="8" rx="1"></rect>
+              <rect x="62" y="62" width="18" height="8" rx="1"></rect>
+              <rect x="86" y="62" width="8" height="8" rx="1"></rect>
+              <rect x="100" y="62" width="10" height="8" rx="1"></rect>
+              <rect x="116" y="62" width="22" height="8" rx="1"></rect>
+
+              <rect x="18" y="76" width="6" height="18" rx="1"></rect>
+              <rect x="30" y="76" width="10" height="6" rx="1"></rect>
+              <rect x="46" y="76" width="6" height="18" rx="1"></rect>
+              <rect x="58" y="76" width="8" height="6" rx="1"></rect>
+              <rect x="72" y="76" width="10" height="18" rx="1"></rect>
+              <rect x="88" y="76" width="6" height="6" rx="1"></rect>
+              <rect x="100" y="76" width="16" height="6" rx="1"></rect>
+              <rect x="122" y="76" width="16" height="18" rx="1"></rect>
+
+              <rect x="30" y="88" width="10" height="6" rx="1"></rect>
+              <rect x="58" y="88" width="8" height="6" rx="1"></rect>
+              <rect x="88" y="88" width="22" height="6" rx="1"></rect>
+
+              <rect x="62" y="104" width="6" height="6" rx="1"></rect>
+              <rect x="72" y="104" width="18" height="6" rx="1"></rect>
+              <rect x="96" y="104" width="6" height="6" rx="1"></rect>
+              <rect x="108" y="104" width="12" height="6" rx="1"></rect>
+              <rect x="126" y="104" width="12" height="6" rx="1"></rect>
+
+              <rect x="58" y="116" width="10" height="6" rx="1"></rect>
+              <rect x="74" y="116" width="6" height="18" rx="1"></rect>
+              <rect x="86" y="116" width="8" height="6" rx="1"></rect>
+              <rect x="100" y="116" width="6" height="18" rx="1"></rect>
+              <rect x="112" y="116" width="26" height="6" rx="1"></rect>
+
+              <rect x="58" y="128" width="10" height="10" rx="1"></rect>
+              <rect x="86" y="128" width="8" height="10" rx="1"></rect>
+              <rect x="112" y="128" width="8" height="10" rx="1"></rect>
+              <rect x="126" y="128" width="12" height="10" rx="1"></rect>
+            </g>
+
+            <g transform="translate(78 78)">
+              <rect x="-17" y="-17" width="34" height="34" rx="10" fill="#22c55e"></rect>
+              <g transform="translate(-9 -9) scale(.9)" fill="#ffffff">
+                <circle cx="7" cy="12" r="5"></circle>
+                <circle cx="13.5" cy="8.5" r="6"></circle>
+                <circle cx="5.5" cy="11" r=".9" fill="#22c55e"></circle>
+                <circle cx="8.2" cy="11" r=".9" fill="#22c55e"></circle>
+                <circle cx="11.4" cy="8.2" r="1" fill="#22c55e"></circle>
+                <circle cx="14.2" cy="8.2" r="1" fill="#22c55e"></circle>
+                <path d="M2.5 15.5l2.6-.9" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round"></path>
+                <path d="M17 13.2l2.8.8" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round"></path>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="login-switch-row">
+        <button class="login-pill-btn" type="button" onclick="setLoginMethod('phone')">
+          <span class="login-pill-ico phone">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="7" y="2.5" width="10" height="19" rx="2.5" fill="currentColor" opacity=".16"></rect>
+              <rect x="8.5" y="4" width="7" height="14" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.8"></rect>
+              <path d="M10.5 6.5h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+              <circle cx="12" cy="16.8" r="1" fill="currentColor"></circle>
+            </svg>
+          </span>
+          <span>手机号登录</span>
+        </button>
+      </div>
+    </div>
+    <div id="phoneLoginPanel" class="login-section" style="display:none">
+      <div class="login-phone-tabs">
+        <span class="login-phone-tab on" id="phoneLoginTabCode" onclick="setPhoneLoginMode('code')">验证码登录</span>
+        <span class="login-phone-tab" id="phoneLoginTabPassword" onclick="setPhoneLoginMode('password')">密码登录</span>
+      </div>
+      <div class="login-phone-form">
+        <input class="fi login-input" id="loginPhoneInput" type="text" placeholder="请输入您的手机号">
+        <div id="phoneCodeModePanel" class="login-inline-row">
+          <input class="fi login-input" id="loginCodeInput" type="text" placeholder="验证码">
+          <button class="btn bo login-code-btn" id="sendCodeBtn" onclick="sendCode(this)">获取验证码</button>
+        </div>
+        <div id="phonePasswordModePanel" style="display:none">
+          <input class="fi login-input" id="loginPasswordInput" type="password" placeholder="请输入登录密码">
+        </div>
+        <button class="btn bp bfw login-submit" onclick="toApp()">登录 / 注册</button>
+      </div>
+      <div class="login-switch-row" style="margin-top:8px">
+        <button class="login-pill-btn" type="button" onclick="setLoginMethod('wechat')">
+          <span class="login-pill-ico wechat"><span class="wechat-glyph"><i></i><b></b><em></em><strong></strong><span></span><u></u></span></span>
+          <span>微信登录</span>
+        </button>
+      </div>
+    </div>
     <!-- 原型模拟：登录身份选择 -->
     <div style="margin-bottom:14px;padding:10px 12px;background:var(--all);border-radius:8px;border:1px solid var(--bd)">
       <div style="font-size:11px;color:var(--t3);margin-bottom:8px">🛠️ 原型模拟：选择登录身份</div>
@@ -1050,10 +1212,19 @@ input:checked+.sl:before{transform:translateX(16px)}
         </label>
       </div>
     </div>
-    <button class="btn bp bfw" onclick="toApp()" style="margin-bottom:12px">登录 / 注册</button>
-    <div style="text-align:center;font-size:12px;color:var(--t3)">
-      未注册的手机号将自动创建账号 · 登录即代表同意
-      <span class="tac" style="cursor:pointer">用户协议</span>
+    <div class="login-checkbox-row">
+      <label>
+        <input type="checkbox" id="loginAutoCheck" checked style="width:14px;height:14px;accent-color:var(--a);cursor:pointer;flex-shrink:0">
+        <span>15天内自动登录</span>
+      </label>
+      <label>
+        <input type="checkbox" id="loginAgreeCheck" style="width:14px;height:14px;accent-color:var(--a);cursor:pointer;flex-shrink:0">
+        <span>已阅读并同意</span>
+        <span class="tac" style="color:var(--a);cursor:pointer">用户协议</span>
+      </label>
+    </div>
+    <div class="login-foot-copy">
+      登录即注册，未注册用户将自动创建账号
     </div>
     <div style="text-align:center;margin-top:14px">
       <span style="font-size:12px;color:var(--t3);cursor:pointer" onclick="cm('ls')">暂不登录，先看看 →</span>
@@ -2026,6 +2197,18 @@ input:checked+.sl:before{transform:translateX(16px)}
   </div>
 </div>
 
+<div class="ov" id="mDeleteVendorConfirm">
+  <div class="mo mo-sm" style="text-align:center">
+    <div style="width:54px;height:54px;margin:0 auto 14px;border-radius:18px;background:#fff1f2;color:#dc2626;border:1px solid #fecdd3;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800">!</div>
+    <div class="mo-ti">确认删除供应商？</div>
+    <div class="mo-ds" id="deleteVendorConfirmDesc">删除后，所有 AI 工具都将无法继续使用该供应商提供的模型，需要重新选择其他供应商或切回平台接入。</div>
+    <div class="mo-ft" style="justify-content:center;gap:12px">
+      <button class="btn bo" onclick="cancelRemoveVendorConnection()">取消</button>
+      <button class="btn" style="background:#dc2626;color:#fff;border:none" onclick="confirmRemoveVendorConnection()">确认删除</button>
+    </div>
+  </div>
+</div>
+
 <!-- M09 修改密码 -->
 <!-- M09 修改登录密码 -->
 <div class="ov" id="m09">
@@ -2584,7 +2767,6 @@ input:checked+.sl:before{transform:translateX(16px)}
     </div>
     <div class="builtin-picker-body">
       <div class="builtin-picker-toolbar">
-        <input class="fi" id="builtinModelSearchInput" placeholder="搜索模型名称或原厂" oninput="setBuiltinModelSearch(this.value)">
         <div class="builtin-picker-filter-row" id="builtinModelProviderFilters"></div>
         <div class="builtin-picker-stats" id="builtinModelPickerStats"></div>
       </div>
@@ -2685,6 +2867,8 @@ var currentCapFilters = [];
 var currentCtxFilter = 0;
 var _activeCtxBtn = null;
 var activeBuiltinModelToolKey = null;
+var activeBuiltinModelVendorName = '';
+var pendingDeleteVendorName = '';
 var builtinModelDraft = null;
 var avEditingVendorName = '';
 var currentAddVendorToolKey = 'claude-desktop';
@@ -3909,10 +4093,10 @@ function initUsageMockData(){
 initUsageMockData();
 
 var toolMeta = {
-  'claude-desktop': { name: 'Claude', version: '桌面版 · v0.10.4 · 已安装' },
-  'codex-cli': { name: 'Codex', version: '命令行工具 · v1.2.1 · 已安装' },
-  'opencode': { name: 'OpenCode', version: 'v0.1.89 · 已安装' },
-  gemini: { name: 'Gemini CLI', version: 'v1.0.2 · 已安装' },
+  'claude-desktop': { name: 'Claude', version: '桌面版 · v1.20186.1 · 已安装' },
+  'codex-cli': { name: 'Codex', version: '命令行工具 · v0.144.3 · 已安装' },
+  'opencode': { name: 'OpenCode', version: 'v1.17.20 · 已安装' },
+  gemini: { name: 'Gemini CLI', version: 'v0.50.0 · 已安装' },
   deepseek: { name: 'DeepSeek Chat', version: 'v3.1.0 · 已安装' },
   kilocode: { name: 'Kilo Code', version: 'v0.2.0 · 已安装' },
   claudecode: { name: 'Claude Code', version: 'v1.0.0 · 已安装' },
@@ -3924,7 +4108,7 @@ var activeToolConfigKey = '';
 var toolUiMeta = {
   'claude-desktop': {
     title: 'Claude',
-    installedLabel: '桌面版 · v0.10.4 · 已安装',
+    installedLabel: '桌面版 · v1.20186.1 · 已安装',
     pendingLabel: '桌面版 · 未安装',
     overview: 'Anthropic 桌面客户端，常用于本地对话与代码协作。',
     capabilities: ['桌面端', 'Anthropic', '代码协作'],
@@ -3933,7 +4117,7 @@ var toolUiMeta = {
   },
   'codex-cli': {
     title: 'Codex',
-    installedLabel: '命令行工具 · v1.2.1 · 已安装',
+    installedLabel: '命令行工具 · v0.144.3 · 已安装',
     pendingLabel: '命令行工具 · 未安装',
     overview: '命令行代码助手，适合在终端里处理仓库任务。',
     capabilities: ['CLI', '仓库上下文', '模型切换'],
@@ -3942,7 +4126,7 @@ var toolUiMeta = {
   },
   opencode: {
     title: 'OpenCode',
-    installedLabel: 'v0.1.89 · 已安装',
+    installedLabel: 'v1.17.20 · 已安装',
     pendingLabel: '客户端 · 未安装',
     overview: '开源代码助手，适合在本地工作区接入多模型。',
     capabilities: ['开源', '多模型', '工作区'],
@@ -3951,7 +4135,7 @@ var toolUiMeta = {
   },
   gemini: {
     title: 'Gemini',
-    installedLabel: '命令行工具 · v1.0.2 · 已安装',
+    installedLabel: '命令行工具 · v0.50.0 · 已安装',
     pendingLabel: '命令行工具 · 未安装',
     overview: 'Google 命令行助手，可直接使用 Gemini 模型。',
     capabilities: ['CLI', 'Gemini', '项目上下文'],
@@ -4324,6 +4508,42 @@ function verifyTool(toolKey){
 // 直接进 App，不强制登录
 // 点击侧边栏"未登录"才弹登录框
 
+var currentLoginMethod='wechat';
+var currentPhoneLoginMode='code';
+
+function setLoginMethod(method){
+  currentLoginMethod=method === 'phone' ? 'phone' : 'wechat';
+  updateLoginMethod();
+}
+
+function setPhoneLoginMode(mode){
+  currentPhoneLoginMode=mode === 'password' ? 'password' : 'code';
+  updatePhoneLoginMode();
+}
+
+function updatePhoneLoginMode(){
+  var codeTab=document.getElementById('phoneLoginTabCode');
+  var passwordTab=document.getElementById('phoneLoginTabPassword');
+  var codePanel=document.getElementById('phoneCodeModePanel');
+  var passwordPanel=document.getElementById('phonePasswordModePanel');
+  var mode=currentPhoneLoginMode || 'code';
+  if(codeTab) codeTab.classList.toggle('on', mode === 'code');
+  if(passwordTab) passwordTab.classList.toggle('on', mode === 'password');
+  if(codePanel) codePanel.style.display=mode === 'code' ? 'grid' : 'none';
+  if(passwordPanel) passwordPanel.style.display=mode === 'password' ? 'block' : 'none';
+}
+
+function updateLoginMethod(){
+  var method=currentLoginMethod || 'wechat';
+  var wechatPanel=document.getElementById('wechatLoginPanel');
+  var phonePanel=document.getElementById('phoneLoginPanel');
+  var errorEl=document.getElementById('loginErrorText');
+  if(wechatPanel) wechatPanel.style.display=method === 'wechat' ? 'block' : 'none';
+  if(phonePanel) phonePanel.style.display=method === 'phone' ? 'block' : 'none';
+  if(method === 'phone') updatePhoneLoginMode();
+  if(errorEl) errorEl.style.display='none';
+}
+
 function updateRoleOpt(){
   var selected = document.querySelector('input[name="loginRole"]:checked');
   var selectedValue = selected ? selected.value : 'pro';
@@ -4335,6 +4555,14 @@ function updateRoleOpt(){
 function toApp(){
   var errorEl=document.getElementById('loginErrorText');
   if(errorEl) errorEl.style.display='none';
+  var agreeCheck=document.getElementById('loginAgreeCheck');
+  if(agreeCheck && !agreeCheck.checked){
+    if(errorEl){
+      errorEl.textContent='请先阅读并同意用户协议';
+      errorEl.style.display='block';
+    }
+    return;
+  }
   // 读取身份选择，设置 userPlan
   var roleEl = document.querySelector('input[name="loginRole"]:checked');
   var role = roleEl ? roleEl.value : 'pro';
@@ -4371,6 +4599,24 @@ function syncUsageDerivedBalances(){
   userTokensBalance=Math.max(0, (userPlan && userPlan.dailyTokens ? userPlan.dailyTokens : 0) - todayUsage);
 }
 
+function hasMemberDataAccess(){
+  return !!(loggedIn && userPlan && userPlan.name);
+}
+
+function ensureVendorManagementAccess(retryAction){
+  if(!loggedIn){
+    showToast('请先登录后再管理供应商');
+    needLogin(typeof retryAction === 'function' ? retryAction : null);
+    return false;
+  }
+  if(!userPlan || !userPlan.name){
+    showToast('订阅后才可管理自定义供应商');
+    goSubscriptionRechargePage();
+    return false;
+  }
+  return true;
+}
+
 function updateLoginUI(){
   syncUsageDerivedBalances();
   // 顶栏两个芯片
@@ -4388,6 +4634,7 @@ function updateLoginUI(){
   syncBalanceViews();  // 含 API Key 锁定状态刷新
   renderUsageChart();
   renderToolUsageStats();
+  renderVendorConnectionList();
   renderBadgeHub();
   syncProfileCenter();
 }
@@ -4414,6 +4661,8 @@ function go(pid,navEl,title){
   if(navEl)navEl.classList.add('on');
   if(title)document.getElementById('tbt').textContent=title;
   if(pid === 'p01') renderUsageChart();
+  if(pid === 'p02') renderToolUsageStats();
+  if(pid === 'p03') renderVendorConnectionList();
   if(pid === 'p07') renderBadgeHub();
 }
 
@@ -4837,6 +5086,7 @@ function renderToolUsageStats(){
     };
     const isInstalled=!!(activeRouting && activeRouting.installed);
     const status=getToolStatusMeta(activeToolKey);
+    const versionLabel=((isInstalled ? activeMeta.installedLabel : activeMeta.pendingLabel) || '').replace(/ · 已安装$/,'').replace(/ · 未安装$/,'');
     const providerLabel=getToolProviderLabel(activeToolKey);
     const currentModel=activeUsage ? activeUsage.topModel : (getToolCurrentModel(activeToolKey) || (activeRouting && activeRouting.selection) || '未设置');
     const originLabel=currentModel && currentModel !== '未设置' ? getModelOriginLabel(currentModel) : '未标记原厂';
@@ -4861,10 +5111,10 @@ function renderToolUsageStats(){
       + '<div class="tool-tab-panel">'
       + '<div class="tool-tab-copy">'
       + '<div class="tool-tab-head">'
-      + '<div class="tool-tab-title"><div class="tool-tab-name-row"><div class="tool-usage-name">' + activeMeta.title + '</div><span class="bd2 ' + status.badge + '">' + status.label + '</span></div><div class="tool-tab-meta">' + activeMeta.overview + '</div></div>'
+      + '<div class="tool-tab-title"><div class="tool-tab-name-row"><div class="tool-usage-name">' + activeMeta.title + '</div><div class="tool-tab-version">版本：' + versionLabel + '</div><span class="bd2 ' + status.badge + '">' + status.label + '</span></div><div class="tool-tab-meta">' + activeMeta.overview + '</div></div>'
       + '</div>'
       + '</div>'
-      + '<div class="tool-tab-actions"><button class="btn bo bsm" onclick="openAddVendorModal(\'' + activeToolKey + '\')">添加供应商</button>' + primaryAction + '</div>'
+      + '<div class="tool-tab-actions">' + primaryAction + '</div>'
       + '</div>';
     p02SupplierEl.innerHTML='<div class="builtin-supplier-shell">'
       + '<div class="builtin-supplier-card' + (focusedSupplierKey === 'builtin' ? ' is-selected' : '') + '" onclick="focusSupplierCard(\'' + activeToolKey + '\',\'builtin\')">'
@@ -6152,6 +6402,12 @@ function goOrders(navEl){
   setTimeout(function(){ switchBuyTab('orders'); }, 50);
 }
 
+function goSubscriptionRechargePage(){
+  var navEl = document.querySelector('.ni[onclick*="p05"]') || nv(3);
+  go('p05', navEl, '订阅 / 充值');
+  setTimeout(function(){ switchBuyTab('subscription'); }, 50);
+}
+
 function sendCode(btn){
   var sec=60;
   btn.disabled=true;
@@ -6808,6 +7064,21 @@ function getNearestExpiryLabel(){
   return sorted.length ? sorted[0].expiryLabel : '暂无有效套餐';
 }
 
+function hasAvailableUsageTokens(){
+  syncUsageDerivedBalances();
+  return Number(userTokensBalance || 0) > 0
+    || Number(userCashBalance || 0) > 0
+    || Number(getTotalRemainingTokens() || 0) > 0
+    || Number(getBalanceValue() || 0) > 0;
+}
+
+function ensureToolUsageTokens(toolName){
+  if(hasAvailableUsageTokens()) return true;
+  showToast((toolName || '当前工具') + ' 已安装，但当前没有可用 Tokens，已为你跳转到订阅充值页面', 2600);
+  goSubscriptionRechargePage();
+  return false;
+}
+
 function togglePriceTable(){
   var wrap = document.getElementById('priceTableWrap');
   var icon = document.getElementById('priceTableToggleIcon');
@@ -6970,17 +7241,39 @@ function changeToolModel(toolKey, value){
   om('m14');
 }
 
-function openBuiltinModelPicker(toolKey){
+function getActiveBuiltinModelConnection(){
+  if(!activeBuiltinModelVendorName) return null;
+  return vendorConnections.filter(function(item){ return item.name === activeBuiltinModelVendorName; })[0] || null;
+}
+
+function getBuiltinPickerOptions(toolKey){
+  var connection = getActiveBuiltinModelConnection();
+  return connection ? getVendorEnabledModels(connection) : getBuiltinModelOptionsForTool(toolKey);
+}
+
+function openBuiltinModelPicker(toolKey, vendorName){
   var tool=appState.toolRouting[toolKey];
   if(!tool) return;
-  var builtinOptions=getBuiltinModelOptionsForTool(toolKey);
+  var connection = vendorName ? (vendorConnections.filter(function(item){ return item.name === vendorName; })[0] || null) : null;
+  var builtinOptions=connection ? getVendorEnabledModels(connection) : getBuiltinModelOptionsForTool(toolKey);
   activeBuiltinModelToolKey=toolKey;
+  activeBuiltinModelVendorName=connection ? connection.name : '';
   builtinModelDraft=(function(){
     if(isClaudeSlotTool(toolKey)){
-      var slotMap=getClaudeSlotMap(toolKey);
-      var selected=getClaudeSlotKeys().map(function(slotKey){ return slotMap[slotKey]; }).filter(function(modelName){
+      var slotMap=connection ? {
+        sonnet: ((connection.mapping || {}).sonnet && builtinOptions.indexOf((connection.mapping || {}).sonnet) >= 0) ? (connection.mapping || {}).sonnet : '',
+        opus: ((connection.mapping || {}).opus && builtinOptions.indexOf((connection.mapping || {}).opus) >= 0) ? (connection.mapping || {}).opus : '',
+        haiku: ((connection.mapping || {}).haiku && builtinOptions.indexOf((connection.mapping || {}).haiku) >= 0) ? (connection.mapping || {}).haiku : '',
+        fable: ((connection.mapping || {}).fable && builtinOptions.indexOf((connection.mapping || {}).fable) >= 0) ? (connection.mapping || {}).fable : ''
+      } : getClaudeSlotMap(toolKey);
+      var selected=(connection ? getVendorToolDisplayModels(connection, toolKey) : getClaudeSlotKeys().map(function(slotKey){ return slotMap[slotKey]; })).filter(function(modelName){
         return !!modelName && builtinOptions.indexOf(modelName) >= 0;
       });
+      if(connection && selected.length){
+        getClaudeSlotKeys().forEach(function(slotKey, index){
+          if(!slotMap[slotKey] && selected[index]) slotMap[slotKey] = selected[index];
+        });
+      }
       var activeSlot=getClaudeSlotKeys().filter(function(slotKey){
         return !slotMap[slotKey];
       })[0] || getClaudeSlotKeys()[0];
@@ -6992,16 +7285,16 @@ function openBuiltinModelPicker(toolKey){
         activeSlot:activeSlot
       };
     }
-    return { search:'', providerFilter:'all', selected:getToolEnabledModels(toolKey).filter(function(modelName){
+    return { search:'', providerFilter:'all', selected:(connection ? getVendorToolDisplayModels(connection, toolKey) : getToolEnabledModels(toolKey)).filter(function(modelName){
       return builtinOptions.indexOf(modelName) >= 0;
     }) };
   })();
   var title=document.getElementById('builtinModelPickerTitle');
   var subTitle=document.getElementById('builtinModelPickerSubTitle');
   var searchInput=document.getElementById('builtinModelSearchInput');
-  if(title) title.textContent=(tool.name || toolKey) + ' · 编辑内置模型';
+  if(title) title.textContent=(tool.name || toolKey) + ' · 选择模型';
   if(subTitle) subTitle.textContent=isClaudeSlotTool(toolKey)
-    ? '先选择上方槽位卡片，再选择下方模型；最多 4 个，保存后映射到 Sonnet、Opus、Haiku、Fable。'
+    ? '先选择上方槽位，再为当前工具选择可用模型；最多 4 个，保存后映射到 Sonnet、Opus、Haiku、Fable。'
     : '按模型卡片选择当前工具可用模型，暂不限制数量。';
   if(searchInput) searchInput.value='';
   renderBuiltinModelPicker();
@@ -7046,7 +7339,7 @@ function closeBuiltinModelPicker(){
     cm('mBuiltinModelPicker');
     return;
   }
-  var builtinOptions=getBuiltinModelOptionsForTool(activeBuiltinModelToolKey);
+  var builtinOptions=getBuiltinPickerOptions(activeBuiltinModelToolKey);
   var nextSelected=(isClaudeSlotTool(activeBuiltinModelToolKey)
     ? getClaudeSlotKeys().map(function(slotKey){
         return (builtinModelDraft.slotMap || {})[slotKey] || '';
@@ -7085,7 +7378,7 @@ function renderBuiltinModelPicker(){
   var isClaude=isClaudeSlotTool(activeBuiltinModelToolKey);
   var query=(builtinModelDraft.search || '').trim().toLowerCase();
   var providerFilter=builtinModelDraft.providerFilter || 'all';
-  var availableOptions=getBuiltinModelOptionsForTool(activeBuiltinModelToolKey);
+  var availableOptions=getBuiltinPickerOptions(activeBuiltinModelToolKey);
   var providerOptions=['all'].concat(Array.from(new Set(availableOptions.map(function(modelName){
     return getModelOriginLabel(modelName);
   }))).sort(function(a,b){ return a.localeCompare(b, 'zh-CN'); }));
@@ -7146,7 +7439,8 @@ function saveBuiltinModelSelection(){
   if(!activeBuiltinModelToolKey || !builtinModelDraft) return;
   var tool=appState.toolRouting[activeBuiltinModelToolKey];
   if(!tool) return;
-  var builtinOptions=getBuiltinModelOptionsForTool(activeBuiltinModelToolKey);
+  var builtinOptions=getBuiltinPickerOptions(activeBuiltinModelToolKey);
+  var activeConnection=getActiveBuiltinModelConnection();
   if(isClaudeSlotTool(activeBuiltinModelToolKey)){
     var nextClaudeSlotMap={ sonnet:'', opus:'', haiku:'', fable:'' };
     getClaudeSlotKeys().forEach(function(slotKey){
@@ -7158,6 +7452,24 @@ function saveBuiltinModelSelection(){
     }).filter(Boolean);
     if(!nextClaudeSelected.length){
       showToast('请至少选择一个 Claude 模型', 1600);
+      return;
+    }
+    if(activeConnection){
+      if(!activeConnection.toolOverrides) activeConnection.toolOverrides = {};
+      activeConnection.toolOverrides[activeBuiltinModelToolKey] = nextClaudeSelected.slice();
+      activeConnection.mapping = Object.assign({}, activeConnection.mapping || {}, nextClaudeSlotMap);
+      if(!activeConnection.toolSettings) activeConnection.toolSettings = {};
+      activeConnection.toolSettings[activeBuiltinModelToolKey] = Object.assign({}, activeConnection.toolSettings[activeBuiltinModelToolKey] || {}, { disabled:false });
+      if(appState.toolVendorSelection && appState.toolVendorSelection[activeBuiltinModelToolKey] === activeConnection.name){
+        disableGlobalRouting('已关闭全局路由，改为单独配置 ' + (tool.name || activeBuiltinModelToolKey));
+        applyVendorSelectionToToolState(activeConnection, activeBuiltinModelToolKey);
+      }
+      syncVendorConfigData();
+      cm('mBuiltinModelPicker');
+      renderToolRoutingViews();
+      renderToolRoutingTable();
+      renderToolUsageStats();
+      showToast('已为 ' + activeConnection.name + ' 保存 ' + nextClaudeSelected.length + ' 个模型', 1800);
       return;
     }
     disableGlobalRouting('已关闭全局路由，改为单独配置 ' + (tool.name || activeBuiltinModelToolKey));
@@ -7188,6 +7500,23 @@ function saveBuiltinModelSelection(){
   });
   if(!nextSelected.length){
     showToast('请至少选择一个模型', 1600);
+    return;
+  }
+  if(activeConnection){
+    if(!activeConnection.toolOverrides) activeConnection.toolOverrides = {};
+    activeConnection.toolOverrides[activeBuiltinModelToolKey] = nextSelected.slice();
+    if(!activeConnection.toolSettings) activeConnection.toolSettings = {};
+    activeConnection.toolSettings[activeBuiltinModelToolKey] = Object.assign({}, activeConnection.toolSettings[activeBuiltinModelToolKey] || {}, { disabled:false });
+    if(appState.toolVendorSelection && appState.toolVendorSelection[activeBuiltinModelToolKey] === activeConnection.name){
+      disableGlobalRouting('已关闭全局路由，改为单独配置 ' + (tool.name || activeBuiltinModelToolKey));
+      applyVendorSelectionToToolState(activeConnection, activeBuiltinModelToolKey);
+    }
+    syncVendorConfigData();
+    cm('mBuiltinModelPicker');
+    renderToolRoutingViews();
+    renderToolRoutingTable();
+    renderToolUsageStats();
+    showToast('已为 ' + activeConnection.name + ' 保存 ' + nextSelected.length + ' 个模型', 1800);
     return;
   }
   disableGlobalRouting('已关闭全局路由，改为单独配置 ' + (tool.name || activeBuiltinModelToolKey));
@@ -8167,6 +8496,7 @@ function completeInstall(){
   renderToolRoutingTable();
   renderToolUsageStats();
   const toolName = meta ? meta.name : '新工具';
+  if(!ensureToolUsageTokens(toolName)) return;
   showToast(toolName + ' 安装成功！<span style="cursor:pointer;text-decoration:underline;margin-left:6px" onclick="launchTool(\'' + key + '\')">直接打开 →</span>');
 }
 
@@ -8185,6 +8515,7 @@ function launchTool(toolKey){
     showToast('请先验证 ' + tool.name);
     return;
   }
+  if(!ensureToolUsageTokens(tool.name)) return;
   appState.activeToolKey=toolKey;
   showToast('已启动 ' + tool.name + '，可直接继续使用');
 }
@@ -8357,12 +8688,18 @@ function getVendorIconMarkup(v, size){
   return getBrandLogoMarkup(v.brand, size || 40);
 }
 
+function getVendorPresetBadgeMarkup(v, size){
+  var brandCfg = brandLogoRegistry[v.brand] || brandLogoRegistry.custom;
+  var badgeSize = size || 40;
+  return '<span style="width:'+badgeSize+'px;height:'+badgeSize+'px;border-radius:'+Math.max(12, Math.round(badgeSize * 0.32))+'px;display:inline-flex;align-items:center;justify-content:center;background:'+ (v.bg || brandCfg.bg || '#f8fafc') +';color:'+ (v.color || brandCfg.color || '#475569') +';font-size:'+Math.max(12, Math.round(badgeSize * 0.3))+'px;font-weight:800;letter-spacing:.02em;box-shadow:inset 0 0 0 1px rgba(255,255,255,.72)">'+ escapeText((brandCfg.fallback || v.name || '?').slice(0, 2)) +'</span>';
+}
+
 function renderVendorPresets(){
   var grid = document.getElementById('vendorPresetGrid');
   if(!grid) return;
   grid.innerHTML = vendorPresets.map(function(v,i){
     return '<div onclick="selectVendorPreset('+i+',this)" style="cursor:pointer;border:1px solid rgba(214,224,236,.96);border-radius:16px;padding:12px 8px;text-align:center;transition:all .18s;background:rgba(255,255,255,.92);box-shadow:0 10px 22px rgba(15,23,42,.04)" onmouseenter="this.style.borderColor=\'#bcd7f5\';this.style.transform=\'translateY(-1px)\';this.style.boxShadow=\'0 14px 28px rgba(15,23,42,.08)\'" onmouseleave="if(!this.classList.contains(\'vp-on\')){this.style.borderColor=\'rgba(214,224,236,.96)\';this.style.transform=\'translateY(0)\';this.style.boxShadow=\'0 10px 22px rgba(15,23,42,.04)\'}">'
-      + '<div style="width:40px;height:40px;margin:0 auto 8px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:'+v.bg+';color:'+v.color+';border:1px solid rgba(255,255,255,.72)">'+getVendorIconMarkup(v,40)+'</div>'
+      + '<div style="width:40px;height:40px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center">'+getVendorPresetBadgeMarkup(v,40)+'</div>'
       + '<div style="font-size:11px;font-weight:600;color:var(--t);line-height:1.3">'+v.name+'</div>'
       + '</div>';
   }).join('');
@@ -8378,7 +8715,7 @@ function selectVendorPreset(idx, el){
   el.style.transform = 'translateY(-1px)';
   el.style.boxShadow = '0 16px 30px rgba(15,23,42,.09)';
   var iconArea = document.getElementById('vendorSelectedIcon');
-  if(iconArea) iconArea.innerHTML = '<div style="width:56px;height:56px;border-radius:18px;background:'+v.bg+';border:1px solid rgba(214,224,236,.96);display:flex;align-items:center;justify-content:center;color:'+v.color+';box-shadow:0 12px 24px rgba(15,23,42,.06)">'+getVendorIconMarkup(v,56)+'</div><div style="margin-top:8px;font-size:13px;font-weight:700;color:var(--t)">'+v.name+'</div>';
+  if(iconArea) iconArea.innerHTML = '<div style="width:56px;height:56px;display:flex;align-items:center;justify-content:center">'+getVendorPresetBadgeMarkup(v,56)+'</div><div style="margin-top:8px;font-size:13px;font-weight:700;color:var(--t)">'+v.name+'</div>';
   var nm = document.getElementById('avName');
   var ul = document.getElementById('avUrl');
   var api = document.getElementById('avApiUrl');
@@ -9274,6 +9611,7 @@ function persistAddVendorToolConfig(toolKey){
 }
 
 function openAddVendorModal(toolKey){
+  if(!ensureVendorManagementAccess(function(){ openAddVendorModal(toolKey); })) return;
   currentAddVendorToolKey = toolKey || appState.activeToolKey || 'claude-desktop';
   avConfigScope = toolKey ? 'tool' : 'global';
   avEditingVendorName = '';
@@ -9282,6 +9620,7 @@ function openAddVendorModal(toolKey){
   var iconArea = document.getElementById('vendorSelectedIcon');
   if(iconArea) iconArea.innerHTML = '<div style="width:52px;height:52px;border-radius:12px;background:#f4f4f5;display:flex;align-items:center;justify-content:center">'+getBrandLogoMarkup('custom', 52)+'</div>';
   var grid = document.getElementById('vendorPresetGrid');
+  renderVendorPresets();
   if(grid) grid.querySelectorAll('div[onclick]').forEach(function(d){ d.classList.remove('vp-on'); d.style.borderColor='var(--bd)'; d.style.background='#fff'; });
   renderAddVendorToolProfile(currentAddVendorToolKey, false);
   if(avConfigScope === 'tool') syncAddVendorToolConfig(currentAddVendorToolKey, null);
@@ -9311,7 +9650,7 @@ var avConfigScope = 'tool';
 var avFetchedModels = [];
 
 function getEmptyGlobalRoutingDraft(){
-  return { enabled:false, models:['','','',''] };
+  return { enabled:true, models:['','','',''] };
 }
 
 function normalizeGlobalRoutingConfig(config){
@@ -9434,13 +9773,34 @@ function getDraftGlobalRoutingConfig(){
   };
 }
 
+function resolveDefaultGlobalRoutingModels(selectedModels, availableModels){
+  var resolved = Array.isArray(selectedModels) ? selectedModels.slice(0, 4) : [];
+  while(resolved.length < 4) resolved.push('');
+  var fallbackModels = Array.isArray(availableModels) ? availableModels.slice() : [];
+  fallbackModels.forEach(function(modelName){
+    if(!modelName) return;
+    if(resolved.indexOf(modelName) >= 0) return;
+    var emptyIndex = resolved.indexOf('');
+    if(emptyIndex >= 0) resolved[emptyIndex] = modelName;
+  });
+  var seededModels = resolved.filter(Boolean);
+  if(seededModels.length){
+    var refillIndex = 0;
+    while(resolved.indexOf('') >= 0){
+      resolved[resolved.indexOf('')] = seededModels[refillIndex % seededModels.length];
+      refillIndex++;
+    }
+  }
+  return resolved.slice(0, 4);
+}
+
 function renderVendorGlobalRouteSection(connection){
   var step2Extra = document.getElementById('avStep2Extra');
   if(!step2Extra || avConfigScope !== 'global') return;
-  var hasExistingConfig = !!(connection && connection.globalRouting);
   var config = normalizeGlobalRoutingConfig(connection && connection.globalRouting);
-  if(!hasExistingConfig) config.enabled = true;
+  config.enabled = true;
   var availableModels = getVendorEnabledModels(connection);
+  var resolvedModels = resolveDefaultGlobalRoutingModels(config.models, availableModels);
   var bodyDisplay = config.enabled ? 'block' : 'none';
   step2Extra.innerHTML = ''
     + '<div style="margin-top:18px;border:1px solid #dbeafe;border-radius:14px;background:linear-gradient(180deg,#f8fbff 0%,#ffffff 100%);padding:16px">'
@@ -9460,7 +9820,7 @@ function renderVendorGlobalRouteSection(connection){
     + '</div>'
     + '</div>';
   syncGlobalRoutingSelectOptions(availableModels);
-  setGlobalRoutingModels(config.models);
+  setGlobalRoutingModels(resolvedModels);
   closeAllGlobalRouteSuggestions();
 }
 
@@ -9772,6 +10132,7 @@ function avGoStep2(){
 }
 
 function saveVendorModels(){
+  if(!ensureVendorManagementAccess()) return;
   var editingName = avEditingVendorName;
   var isEditMode = !!editingName;
   var currentScope = avConfigScope;
@@ -10031,6 +10392,7 @@ function isVendorConnectionActive(connection){
 }
 
 function getToolVisibleVendorConnections(toolKey){
+  if(!hasMemberDataAccess()) return [];
   return vendorConnections.filter(function(connection){
     if(!isVendorConnectionActive(connection)) return false;
     var toolSettings = connection.toolSettings || {};
@@ -10059,20 +10421,14 @@ function isVendorInUseForTool(connection, toolKey){
   return getVendorToolDisplayModels(connection, toolKey).indexOf(currentModel) >= 0;
 }
 
-function useVendorConnectionForTool(name, toolKey){
-  var connection = vendorConnections.filter(function(item){ return item.name === name; })[0];
+function applyVendorSelectionToToolState(connection, toolKey){
   var tool = appState.toolRouting[toolKey];
-  if(!connection || !tool) return;
-  if(!tool.installed || tool.setupStatus === 'not-installed'){
-    showToast('请先安装 AI 工具 ' + (tool.name || toolKey) + '，安装完成后再启用其他供应商');
-    return;
-  }
+  if(!connection || !tool) return false;
   if(!isVendorConnectionActive(connection)) connection.active = true;
   applyVendorConnectionToTools(connection, false);
   var models = getVendorToolDisplayModels(connection, toolKey);
   var targetModel = getVendorToolTargetModel(connection, toolKey) || models[0] || '';
-  if(!targetModel){ showToast(connection.name + ' 暂无可用模型'); return; }
-  disableGlobalRouting('已关闭全局路由，改为单独配置 ' + (tool.name || toolKey));
+  if(!targetModel) return false;
   if(isClaudeSlotTool(toolKey)){
     var mapping = connection.mapping || {};
     var slotBindings = {
@@ -10093,8 +10449,8 @@ function useVendorConnectionForTool(name, toolKey){
     tool.enabledModels = Array.from(new Set(Object.keys(slotBindings).map(function(slotKey){ return slotBindings[slotKey]; }).filter(Boolean)));
     tool.selection = slotBindings.sonnet || tool.enabledModels[0] || targetModel;
   }else{
+    tool.enabledModels = models.slice();
     tool.selection = targetModel;
-    if(Array.isArray(tool.enabledModels) && tool.enabledModels.indexOf(targetModel) < 0) tool.enabledModels.unshift(targetModel);
   }
   if(!toolConfigState[toolKey]) toolConfigState[toolKey] = {};
   toolConfigState[toolKey].primaryModel = tool.selection;
@@ -10103,6 +10459,19 @@ function useVendorConnectionForTool(name, toolKey){
   if(!appState.toolSupplierCardFocus) appState.toolSupplierCardFocus = {};
   appState.toolSupplierCardFocus[toolKey] = connection.name;
   appState.activeToolKey = toolKey;
+  return true;
+}
+
+function useVendorConnectionForTool(name, toolKey){
+  var connection = vendorConnections.filter(function(item){ return item.name === name; })[0];
+  var tool = appState.toolRouting[toolKey];
+  if(!connection || !tool) return;
+  if(!tool.installed || tool.setupStatus === 'not-installed'){
+    showToast('请先安装 AI 工具 ' + (tool.name || toolKey) + '，安装完成后再启用其他供应商');
+    return;
+  }
+  disableGlobalRouting('已关闭全局路由，改为单独配置 ' + (tool.name || toolKey));
+  if(!applyVendorSelectionToToolState(connection, toolKey)){ showToast(connection.name + ' 暂无可用模型'); return; }
   syncVendorConfigData();
   renderToolRoutingViews();
   renderToolRoutingTable();
@@ -10201,8 +10570,15 @@ function renderToolVendorCards(toolKey){
   var connections = getToolVisibleVendorConnections(toolKey);
   var tool = appState.toolRouting[toolKey] || {};
   var focusedSupplierKey = getFocusedSupplierCardKey(toolKey);
+  if(!hasMemberDataAccess()){
+    var actionHtml = !loggedIn
+      ? '<button class="btn bo bsm" onclick="om(\'ls\')">立即登录</button>'
+      : '<button class="btn bo bsm" onclick="goSubscriptionRechargePage()">去订阅充值</button>';
+    var desc = '暂无其他供应商，点击下方按钮添加新的API Key。';
+    return '<div style="padding:34px 12px 10px;text-align:center;color:var(--t3);font-size:12px;line-height:1.8">' + desc + '<div style="margin-top:14px">' + actionHtml + '</div></div>';
+  }
   if(!connections.length){
-    return '<div style="padding:34px 12px 10px;text-align:center;color:var(--t3);font-size:12px;line-height:1.8">暂无已接入的其他供应商；如果你已经有 API Key，可点击上方“添加供应商”接入。</div>';
+    return '<div style="padding:34px 12px 10px;text-align:center;color:var(--t3);font-size:12px;line-height:1.8">暂无已接入的其他供应商；如果你已经有 API Key，可直接添加供应商接入。<div style="margin-top:14px"><button class="btn bo bsm" onclick="openAddVendorModal()">去添加供应商</button></div></div>';
   }
   return '<div style="display:grid;gap:10px">' + connections.map(function(connection){
     var targetUrl = getVendorDisplayUrl(connection);
@@ -10219,9 +10595,8 @@ function renderToolVendorCards(toolKey){
       + '</div>'
       + '<div class="builtin-supplier-actions">'
       + '<div style="display:flex;align-items:center;gap:8px;flex-wrap:nowrap;justify-content:flex-end">'
-      + '<button class="btn bo bsm" onclick="openVendorConfig(\'' + connection.name.replace(/'/g, '\&#39;') + '\',\'tool\')">编辑</button>'
+      + '<button class="btn bo bsm" onclick="openBuiltinModelPicker(\'' + toolKey + '\',\'' + connection.name.replace(/'/g, '\&#39;') + '\')">更换模型</button>'
       + '<button class="btn bo bsm" onclick="testVendorConnectionChannel(\'' + connection.name.replace(/'/g, '\&#39;') + '\',\'' + toolKey + '\')">检测</button>'
-      + '<button class="btn bsm" style="background:#fff5f5;color:#ef4444;border:1px solid #fecaca" onclick="removeVendorConnectionForTool(\'' + connection.name.replace(/'/g, '\&#39;') + '\',\'' + toolKey + '\')">移除</button>'
       + '<button class="btn ' + (inUse ? 'bo' : 'bp') + ' bsm" style="' + (inUse ? 'background:#dcfce7;color:#15803d;border:1px solid #bbf7d0' : '') + '" onclick="' + (inUse ? 'showToast(\'' + connection.name.replace(/'/g, '\&#39;') + ' 已在使用中\',1600)' : 'useVendorConnectionForTool(\'' + connection.name.replace(/'/g, '\&#39;') + '\',\'' + toolKey + '\')') + '">' + (inUse ? '使用中' : '启用') + '</button>'
       + '</div>'
       + '</div>'
@@ -10255,6 +10630,9 @@ function applyVendorConnectionToTools(connection, assignSelections){
 function renderVendorConnectionList(){
   var list = document.getElementById('vendorConnectionList');
   if(!list) return;
+  var memberDataAccess = hasMemberDataAccess();
+  var visibleConnections = memberDataAccess ? vendorConnections.slice() : [];
+  var hiddenConnectionsCount = vendorConnections.length;
   var builtinHtml = '<div class="vendor-overview-card mb12">'
     + '<div class="vendor-overview-main">'
     + '<div class="vendor-overview-avatar">MT</div>'
@@ -10267,9 +10645,9 @@ function renderVendorConnectionList(){
     + '</div>'
     + '</div>'
     + '<div class="vendor-connection-summary">'
-    + '<div class="vendor-connection-metric"><div class="vendor-connection-metric-label">账户余额</div><div class="vendor-connection-metric-value">¥' + Number(getBalanceValue() || 0).toFixed(2) + '</div></div>'
-    + '<div class="vendor-connection-metric"><div class="vendor-connection-metric-label">今日消耗</div><div class="vendor-connection-metric-value is-accent">' + Number(getTodayUsageTotal() || 0).toLocaleString() + ' T</div></div>'
-    + '<div class="vendor-connection-metric"><div class="vendor-connection-metric-label">本月消耗</div><div class="vendor-connection-metric-value">' + Number(getRecentUsageTotal() || 0).toLocaleString() + ' T</div></div>'
+    + '<div class="vendor-connection-metric"><div class="vendor-connection-metric-label">账户余额</div><div class="vendor-connection-metric-value">¥' + Number(memberDataAccess ? (getBalanceValue() || 0) : 0).toFixed(2) + '</div></div>'
+    + '<div class="vendor-connection-metric"><div class="vendor-connection-metric-label">今日消耗</div><div class="vendor-connection-metric-value is-accent">' + Number(memberDataAccess ? (getTodayUsageTotal() || 0) : 0).toLocaleString() + ' T</div></div>'
+    + '<div class="vendor-connection-metric"><div class="vendor-connection-metric-label">本月消耗</div><div class="vendor-connection-metric-value">' + Number(memberDataAccess ? (getRecentUsageTotal() || 0) : 0).toLocaleString() + ' T</div></div>'
     + '</div>'
     + '<div class="vendor-overview-actions">'
     + '<button class="btn bo bsm" onclick="testPlatformConnectionOverview()">检测</button>'
@@ -10277,12 +10655,17 @@ function renderVendorConnectionList(){
     + '</div>'
     + '</div>'
     + '</div>';
-  var customHeader = '<div style="margin:12px 0 8px"><div style="display:flex;align-items:center;gap:8px"><div style="font-size:13px;font-weight:700;color:var(--t2)">其他供应商</div><span style="font-size:12px;background:#f4f4f5;color:var(--t3);border-radius:20px;padding:1px 8px;font-weight:400">' + vendorConnections.length + '</span></div><div style="margin-top:4px;font-size:12px;color:var(--t3);line-height:1.7">接入你自己的 API Key 后，平台会自动完成协议适配与统一路由，兼容工具可直接调用对应模型。</div></div>';
-  if(!vendorConnections.length){
-    list.innerHTML = builtinHtml + customHeader + '<div class="card mb16" style="padding:24px;text-align:center;color:var(--t3)">暂无其他供应商，点击下方按钮添加新的 API Key。</div>';
+  var customHeader = '<div style="margin:12px 0 8px"><div style="display:flex;align-items:center;gap:8px"><div style="font-size:13px;font-weight:700;color:var(--t2)">其他供应商</div><span style="font-size:12px;background:#f4f4f5;color:var(--t3);border-radius:20px;padding:1px 8px;font-weight:400">' + visibleConnections.length + '</span></div><div style="margin-top:4px;font-size:12px;color:var(--t3);line-height:1.7">接入你自己的 API Key 后，平台会自动完成协议适配与统一路由，兼容工具可直接调用对应模型。</div></div>';
+  if(!memberDataAccess){
+    var gateDesc = '暂无其他供应商，点击下方按钮添加新的API Key。';
+    list.innerHTML = builtinHtml + customHeader + '<div class="card mb16" style="padding:24px;text-align:center;color:var(--t3);line-height:1.8">' + gateDesc + '</div>';
     return;
   }
-  list.innerHTML = builtinHtml + customHeader + vendorConnections.map(function(connection, index){
+  if(!visibleConnections.length){
+    list.innerHTML = builtinHtml + customHeader + '<div class="card mb16" style="padding:24px;text-align:center;color:var(--t3)">暂无其他供应商，点击下方按钮添加新的API Key。</div>';
+    return;
+  }
+  list.innerHTML = builtinHtml + customHeader + visibleConnections.map(function(connection, index){
     var isActive = isVendorConnectionActive(connection);
     var isGlobalRouting = !!(connection.globalRouting && connection.globalRouting.enabled);
     var displayUrl = getVendorDisplayUrl(connection);
@@ -10309,7 +10692,7 @@ function renderVendorConnectionList(){
       + (isActive ? '' : '<button class="btn bp bsm" onclick="activateVendorConnection(\'' + connection.name.replace(/'/g, '\&#39;') + '\')">启用</button>')
       + '<button class="btn bo bsm" onclick="testVendorConnectionOverview(\'' + connection.name.replace(/'/g, '\&#39;') + '\')">检测</button>'
       + '<button class="btn bo bsm" onclick="openVendorConfig(\'' + connection.name.replace(/'/g, '\\&#39;') + '\',\'global\')">编辑</button>'
-      + '<button class="btn bsm" style="background:#fff5f5;color:#ef4444;border:1px solid #fecaca" onclick="removeVendorConnection(\'' + connection.name.replace(/'/g, '\\&#39;') + '\')">移除</button>'
+      + '<button class="btn bsm" style="background:#fff5f5;color:#ef4444;border:1px solid #fecaca" onclick="requestRemoveVendorConnection(\'' + connection.name.replace(/'/g, '\&#39;') + '\')">删除</button>'
       + '</div>'
       + '</div>';
   }).join('');
@@ -10329,6 +10712,26 @@ function activateVendorConnection(name){
   showToast(name + ' 已启用');
 }
 
+function requestRemoveVendorConnection(name){
+  pendingDeleteVendorName = name || '';
+  var desc = document.getElementById('deleteVendorConfirmDesc');
+  if(desc) desc.innerHTML = '确认删除「' + (name || '该供应商') + '」供应商吗？<br><br>删除后，所有 AI 工具都将无法继续使用该供应商提供的模型，需要重新选择其他供应商或切回平台接入。';
+  om('mDeleteVendorConfirm');
+}
+
+function cancelRemoveVendorConnection(){
+  pendingDeleteVendorName = '';
+  cm('mDeleteVendorConfirm');
+}
+
+function confirmRemoveVendorConnection(){
+  if(!pendingDeleteVendorName) { cm('mDeleteVendorConfirm'); return; }
+  var name = pendingDeleteVendorName;
+  pendingDeleteVendorName = '';
+  cm('mDeleteVendorConfirm');
+  removeVendorConnection(name);
+}
+
 function removeVendorConnection(name){
   var index = vendorConnections.findIndex(function(connection){ return connection.name === name; });
   if(index < 0) return;
@@ -10345,7 +10748,7 @@ function removeVendorConnection(name){
   renderToolRoutingViews();
   renderToolRoutingTable();
   renderToolUsageStats();
-  showToast('已移除 ' + name + ' 供应商' + (removingGlobal ? '，全局路由已关闭' : ''));
+  showToast('已删除 ' + name + ' 供应商' + (removingGlobal ? '，全局路由已关闭' : ''));
 }
 
 function upsertVendorConnection(payload){
@@ -10401,6 +10804,7 @@ vendorConnections.forEach(function(connection){
 renderVendorConnectionList();
 
 function openVendorConfig(name, scope) {
+  if(!ensureVendorManagementAccess(function(){ openVendorConfig(name, scope); })) return;
   var connection = vendorConnections.filter(function(item){ return item.name === name; })[0];
   if(!connection) return;
   avConfigScope = scope === 'global' ? 'global' : 'tool';
@@ -10635,6 +11039,10 @@ function hideGlobalInfoHint(){
   tooltip.style.display='none';
 }
 
+function updateInfoHintDirection(){
+  hideGlobalInfoHint();
+}
+
 document.querySelectorAll('.ov').forEach(ov=>{
   ov.addEventListener('click',e=>{if(e.target===ov)ov.classList.remove('op')})
 });
@@ -10665,6 +11073,7 @@ updateInfoHintDirection();
 updatePlanSummary(document.querySelector('.plc.on'));
 syncBalanceViews();
 lucide.createIcons();
+updateLoginMethod();
 updateHeroGreeting();
 renderVendorPresets();
 renderStaticBrandLogos();
