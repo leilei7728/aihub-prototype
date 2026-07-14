@@ -4218,16 +4218,37 @@ var toolUiMeta = {
 };
 
 var toolConfigState = {
-  'claude-desktop': { primaryModel: 'DeepSeek V3', accessMode: 'anthropic-route', rolePolicy: 'auto', settingsScope: 'global', autoInjectEnv: true },
-  'codex-cli': { primaryModel: 'DeepSeek V3', shellProfile: 'balanced', fallbackModel: 'Claude Sonnet 4.5', repoContext: true },
-  opencode: { primaryModel: 'Gemini 1.5 Pro', scheduling: 'primary-backup', backupModel: 'DeepSeek V3', workspaceScope: 'current', sharedHistory: true },
-  gemini: { primaryModel: 'Gemini 1.5 Pro', protocolMode: 'native', projectScope: 'current-project', safetyGuard: true },
-  openclaw: { primaryModel: 'DeepSeek V3', sessionMode: 'light', routePolicy: 'fastest', localCache: true },
-  hermes: { primaryModel: 'DeepSeek V3', syncScope: 'workspace', teamPreset: 'engineering', auditLog: true }
+  'claude-desktop': { primaryModel: 'DeepSeek V3', localProxyEnabled: true, accessMode: 'anthropic-route', rolePolicy: 'auto', settingsScope: 'global', autoInjectEnv: true },
+  'codex-cli': { primaryModel: 'DeepSeek V3', localProxyEnabled: true, proxyMode: 'local-route', shellProfile: 'balanced', fallbackModel: 'Claude Sonnet 4.5', repoContext: true },
+  opencode: { primaryModel: 'Gemini 1.5 Pro', localProxyEnabled: true, proxyMode: 'local-route', scheduling: 'primary-backup', backupModel: 'DeepSeek V3', workspaceScope: 'current', sharedHistory: true },
+  gemini: { primaryModel: 'Gemini 1.5 Pro', localProxyEnabled: true, proxyMode: 'local-route', protocolMode: 'native', projectScope: 'current-project', safetyGuard: true },
+  openclaw: { primaryModel: 'DeepSeek V3', localProxyEnabled: true, proxyMode: 'local-route', sessionMode: 'light', routePolicy: 'fastest', localCache: true },
+  hermes: { primaryModel: 'DeepSeek V3', localProxyEnabled: true, proxyMode: 'local-route', syncScope: 'workspace', teamPreset: 'engineering', auditLog: true }
 };
 
 function cloneJsonData(value){
   return JSON.parse(JSON.stringify(value));
+}
+
+function toggleToolLocalProxy(toolKey, enabled){
+  if(!toolConfigState[toolKey]) toolConfigState[toolKey]={};
+  toolConfigState[toolKey].localProxyEnabled=enabled;
+  renderToolUsageStats();
+  showToast((toolUiMeta[toolKey] ? toolUiMeta[toolKey].title : toolKey) + ' 本地代理已' + (enabled ? '开启' : '关闭'), 1600);
+}
+
+function getToolLocalRouteMeta(toolKey){
+  var tool=appState.toolRouting[toolKey] || {};
+  var state=toolConfigState[toolKey] || {};
+  var enabled=tool.routingType === 'cc-shell' && state.localProxyEnabled !== false;
+  var modeLabel='统一代理路由';
+  if(toolKey === 'claude-desktop') modeLabel=state.accessMode === 'direct-proxy' ? '直连代理' : 'Anthropic 兼容路由';
+  else if(state.proxyMode === 'direct') modeLabel='直连供应商';
+  return {
+    enabled: enabled,
+    statusText: enabled ? '已开启' : '已关闭',
+    modeLabel: modeLabel
+  };
 }
 
 var initialToolRoutingState = cloneJsonData(appState.toolRouting || {});
@@ -4475,6 +4496,15 @@ function getToolConfigBodyHtml(toolKey){
   var modelOptions=getToolEnabledModels(toolKey).map(function(item){ return { value:item, label:item }; });
   if(!modelOptions.length) modelOptions=(tool && tool.options && tool.options.length ? tool.options : platformModelOptions).map(function(item){ return { value:item, label:item }; });
   var providerLabel=getToolProviderLabel(toolKey);
+  var localRouteMeta=getToolLocalRouteMeta(toolKey);
+  var localRouteCard=tool && tool.routingType === 'cc-shell'
+    ? '<div class="tool-config-card"><h4>CC Switch 本地代理</h4><p>控制这个工具是否通过本地代理层接入模型，基础版只保留开关和接入方式。</p>'
+      + buildToolConfigToggle('启用本地代理路由', 'localProxyEnabled', state.localProxyEnabled !== false, '开启后由 CC Switch 统一转发请求，并自动处理协议兼容与地址适配。')
+      + (toolKey === 'claude-desktop'
+        ? '<div class="tool-config-row" style="margin-top:14px"><label class="tool-config-label">当前接入方式</label><div class="fi" style="display:flex;align-items:center;height:36px;background:#f8fafc">' + localRouteMeta.modeLabel + '</div><div class="tool-config-help">Claude 的接入方式在下方“Claude 专属”中调整。</div></div>'
+        : buildToolConfigSelect('接入方式', 'proxyMode', [{value:'local-route',label:'统一代理路由'},{value:'direct',label:'直连供应商'}], state.proxyMode || 'local-route', '基础版先只提供是否走本地代理，以及是否直接连供应商。'))
+      + '</div>'
+    : '';
   var commonCard='<div class="tool-config-card tool-config-full"><h4>基础接入</h4><p>这里只保留所有工具都共通的信息，真正有差异的参数在下面按工具单独展示。</p>'
     + '<div class="tool-config-grid">'
     + '<div>' + buildToolConfigSelect('默认模型', 'primaryModel', modelOptions, state.primaryModel || tool.selection || '', '决定工具启动后优先使用哪个模型。') + '</div>'
@@ -4532,7 +4562,7 @@ function getToolConfigBodyHtml(toolKey){
       + buildToolConfigToggle('开启审计日志', 'auditLog', !!state.auditLog, '记录模型切换、供应商变更和配置生效时间。')
       + '</div>';
   }
-  return '<div class="tool-config-grid">' + commonCard + specific + '</div>';
+  return '<div class="tool-config-grid">' + commonCard + localRouteCard + specific + '</div>';
 }
 
 function openToolConfig(toolKey){
@@ -5172,6 +5202,7 @@ function renderToolUsageStats(){
     const originLabel=currentModel && currentModel !== '未设置' ? getModelOriginLabel(currentModel) : '未标记原厂';
     const lastUsedLabel=activeUsage ? formatUsageRelativeTime(activeUsage.lastUsed) : '暂无使用记录';
     const enabledSummary=getToolEnabledSummary(activeToolKey);
+    const localRouteMeta=getToolLocalRouteMeta(activeToolKey);
     const modelSummaryText=enabledSummary ? enabledSummary.text : '当前模型';
     const modelSummaryValue=enabledSummary ? enabledSummary.detail : currentModel;
     const builtinTitle='平台接入';
@@ -5203,10 +5234,11 @@ function renderToolUsageStats(){
       + '<div class="builtin-supplier-main">'
       + '<div class="builtin-supplier-handle"><span></span><span></span><span></span><span></span><span></span><span></span></div>'
       + '<div class="builtin-supplier-avatar">' + getBrandLogoMarkup(activeToolKey, 40) + '</div>'
-      + '<div class="builtin-supplier-copy"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><div class="builtin-supplier-title">' + builtinTitle + '</div><span style="font-size:11px;background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;border-radius:999px;padding:2px 8px;font-weight:600">系统内置</span></div><div style="display:flex;align-items:center;gap:12px;flex-wrap:nowrap;min-width:0"><a class="builtin-supplier-link" href="' + builtinLink + '" onclick="return false;">' + builtinLink + '</a><div style="font-size:12px;color:var(--t3);line-height:1.6;min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + modelSummaryValue + '">' + modelSummaryText + '：<span style="font-weight:500;color:#64748b">' + modelSummaryValue + '</span></div></div></div>'
+      + '<div class="builtin-supplier-copy"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><div class="builtin-supplier-title">' + builtinTitle + '</div><span style="font-size:11px;background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;border-radius:999px;padding:2px 8px;font-weight:600">系统内置</span></div><div style="display:flex;align-items:center;gap:12px;flex-wrap:nowrap;min-width:0"><a class="builtin-supplier-link" href="' + builtinLink + '" onclick="return false;">' + builtinLink + '</a><div style="font-size:12px;color:var(--t3);line-height:1.6;white-space:nowrap">接入方式：<span style="font-weight:500;color:#64748b">' + localRouteMeta.modeLabel + '</span></div><div style="font-size:12px;color:var(--t3);line-height:1.6;min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + modelSummaryValue + '">' + modelSummaryText + '：<span style="font-weight:500;color:#64748b">' + modelSummaryValue + '</span></div></div></div>'
       + '</div>'
       + '<div class="builtin-supplier-actions">'
       + '<div style="display:flex;align-items:center;gap:8px;flex-wrap:nowrap;justify-content:flex-end">'
+      + '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;color:var(--t2);white-space:nowrap;user-select:none;padding:0 4px" onclick="event.stopPropagation()" title="开启后请求经由本地 CC Switch 代理层转发，自动完成协议适配"><span>本地代理</span><label class="sw" style="flex-shrink:0;margin:0"><input type="checkbox" ' + (localRouteMeta.enabled ? 'checked' : '') + ' onchange="toggleToolLocalProxy(\'' + activeToolKey + '\',this.checked)"><span class="sl"></span></label></label>'
       + '<button class="btn bo bsm" onclick="openBuiltinModelPicker(\'' + activeToolKey + '\')">更换模型</button>'
       + '<button class="btn bo bsm" onclick="testBuiltinConnectionChannel(\'' + activeToolKey + '\')">检测</button>'
       + '<button class="btn ' + (builtinInUse ? 'bo' : 'bp') + ' bsm" style="' + (builtinInUse ? 'background:#dcfce7;color:#15803d;border:1px solid #bbf7d0' : '') + '" onclick="' + (builtinInUse ? 'showToast(\'' + activeMeta.title + ' 当前已在使用平台接入\',1600)' : 'resetBuiltinToolConfig(\'' + activeToolKey + '\')') + '">' + (builtinInUse ? '使用中' : '启用') + '</button>'
