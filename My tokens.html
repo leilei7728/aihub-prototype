@@ -2390,7 +2390,7 @@ input:checked+.sl:before{transform:translateX(16px)}
     <div class="mo-ti" id="mNoTokenGuideTitle">当前无法运行</div>
     <div class="mo-ds" id="mNoTokenGuideDesc">没有可用 tokens。先领新人礼包，或用已有 API Key 接入。</div>
     <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px">
-      <button class="btn bp bfw" onclick="cm('mNoTokenGuide');go('p05',nv(4),'订阅 / 充值');setTimeout(function(){switchBuyTab('subscription')},50)">去领取新人礼包</button>
+      <button class="btn bp bfw" onclick="cm('mNoTokenGuide');openLiteTrialOffer()">去领取新人礼包</button>
       <button class="btn bo bfw" onclick="openNoTokenVendorSetup()">我已有 API Key</button>
     </div>
   </div>
