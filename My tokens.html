@@ -445,7 +445,7 @@ input:checked+.sl:before{transform:translateX(16px)}
 .brand-mark{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:14px;background:#f8fafc}
 .brand-mark img{width:100%;height:100%;display:block;object-fit:contain}
 .brand-fallback{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-size:12px;font-weight:800;letter-spacing:.02em;color:#334155}
-.ob-tool-logo{width:40px;height:40px;border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 20px rgba(15,23,42,.06);border:1px solid rgba(214,224,236,.9);background:#fff;margin:0 auto 6px}
+.ob-tool-logo{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 20px rgba(15,23,42,.06);border:1px solid rgba(214,224,236,.9);background:#fff;margin:0 auto 4px}
 .ob-tool-logo .brand-mark{width:100%;height:100%;border-radius:inherit}
 .tc-nm{font-size:14px;font-weight:700}
 .tc-vr{font-size:11px;color:var(--t3);margin-top:2px}
@@ -875,7 +875,7 @@ input:checked+.sl:before{transform:translateX(16px)}
 .ob-step-on{color:var(--a);border-bottom-color:var(--a);font-weight:700}
 .ob-step-num{width:20px;height:20px;border-radius:50%;background:var(--bd);color:var(--t3);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ob-step-on .ob-step-num{background:var(--a);color:#fff}
-.ob-tool-card{border:2px solid var(--bd);border-radius:10px;padding:14px;cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .15s}
+.ob-tool-card{border:2px solid var(--bd);border-radius:10px;padding:12px 10px;cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px;transition:all .15s;min-height:132px;justify-content:center}
 .ob-tool-card:hover{border-color:#8ed2c9}
 .ob-tool-on{border-color:var(--a)!important;background:var(--all)}
 .ob-guide-row{display:flex;align-items:flex-start;gap:12px;font-size:13px;color:var(--t2);line-height:1.7}
@@ -2601,28 +2601,25 @@ input:checked+.sl:before{transform:translateX(16px)}
 
 <!-- M13 新手引导 -->
 <div class="ov" id="m13" style="align-items:center;justify-content:center">
-  <div class="mo" style="max-width:560px;padding:0;overflow:hidden">
+  <div class="mo" style="width:min(760px,94vw);max-width:760px;padding:0;overflow:hidden">
     <!-- 标题头 -->
     <div style="padding:20px 28px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between">
       <div>
         <div style="font-size:16px;font-weight:800">🚀 AI 工具快速配置指南</div>
-        <div style="font-size:12px;color:var(--t3);margin-top:3px">4 步完成安装，5 分钟内开始使用 AI</div>
+        <div style="font-size:12px;color:var(--t3);margin-top:3px">按 4 步完成配置，看完就能开始使用 AI</div>
       </div>
       <button onclick="cm('m13')" style="border:none;background:none;font-size:20px;color:var(--t3);cursor:pointer;padding:4px;line-height:1">&#x2715;</button>
     </div>
     <!-- 步骤进度条 -->
     <div style="display:flex;border-bottom:1px solid var(--bd)">
       <div id="ob-step-1" class="ob-step ob-step-on" onclick="obGo(1)">
-        <div class="ob-step-num">1</div><span>安装工具</span>
+        <div class="ob-step-num">1</div><span>选工具</span>
       </div>
       <div id="ob-step-2" class="ob-step" onclick="obGo(2)">
-        <div class="ob-step-num">2</div><span>选来源</span>
+        <div class="ob-step-num">2</div><span>选模型</span>
       </div>
       <div id="ob-step-3" class="ob-step" onclick="obGo(3)">
-        <div class="ob-step-num">3</div><span>确认工具</span>
-      </div>
-      <div id="ob-step-4" class="ob-step" onclick="obGo(4)">
-        <div class="ob-step-num">4</div><span>开始使用</span>
+        <div class="ob-step-num">3</div><span>查设置</span>
       </div>
     </div>
     <!-- 步骤内容区 -->
@@ -2630,23 +2627,23 @@ input:checked+.sl:before{transform:translateX(16px)}
       <!-- Step 1 -->
       <div id="ob-panel-1" class="ob-panel">
         <div style="font-size:28px;margin-bottom:10px">🛠️</div>
-        <div style="font-size:16px;font-weight:800;margin-bottom:8px">第一步：先选工具</div>
-        <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:18px">选一个你现在要用的 AI 工具，后面会告诉你怎么配。</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="font-size:16px;font-weight:800;margin-bottom:8px">第一步：选要用的工具</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:18px">在【AI工具管理】或【Tokens 管理】选择你要安装的工具，点击下载，按提示完成安装即可。</div>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
           <div class="ob-tool-card ob-tool-on" onclick="obSelectTool(this,'Claude Desktop')">
             <div class="ob-tool-logo" data-brand-key="claude-desktop"></div>
             <div style="font-weight:700;font-size:13px">Claude Desktop</div>
-            <div style="font-size:11px;color:var(--t3)">图形界面 · 最常用</div>
+            <div style="font-size:11px;color:var(--t3)">桌面版 · 常用</div>
           </div>
           <div class="ob-tool-card" onclick="obSelectTool(this,'Codex CLI')">
             <div class="ob-tool-logo" data-brand-key="codex-cli"></div>
             <div style="font-weight:700;font-size:13px">Codex CLI</div>
-            <div style="font-size:11px;color:var(--t3)">命令行 · 开发者</div>
+            <div style="font-size:11px;color:var(--t3)">命令行 · 开发</div>
           </div>
           <div class="ob-tool-card" onclick="obSelectTool(this,'OpenCode')">
             <div class="ob-tool-logo" data-brand-key="opencode"></div>
             <div style="font-weight:700;font-size:13px">OpenCode</div>
-            <div style="font-size:11px;color:var(--t3)">VSCode 插件</div>
+            <div style="font-size:11px;color:var(--t3)">VS Code 插件</div>
           </div>
           <div class="ob-tool-card" onclick="obSelectTool(this,'Gemini CLI')">
             <div class="ob-tool-logo" data-brand-key="gemini"></div>
@@ -2656,7 +2653,7 @@ input:checked+.sl:before{transform:translateX(16px)}
           <div class="ob-tool-card" onclick="obSelectTool(this,'OpenClaw')">
             <div class="ob-tool-logo" data-brand-key="openclaw"></div>
             <div style="font-weight:700;font-size:13px">OpenClaw</div>
-            <div style="font-size:11px;color:var(--t3)">图形界面 · 轻量</div>
+            <div style="font-size:11px;color:var(--t3)">桌面版 · 轻量</div>
           </div>
           <div class="ob-tool-card" onclick="obSelectTool(this,'Hermes')">
             <div class="ob-tool-logo" data-brand-key="hermes"></div>
@@ -2672,7 +2669,7 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div id="ob-panel-2" class="ob-panel" style="display:none">
         <div style="font-size:28px;margin-bottom:10px">🔑</div>
         <div style="font-size:16px;font-weight:800;margin-bottom:8px">第二步：选模型来源</div>
-        <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:16px">只要选一种方式就行。</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:16px">平台购买和外部模型，二选一即可。</div>
         <!-- 平台内置与外部供应商双路径 -->
         <div style="background:#f8fffe;border:1.5px solid #b2e0da;border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:14px">
           <div style="display:flex;align-items:flex-start;gap:12px">
@@ -2685,44 +2682,22 @@ input:checked+.sl:before{transform:translateX(16px)}
           </div>
           <div style="display:flex;align-items:flex-start;gap:12px">
             <div style="width:28px;height:28px;border-radius:50%;background:var(--a);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
-            <div style="font-size:13px;color:var(--t2);line-height:1.7">最后回到 AI 工具管理，选一个要用的模型。</div>
+            <div style="font-size:13px;color:var(--t2);line-height:1.7">最后回到 AI 工具管理，确认当前工具要用哪个模型。</div>
           </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <button class="btn bo bsm" style="font-size:13px;padding:7px 18px" onclick="cm('m13');go('p02',document.querySelector('.ni[onclick*=p02]'),'AI工具管理')">用平台模型</button>
-            <button class="btn bp bsm" style="font-size:13px;padding:7px 18px" onclick="cm('m13');go('p03',document.querySelector('.ni[onclick*=p03]'),'模型供应商')">接外部模型</button>
+            <button class="btn bo bsm" style="font-size:13px;padding:7px 18px" onclick="cm('m13');go('p03',document.querySelector('.ni[onclick*=p03]'),'模型供应商')">接外部模型</button>
+            <button class="btn bp bsm" style="font-size:13px;padding:7px 18px" onclick="cm('m13');go('p02',document.querySelector('.ni[onclick*=p02]'),'AI工具管理')">用平台模型</button>
           </div>
         </div>
         <div style="margin-top:12px;padding:10px 14px;background:#fffbeb;border-radius:8px;font-size:12px;color:#92400e">
-          Claude Desktop 默认会自动完成模型映射；如果你想改，再到 AI 工具管理的「更换模型」里调整即可。
+          新增供应商会默认同步到 AI 工具；单独修改时，去 AI 工具管理页「更换模型」。
         </div>
       </div>
       <!-- Step 3 -->
       <div id="ob-panel-3" class="ob-panel" style="display:none">
         <div style="font-size:28px;margin-bottom:10px">⚙️</div>
-        <div style="font-size:16px;font-weight:800;margin-bottom:8px">第三步：看一下工具设置</div>
-        <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:16px">先选好来源，再按 <span id="ob-tool-label" style="color:var(--a);font-weight:700">Claude Desktop</span> 的要求检查一遍。</div>
+        <div style="font-size:16px;font-weight:800;margin-bottom:8px">第三步：确认工具可直接使用</div>
         <div id="ob-guide-steps" style="display:flex;flex-direction:column;gap:10px"></div>
-      </div>
-      <!-- Step 4 -->
-      <div id="ob-panel-4" class="ob-panel" style="display:none">
-        <div style="font-size:28px;margin-bottom:10px">🎉</div>
-        <div style="font-size:16px;font-weight:800;margin-bottom:8px">第四步：直接开始用</div>
-        <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:18px">现在回到 AI 工具里发起对话就可以了。</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
-          <button class="btn bo" style="height:auto;padding:14px 12px;border-radius:10px;background:#f0fdf9;text-align:center" onclick="cm('m13');go('p02',document.querySelector('.ni[onclick*=p02]'),'AI工具管理')">
-            <div style="font-size:22px;margin-bottom:4px">🛠️</div>
-            <div style="font-size:12px;font-weight:700;color:var(--t)">去 AI 工具管理</div>
-            <div style="font-size:11px;color:var(--t2);margin-top:4px;line-height:1.6">继续检查工具设置</div>
-          </button>
-          <button class="btn bo" style="height:auto;padding:14px 12px;border-radius:10px;background:#f0fdf9;text-align:center" onclick="cm('m13');go('p03',document.querySelector('.ni[onclick*=p03]'),'模型供应商')">
-            <div style="font-size:22px;margin-bottom:4px">🔗</div>
-            <div style="font-size:12px;font-weight:700;color:var(--t)">去模型供应商</div>
-            <div style="font-size:11px;color:var(--t2);margin-top:4px;line-height:1.6">外部模型从这里接入</div>
-          </button>
-        </div>
-        <div style="padding:10px 14px;background:#f0fdf9;border-radius:8px;font-size:12px;color:var(--t2)">
-          遇到问题：先看模型来源，再看工具设置。
-        </div>
       </div>
     </div>
     <!-- 底部按钮 -->
@@ -4291,7 +4266,7 @@ function showProxyOffConfirm(toolKey, toolName){
     +'<div style="font-size:15px;font-weight:700;color:var(--t);margin-bottom:10px">关闭本地代理？</div>'
     +'<div style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:20px">'
     +'关闭后，<strong>'+toolName+'</strong> 的请求将不再经由 CC Switch 转发，直接连接供应商。<br>'
-    +'<span style="color:#dc2626">若供应商与工具协议不兼容，调用可能失败。</span>'
+    +'<span style="color:#dc2626">如果你用的是 Claude 官方 API，可以直连；如果接的是其他供应商，关闭后可能因协议不兼容而调用失败。</span>'
     +'</div>'
     +'<div style="display:flex;gap:10px;justify-content:flex-end">'
     +'<button class="btn bo" style="height:36px;padding:0 18px;font-size:13px" onclick="document.getElementById(\'proxyOffConfirmPanel\').remove()">取消</button>'
@@ -4315,7 +4290,7 @@ function getToolLocalRouteMeta(toolKey){
   var state=toolConfigState[toolKey] || {};
   var enabled=tool.routingType === 'cc-shell' && state.localProxyEnabled !== false;
   var modeLabel='统一代理路由';
-  if(toolKey === 'claude-desktop') modeLabel=state.accessMode === 'direct-proxy' ? '直连代理' : 'Anthropic 兼容路由';
+  if(toolKey === 'claude-desktop') modeLabel=state.accessMode === 'direct-proxy' ? '直连供应商' : 'Claude 兼容模式';
   else if(state.proxyMode === 'direct') modeLabel='直连供应商';
   return {
     enabled: enabled,
@@ -4468,7 +4443,7 @@ function getToolStatusMeta(toolKey){
 
 function getToolConfigSummary(toolKey){
   var state=toolConfigState[toolKey] || {};
-  if(toolKey === 'claude-desktop') return '模式：' + (state.accessMode === 'anthropic-route' ? 'Anthropic 兼容路由' : '直连代理') + ' · 角色：' + (state.rolePolicy === 'auto' ? '自动映射' : '强制单模型');
+  if(toolKey === 'claude-desktop') return '连接方式：' + (state.accessMode === 'anthropic-route' ? 'Claude 兼容模式' : '直连供应商') + ' · 模型映射：' + (state.rolePolicy === 'auto' ? '自动映射' : '固定单模型');
   if(toolKey === 'codex-cli') return 'Profile：' + (state.shellProfile === 'balanced' ? '平衡' : state.shellProfile === 'speed' ? '速度优先' : '推理优先') + ' · 回退：' + (state.fallbackModel || '未设置');
   if(toolKey === 'opencode') return '调度：' + (state.scheduling === 'primary-backup' ? '主备双模型' : state.scheduling === 'round-robin' ? '轮询' : '单模型') + ' · 工作区：' + (state.workspaceScope === 'current' ? '当前项目' : '全部工作区');
   if(toolKey === 'gemini') return '协议：' + (state.protocolMode === 'native' ? 'Gemini Native' : 'OpenAI 兼容') + ' · 作用域：' + (state.projectScope === 'current-project' ? '当前项目' : '全局');
@@ -4571,11 +4546,11 @@ function getToolConfigBodyHtml(toolKey){
   var providerLabel=getToolProviderLabel(toolKey);
   var localRouteMeta=getToolLocalRouteMeta(toolKey);
   var localRouteCard=tool && tool.routingType === 'cc-shell'
-    ? '<div class="tool-config-card"><h4>CC Switch 本地代理</h4><p>控制这个工具是否通过本地代理层接入模型，基础版只保留开关和接入方式。</p>'
-      + buildToolConfigToggle('启用本地代理路由', 'localProxyEnabled', state.localProxyEnabled !== false, '开启后由 CC Switch 统一转发请求，并自动处理协议兼容与地址适配。')
+    ? '<div class="tool-config-card"><h4>本地代理</h4><p>控制这个工具是否通过 CC Switch 接入模型，基础版只保留开关和连接方式。</p>'
+      + buildToolConfigToggle('本地代理', 'localProxyEnabled', state.localProxyEnabled !== false, '打开后由 CC Switch 统一转发请求，并自动处理兼容和地址适配。使用 Claude 官方 API 时，也可以关闭后直连供应商。')
       + (toolKey === 'claude-desktop'
-        ? '<div class="tool-config-row" style="margin-top:14px"><label class="tool-config-label">当前接入方式</label><div class="fi" style="display:flex;align-items:center;height:36px;background:#f8fafc">' + localRouteMeta.modeLabel + '</div><div class="tool-config-help">Claude 的接入方式在下方“Claude 专属”中调整。</div></div>'
-        : buildToolConfigSelect('接入方式', 'proxyMode', [{value:'local-route',label:'统一代理路由'},{value:'direct',label:'直连供应商'}], state.proxyMode || 'local-route', '基础版先只提供是否走本地代理，以及是否直接连供应商。'))
+        ? '<div class="tool-config-row" style="margin-top:14px"><label class="tool-config-label">当前连接方式</label><div class="fi" style="display:flex;align-items:center;height:36px;background:#f8fafc">' + localRouteMeta.modeLabel + '</div><div class="tool-config-help">Claude 的连接方式在下方“Claude 专属”中调整。</div></div>'
+        : buildToolConfigSelect('连接方式', 'proxyMode', [{value:'local-route',label:'本地代理（推荐）'},{value:'direct',label:'直连供应商'}], state.proxyMode || 'local-route', '这里选择是走本地代理，还是直接连接供应商。'))
       + '</div>'
     : '';
   var commonCard='<div class="tool-config-card tool-config-full"><h4>基础接入</h4><p>这里只保留所有工具都共通的信息，真正有差异的参数在下面按工具单独展示。</p>'
@@ -4585,8 +4560,8 @@ function getToolConfigBodyHtml(toolKey){
     + '</div></div>';
   var specific='';
   if(toolKey === 'claude-desktop'){
-    specific='<div class="tool-config-card"><h4>Claude 专属</h4><p>重点在兼容协议、模型映射和设置文件作用域。</p>'
-      + buildToolConfigSelect('接入模式', 'accessMode', [{value:'anthropic-route',label:'Anthropic 兼容路由'},{value:'direct-proxy',label:'直连代理'}], state.accessMode, 'Claude 类工具通常需要兼容 Messages 格式。')
+    specific='<div class="tool-config-card"><h4>Claude 专属</h4><p>重点在连接方式、模型映射和设置文件作用域。</p>'
+      + buildToolConfigSelect('连接方式', 'accessMode', [{value:'anthropic-route',label:'Claude 兼容模式（推荐）'},{value:'direct-proxy',label:'直连供应商'}], state.accessMode, '如果你使用 Claude 官方 API，可选直连供应商；接其他供应商时，通常用 Claude 兼容模式。')
       + buildToolConfigSelect('模型映射', 'rolePolicy', [{value:'auto',label:'自动映射（默认）'},{value:'single',label:'固定使用单模型'}], state.rolePolicy, '系统会默认把供应商模型映射到 Claude 的角色槽位；你也可以在这里手动调整。')
       + '</div>'
       + '<div class="tool-config-card"><h4>设置文件</h4><p>决定写入全局还是工作区级配置。</p>'
@@ -6895,40 +6870,40 @@ var _obSelectedTool = 'Claude Desktop';
 
 var _obGuideMap = {
   'Claude Desktop': [
-    '打开 <strong>AI 工具管理 → Claude Desktop</strong>',
-    '确认已开启本地代理，模式选 <strong>Anthropic 兼容路由</strong>',
-    '模型映射默认已经配好；如果你想改，再到 <strong>AI 工具管理</strong> 的 <strong>更换模型</strong> 里调整，这一步不是本地代理开关',
-    '保存后重开 Claude Desktop 即可'
+    '进入 <strong>AI 工具管理</strong>，切到 <strong>Claude Desktop</strong> 这个工具页',
+    '先看顶部的 <strong>本地代理</strong> 开关：接 Claude 官方 API 时可以关闭直连；接其他供应商时需保持开启',
+    '在当前页面选择供应商，可点击 <strong>更换模型</strong> 选择这个工具要用的模型',
+    '保存后重新打开 Claude Desktop 即可'
   ],
   'Codex CLI': [
-    '打开 <strong>AI 工具管理 → Codex CLI</strong>',
-    '确认已开启本地代理，接入方式用 <strong>统一代理路由</strong>',
-    '确认默认模型无误',
-    '重开终端试一次对话'
+    '进入 <strong>AI 工具管理</strong>，切到 <strong>Codex CLI</strong> 这个工具页',
+    '先确认顶部的 <strong>本地代理</strong> 已打开',
+    '在当前页面检查 <strong>默认模型</strong> 和 <strong>回退模型</strong> 是否符合你的使用习惯',
+    '保存后重新打开终端，试一次对话即可'
   ],
   'OpenCode': [
-    '打开 <strong>AI 工具管理 → OpenCode</strong>',
-    '确认当前供应商和默认模型正确',
-    '如果用了双模型或轮询，再补齐备选模型',
-    '保存后重新打开对话面板'
+    '进入 <strong>AI 工具管理</strong>，切到 <strong>OpenCode</strong> 这个工具页',
+    '先检查当前供应商和 <strong>默认模型</strong> 是否正确',
+    '如果要多模型配合使用，把 <strong>调度方式</strong> 改成双模型或轮询，再补一个 <strong>备选模型</strong>',
+    '保存后重新打开对话面板即可'
   ],
   'Gemini CLI': [
-    '打开 <strong>AI 工具管理 → Gemini CLI</strong>',
-    '确认协议模式选对了',
-    '确认默认模型无误',
-    '保存后发起一次新对话'
+    '进入 <strong>AI 工具管理</strong>，切到 <strong>Gemini CLI</strong> 这个工具页',
+    '先确认当前供应商和 <strong>默认模型</strong> 是否正确',
+    '如果你只想当前项目生效，再看一下 <strong>项目作用域</strong> 的选择',
+    '保存后发起一次新对话即可'
   ],
   'OpenClaw': [
-    '打开 <strong>AI 工具管理 → OpenClaw</strong>',
-    '确认已开启本地代理，默认模型选对',
-    '保存后重新打开会话',
-    '在顶部切到当前供应商即可'
+    '进入 <strong>AI 工具管理</strong>，切到 <strong>OpenClaw</strong> 这个工具页',
+    '先确认当前供应商和默认模型是否选好，并按需要选择 <strong>会话模式</strong> 和 <strong>路由策略</strong>',
+    '保存后重新打开会话，在顶部切到当前供应商即可使用',
+    '如果只是想换这个工具的模型，直接点 <strong>更换模型</strong> 即可'
   ],
   'Hermes': [
-    '打开 <strong>AI 工具管理 → Hermes</strong>',
-    '确认默认模型、同步范围和预设正确',
-    '保存后新建一次对话',
-    '如果不通，再检查工具里的 Provider 设置'
+    '进入 <strong>AI 工具管理</strong>，切到 <strong>Hermes</strong> 这个工具页',
+    '在当前页面检查 <strong>默认模型</strong>、<strong>同步范围</strong> 和 <strong>团队预设</strong> 是否正确',
+    '如果需要记录团队配置变更，再确认 <strong>开启审计日志</strong> 是否打开',
+    '保存后新建一次对话；如果还不能用，再检查工具里的 Provider 设置'
   ]
 };
 
@@ -6941,7 +6916,7 @@ function obStart(){
 
 function obRender(){
   // 步骤高亮
-  for(var i=1;i<=4;i++){
+  for(var i=1;i<=3;i++){
     var s=document.getElementById('ob-step-'+i);
     if(s){ s.className = 'ob-step' + (i===_obStep?' ob-step-on':''); }
     var p=document.getElementById('ob-panel-'+i);
@@ -6952,8 +6927,8 @@ function obRender(){
   var next=document.getElementById('ob-btn-next');
   var skip=document.getElementById('ob-btn-skip');
   if(prev) prev.style.display = _obStep>1 ? '' : 'none';
-  if(next) next.textContent = _obStep===4 ? '完成' : '下一步';
-  if(skip) skip.style.display = _obStep===4 ? 'none' : '';
+  if(next) next.textContent = _obStep===3 ? '完成' : '下一步';
+  if(skip) skip.style.display = _obStep===3 ? 'none' : '';
   // 工具名同步
   var tl=document.getElementById('ob-tool-label');
   if(tl) tl.textContent = _obSelectedTool;
@@ -6974,7 +6949,7 @@ function obGo(step){
 }
 
 function obNext(){
-  if(_obStep===4){ cm('m13'); return; }
+  if(_obStep===3){ cm('m13'); return; }
   _obStep++;
   obRender();
 }
