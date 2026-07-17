@@ -1301,7 +1301,7 @@ input:checked+.sl:before{transform:translateX(16px)}
   <div class="main">
     <div class="topbar">
       <div class="tb-left">
-        <div class="tb-title" id="tbt">Tokens 管理</div>
+        <div class="tb-title" id="tbt">总控台</div>
       </div>
       <div class="tb-r" style="gap:8px">
         <button class="btn bo bsm" style="font-size:12px;padding:5px 12px;white-space:nowrap" onclick="obStart()">AI 工具配置教程</button>
@@ -1320,21 +1320,43 @@ input:checked+.sl:before{transform:translateX(16px)}
 
 <!-- ─────── P01 总控台 ─────── -->
 <div id="p01" class="pg on">
+  <!-- 未登录 Hero -->
+  <div id="heroGuest" class="hero" style="flex-direction:column;align-items:flex-start;gap:12px">
+    <div><h2 style="font-size:20px;font-weight:700;margin-bottom:6px">一站式接入主流 AI 与顶尖模型</h2>
+    <p style="font-size:13px;line-height:1.7">统一管理工具部署、模型调用、Tokens 与消耗记录，减少切换与重复配置，让使用更高效。</p></div>
+  </div>
+  <!-- 首页数据区域：游客可浏览结构，登录后展示真实数据 -->
+  <div id="statsGuest" style="display:none"></div>
   <div id="statsLoggedIn">
   <div class="card tool-usage-card mb16" id="toolUsageStatsCard">
     <div class="tool-usage-list" id="toolUsageStatsList"></div>
   </div>
-  </div><!-- /statsLoggedIn -->
-  <!-- 未登录 Hero -->
-  <div id="heroGuest" class="hero" style="height:176px;margin-bottom:0;padding:0 30px;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center">
-    <div style="display:flex;flex-direction:column;align-items:center;gap:14px">
-      <p style="font-size:18px;line-height:1.8;font-weight:600">My tokens，让 AI 工具部署更快、模型调用更稳、Tokens 管理更清晰。</p>
-      <div style="font-size:14px;color:var(--t2);line-height:1.6">登录后可解锁更多功能</div>
-      <button class="btn bp" style="height:42px;padding:0 24px;font-size:14px;border-radius:14px" onclick="om('ls')">立即登录</button>
+  <div class="card mb16">
+    <div class="usage-insight-top">
+      <div class="usage-insight-tabs">
+        <button class="usage-insight-tab on" id="usageTabModels" onclick="setUsageInsightTab('models')">总览</button>
+        <button class="usage-insight-tab" id="usageTabSuppliers" onclick="setUsageInsightTab('suppliers')">供应商</button>
+        <button class="usage-insight-tab" id="usageTabDetail" onclick="setUsageInsightTab('detail')">消耗明细</button>
+      </div>
+      <div class="usage-insight-ranges">
+        <button class="usage-insight-range" id="usageWindowToday" onclick="setUsageWindow('today')">今天</button>
+        <button class="usage-insight-range" id="usageWindow7d" onclick="setUsageWindow('7d')">近7天</button>
+        <button class="usage-insight-range on" id="usageWindow30d" onclick="setUsageWindow('30d')">近30天</button>
+        <span class="usage-insight-range" id="usageWindowCustom" style="display:inline-flex;align-items:center;gap:4px;padding:0 8px;cursor:pointer" onclick="openCustomDatePicker()">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;opacity:.7"><rect x="1" y="2" width="14" height="13" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M5 1v2M11 1v2M1 6h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span id="usageCustomRangeLabel" style="font-size:12px;white-space:nowrap">自定义</span>
+          <input type="date" id="usageDateStart" style="position:absolute;opacity:0;pointer-events:none;width:0;height:0" onchange="onUsageDateChange()">
+          <input type="date" id="usageDateEnd" style="position:absolute;opacity:0;pointer-events:none;width:0;height:0" onchange="onUsageDateChange()">
+        </span>
+      </div>
     </div>
+    <div class="uc-meta">
+      <div class="uc-unit" id="usageChartUnit">单位：Tokens</div>
+      <div class="uc-total"><span class="uc-total-label">合计</span><span class="uc-total-value" id="usageChartTotalValue">0 Tokens</span><span class="uc-total-sub" id="usageChartTotalSub"></span></div>
+    </div>
+    <div id="usageChartMain"></div>
   </div>
-  <!-- 首页数据区域：游客可浏览结构，登录后展示真实数据 -->
-  <div id="statsGuest" style="display:none"></div>
+  </div><!-- /statsLoggedIn -->
 </div><!-- /p01 -->
 
 <!-- ─────── P02 AI 软件 ─────── -->
@@ -6174,7 +6196,6 @@ function setUsageWindow(windowKey){
 }
 
 function renderUsageChart(){
-  renderToolUsageStats();
   const descEl=document.getElementById('usageChartDesc');
   const unitEl=document.getElementById('usageChartUnit');
   const totalValueEl=document.getElementById('usageChartTotalValue');
@@ -6189,6 +6210,7 @@ function renderUsageChart(){
   const marksEl=document.getElementById('usageChartMarks');
   const marksWrap=document.getElementById('usageChartMarksWrap');
   if(!unitEl || !totalValueEl || !totalSubEl) return;
+  renderToolUsageStats();
 
   if(!loggedIn){
     if(unitEl) unitEl.textContent='单位：Tokens，登录后可查看完整数据';
@@ -6202,7 +6224,8 @@ function renderUsageChart(){
     if(chartMain){
       chartMain.innerHTML=''
         + '<div style="padding:44px 20px;text-align:center">'
-        +   '<div style="font-size:16px;font-weight:700;color:var(--t);margin-bottom:8px">登录后可解锁更多功能</div>'
+        +   '<div style="font-size:16px;font-weight:700;color:var(--t);margin-bottom:8px">登录后就能看到你的 Tokens 使用情况</div>'
+        +   '<button class="btn bp" style="height:42px;padding:0 24px;font-size:14px;border-radius:14px" onclick="om(\'ls\')">立即登录</button>'
         + '</div>';
     }
     return;
@@ -7776,24 +7799,25 @@ function saveBuiltinModelSelection(){
 function syncSubManageCard(){
   var card = document.getElementById('subManageCard');
   if(!card) return;
-  var isMember = userPlan && userPlan.expireDate && userPlan.expireDate > new Date().toISOString().slice(0,10);
+  var activePlan = userPlan || {};
+  var isMember = !!(activePlan.expireDate && activePlan.expireDate > new Date().toISOString().slice(0,10));
   card.style.display = isMember ? '' : 'none';
   if(!isMember) return;
-  var planMeta = getSubscriptionPlanMeta(userPlan.name);
+  var planMeta = getSubscriptionPlanMeta(activePlan.name || 'pro');
   var nameEl = document.getElementById('subMgmtPlanName');
   var expireEl = document.getElementById('subMgmtExpire');
   var dailyEl = document.getElementById('subMgmtDaily');
   var nextBillEl = document.getElementById('subMgmtNextBillDate');
   var cancelExpireEl = document.getElementById('mCancelSubExpire');
-  if(nameEl) nameEl.textContent = (userPlan.name || planMeta.name) + ' · ¥' + (planMeta.price || 99) + '/30天';
-  if(expireEl) expireEl.textContent = userPlan.expireDate || '';
-  if(dailyEl) dailyEl.textContent = (userPlan.dailyTokens||planMeta.dailyTokens||16667).toLocaleString() + ' 次/天';
+  if(nameEl) nameEl.textContent = (activePlan.name || planMeta.name) + ' · ¥' + (planMeta.price || 99) + '/30天';
+  if(expireEl) expireEl.textContent = activePlan.expireDate || '';
+  if(dailyEl) dailyEl.textContent = (activePlan.dailyTokens||planMeta.dailyTokens||16667).toLocaleString() + ' 次/天';
   // 下次续费日 = 到期前1天
-  if(nextBillEl && userPlan.expireDate){
-    var d = new Date(userPlan.expireDate); d.setDate(d.getDate()-1);
+  if(nextBillEl && activePlan.expireDate){
+    var d = new Date(activePlan.expireDate); d.setDate(d.getDate()-1);
     nextBillEl.textContent = d.toISOString().slice(0,10);
   }
-  if(cancelExpireEl) cancelExpireEl.textContent = userPlan.expireDate || '';
+  if(cancelExpireEl) cancelExpireEl.textContent = activePlan.expireDate || '';
 }
 
 // 订阅管理页自动续费开关
@@ -8219,11 +8243,11 @@ function syncBalanceViews(){
   syncUsageDerivedBalances();
   var tokenEstimate = userTokensBalance.toLocaleString();
   var cashStr = '¥' + userCashBalance.toFixed(2);
+  var activePlan = userPlan || {};
+  var isMember = !!activePlan.name;
 
   // P01 Hero：会员标签 + 今日进度 + 提醒
   (function(){
-    var isMember = !!userPlan.name;
-
     // 会员区 / 非会员区 切换
     var subSection   = document.getElementById('heroSubSection');
     var noSubSection = document.getElementById('heroNoSubSection');
@@ -8242,7 +8266,7 @@ function syncBalanceViews(){
     }
     if(heroMemberText){
       heroMemberText.textContent = isMember
-        ? ('当前订阅：' + userPlan.name + ' · 有效期：' + userPlan.expireDate)
+        ? ('当前订阅：' + activePlan.name + ' · 有效期：' + (activePlan.expireDate || '待生效'))
         : (userCashBalance > 0
           ? '当前未订阅，可直接按余额计费使用'
           : '当前未订阅，且可使用余额为 0');
@@ -8258,8 +8282,8 @@ function syncBalanceViews(){
     }
 
     // —— 以下仅会员需要 ——
-    var todayUsed = userPlan.todayUsed;
-    var dayTotal  = userPlan.dailyTokens;
+    var todayUsed = activePlan.todayUsed || 0;
+    var dayTotal  = activePlan.dailyTokens || 0;
     var pct       = dayTotal > 0 ? Math.min(100, (todayUsed / dayTotal * 100)) : 0;
     var pctStr    = pct < 1 ? pct.toFixed(1) + '%' : Math.round(pct) + '%';
 
@@ -8306,7 +8330,6 @@ function syncBalanceViews(){
   if(tokensSub) tokensSub.textContent = '最近到期 ' + getNearestExpiryLabel();
   // P04 新增：会员标签 + 进度条 + 充值按钮文案
   (function(){
-    var isMember = !!userPlan.name;
     var badge = document.getElementById('p04MemberBadge');
     var label = document.getElementById('p04MemberLabel');
     var subSection = document.getElementById('p04SubSection');
@@ -8316,11 +8339,11 @@ function syncBalanceViews(){
     var bar = document.getElementById('p04ProgressBar');
     var chargeBtn = document.getElementById('p04ChargeBtn');
     if(badge) badge.style.display = isMember ? '' : 'none';
-    if(label && isMember) label.textContent = userPlan.name + ' · ' + userPlan.expireDate + ' 到期';
+    if(label && isMember) label.textContent = activePlan.name + ' · ' + (activePlan.expireDate || '待生效') + ' 到期';
     if(subSection) subSection.style.display = isMember ? '' : 'none';
-    if(isMember && userPlan.dailyTokens > 0){
-      var used = userPlan.todayUsed || 0;
-      var total = userPlan.dailyTokens;
+    if(isMember && activePlan.dailyTokens > 0){
+      var used = activePlan.todayUsed || 0;
+      var total = activePlan.dailyTokens;
       var pct = Math.round(used / total * 100);
       if(usedEl) usedEl.textContent = used.toLocaleString();
       if(totalEl) totalEl.textContent = total.toLocaleString();
@@ -8346,14 +8369,14 @@ function syncBalanceViews(){
     var infoBarEl = document.getElementById('p04InfoBar');
     var remainValEl = document.getElementById('p04InfoRemainVal');
     if(isMember){
-      if(planEl) planEl.textContent = userPlan.name;
-      if(dailyEl) dailyEl.textContent = (userPlan.dailyTokens || 16667).toLocaleString() + ' 次/天';
-      if(validityEl && userPlan.expireDate){
+      if(planEl) planEl.textContent = activePlan.name;
+      if(dailyEl) dailyEl.textContent = (activePlan.dailyTokens || 16667).toLocaleString() + ' 次/天';
+      if(validityEl && activePlan.expireDate){
         var today2 = new Date().toISOString().slice(0,10);
-        validityEl.textContent = today2 + ' – ' + userPlan.expireDate;
+        validityEl.textContent = today2 + ' – ' + activePlan.expireDate;
       }
-      var used2 = userPlan.todayUsed || 0;
-      var total2 = userPlan.dailyTokens || 16667;
+      var used2 = activePlan.todayUsed || 0;
+      var total2 = activePlan.dailyTokens || 16667;
       var pct2 = Math.round(used2 / total2 * 100);
       var remain2 = Math.max(0, total2 - used2);
       if(infoUsedEl) infoUsedEl.textContent = used2.toLocaleString();
@@ -8890,7 +8913,7 @@ function doLogout(){
   document.getElementById('sb-unlogin').style.display='';
   document.getElementById('sb-logined').style.display='none';
   updateLoginUI();
-  go('p01', document.querySelectorAll('.ni')[0], 'Tokens 管理');
+  go('p01', document.querySelectorAll('.ni')[0], '总控台');
 }
 
 function orderTypeClick(el){
