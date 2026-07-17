@@ -1240,7 +1240,7 @@ input:checked+.sl:before{transform:translateX(16px)}
 <div class="win-bar">
   <div class="win-left">
     <div class="win-title"><span class="win-dot"></span>My tokens</div>
-    <div class="win-slogan">一键接入主流 AI，畅用顶尖模型</div>
+    <div class="win-slogan">一键接入主流AI，畅用顶尖模型</div>
   </div>
   <div class="win-btns" aria-hidden="true">
     <button class="win-btn">&#8212;</button>
@@ -1260,7 +1260,7 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
     </div>
     <nav class="sb-nav">
-      <div class="ni on" onclick="go('p01',this,'Tokens 管理')"><span class="ic"><i data-lucide="layout-dashboard"></i></span>Tokens 管理</div>
+      <div class="ni on" onclick="go('p01',this,'Tokens管理')"><span class="ic"><i data-lucide="layout-dashboard"></i></span>Tokens管理</div>
       <div class="ni" onclick="go('p02',this,'AI工具管理')"><span class="ic"><i data-lucide="package"></i></span>AI工具管理</div>
       <div class="ni" onclick="go('p03',this,'模型供应商')"><span class="ic"><i data-lucide="git-fork"></i></span>模型供应商</div>
       <div class="ni" onclick="go('p05',this,'订阅 / 充值');setTimeout(function(){switchBuyTab('subscription')},50)"><span class="ic"><i data-lucide="credit-card"></i></span>订阅 / 充值</div>
@@ -1301,7 +1301,7 @@ input:checked+.sl:before{transform:translateX(16px)}
   <div class="main">
     <div class="topbar">
       <div class="tb-left">
-        <div class="tb-title" id="tbt">总控台</div>
+        <div class="tb-title" id="tbt">Tokens管理</div>
       </div>
       <div class="tb-r" style="gap:8px">
         <button class="btn bo bsm" style="font-size:12px;padding:5px 12px;white-space:nowrap" onclick="obStart()">AI 工具配置教程</button>
@@ -1322,8 +1322,8 @@ input:checked+.sl:before{transform:translateX(16px)}
 <div id="p01" class="pg on">
   <!-- 未登录 Hero -->
   <div id="heroGuest" class="hero" style="flex-direction:column;align-items:flex-start;gap:12px">
-    <div><h2 style="font-size:20px;font-weight:700;margin-bottom:6px">一站式接入主流 AI 与顶尖模型</h2>
-    <p style="font-size:13px;line-height:1.7">统一管理工具部署、模型调用、Tokens 与消耗记录，减少切换与重复配置，让使用更高效。</p></div>
+    <div><h2 style="font-size:20px;font-weight:700;margin-bottom:6px">一键接入主流AI，畅用顶尖模型</h2>
+    <p style="font-size:13px;line-height:1.7">My tokens，让 AI 工具部署更快、模型调用更稳、Tokens 管理更清晰。</p></div>
   </div>
   <!-- 首页数据区域：游客可浏览结构，登录后展示真实数据 -->
   <div id="statsGuest" style="display:none"></div>
@@ -6199,7 +6199,7 @@ function renderUsageChart(){
     if(chartMain){
       chartMain.innerHTML=''
         + '<div style="padding:44px 20px;text-align:center">'
-        +   '<div style="font-size:16px;font-weight:700;color:var(--t);margin-bottom:8px">登录后就能看到你的 Tokens 使用情况</div>'
+        +   '<div style="font-size:16px;font-weight:700;color:var(--t);margin-bottom:8px">登录后解锁更多功能</div>'
         +   '<button class="btn bp" style="height:42px;padding:0 24px;font-size:14px;border-radius:14px" onclick="om(\'ls\')">立即登录</button>'
         + '</div>';
     }
@@ -8883,7 +8883,7 @@ function doLogout(){
   document.getElementById('sb-unlogin').style.display='';
   document.getElementById('sb-logined').style.display='none';
   updateLoginUI();
-  go('p01', document.querySelectorAll('.ni')[0], '总控台');
+  go('p01', document.querySelectorAll('.ni')[0], 'Tokens管理');
 }
 
 function orderTypeClick(el){
