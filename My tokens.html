@@ -10700,6 +10700,20 @@ function applyVendorSelectionToToolState(connection, toolKey){
   return true;
 }
 
+function getConnectionLatencyMs(source){
+  var latency = Number(source && source.latencyMs);
+  return latency > 0 ? Math.round(latency) : 1631;
+}
+
+function showConnectionSuccessToast(name, options){
+  var config = options || {};
+  var message = '已切换至 ' + name + '，连接正常 (' + getConnectionLatencyMs(config.source) + 'ms)';
+  if(config.requireRestart){
+    message = '重启当前 AI 工具后即可生效<div style="margin-top:6px;font-size:12px;line-height:1.6;opacity:.9">' + message + '</div>';
+  }
+  showToast(message, config.duration || 2200);
+}
+
 function useVendorConnectionForTool(name, toolKey){
   var connection = vendorConnections.filter(function(item){ return item.name === name; })[0];
   var tool = appState.toolRouting[toolKey];
@@ -10714,7 +10728,7 @@ function useVendorConnectionForTool(name, toolKey){
   renderToolRoutingViews();
   renderToolRoutingTable();
   renderToolUsageStats();
-  showToast(connection.name + ' 已设为 ' + toolUiMeta[toolKey].title + ' 当前使用供应商');
+  showConnectionSuccessToast(connection.name, { duration: 2600, source: connection, requireRestart: true });
 }
 
 function resetToolToBuiltinLocal(toolKey){
@@ -10776,21 +10790,17 @@ function resetBuiltinToolConfig(toolKey){
   renderToolRoutingViews();
   renderToolRoutingTable();
   renderToolUsageStats();
-  showToast(toolUiMeta[toolKey].title + ' 已重置为内置默认配置');
+  showConnectionSuccessToast('平台接入', { duration: 2600, requireRestart: true });
 }
 
 function testBuiltinConnectionChannel(toolKey){
-  var tool = appState.toolRouting[toolKey] || {};
-  var currentModel = getToolCurrentModel(toolKey) || tool.selection || '未设置';
-  showToast('检测通道正常：平台接入 · ' + toolUiMeta[toolKey].title + ' · 当前模型 ' + currentModel, 2600);
+  showConnectionSuccessToast('平台接入', { duration: 2200 });
 }
 
 function testVendorConnectionChannel(name, toolKey){
   var connection = vendorConnections.filter(function(item){ return item.name === name; })[0];
   if(!connection) return;
-  var models = getVendorToolDisplayModels(connection, toolKey);
-  var protocolText = normalizeVendorProtocols(connection.protocols, connection.protocol).join(' / ');
-  showToast('检测通道正常：' + connection.name + ' · ' + toolUiMeta[toolKey].title + ' · ' + protocolText + ' · ' + models.length + ' 个模型', 2600);
+  showConnectionSuccessToast(connection.name, { duration: 2200, source: connection });
 }
 
 function testPlatformConnectionOverview(){
@@ -11207,7 +11217,7 @@ function showToast(html, duration){
   if(existing) existing.remove();
   var t = document.createElement('div');
   t.id = 'appToast';
-  t.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#1a2e3b;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.25);white-space:nowrap;max-width:90vw';
+  t.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#1a2e3b;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.25);white-space:nowrap;max-width:90vw;text-align:center';
   t.innerHTML = html;
   document.body.appendChild(t);
   setTimeout(function(){ if(t.parentNode) t.remove(); }, duration || 5000);
