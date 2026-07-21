@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My tokens 异常场景中心</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand:#0a84ff;
+  --brand-strong:#0066cc;
+  --brand-soft:#d9ecff;
+  --bg:#edf3fb;
+  --bg-strong:#dde8f5;
+  --text:#18212f;
+  --text-2:#5f6b7a;
+  --text-3:#8d97a6;
+  --line:rgba(210,218,229,.9);
+  --glass:rgba(255,255,255,.74);
+  --glass-strong:rgba(255,255,255,.88);
+  --ok:#15803d;
+  --ok-soft:#dcfce7;
+  --warn:#c77a16;
+  --warn-soft:#fff1d6;
+  --error:#dc2626;
+  --error-soft:#fee2e2;
+  --shadow-xl:0 32px 80px rgba(15,23,42,.16);
+  --shadow-lg:0 18px 40px rgba(15,23,42,.1);
+  --shadow-md:0 12px 28px rgba(15,23,42,.08);
+}
+body{font-family:'SF Pro Display','SF Pro Text','PingFang SC','Helvetica Neue','Microsoft YaHei UI',sans-serif;background:radial-gradient(circle at top left,rgba(255,255,255,.95),transparent 28%),radial-gradient(circle at top right,rgba(150,196,255,.28),transparent 24%),linear-gradient(180deg,var(--bg) 0%,var(--bg-strong) 100%);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh;display:grid;place-items:center;padding:28px}
+.desktop-frame{width:min(1520px,100%);height:min(940px,calc(100vh - 56px));min-height:760px;background:linear-gradient(180deg,rgba(255,255,255,.68),rgba(245,248,252,.84));border:1px solid rgba(255,255,255,.62);border-radius:22px;box-shadow:var(--shadow-xl);overflow:hidden;display:grid;grid-template-rows:54px minmax(0,1fr);position:relative;backdrop-filter:blur(28px)}
+.desktop-frame:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.2),transparent 14%,rgba(255,255,255,.08));pointer-events:none}
+.win-bar{height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(245,247,250,.56));border-bottom:1px solid rgba(214,221,230,.9);gap:16px;backdrop-filter:blur(22px)}
+.win-left{display:flex;align-items:center;gap:16px;min-width:0;flex:1}
+.win-dot{width:18px;height:18px;border-radius:6px;background:linear-gradient(135deg,#7dc4ff,#0a84ff);box-shadow:0 6px 14px rgba(10,132,255,.28)}
+.win-title{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:#334155;letter-spacing:.01em;white-space:nowrap}
+.win-slogan{font-size:12px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win-btns{display:flex;gap:2px}
+.win-btn{width:40px;height:30px;border:0;border-radius:8px;background:transparent;color:#64748b;font-size:14px;display:flex;align-items:center;justify-content:center}
+.shell{display:grid;grid-template-columns:280px minmax(0,1fr);height:100%}
+.sidebar{background:linear-gradient(180deg,rgba(246,248,252,.86) 0%,rgba(239,243,248,.78) 100%);border-right:1px solid rgba(220,226,234,.88);padding:22px 16px 18px;display:flex;flex-direction:column;gap:18px;backdrop-filter:blur(18px)}
+.brand-card,.meta-card{background:var(--glass);border:1px solid rgba(255,255,255,.72);border-radius:22px;box-shadow:var(--shadow-md);padding:18px;backdrop-filter:blur(18px)}
+.brand-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.brand-icon{width:42px;height:42px;border-radius:14px;background:linear-gradient(180deg,#4ab2ff,#0a84ff);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:800;box-shadow:0 12px 24px rgba(10,132,255,.22)}
+.brand-title{font-size:16px;font-weight:800}
+.brand-sub{font-size:12px;color:var(--text-2);line-height:1.8}
+.meta-title{font-size:12px;font-weight:800;color:var(--text-2);margin-bottom:10px;letter-spacing:.02em}
+.meta-list{display:grid;gap:10px}
+.meta-item{display:grid;gap:4px;padding:10px 12px;border-radius:16px;background:rgba(255,255,255,.62);border:1px solid rgba(226,232,240,.9)}
+.meta-item strong{font-size:12px}
+.meta-item span{font-size:12px;color:var(--text-2);line-height:1.7}
+.nav{display:grid;gap:8px}
+.nav-btn{width:100%;border:1px solid rgba(214,224,236,.96);background:rgba(255,255,255,.68);border-radius:16px;padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:var(--text);cursor:pointer;transition:.18s}
+.nav-btn:hover,.nav-btn.active{background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(243,247,252,.82));color:var(--brand);box-shadow:0 10px 22px rgba(10,132,255,.12)}
+.sidebar-entry{margin-top:10px;padding:14px;border-radius:18px;background:rgba(255,255,255,.62);border:1px solid rgba(226,232,240,.9);box-shadow:var(--shadow-md);display:grid;gap:12px}
+.sidebar-entry-title{font-size:11px;font-weight:800;color:var(--text-3);letter-spacing:.02em}
+.sidebar-entry .btn{width:100%;justify-content:center}
+.content{overflow:auto;padding:24px 28px 32px;display:grid;gap:18px;position:relative}
+.hero{background:var(--glass-strong);border:1px solid rgba(255,255,255,.78);border-radius:28px;padding:24px 26px;box-shadow:var(--shadow-lg);display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;backdrop-filter:blur(22px)}
+.hero h1{font-size:28px;font-weight:800;letter-spacing:-.03em;margin-bottom:10px}
+.hero p{font-size:13px;color:var(--text-2);line-height:1.9;max-width:760px}
+.tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.tag{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;font-size:12px;font-weight:700;border:1px solid rgba(214,224,236,.95);background:rgba(255,255,255,.78)}
+.tag.blue{color:var(--brand);background:var(--brand-soft)}
+.tag.red{color:var(--error);background:var(--error-soft)}
+.tag.yellow{color:var(--warn);background:var(--warn-soft)}
+.tag.green{color:var(--ok);background:var(--ok-soft)}
+.hero-side{display:grid;gap:12px}
+.stat{background:rgba(255,255,255,.78);border:1px solid rgba(226,232,240,.9);border-radius:20px;padding:16px 18px}
+.stat-label{font-size:11px;color:var(--text-3);margin-bottom:6px}
+.stat-value{font-size:26px;font-weight:800;letter-spacing:-.03em}
+.stat-desc{font-size:12px;color:var(--text-2);margin-top:6px;line-height:1.7}
+.section{background:var(--glass);border:1px solid rgba(255,255,255,.74);border-radius:26px;padding:22px;box-shadow:var(--shadow-md);backdrop-filter:blur(18px)}
+.section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
+.section-copy{display:grid;gap:6px}
+.section-title{font-size:18px;font-weight:800;letter-spacing:-.02em}
+.section-desc{font-size:12px;color:var(--text-2);line-height:1.8;max-width:780px}
+.section-badge{display:inline-flex;align-items:center;justify-content:center;min-width:74px;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:800}
+.section-badge.red{background:var(--error-soft);color:var(--error)}
+.section-badge.yellow{background:var(--warn-soft);color:var(--warn)}
+.section-badge.blue{background:var(--brand-soft);color:var(--brand)}
+.scene-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.scene-card{background:rgba(255,255,255,.78);border:1px solid rgba(226,232,240,.92);border-radius:22px;padding:18px;box-shadow:0 10px 20px rgba(15,23,42,.05);display:grid;gap:12px}
+.scene-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.scene-title{font-size:15px;font-weight:800;line-height:1.4}
+.scene-priority{display:inline-flex;align-items:center;justify-content:center;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:800}
+.scene-priority.p0{background:var(--error-soft);color:var(--error)}
+.scene-priority.p1{background:var(--warn-soft);color:var(--warn)}
+.scene-priority.p2{background:#edf4ff;color:#315ea8}
+.scene-desc{font-size:12px;color:var(--text-2);line-height:1.8}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:700;background:#f8fafc;border:1px solid rgba(226,232,240,.95);color:#475569}
+.scene-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 16px;border-radius:12px;font-size:13px;font-weight:800;border:none;cursor:pointer;transition:.18s}
+.btn.primary{background:linear-gradient(180deg,#2997ff,#0a84ff);color:#fff;box-shadow:0 12px 24px rgba(10,132,255,.18)}
+.btn.primary:hover{background:linear-gradient(180deg,#178df8,#0077ed)}
+.btn.secondary{background:rgba(255,255,255,.82);border:1px solid rgba(214,224,236,.96);color:var(--text)}
+.panel-note{background:rgba(255,255,255,.72);border:1px dashed rgba(148,163,184,.4);border-radius:18px;padding:14px 16px;font-size:12px;color:var(--text-2);line-height:1.8}
+.modal-mask{position:fixed;inset:0;background:rgba(15,23,42,.38);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:24px;z-index:1000}
+.modal-mask.open{display:flex}
+.modal{width:min(460px,100%);background:linear-gradient(180deg,#ffffff 0%,#f8fbff 100%);border:1px solid rgba(255,255,255,.92);border-radius:32px;box-shadow:0 28px 72px rgba(15,23,42,.22);overflow:hidden;position:relative}
+.modal-head{position:absolute;top:16px;right:16px;z-index:2}
+.modal-title-wrap{display:grid;gap:10px;justify-items:center;width:100%}
+.modal-title{font-size:24px;font-weight:800;letter-spacing:-.03em;text-align:center;line-height:1.35}
+.modal-close{width:36px;height:36px;border:none;border-radius:14px;background:rgba(248,250,252,.92);border:1px solid rgba(226,232,240,.95);font-size:18px;color:#64748b;cursor:pointer}
+.modal-body{padding:34px 30px 28px;display:grid;gap:22px}
+.modal-visual{display:grid;justify-items:center;gap:16px;padding:4px 0 0}
+.modal-badge{width:84px;height:84px;border-radius:28px;background:linear-gradient(180deg,#eef6ff,#dbeafe);border:1px solid rgba(191,219,254,.92);display:grid;place-items:center;box-shadow:0 16px 34px rgba(10,132,255,.12)}
+.modal-badge-dot{width:40px;height:40px;border-radius:16px;background:linear-gradient(180deg,#2997ff,#0a84ff);box-shadow:0 10px 22px rgba(10,132,255,.22);position:relative}
+.modal-badge-dot:before{content:'!';position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:22px;font-weight:900}
+.modal-message{font-size:15px;color:var(--text-2);line-height:1.9;text-align:center;padding:0 6px;max-width:340px;min-height:58px;display:flex;align-items:center}
+.modal-message a{color:var(--brand);font-weight:700;text-decoration:none}
+.modal-message a:hover{text-decoration:underline}
+.modal-message.hidden{display:none;min-height:0}
+.hidden{display:none !important}
+.modal.agreement-mode{width:min(420px,100%);border-radius:28px;box-shadow:0 24px 60px rgba(15,23,42,.18)}
+.modal.agreement-mode .modal-body{padding:42px 28px 28px;gap:20px}
+.modal.agreement-mode .modal-visual{gap:14px;padding-top:2px}
+.modal.agreement-mode .modal-title{font-size:18px;letter-spacing:-.02em}
+.modal.agreement-mode .modal-message{max-width:292px;min-height:0;padding:0;font-size:13px;line-height:1.9;justify-content:center;text-align:center;color:#64748b;display:block;margin:0 auto}
+.modal.agreement-mode .modal-actions{gap:12px}
+.modal.agreement-mode .action-btn{height:52px;border-radius:16px;font-size:13px;flex:1}
+.modal.agreement-mode .action-btn.secondary{background:#fff;border:1px solid rgba(214,224,236,.96);box-shadow:none}
+.modal.agreement-mode .action-btn.primary{box-shadow:0 12px 24px rgba(10,132,255,.18)}
+.modal.login-preview-mode{width:min(440px,100%);background:rgba(255,255,255,.9);border-radius:24px;border:1px solid rgba(255,255,255,.74);box-shadow:0 24px 60px rgba(15,23,42,.18);backdrop-filter:blur(24px)}
+.modal.login-preview-mode .modal-body{padding:26px 28px 30px;gap:0}
+.modal.login-preview-mode .modal-visual,
+.modal.login-preview-mode .agreement-box,
+.modal.login-preview-mode .modal-actions,
+.modal.login-preview-mode .link-btn{display:none !important}
+.modal.api-preview-mode{width:min(560px,100%);background:#fff;border-radius:14px;border:1px solid rgba(255,255,255,.74);box-shadow:0 24px 60px rgba(15,23,42,.18);backdrop-filter:blur(24px);overflow:hidden}
+.modal.api-preview-mode .modal-body{padding:0;gap:0;background:#fff}
+.modal.api-preview-mode .modal-visual,
+.modal.api-preview-mode .agreement-box,
+.modal.api-preview-mode .modal-actions,
+.modal.api-preview-mode .link-btn{display:none !important}
+.modal.feedback-preview-mode{width:min(540px,100%);background:rgba(255,255,255,.94);border-radius:26px;border:1px solid rgba(255,255,255,.76);box-shadow:0 24px 60px rgba(15,23,42,.18);backdrop-filter:blur(24px)}
+.modal.feedback-preview-mode .modal-body{padding:24px 26px 28px;gap:0}
+.modal.feedback-preview-mode .modal-visual,
+.modal.feedback-preview-mode .agreement-box,
+.modal.feedback-preview-mode .modal-actions,
+.modal.feedback-preview-mode .link-btn{display:none !important}
+.form-preview{display:none;gap:12px;width:100%}
+.form-preview.show{display:grid}
+.field-shell{height:48px;border-radius:16px;border:1px solid rgba(214,224,236,.98);background:#ffffff;display:flex;align-items:center;padding:0 16px;font-size:14px;color:#94a3b8;box-shadow:inset 0 1px 0 rgba(255,255,255,.72)}
+.field-shell.error{border-color:rgba(251,113,133,.75);box-shadow:0 0 0 3px rgba(251,113,133,.08)}
+.field-error{font-size:13px;line-height:1.7;color:#ef4444;padding:0 6px}
+.api-preview{display:none}
+.api-preview.show{display:grid;gap:0;border-radius:20px;overflow:hidden;background:#fff;border:1px solid rgba(214,224,236,.96);box-shadow:0 18px 40px rgba(15,23,42,.08)}
+.api-preview-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:20px 22px 14px;border-bottom:1px solid rgba(226,232,240,.92);background:#fff}
+.api-preview-title{font-size:18px;font-weight:800;color:#111827;line-height:1.35}
+.api-preview-stepper{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
+.api-preview-step-dot{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0}
+.api-preview-step-dot.on{background:var(--brand);color:#fff}
+.api-preview-step-dot.off{background:#e5e7eb;color:#94a3b8}
+.api-preview-step-label{font-size:12px;color:#64748b}
+.api-preview-step-label.off{color:#94a3b8}
+.api-preview-step-line{color:#cbd5e1;font-size:12px}
+.api-preview-sub{font-size:12px;color:var(--text-3);line-height:1.7;margin-top:8px}
+.api-preview-chip{display:none}
+.api-preview-body{padding:18px 20px 16px;background:#f8fafc}
+.api-preview-preset-helper{font-size:12px;font-weight:700;color:#475569;margin-bottom:10px}
+.api-preview-preset-helper span{font-weight:400;color:#94a3b8}
+.api-preview-preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.api-preview-preset{min-width:82px;height:30px;padding:0 14px;border-radius:999px;background:#fff;border:1px solid rgba(226,232,240,.96);font-size:12px;font-weight:700;color:#334155;display:flex;align-items:center;justify-content:center}
+.api-preview-preset.active{border-color:rgba(96,165,250,.5);box-shadow:0 8px 18px rgba(59,130,246,.12);color:#0f172a}
+.api-preview-provider{display:flex;flex-direction:column;align-items:center;margin-bottom:16px}
+.api-preview-provider-badge{width:46px;height:46px;border-radius:14px;background:#f4f4f5;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#475569;margin-bottom:8px}
+.api-preview-provider-name{font-size:14px;font-weight:800;color:#111827}
+.api-preview-form{display:grid;gap:12px}
+.api-preview-field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.api-preview-field{display:grid;gap:6px}
+.api-preview-label{font-size:12px;color:#64748b;font-weight:700}
+.api-preview-input{height:30px;border-radius:10px;border:1px solid rgba(210,218,229,.95);background:#fff;padding:0 10px;font-size:12px;color:#0f172a;display:flex;align-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.85)}
+.api-preview-input.error{border-color:rgba(96,165,250,.95);box-shadow:0 0 0 2px rgba(59,130,246,.14)}
+.api-preview-field-helper{font-size:11px;line-height:1.6;color:#ef4444;min-height:16px;padding:0 2px}
+.api-preview-key-hint{font-size:11px;line-height:1.6;color:#94a3b8;margin-top:-4px}
+.api-preview-route-hint{margin-top:2px;background:#f0fdf9;border:1px solid #d1fae5;border-radius:8px;padding:11px 14px;font-size:12px;color:#64748b;line-height:1.7}
+.api-preview-route-hint b{color:#0f172a}
+.api-preview-helper{display:none;padding:11px 14px;border-radius:10px;border:1px solid rgba(252,165,165,.92);background:#fff1f2;color:#b91c1c;font-size:12px;line-height:1.7}
+.api-preview-helper.show{display:block}
+.api-preview-footer{padding:14px 20px;background:#fff;border-top:1px solid rgba(226,232,240,.92);display:flex;justify-content:flex-end;gap:10px}
+.api-preview-btn{height:36px;padding:0 16px;border-radius:10px;font-size:12px;font-weight:800;border:none}
+.api-preview-btn.secondary{background:#fff;border:1px solid rgba(214,224,236,.98);color:#0f172a;box-shadow:0 8px 18px rgba(15,23,42,.05)}
+.api-preview-btn.primary{background:linear-gradient(180deg,#2997ff,#0a84ff);color:#fff;box-shadow:0 12px 24px rgba(10,132,255,.16)}
+.feedback-preview{display:none}
+.feedback-preview.show{display:grid;gap:16px}
+.feedback-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.feedback-title{font-size:20px;font-weight:800;color:#111827;line-height:1.35}
+.feedback-sub{font-size:12px;color:var(--text-2);line-height:1.7;margin-top:4px}
+.feedback-source{margin-top:8px;padding:10px 12px;border-radius:12px;background:#f8fbff;border:1px solid rgba(191,219,254,.88);font-size:12px;color:#334155;line-height:1.7}
+.feedback-chip{display:inline-flex;align-items:center;height:28px;padding:0 12px;border-radius:999px;background:#eef6ff;border:1px solid rgba(191,219,254,.95);font-size:11px;font-weight:800;color:#2563eb}
+.feedback-card{padding:16px;border-radius:18px;background:linear-gradient(180deg,#f8fbff,#ffffff);border:1px solid rgba(191,219,254,.88);box-shadow:inset 0 1px 0 rgba(255,255,255,.82);display:grid;gap:16px}
+.feedback-label{font-size:12px;font-weight:700;color:#475569}
+.feedback-radio-group{display:grid;gap:10px}
+.feedback-radio{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:14px;background:#fff;border:1px solid rgba(226,232,240,.96);cursor:pointer}
+.feedback-radio input{margin:3px 0 0;accent-color:var(--brand);flex-shrink:0}
+.feedback-radio-copy{display:grid;gap:3px}
+.feedback-radio-title{font-size:13px;font-weight:700;color:#0f172a;line-height:1.5}
+.feedback-radio-desc{font-size:12px;color:var(--text-2);line-height:1.6}
+.feedback-textarea,.feedback-input{width:100%;border-radius:14px;border:1px solid rgba(203,213,225,.96);background:#fff;padding:12px 14px;font-size:13px;color:#0f172a;outline:none;font-family:inherit}
+.feedback-textarea{min-height:110px;resize:none;line-height:1.7}
+.feedback-hint{font-size:12px;color:var(--text-3);line-height:1.6;margin-top:-6px}
+.feedback-footer{display:flex;gap:12px}
+.feedback-btn{flex:1;height:44px;border-radius:12px;font-size:13px;font-weight:800;border:none}
+.feedback-btn.secondary{background:#fff;border:1px solid rgba(214,224,236,.98);color:#0f172a;box-shadow:0 8px 18px rgba(15,23,42,.05)}
+.feedback-btn.primary{background:linear-gradient(180deg,#39a4ff,#0a84ff);color:#fff;box-shadow:0 14px 26px rgba(10,132,255,.18)}
+.login-preview{display:none}
+.login-preview.show{display:block}
+.login-brand{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.login-brand-icon{width:34px;height:34px;border-radius:11px;background:linear-gradient(180deg,#2f9cff,#0a84ff);display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 10px 18px rgba(10,132,255,.2)}
+.login-brand-title{font-size:18px;font-weight:800;color:#1f2937;line-height:1.1}
+.login-error-text{display:none;margin:-6px 0 12px;font-size:12px;color:#ef4444;line-height:1.7}
+.login-error-text.show{display:block}
+.login-section{margin-bottom:14px;padding:16px 14px;border-radius:18px;background:linear-gradient(180deg,#f8fbff,#ffffff);border:1px solid rgba(191,219,254,.88);box-shadow:inset 0 1px 0 rgba(255,255,255,.82)}
+.login-wechat-title{text-align:center;font-size:16px;font-weight:800;color:#24476b;margin-bottom:14px}
+.login-qr-wrap{display:flex;justify-content:center;margin:0 0 16px}
+.login-qr-shell{width:182px;height:182px;border-radius:18px;padding:12px;background:#fff;border:1px solid rgba(226,232,240,.95);box-shadow:0 14px 28px rgba(15,23,42,.08);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.login-qr-shell svg{display:block;width:156px;height:156px}
+.login-qr-expired{position:absolute;inset:12px;border-radius:14px;background:rgba(255,255,255,.9);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px 16px;font-size:13px;font-weight:700;color:#334155;line-height:1.7;gap:12px}
+.login-qr-expired.show{display:flex}
+.login-qr-expired-copy{max-width:124px}
+.login-qr-refresh-btn{min-width:108px;height:34px;padding:0 16px;border:none;border-radius:999px;background:linear-gradient(180deg,#39a4ff,#0a84ff);color:#fff;font-size:12px;font-weight:800;box-shadow:0 10px 18px rgba(10,132,255,.18)}
+.login-qr-refresh-btn.hidden{display:none}
+.login-switch-row{text-align:center}
+.login-pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:122px;height:32px;padding:0 18px;border-radius:999px;background:#f8fafc;border:1px solid rgba(203,213,225,.96);font-size:12px;font-weight:600;color:#475569}
+.login-pill-ico{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;flex-shrink:0}
+.login-pill-ico.wechat{color:#16a34a}
+.login-phone-tabs{display:flex;align-items:center;justify-content:center;gap:18px;margin:2px 0 18px}
+.login-phone-tab{font-size:14px;color:#94a3b8;transition:color .16s}
+.login-phone-tab.on{color:#24476b;font-weight:800}
+.login-phone-form{display:grid;gap:14px}
+.login-field-block{display:grid;gap:8px}
+.login-inline-row{display:grid;grid-template-columns:minmax(0,1fr) 108px;gap:10px}
+.login-input{height:42px;border-radius:10px;background:#fff;border:1px solid rgba(203,213,225,.96);padding:0 12px;font-size:13px;color:#0f172a;outline:none}
+.login-input.error{border-color:rgba(251,113,133,.82);box-shadow:0 0 0 3px rgba(251,113,133,.08)}
+.login-code-btn{height:42px;border-radius:10px;background:#f8fafc;border:1px solid rgba(203,213,225,.96);color:#334155;font-size:12px;font-weight:700}
+.login-submit{margin-top:4px;margin-bottom:12px;height:40px;border-radius:10px;border:none;background:linear-gradient(180deg,#2997ff,#0a84ff);color:#fff;font-size:14px;font-weight:800;box-shadow:0 10px 20px rgba(10,132,255,.14)}
+.login-field-error{font-size:12px;line-height:1.7;color:#ef4444;padding:0 4px;min-height:20px}
+.login-checkbox-row{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:10px;font-size:12px;color:var(--text-2)}
+.login-checkbox-row label{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+.login-checkbox-row input{width:14px;height:14px;accent-color:var(--brand);cursor:pointer;flex-shrink:0}
+.login-foot-copy{text-align:center;font-size:12px;color:var(--text-3)}
+.login-skip{text-align:center;margin-top:14px;font-size:12px;color:var(--text-3)}
+.wechat-glyph{position:relative;display:block;width:18px;height:18px}
+.wechat-glyph:before,.wechat-glyph:after{content:"";position:absolute;border-radius:50%;background:currentColor}
+.wechat-glyph:before{width:11px;height:11px;left:0;top:5px}
+.wechat-glyph:after{width:13px;height:13px;right:0;top:1px}
+.wechat-glyph i,.wechat-glyph b,.wechat-glyph em,.wechat-glyph strong{position:absolute;display:block;width:2px;height:2px;border-radius:50%;background:#fff;z-index:1}
+.wechat-glyph i{left:4px;top:9px}
+.wechat-glyph b{left:7px;top:9px}
+.wechat-glyph em{right:5px;top:6px}
+.wechat-glyph strong{right:8px;top:6px}
+.wechat-glyph span,.wechat-glyph u{position:absolute;display:block;width:0;height:0;border-style:solid;z-index:0}
+.wechat-glyph span{left:1px;top:13px;border-width:3px 3px 0 0;border-color:currentColor transparent transparent transparent;transform:rotate(8deg)}
+.wechat-glyph u{right:1px;top:11px;border-width:3px 0 0 3px;border-color:currentColor transparent transparent transparent;transform:rotate(-8deg);text-decoration:none}
+.agreement-box{display:none;align-items:flex-start;gap:10px;padding:14px 16px;border-radius:18px;background:#f8fbff;border:1px solid rgba(214,224,236,.96)}
+.agreement-box.show{display:flex}
+.agreement-copy{font-size:13px;color:var(--text-2);line-height:1.8}
+.agreement-copy .agreement-link{color:var(--brand);font-weight:700}
+.modal-actions{display:flex;gap:12px;align-items:stretch}
+.action-btn{height:50px;border-radius:16px;font-size:14px;font-weight:800;border:none;flex:1;transition:transform .16s,box-shadow .16s,background .16s}
+.action-btn.primary{order:2;background:linear-gradient(180deg,#39a4ff,#0a84ff);color:#fff;box-shadow:0 16px 30px rgba(10,132,255,.24);position:relative}
+.action-btn.primary:after{content:'';position:absolute;inset:1px;border-radius:15px;background:linear-gradient(180deg,rgba(255,255,255,.24),rgba(255,255,255,0));pointer-events:none}
+.action-btn.primary.has-bubble:before{content:attr(data-bubble);position:absolute;top:-12px;right:14px;height:22px;padding:0 8px;border-radius:999px;background:linear-gradient(180deg,#fff4cf,#ffe48a);border:1px solid rgba(251,191,36,.58);color:#9a6700;font-size:11px;font-weight:800;line-height:22px;box-shadow:0 8px 16px rgba(245,158,11,.16);white-space:nowrap;z-index:2}
+.action-btn.primary:hover{transform:translateY(-1px)}
+.action-btn.secondary{order:1;background:#ffffff;border:1px solid rgba(214,224,236,.98);color:var(--text);box-shadow:0 8px 18px rgba(15,23,42,.05)}
+.link-btn{height:22px;border:none;background:transparent;color:#64748b;font-size:13px;font-weight:700;justify-self:center;padding:0 10px}
+.link-btn.hidden{display:none}
+.toast{position:fixed;left:50%;top:50%;transform:translate(-50%,calc(-50% + 12px));min-width:280px;max-width:420px;padding:14px 18px;border-radius:16px;background:rgba(17,24,39,.92);color:#fff;font-size:14px;line-height:1.6;box-shadow:0 18px 40px rgba(15,23,42,.24);opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;z-index:1200;text-align:center;white-space:pre-line}
+.toast.show{opacity:1;transform:translate(-50%,-50%)}
+@media (max-width:1200px){
+  .shell{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .hero{grid-template-columns:1fr}
+  .scene-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="desktop-frame">
+  <div class="win-bar">
+    <div class="win-left">
+      <div class="win-title"><span class="win-dot"></span><span>My tokens 异常场景中心</span></div>
+      <div class="win-slogan">按业务链路整理异常场景，点击按钮即可预览对应异常弹窗，用于补全原型与埋点闭环。</div>
+    </div>
+    <div class="win-btns">
+      <button class="win-btn">−</button>
+      <button class="win-btn">□</button>
+      <button class="win-btn">×</button>
+    </div>
+  </div>
+
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="nav" id="navList"></div>
+      <div class="sidebar-entry">
+        <div class="sidebar-entry-title">原型联动</div>
+        <button class="btn primary" type="button" onclick="window.open('./My tokens.html','_blank')">查看客户端原型</button>
+      </div>
+    </aside>
+
+    <main class="content">
+      <div id="sections"></div>
+    </main>
+  </div>
+</div>
+
+<div class="modal-mask" id="modalMask" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-head">
+      <button class="modal-close" id="modalClose" aria-label="关闭">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="login-preview" id="loginPreview">
+        <div class="login-brand">
+          <div class="login-brand-icon">□</div>
+          <div class="login-brand-title">My tokens</div>
+        </div>
+        <div class="login-error-text" id="loginErrorText"></div>
+        <div id="loginWechatPanel" class="login-section hidden">
+          <div class="login-wechat-title">微信扫码登录</div>
+          <div class="login-qr-wrap">
+            <div class="login-qr-shell">
+              <svg viewBox="0 0 156 156" aria-hidden="true">
+                <rect x="0" y="0" width="156" height="156" rx="18" fill="#ffffff"></rect>
+                <rect x="10" y="10" width="136" height="136" rx="14" fill="#ffffff" stroke="#e2e8f0"></rect>
+                <g fill="#111827">
+                  <rect x="18" y="18" width="34" height="34" rx="6"></rect><rect x="24" y="24" width="22" height="22" rx="4" fill="#ffffff"></rect><rect x="29" y="29" width="12" height="12" rx="2" fill="#111827"></rect>
+                  <rect x="104" y="18" width="34" height="34" rx="6"></rect><rect x="110" y="24" width="22" height="22" rx="4" fill="#ffffff"></rect><rect x="115" y="29" width="12" height="12" rx="2" fill="#111827"></rect>
+                  <rect x="18" y="104" width="34" height="34" rx="6"></rect><rect x="24" y="110" width="22" height="22" rx="4" fill="#ffffff"></rect><rect x="29" y="115" width="12" height="12" rx="2" fill="#111827"></rect>
+                  <rect x="62" y="18" width="6" height="6" rx="1"></rect><rect x="72" y="18" width="6" height="6" rx="1"></rect><rect x="82" y="18" width="6" height="6" rx="1"></rect><rect x="92" y="18" width="6" height="6" rx="1"></rect>
+                  <rect x="58" y="30" width="10" height="6" rx="1"></rect><rect x="74" y="30" width="6" height="6" rx="1"></rect><rect x="86" y="30" width="12" height="6" rx="1"></rect>
+                  <rect x="60" y="42" width="6" height="10" rx="1"></rect><rect x="72" y="42" width="14" height="6" rx="1"></rect><rect x="92" y="42" width="6" height="10" rx="1"></rect>
+                  <rect x="18" y="62" width="8" height="8" rx="1"></rect><rect x="30" y="62" width="12" height="8" rx="1"></rect><rect x="48" y="62" width="8" height="8" rx="1"></rect><rect x="62" y="62" width="18" height="8" rx="1"></rect><rect x="86" y="62" width="8" height="8" rx="1"></rect><rect x="100" y="62" width="10" height="8" rx="1"></rect><rect x="116" y="62" width="22" height="8" rx="1"></rect>
+                  <rect x="18" y="76" width="6" height="18" rx="1"></rect><rect x="30" y="76" width="10" height="6" rx="1"></rect><rect x="46" y="76" width="6" height="18" rx="1"></rect><rect x="58" y="76" width="8" height="6" rx="1"></rect><rect x="72" y="76" width="10" height="18" rx="1"></rect><rect x="88" y="76" width="6" height="6" rx="1"></rect><rect x="100" y="76" width="16" height="6" rx="1"></rect><rect x="122" y="76" width="16" height="18" rx="1"></rect>
+                  <rect x="30" y="88" width="10" height="6" rx="1"></rect><rect x="58" y="88" width="8" height="6" rx="1"></rect><rect x="88" y="88" width="22" height="6" rx="1"></rect>
+                  <rect x="62" y="104" width="6" height="6" rx="1"></rect><rect x="72" y="104" width="18" height="6" rx="1"></rect><rect x="96" y="104" width="6" height="6" rx="1"></rect><rect x="108" y="104" width="12" height="6" rx="1"></rect><rect x="126" y="104" width="12" height="6" rx="1"></rect>
+                  <rect x="58" y="116" width="10" height="6" rx="1"></rect><rect x="74" y="116" width="6" height="18" rx="1"></rect><rect x="86" y="116" width="8" height="6" rx="1"></rect><rect x="100" y="116" width="6" height="18" rx="1"></rect><rect x="112" y="116" width="26" height="6" rx="1"></rect>
+                  <rect x="58" y="128" width="10" height="10" rx="1"></rect><rect x="86" y="128" width="8" height="10" rx="1"></rect><rect x="112" y="128" width="8" height="10" rx="1"></rect><rect x="126" y="128" width="12" height="10" rx="1"></rect>
+                </g>
+                <g transform="translate(78 78)"><rect x="-17" y="-17" width="34" height="34" rx="10" fill="#22c55e"></rect></g>
+              </svg>
+              <div class="login-qr-expired" id="loginQrExpired">
+                <div class="login-qr-expired-copy" id="loginQrExpiredCopy"></div>
+                <button class="login-qr-refresh-btn hidden" id="loginQrRefreshBtn" type="button"></button>
+              </div>
+            </div>
+          </div>
+          <div class="login-switch-row">
+            <button class="login-pill-btn" type="button"><span class="login-pill-ico">📱</span><span>手机号登录</span></button>
+          </div>
+        </div>
+        <div id="loginPhonePanel" class="login-section hidden">
+          <div class="login-phone-tabs">
+            <span class="login-phone-tab" id="phoneTabCode">验证码登录</span>
+            <span class="login-phone-tab" id="phoneTabPassword">密码登录</span>
+          </div>
+          <div class="login-phone-form">
+            <div class="login-field-block">
+              <input class="login-input" id="loginPhoneField" type="text" placeholder="请输入您的手机号">
+              <div class="login-field-error" id="loginPhoneError"></div>
+            </div>
+            <div id="codeModePanel" class="login-inline-row hidden">
+              <div class="login-field-block">
+                <input class="login-input" id="loginCodeField" type="text" placeholder="验证码">
+                <div class="login-field-error" id="loginCodeError"></div>
+              </div>
+              <button class="login-code-btn" type="button">获取验证码</button>
+            </div>
+            <div id="passwordModePanel" class="hidden">
+              <div class="login-field-block">
+                <input class="login-input" id="loginPasswordField" type="password" placeholder="请输入登录密码">
+                <div class="login-field-error" id="loginPasswordError"></div>
+              </div>
+            </div>
+            <button class="login-submit" type="button">登录 / 注册</button>
+          </div>
+          <div class="login-switch-row" style="margin-top:8px">
+            <button class="login-pill-btn" type="button"><span class="login-pill-ico wechat"><span class="wechat-glyph"><i></i><b></b><em></em><strong></strong><span></span><u></u></span></span><span>微信登录</span></button>
+          </div>
+        </div>
+        <div class="login-checkbox-row">
+          <label><input type="checkbox" checked><span>15天内自动登录</span></label>
+          <label><input type="checkbox"><span>已阅读并同意</span><span style="color:var(--brand)">用户协议</span></label>
+        </div>
+        <div class="login-foot-copy">登录即注册，未注册用户将自动创建账号</div>
+        <div class="login-skip">暂不登录，先看看 →</div>
+      </div>
+      <div class="api-preview" id="apiPreview" style="background:#fff">
+        <div class="api-preview-head" style="display:flex;align-items:flex-start;justify-content:space-between;padding:18px 22px 14px;border-bottom:1px solid rgba(220,226,234,.9);background:#fff">
+          <div>
+            <div class="api-preview-title" id="apiPreviewTitle" style="font-size:16px;font-weight:700"></div>
+            <div class="api-preview-stepper" style="display:flex;align-items:center;gap:6px;margin-top:6px">
+              <span class="api-preview-step-dot on" style="width:20px;height:20px;border-radius:50%;background:var(--brand);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</span>
+              <span class="api-preview-step-label" style="font-size:12px;color:#64748b">填写 Key</span>
+              <span class="api-preview-step-line" style="color:#cbd5e1;font-size:12px">──</span>
+              <span class="api-preview-step-dot off" style="width:20px;height:20px;border-radius:50%;background:#e5e7eb;color:#94a3b8;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</span>
+              <span class="api-preview-step-label off" style="font-size:12px;color:#94a3b8">选择启用模型</span>
+            </div>
+            <div class="api-preview-sub" id="apiPreviewSub" style="font-size:12px;color:#94a3b8;margin-top:6px;line-height:1.7"></div>
+          </div>
+          <div class="api-preview-chip" id="apiPreviewChip" style="display:none"></div>
+        </div>
+        <div class="api-preview-body" style="padding:20px 24px;background:#fff">
+          <div class="api-preview-preset-helper" style="font-size:12px;font-weight:600;color:#475569;margin-bottom:10px">预设供应商 <span style="font-weight:400;color:#94a3b8">· 只需填写 API Key，地址已自动预设</span></div>
+          <div class="api-preview-preset-row" id="apiPresetRow" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px">
+            <div class="api-preview-preset" style="min-width:82px;height:30px;padding:0 14px;border-radius:12px;background:#fff;border:1px solid rgba(226,232,240,.96);font-size:12px;font-weight:700;color:#334155;display:flex;align-items:center;justify-content:center">白度文心</div>
+            <div class="api-preview-preset" style="min-width:82px;height:30px;padding:0 14px;border-radius:12px;background:#fff;border:1px solid rgba(226,232,240,.96);font-size:12px;font-weight:700;color:#334155;display:flex;align-items:center;justify-content:center">讯飞星火</div>
+            <div class="api-preview-preset active" id="apiPresetActive" style="min-width:82px;height:30px;padding:0 14px;border-radius:12px;background:#fff;border:1px solid rgba(96,165,250,.5);box-shadow:0 8px 18px rgba(59,130,246,.12);font-size:12px;font-weight:700;color:#0f172a;display:flex;align-items:center;justify-content:center"></div>
+            <div class="api-preview-preset" style="min-width:82px;height:30px;padding:0 14px;border-radius:12px;background:#fff;border:1px solid rgba(226,232,240,.96);font-size:12px;font-weight:700;color:#334155;display:flex;align-items:center;justify-content:center">自定义配置</div>
+          </div>
+          <div class="api-preview-provider" style="display:flex;flex-direction:column;align-items:center;margin-bottom:16px">
+            <div class="api-preview-provider-badge" id="apiProviderBadge" style="width:52px;height:52px;border-radius:12px;background:#f4f4f5;display:flex;align-items:center;justify-content:center;font-size:24px;color:#475569;margin-bottom:6px"></div>
+            <div class="api-preview-provider-name" id="apiProviderName" style="font-size:14px;font-weight:700;color:#111827"></div>
+          </div>
+          <div class="api-preview-form" style="display:grid;gap:12px">
+            <div class="api-preview-field-row" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div class="api-preview-field" style="display:grid;gap:5px">
+                <div class="api-preview-label" id="apiFieldOneLabel" style="font-size:12px;color:#64748b;font-weight:500"></div>
+                <div class="api-preview-input" id="apiFieldOne" style="width:100%;padding:10px 12px;border:1px solid rgba(210,218,229,.95);border-radius:12px;font-size:13px;background:rgba(255,255,255,.84);box-shadow:inset 0 1px 0 rgba(255,255,255,.85)"></div>
+                <div class="api-preview-field-helper" id="apiFieldOneError" style="font-size:11px;line-height:1.6;color:#ef4444;min-height:16px;padding:0 2px"></div>
+              </div>
+              <div class="api-preview-field" style="display:grid;gap:5px">
+                <div class="api-preview-label" id="apiFieldTwoLabel" style="font-size:12px;color:#64748b;font-weight:500"></div>
+                <div class="api-preview-input" id="apiFieldTwo" style="width:100%;padding:10px 12px;border:1px solid rgba(210,218,229,.95);border-radius:12px;font-size:13px;background:rgba(255,255,255,.84);box-shadow:inset 0 1px 0 rgba(255,255,255,.85)"></div>
+                <div class="api-preview-field-helper" id="apiFieldTwoError" style="font-size:11px;line-height:1.6;color:#ef4444;min-height:16px;padding:0 2px"></div>
+              </div>
+            </div>
+            <div class="api-preview-field" style="display:grid;gap:5px">
+              <div class="api-preview-label" id="apiFieldThreeLabel" style="font-size:12px;color:#64748b;font-weight:500"></div>
+              <div class="api-preview-input" id="apiFieldThree" style="width:100%;padding:10px 12px;border:1px solid rgba(210,218,229,.95);border-radius:12px;font-size:13px;background:rgba(255,255,255,.84);box-shadow:inset 0 1px 0 rgba(255,255,255,.85)"></div>
+              <div class="api-preview-field-helper" id="apiFieldThreeError" style="font-size:11px;line-height:1.6;color:#ef4444;min-height:16px;padding:0 2px"></div>
+            </div>
+            <div class="api-preview-field" style="display:grid;gap:5px">
+              <div class="api-preview-label" id="apiFieldFourLabel" style="font-size:12px;color:#64748b;font-weight:500"></div>
+              <div class="api-preview-input" id="apiFieldFour" style="width:100%;padding:10px 12px;border:1px solid rgba(210,218,229,.95);border-radius:12px;font-size:13px;background:rgba(255,255,255,.84);box-shadow:inset 0 1px 0 rgba(255,255,255,.85)"></div>
+              <div class="api-preview-field-helper" id="apiFieldFourError" style="font-size:11px;line-height:1.6;color:#ef4444;min-height:16px;padding:0 2px"></div>
+            </div>
+            <div class="api-preview-field" style="display:grid;gap:5px;margin-bottom:0">
+              <div class="api-preview-label" id="apiFieldFiveLabel" style="font-size:12px;color:#64748b;font-weight:500"></div>
+              <div class="api-preview-input" id="apiFieldFive" style="width:100%;padding:10px 12px;border:1px solid rgba(210,218,229,.95);border-radius:12px;font-size:13px;background:rgba(255,255,255,.84);box-shadow:inset 0 1px 0 rgba(255,255,255,.85)"></div>
+              <div class="api-preview-field-helper" id="apiFieldFiveError" style="font-size:11px;line-height:1.6;color:#ef4444;min-height:16px;padding:0 2px"></div>
+              <div class="api-preview-key-hint" id="apiKeyHint" style="font-size:12px;color:#94a3b8;line-height:1.6"></div>
+            </div>
+            <div class="api-preview-route-hint" id="apiRouteHint" style="background:#f0fdf9;border:1px solid #d1fae5;border-radius:8px;padding:11px 14px;margin-top:14px;font-size:12px;color:#64748b;line-height:1.7"></div>
+            <div class="api-preview-helper" id="apiPreviewError"></div>
+          </div>
+        </div>
+        <div class="api-preview-footer" style="padding:14px 22px 20px;display:flex;justify-content:flex-end;align-items:center;gap:10px;border-top:1px solid rgba(220,226,234,.9);background:#fff;flex-shrink:0">
+          <button class="api-preview-btn secondary" id="apiPreviewSecondary" type="button" style="background:rgba(255,255,255,.72);border:1px solid rgba(214,224,236,.96);color:#0f172a;padding:10px 18px;border-radius:12px;font-size:13px;font-weight:700"></button>
+          <button class="api-preview-btn primary" id="apiPreviewPrimary" type="button" style="background:linear-gradient(180deg,#2997ff,#0a84ff);color:#fff;padding:10px 18px;border-radius:12px;font-size:13px;font-weight:700;border:none">验证并拉取模型 →</button>
+        </div>
+      </div>
+      <div class="feedback-preview" id="feedbackPreview">
+        <div class="feedback-head">
+          <div>
+            <div class="feedback-title">反馈问题</div>
+            <div class="feedback-sub">仅收集这个软件在下载、安装、启动、模型调用和使用过程中的问题。</div>
+          </div>
+          <div class="feedback-chip">问题反馈</div>
+        </div>
+        <div class="feedback-source" id="feedbackSource"></div>
+        <div class="feedback-card">
+          <div>
+            <div class="feedback-label">问题类型</div>
+            <div class="feedback-radio-group" id="feedbackTypeGroup">
+              <label class="feedback-radio"><input type="radio" name="feedbackType" value="下载失败" checked><span class="feedback-radio-copy"><span class="feedback-radio-title">下载失败</span><span class="feedback-radio-desc">安装包下载慢、下载失败、下载中断</span></span></label>
+              <label class="feedback-radio"><input type="radio" name="feedbackType" value="安装失败"><span class="feedback-radio-copy"><span class="feedback-radio-title">安装失败</span><span class="feedback-radio-desc">安装报错、权限异常、安装后文件缺失</span></span></label>
+              <label class="feedback-radio"><input type="radio" name="feedbackType" value="启动失败"><span class="feedback-radio-copy"><span class="feedback-radio-title">启动失败</span><span class="feedback-radio-desc">软件打不开、闪退、启动后无响应</span></span></label>
+              <label class="feedback-radio"><input type="radio" name="feedbackType" value="模型调用失败"><span class="feedback-radio-copy"><span class="feedback-radio-title">模型调用失败</span><span class="feedback-radio-desc">模型无响应、调用报错、调用超时</span></span></label>
+              <label class="feedback-radio"><input type="radio" name="feedbackType" value="使用异常"><span class="feedback-radio-copy"><span class="feedback-radio-title">使用异常</span><span class="feedback-radio-desc">功能异常、界面异常、使用过程中报错</span></span></label>
+            </div>
+          </div>
+          <div>
+            <div class="feedback-label">问题描述</div>
+            <textarea class="feedback-textarea" id="feedbackDesc" placeholder="请描述你遇到的问题，例如：下载安装后打不开、模型调用一直超时、充值后仍无法正常使用。"></textarea>
+          </div>
+          <div>
+            <div class="feedback-label">联系方式</div>
+            <input class="feedback-input" id="feedbackContact" type="text" placeholder="选填，留下手机号或邮箱便于回访">
+          </div>
+          <div class="feedback-hint">建议补充报错步骤、出现时间和影响范围，方便快速定位问题。</div>
+        </div>
+        <div class="feedback-footer">
+          <button class="feedback-btn secondary" id="feedbackCancel" type="button">取消</button>
+          <button class="feedback-btn primary" id="feedbackSubmit" type="button">提交反馈</button>
+        </div>
+      </div>
+      <div class="modal-visual">
+        <div class="modal-badge" id="modalBadge"><span class="modal-badge-dot"></span></div>
+        <div class="modal-title-wrap">
+          <div class="modal-title" id="modalTitle"></div>
+        </div>
+        <div class="modal-message" id="modalMessage"></div>
+        <div class="form-preview" id="formPreview">
+          <div class="field-shell" id="fieldOne"></div>
+          <div class="field-shell hidden" id="fieldTwo"></div>
+          <div class="field-error" id="fieldError"></div>
+        </div>
+      </div>
+      <div class="agreement-box" id="agreementBox">
+        <span class="agreement-copy">请阅读并同意<span class="agreement-link">《用户协议》</span>与<span class="agreement-link">《隐私政策》</span></span>
+      </div>
+      <div class="modal-actions">
+        <button class="action-btn primary" id="primaryAction"></button>
+        <button class="action-btn secondary" id="secondaryAction"></button>
+      </div>
+      <button class="link-btn" id="assistAction"></button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const categories = [
+  {
+    id: 'login',
+    name: '登录异常',
+    badge: 'P0 链路',
+    badgeClass: 'red',
+    desc: '登录失败不用全部拆成独立页面，但至少要把核心失败场景的异常承接补出来，便于说明失败后用户看到了什么。',
+    scenes: [
+      {
+        title: '登录失败 · 手机号格式错误',
+        priority: 'P1',
+        type: '表单校验',
+        message: '',
+        loginPreview: {
+          mode: 'code',
+          field: 'phone',
+          error: '手机号码格式错误'
+        },
+        trigger: '用户输入的手机号格式不符合校验规则。',
+        desc: '手机号格式错误更适合直接在输入框下方提示，不需要额外解释。',
+        track: 'auth_login_fail / fail_reason=invalid_phone',
+        primary: '重新输入',
+        secondary: '取消',
+        assist: ''
+      },
+      {
+        title: '登录失败 · 验证码错误',
+        priority: 'P0',
+        type: '登录失败',
+        message: '',
+        loginPreview: {
+          mode: 'code',
+          field: 'code',
+          error: '验证码错误，请重新输入'
+        },
+        trigger: '用户提交登录后，后端返回验证码错误或验证码不匹配。',
+        desc: '弹窗明确告诉用户验证码错误，并提供重新输入或重新获取验证码的动作。',
+        track: 'auth_login_fail / fail_reason=invalid_code',
+        primary: '重新输入验证码',
+        secondary: '重新获取验证码',
+        assist: ''
+      },
+      {
+        title: '登录失败 · 账号或密码错误',
+        priority: 'P0',
+        type: '账号校验失败',
+        message: '',
+        loginPreview: {
+          mode: 'password',
+          field: 'password',
+          error: '账号或密码错误，请重新输入'
+        },
+        trigger: '用户提交账号密码后，后端返回账号或密码错误。',
+        desc: '账号密码类错误更适合贴着表单给出反馈，避免弹窗解释过多。',
+        track: 'auth_login_fail / fail_reason=invalid_credentials',
+        primary: '重新输入',
+        secondary: '找回密码',
+        assist: ''
+      },
+      {
+        title: '用户协议与隐私保护',
+        priority: 'P1',
+        type: '前端校验失败',
+        message: '',
+        messageHtml: '为继续使用 My tokens，<br>请先阅读并同意<a href="#" onclick="event.preventDefault()">《隐私政策》</a>与<a href="#" onclick="event.preventDefault()">《用户协议》</a>。',
+        requiresAgreement: true,
+        trigger: '用户点击登录 / 注册时，前端发现协议未勾选，需先完成协议确认后才能继续。',
+        desc: '协议确认属于继续登录前的前置动作，弹窗文案应直接说明“先同意，再继续”。',
+        track: 'auth_login_fail / fail_reason=agreement_unchecked',
+        primary: '同意并继续',
+        secondary: '拒绝并退出',
+        assist: ''
+      },
+      {
+        title: '登录失败 · 网络异常',
+        priority: 'P0',
+        type: '网络异常',
+        message: '网络异常，请检查网络设置',
+        display: 'toast',
+        trigger: '用户提交登录后，请求超时、断网或接口返回网络错误。',
+        desc: '提示当前网络不可用，并给出刷新重试动作，避免用户误以为账号有问题。',
+        track: 'auth_login_fail / fail_reason=network_error',
+        primary: '重新尝试',
+        secondary: '切换其他登录方式',
+        assist: ''
+      },
+      {
+        title: '登录失败 · 扫码二维码过期',
+        priority: 'P1',
+        type: '扫码超时',
+        message: '二维码已过期，请刷新后重试。',
+        loginPreview: {
+          mode: 'wechat',
+          error: '二维码已过期，请刷新后重试。',
+          actionLabel: '刷新二维码'
+        },
+        trigger: '用户使用微信扫码登录时，二维码超过有效时长，或状态已失效。',
+        desc: '这是典型的流程超时异常，重点不是报错，而是尽快给用户新的扫码入口。',
+        track: 'auth_login_fail / fail_reason=qrcode_expired',
+        primary: '刷新二维码',
+        secondary: '返回其他登录方式',
+        assist: ''
+      }
+    ]
+  },
+  {
+    id: 'tool',
+    name: '工具异常',
+    badge: 'P0 / P1',
+    badgeClass: 'red',
+    desc: '这组是一期最关键的异常原型缺口。因为你的目标之一就是让用户把 AI 工具顺利下载、安装、打开并真正使用。',
+    scenes: [
+      {
+        title: '工具安装失败',
+        priority: 'P0',
+        type: '安装异常',
+        message: '安装失败，请重新下载安装。',
+        trigger: '安装程序确认安装失败，如权限不足、安装包损坏、路径异常。',
+        desc: '弹窗要明确告诉用户失败原因，并提供重新下载安装的主路径。',
+        track: 'tool_install_fail + tool_reinstall_guide_view + tool_reinstall_click',
+        primary: '重新下载安装',
+        secondary: '查看安装帮助',
+        assist: '反馈问题'
+      },
+      {
+        title: '工具启动失败',
+        priority: 'P0',
+        type: '启动异常',
+        message: '工具暂时无法打开，请稍后重试。',
+        trigger: '客户端确认打开工具失败，如进程拉起失败、启动崩溃、文件缺失。',
+        desc: '适合作为“打不开引导弹层”的落地页，重点是告诉用户下一步该重装还是重下。',
+        track: 'tool_open_fail + tool_reopen_guide_view',
+        primary: '重新打开工具',
+        secondary: '重新安装工具',
+        assist: '反馈问题'
+      },
+      {
+        title: '工具文件缺失',
+        priority: 'P1',
+        type: '本地文件异常',
+        message: '未找到工具文件，请重新下载修复。',
+        trigger: '系统检测到工具快捷方式存在，但本地安装文件或执行文件已缺失。',
+        desc: '这类场景直接告诉用户文件缺失或找不到文件即可，不需要加入主观原因判断。',
+        track: 'tool_open_fail / exception_scene=file_missing',
+        primary: '重新下载修复',
+        secondary: '查看安装帮助',
+        assist: ''
+      },
+      {
+        title: '暂无可用模型',
+        priority: 'P0',
+        type: '模型未就绪',
+        message: 'Gemini 已安装成功，但现在没有可用 tokens。你可以先去订阅充值，或先配置可用模型。',
+        trigger: '工具已成功打开，但当前没有可用模型可调用，例如未配置模型、没有可用 tokens，或还未接入 API Key。',
+        desc: '这类场景不需要泛泛提示“检查配置”，而是要直接告诉用户当前缺少可用模型，并给出立刻恢复使用的入口。',
+        track: 'usage_request_success 对应反向异常承接 / first_call_after_payment_fail',
+        primary: '领取Lite 体验版',
+        primaryBubble: '新人福利',
+        secondary: '去配置模型',
+        assist: ''
+      }
+    ]
+  },
+  {
+    id: 'payment',
+    name: '支付异常',
+    badge: 'P0 链路',
+    badgeClass: 'yellow',
+    desc: '支付不是只看成功与否，还要补支付失败、生效失败、支付成功后仍不可用这些关键异常承接。',
+    scenes: [
+      {
+        title: '支付失败',
+        priority: 'P0',
+        type: '支付异常',
+        message: '支付未完成，请重新支付。',
+        trigger: '用户发起支付后，订单创建失败、渠道异常、超时、主动取消，或支付流程中断。',
+        desc: '这里不需要区分订阅和充值，统一告诉用户支付未完成，并给出重新支付和查看订单入口即可。',
+        track: 'subscription_pay_fail / topup_pay_fail',
+        primary: '重新支付',
+        secondary: '查看订单',
+        assist: ''
+      },
+      {
+        title: '支付成功！',
+        priority: 'P0',
+        type: '状态同步提示',
+        message: '支付成功后，请先关闭并重新打开当前 AI 工具，再继续使用。',
+        trigger: '用户支付成功后返回当前 AI 工具，或刚切换可用模型时，需要通过重新打开当前 AI 工具完成状态同步。',
+        desc: '这里直接按支付成功后的恢复提示处理，不需要再判断用户当前使用的是哪个具体客户端。',
+        track: 'entitlement_effective_fail / first_call_after_payment_fail',
+        primary: '我知道了',
+        secondary: '查看订单',
+        assist: ''
+      }
+    ]
+  },
+  {
+    id: 'apikey',
+    name: 'API Key 异常',
+    badge: 'P0 链路',
+    badgeClass: 'blue',
+    desc: 'API Key 相关异常不仅包括填写失败，还包括“配置成功了但还是不能用”的后置异常。',
+    scenes: [
+      {
+        title: 'API Key 校验失败',
+        priority: 'P0',
+        type: '配置失败',
+        message: '',
+        apiPreview: {
+          title: '添加新供应商',
+          sub: '填好供应商信息，选 4 个默认模型。单独接入某个工具：去 AI 工具管理 - 更换模型。',
+          providerBadge: 'TK',
+          providerName: '平台默认配置',
+          activePreset: '平台默认',
+          fields: [
+            { label: '供应商名称 *', value: '平台默认配置' },
+            { label: '备注（可选）', value: '例如：公司专用账号' },
+            { label: '官网 / API 文档地址', value: 'https://platform.mytokens.ai' },
+            { label: '请求地址', value: 'https://api.mytokens.ai/v1' },
+            { label: 'API Key *', value: 'sk-tk-8a2f************************', error: true, errorText: 'API Key 校验失败，请检查后重试。' }
+          ],
+          keyHint: '密钥仅用于转发请求，平台不会挪作他用。建议创建专用 Key。',
+          routeHint: '系统会拉取这个 API Key 下的全部可用模型。',
+          primary: '返回修改',
+          secondary: '取消'
+        },
+        trigger: '用户提交 API Key 后，系统校验失败，如 key 无效、地址错误、权限不足。',
+        desc: '弹窗要解释失败原因，并明确告诉用户需要改哪项输入。',
+        track: 'api_key_config_fail',
+        primary: '返回修改',
+        secondary: '查看填写示例',
+        assist: '查看填写规则'
+      },
+      {
+        title: '供应商已启用',
+        priority: 'P1',
+        tone: 'success',
+        type: '启用检测通过',
+        message: '重启当前 AI 工具后即可生效\n已切换至 阿里云百炼，连接正常 (1631ms)',
+        display: 'toast',
+        trigger: '用户在 AI 工具管理中点击“启用”后，系统自动完成供应商连通性检测，并确认当前供应商可正常访问。',
+        desc: '点击启用后先做自动检测；如果供应商连通正常，就用成功态弹窗反馈检测结果。',
+        track: 'supplier_enable_check_success',
+        primary: '我知道了',
+        secondary: '查看供应商配置',
+        assist: ''
+      },
+      {
+        title: '当前会话次数已用完',
+        priority: 'P1',
+        type: '订阅次数用尽',
+        message: '当前会话次数已用完，可以去充值余额，或者明天再来。会话次数将在每天00：00刷新。',
+        trigger: '用户点击“启用”后，系统检测供应商连通正常，但当前订阅用户的剩余会话次数等于 0。',
+        desc: '这是订阅用户的次数型限制提醒，不需要区分供应商是否外置，只需要告诉用户今天的会话次数已经用完。',
+        track: 'supplier_enable_session_quota_exhausted',
+        primary: '去订阅/充值',
+        secondary: '我知道了',
+        assist: ''
+      },
+      {
+        title: '当前未订阅/充值余额',
+        priority: 'P0',
+        type: '无订阅无余额',
+        message: '当前未订阅/充值余额，无法使用该模型。请订阅/充值后再使用。',
+        trigger: '用户点击“启用”后，系统检测供应商连通正常，但当前既没有订阅，也没有可用余额，包括外置供应商余额也为 0。',
+        desc: '这类是明确不可用的阻断提醒，需要直接引导用户去订阅或充值。',
+        track: 'supplier_enable_no_subscription_no_balance',
+        primary: '去订阅/充值',
+        secondary: '我知道了',
+        assist: ''
+      },
+      {
+        title: '当前余额不足 10 元',
+        priority: 'P1',
+        type: '余额预警',
+        message: '当前余额不足 10 元，继续使用可能导致模型请求失败。',
+        trigger: '用户点击“启用”后，系统检测供应商连通正常，当前无订阅但仍有可用余额，同时检测到账户余额小于等于 10 元，包括外置供应商余额。',
+        desc: '这类不是立即不可用，而是高风险预警，需要提醒用户继续使用可能失败，并给出充值入口。',
+        track: 'supplier_enable_balance_warn',
+        primary: '去订阅/充值',
+        secondary: '我知道了',
+        assist: ''
+      },
+      {
+        title: '供应商验证失败',
+        priority: 'P0',
+        type: '供应商校验失败',
+        message: '',
+        apiPreview: {
+          title: '添加新供应商',
+          sub: '填好供应商信息，选 4 个默认模型。单独接入某个工具：去 AI 工具管理 - 更换模型。',
+          providerBadge: 'SF',
+          providerName: 'StepFun',
+          activePreset: 'StepFun',
+          fields: [
+            { label: '供应商名称 *', value: 'StepFun' },
+            { label: '备注（可选）', value: '例如：公司专用账号' },
+            { label: '官网 / API 文档地址', value: 'https://platform.stepfun.com' },
+            { label: '请求地址', value: 'https://api.stepfun.com/v1' },
+            { label: 'API Key *', value: 'sk-step-************************', error: true, errorText: 'API Key 校验失败，请检查后重试。' }
+          ],
+          keyHint: '接入方能读取您的 API Key 资源的列出。',
+          routeHint: '系统会拉取这个 API Key 下的全部可用模型。',
+          primary: '返回修改',
+          secondary: '取消'
+        },
+        trigger: '用户提交供应商配置后，供应商校验接口返回失败。',
+        desc: '要让用户明确知道是 Key、地址还是权限问题，避免只看到“验证失败”四个字。',
+        track: 'supplier_verify_fail',
+        primary: '返回修改',
+        secondary: '查看填写示例',
+        assist: '查看接入说明'
+      },
+      {
+        title: '模型拉取失败',
+        priority: 'P1',
+        type: '模型同步失败',
+        message: '',
+        apiPreview: {
+          title: '添加新供应商',
+          sub: '填好供应商信息，选 4 个默认模型。单独接入某个工具：去 AI 工具管理 - 更换模型。',
+          providerBadge: 'MM',
+          providerName: 'MiniMax',
+          activePreset: 'MiniMax',
+          fields: [
+            { label: '供应商名称 *', value: 'MiniMax' },
+            { label: '备注（可选）', value: '例如：公司专用账号' },
+            { label: '官网 / API 文档地址', value: 'https://platform.minimaxi.com' },
+            { label: '请求地址', value: 'https://api.minimaxi.com/v1' },
+            { label: 'API Key *', value: 'sk-mm-************************' }
+          ],
+          keyHint: '请妥善保管供应商提供的 API Key，勿泄漏给他人。',
+          routeHint: '系统会拉取这个 API Key 下的全部可用模型。',
+          error: '模型拉取失败，请重新验证或检查供应商配置。',
+          primary: '重新验证并拉取模型',
+          secondary: '返回修改'
+        },
+        trigger: '用户提交供应商配置后，API Key 验证通过，但在拉取该供应商可用模型列表时失败。',
+        desc: '不需要单独弹一个新弹窗，直接复用当前配置弹窗，在表单底部提示“验证通过但模型拉取失败”更符合连续操作语义。',
+        track: 'supplier_model_sync_fail',
+        primary: '重新验证并拉取模型',
+        secondary: '返回修改',
+        assist: ''
+      }
+    ]
+  }
+];
+
+const navList = document.getElementById('navList');
+const sections = document.getElementById('sections');
+const modalMask = document.getElementById('modalMask');
+const modalClose = document.getElementById('modalClose');
+const modalTitle = document.getElementById('modalTitle');
+const modalMessage = document.getElementById('modalMessage');
+const loginPreview = document.getElementById('loginPreview');
+const loginErrorText = document.getElementById('loginErrorText');
+const loginWechatPanel = document.getElementById('loginWechatPanel');
+const loginPhonePanel = document.getElementById('loginPhonePanel');
+const loginQrExpired = document.getElementById('loginQrExpired');
+const loginQrExpiredCopy = document.getElementById('loginQrExpiredCopy');
+const loginQrRefreshBtn = document.getElementById('loginQrRefreshBtn');
+const phoneTabCode = document.getElementById('phoneTabCode');
+const phoneTabPassword = document.getElementById('phoneTabPassword');
+const loginPhoneField = document.getElementById('loginPhoneField');
+const loginPhoneError = document.getElementById('loginPhoneError');
+const codeModePanel = document.getElementById('codeModePanel');
+const loginCodeField = document.getElementById('loginCodeField');
+const loginCodeError = document.getElementById('loginCodeError');
+const passwordModePanel = document.getElementById('passwordModePanel');
+const loginPasswordField = document.getElementById('loginPasswordField');
+const loginPasswordError = document.getElementById('loginPasswordError');
+const apiPreview = document.getElementById('apiPreview');
+const apiPreviewTitle = document.getElementById('apiPreviewTitle');
+const apiPreviewSub = document.getElementById('apiPreviewSub');
+const apiPreviewChip = document.getElementById('apiPreviewChip');
+const apiPresetActive = document.getElementById('apiPresetActive');
+const apiProviderBadge = document.getElementById('apiProviderBadge');
+const apiProviderName = document.getElementById('apiProviderName');
+const apiFieldOneLabel = document.getElementById('apiFieldOneLabel');
+const apiFieldOne = document.getElementById('apiFieldOne');
+const apiFieldOneError = document.getElementById('apiFieldOneError');
+const apiFieldTwoLabel = document.getElementById('apiFieldTwoLabel');
+const apiFieldTwo = document.getElementById('apiFieldTwo');
+const apiFieldTwoError = document.getElementById('apiFieldTwoError');
+const apiFieldThreeLabel = document.getElementById('apiFieldThreeLabel');
+const apiFieldThree = document.getElementById('apiFieldThree');
+const apiFieldThreeError = document.getElementById('apiFieldThreeError');
+const apiFieldFourLabel = document.getElementById('apiFieldFourLabel');
+const apiFieldFour = document.getElementById('apiFieldFour');
+const apiFieldFourError = document.getElementById('apiFieldFourError');
+const apiFieldFiveLabel = document.getElementById('apiFieldFiveLabel');
+const apiFieldFive = document.getElementById('apiFieldFive');
+const apiFieldFiveError = document.getElementById('apiFieldFiveError');
+const apiKeyHint = document.getElementById('apiKeyHint');
+const apiRouteHint = document.getElementById('apiRouteHint');
+const apiPreviewError = document.getElementById('apiPreviewError');
+const apiPreviewPrimary = document.getElementById('apiPreviewPrimary');
+const apiPreviewSecondary = document.getElementById('apiPreviewSecondary');
+const feedbackPreview = document.getElementById('feedbackPreview');
+const feedbackSource = document.getElementById('feedbackSource');
+const feedbackDesc = document.getElementById('feedbackDesc');
+const feedbackContact = document.getElementById('feedbackContact');
+const feedbackCancel = document.getElementById('feedbackCancel');
+const feedbackSubmit = document.getElementById('feedbackSubmit');
+const formPreview = document.getElementById('formPreview');
+const fieldOne = document.getElementById('fieldOne');
+const fieldTwo = document.getElementById('fieldTwo');
+const fieldError = document.getElementById('fieldError');
+const agreementBox = document.getElementById('agreementBox');
+const modalBadge = document.getElementById('modalBadge');
+const primaryAction = document.getElementById('primaryAction');
+const secondaryAction = document.getElementById('secondaryAction');
+const assistAction = document.getElementById('assistAction');
+const modal = modalMask.querySelector('.modal');
+const toast = document.getElementById('toast');
+let toastTimer = null;
+let currentScene = null;
+
+function renderNav() {
+  navList.innerHTML = categories.map((item, index) => `
+    <button class="nav-btn ${index === 0 ? 'active' : ''}" data-target="${item.id}">${item.name}</button>
+  `).join('');
+
+  navList.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      navList.querySelectorAll('.nav-btn').forEach(node => node.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.target).scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+}
+
+function renderSections() {
+  sections.innerHTML = categories.map(category => `
+    <section class="section" id="${category.id}">
+      <div class="section-head">
+        <div class="section-copy">
+          <div class="section-title">${category.name}</div>
+          <div class="section-desc">${category.desc}</div>
+        </div>
+        <div class="section-badge ${category.badgeClass}">${category.badge}</div>
+      </div>
+      <div class="scene-grid">
+        ${category.scenes.map(scene => `
+          <article class="scene-card">
+            <div class="scene-top">
+              <div>
+                <div class="scene-title">${scene.title}</div>
+              </div>
+              <span class="scene-priority ${scene.priority.toLowerCase()}">${scene.priority}</span>
+            </div>
+            <div class="scene-desc">${scene.desc}</div>
+            <div class="chip-row">
+              <span class="chip">${scene.type}</span>
+              <span class="chip">${scene.track}</span>
+            </div>
+            <div class="panel-note">触发条件：${scene.trigger}</div>
+            <div class="scene-actions">
+              <button class="btn primary" data-scene='${JSON.stringify(scene).replace(/'/g, '&apos;')}'>查看异常弹窗</button>
+            </div>
+          </article>
+        `).join('')}
+      </div>
+    </section>
+  `).join('');
+
+  sections.querySelectorAll('.btn.primary[data-scene]').forEach(button => {
+    button.addEventListener('click', () => {
+      const scene = JSON.parse(button.dataset.scene.replace(/&apos;/g, "'"));
+      openModal(scene);
+    });
+  });
+}
+
+function openModal(scene) {
+  currentScene = scene;
+  if (scene.display === 'toast') {
+    showToast(scene.message);
+    return;
+  }
+  const isLoginPreview = Boolean(scene.loginPreview);
+  const isApiPreview = Boolean(scene.apiPreview);
+  const isAgreementMode = Boolean(scene.requiresAgreement);
+  feedbackPreview.classList.remove('show');
+  const tone = scene.priority === 'P0' ? 'theme-error' : scene.priority === 'P1' ? 'theme-warn' : 'theme-info';
+  modal.className = `modal ${tone}${isLoginPreview ? ' login-preview-mode' : ''}${isApiPreview ? ' api-preview-mode' : ''}${isAgreementMode ? ' agreement-mode' : ''}`;
+  loginPreview.classList.toggle('show', isLoginPreview);
+  apiPreview.classList.toggle('show', isApiPreview);
+  if (isLoginPreview) {
+    renderLoginPreview(scene.loginPreview);
+  }
+  if (isApiPreview) {
+    renderApiPreview(scene.apiPreview);
+  }
+  modalTitle.textContent = scene.title;
+  modalMessage.innerHTML = scene.messageHtml || '';
+  if (!scene.messageHtml) modalMessage.textContent = scene.message || scene.desc;
+  modalMessage.classList.toggle('hidden', !(scene.messageHtml || scene.message));
+  modalBadge.classList.toggle('hidden', Boolean(scene.requiresAgreement));
+  formPreview.classList.toggle('show', Boolean(scene.formPreview) && !isLoginPreview && !isApiPreview);
+  fieldOne.textContent = scene.formPreview?.fieldOne || '';
+  fieldOne.classList.toggle('error', Boolean(scene.formPreview));
+  fieldTwo.textContent = scene.formPreview?.fieldTwo || '';
+  fieldTwo.classList.toggle('hidden', !scene.formPreview?.fieldTwo);
+  fieldTwo.classList.toggle('error', Boolean(scene.formPreview?.fieldTwo));
+  fieldError.textContent = scene.formPreview?.error || '';
+  primaryAction.textContent = scene.primary;
+  primaryAction.dataset.bubble = scene.primaryBubble || '';
+  primaryAction.classList.toggle('has-bubble', Boolean(scene.primaryBubble));
+  primaryAction.classList.toggle('hidden', !scene.primary);
+  secondaryAction.textContent = scene.secondary;
+  secondaryAction.classList.toggle('hidden', !scene.secondary);
+  assistAction.textContent = scene.assist || '';
+  assistAction.classList.toggle('hidden', !scene.assist);
+  agreementBox.classList.remove('show');
+  modalMask.classList.add('open');
+  modalMask.setAttribute('aria-hidden', 'false');
+}
+
+function openFeedbackForm(scene) {
+  currentScene = scene;
+  modal.className = 'modal theme-info feedback-preview-mode';
+  loginPreview.classList.remove('show');
+  apiPreview.classList.remove('show');
+  formPreview.classList.remove('show');
+  agreementBox.classList.remove('show');
+  feedbackPreview.classList.add('show');
+  modalMessage.classList.add('hidden');
+  feedbackSource.textContent = `反馈来源：${scene?.title || '当前异常场景'}`;
+  feedbackDesc.value = '';
+  feedbackContact.value = '';
+  const firstType = feedbackPreview.querySelector('input[name="feedbackType"]');
+  if (firstType) firstType.checked = true;
+  modalMask.classList.add('open');
+  modalMask.setAttribute('aria-hidden', 'false');
+}
+
+function renderLoginPreview(config) {
+  loginErrorText.classList.remove('show');
+  loginErrorText.textContent = '';
+  loginWechatPanel.classList.add('hidden');
+  loginPhonePanel.classList.add('hidden');
+  loginQrExpired.classList.remove('show');
+  loginQrExpiredCopy.textContent = '';
+  loginQrRefreshBtn.textContent = '';
+  loginQrRefreshBtn.classList.add('hidden');
+  phoneTabCode.classList.toggle('on', config.mode === 'code');
+  phoneTabPassword.classList.toggle('on', config.mode === 'password');
+  codeModePanel.classList.toggle('hidden', config.mode !== 'code');
+  passwordModePanel.classList.toggle('hidden', config.mode !== 'password');
+  loginPhoneField.classList.remove('error');
+  loginCodeField.classList.remove('error');
+  loginPasswordField.classList.remove('error');
+  loginPhoneError.textContent = '';
+  loginCodeError.textContent = '';
+  loginPasswordError.textContent = '';
+
+  if (config.mode === 'wechat') {
+    loginWechatPanel.classList.remove('hidden');
+    loginQrExpired.classList.add('show');
+    loginQrExpiredCopy.textContent = config.error || '';
+    loginQrRefreshBtn.textContent = config.actionLabel || '';
+    loginQrRefreshBtn.classList.toggle('hidden', !config.actionLabel);
+    return;
+  }
+
+  loginPhonePanel.classList.remove('hidden');
+  if (config.field === 'phone') {
+    loginPhoneField.classList.add('error');
+    loginPhoneError.textContent = config.error || '';
+  }
+  if (config.field === 'code') {
+    loginCodeField.classList.add('error');
+    loginCodeError.textContent = config.error || '';
+  }
+  if (config.field === 'password') {
+    loginPasswordField.classList.add('error');
+    loginPasswordError.textContent = config.error || '';
+  }
+}
+
+function renderApiPreview(config) {
+  const fields = config.fields || [];
+  const fieldOneData = fields[0] || { label: '', value: '' };
+  const fieldTwoData = fields[1] || { label: '', value: '' };
+  const fieldThreeData = fields[2] || { label: '', value: '' };
+  const fieldFourData = fields[3] || { label: '', value: '' };
+  const fieldFiveData = fields[4] || { label: '', value: '' };
+
+  apiPreviewTitle.textContent = config.title || '';
+  apiPreviewSub.textContent = config.sub || '';
+  apiPresetActive.textContent = config.activePreset || '当前供应商';
+  apiProviderBadge.textContent = config.providerBadge || 'AI';
+  apiProviderName.textContent = config.providerName || '';
+
+  apiFieldOneLabel.textContent = fieldOneData.label || '';
+  apiFieldOne.textContent = fieldOneData.value || '';
+  apiFieldOne.classList.toggle('error', Boolean(fieldOneData.error));
+  apiFieldOneError.textContent = fieldOneData.error ? (fieldOneData.errorText || config.error || '') : '';
+
+  apiFieldTwoLabel.textContent = fieldTwoData.label || '';
+  apiFieldTwo.textContent = fieldTwoData.value || '';
+  apiFieldTwo.classList.toggle('error', Boolean(fieldTwoData.error));
+  apiFieldTwoError.textContent = fieldTwoData.error ? (fieldTwoData.errorText || config.error || '') : '';
+
+  apiFieldThreeLabel.textContent = fieldThreeData.label || '';
+  apiFieldThree.textContent = fieldThreeData.value || '';
+  apiFieldThree.classList.toggle('error', Boolean(fieldThreeData.error));
+  apiFieldThreeError.textContent = fieldThreeData.error ? (fieldThreeData.errorText || config.error || '') : '';
+
+  apiFieldFourLabel.textContent = fieldFourData.label || '';
+  apiFieldFour.textContent = fieldFourData.value || '';
+  apiFieldFour.classList.toggle('error', Boolean(fieldFourData.error));
+  apiFieldFourError.textContent = fieldFourData.error ? (fieldFourData.errorText || config.error || '') : '';
+
+  apiFieldFiveLabel.textContent = fieldFiveData.label || '';
+  apiFieldFive.textContent = fieldFiveData.value || '';
+  apiFieldFive.classList.toggle('error', Boolean(fieldFiveData.error));
+  apiFieldFiveError.textContent = fieldFiveData.error ? (fieldFiveData.errorText || config.error || '') : '';
+
+  apiKeyHint.textContent = config.keyHint || '';
+  apiRouteHint.innerHTML = config.routeHint ? `🔄 <b>验证通过后</b>：${config.routeHint}` : '';
+  apiPreviewError.textContent = config.error || '';
+  apiPreviewError.classList.toggle('show', Boolean(config.error));
+  apiPreviewPrimary.textContent = config.primary || '返回修改';
+  apiPreviewSecondary.textContent = config.secondary || '取消';
+}
+
+function closeModal() {
+  modalMask.classList.remove('open');
+  modalMask.setAttribute('aria-hidden', 'true');
+}
+
+function showToast(message) {
+  if (toastTimer) {
+    clearTimeout(toastTimer);
+  }
+  toast.textContent = message;
+  toast.classList.add('show');
+  toastTimer = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
+}
+
+modalClose.addEventListener('click', closeModal);
+assistAction.addEventListener('click', () => {
+  if (assistAction.textContent === '反馈问题') {
+    openFeedbackForm(currentScene);
+  }
+});
+feedbackCancel.addEventListener('click', closeModal);
+feedbackSubmit.addEventListener('click', () => {
+  closeModal();
+  showToast('问题已反馈，我们会尽快处理');
+});
+modalMask.addEventListener('click', event => {
+  if (event.target === modalMask) closeModal();
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') closeModal();
+});
+
+renderNav();
+renderSections();
+</script>
+</body>
+</html>
