@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wetokens</title>
+<title>My tokens</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -22,7 +22,6 @@
   --shadow-md:0 18px 40px rgba(15,23,42,.1);
 }
 body{font-family:'SF Pro Display','SF Pro Text','PingFang SC','Helvetica Neue','Microsoft YaHei UI',sans-serif;background:radial-gradient(circle at top left,rgba(255,255,255,.95),transparent 28%),radial-gradient(circle at top right,rgba(150,196,255,.28),transparent 24%),linear-gradient(180deg,#edf3fb 0%,#dde8f5 100%);color:var(--t);font-size:14px;line-height:1.5;min-height:100vh;display:grid;place-items:center;padding:28px}
-.external-scene-entry{position:fixed;top:34px;right:34px;z-index:40;display:flex;align-items:center;padding:10px 14px;border-radius:16px;background:rgba(255,255,255,.86);border:1px solid rgba(214,224,236,.96);box-shadow:0 16px 34px rgba(15,23,42,.1);backdrop-filter:blur(18px)}
 /* ── desktop frame ── */
 .desktop-frame{width:min(1480px,100%);height:min(920px,calc(100vh - 56px));min-height:720px;background:linear-gradient(180deg,rgba(255,255,255,.68),rgba(245,248,252,.84));border:1px solid rgba(255,255,255,.62);border-radius:22px;box-shadow:var(--shadow-lg);overflow:hidden;display:grid;grid-template-rows:54px minmax(0,1fr);position:relative;backdrop-filter:blur(28px)}
 .desktop-frame:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.2),transparent 14%,rgba(255,255,255,.08));pointer-events:none}
@@ -365,50 +364,6 @@ body{font-family:'SF Pro Display','SF Pro Text','PingFang SC','Helvetica Neue','
 .mo-ti{font-size:16px;font-weight:700;margin-bottom:6px}
 .mo-ds{font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:20px}
 .mo-ft{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
-.login-dialog{padding:26px 28px 30px;background:rgba(255,255,255,.9)}
-.login-close{position:absolute;top:16px;right:16px;cursor:pointer;font-size:18px;color:var(--t3);line-height:1}
-.login-brand{display:flex;align-items:center;gap:10px;margin-bottom:16px}
-.login-brand-icon{width:34px;height:34px;border-radius:11px;background:linear-gradient(180deg,#2f9cff,#0a84ff);display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 10px 18px rgba(10,132,255,.2)}
-.login-brand-icon svg{width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.login-brand-title{font-size:18px;font-weight:800;color:#1f2937;line-height:1.1}
-.login-section{margin-bottom:14px;padding:16px 14px 16px;border-radius:18px;background:linear-gradient(180deg,#f8fbff,#ffffff);border:1px solid rgba(191,219,254,.88);box-shadow:inset 0 1px 0 rgba(255,255,255,.82)}
-.login-wechat-title{text-align:center;font-size:16px;font-weight:800;color:#24476b;margin-bottom:14px}
-.login-qr-wrap{display:flex;justify-content:center;margin:0 0 16px}
-.login-qr-shell{width:182px;height:182px;border-radius:18px;padding:12px;background:#fff;border:1px solid rgba(226,232,240,.95);box-shadow:0 14px 28px rgba(15,23,42,.08);cursor:pointer;transition:transform .16s,box-shadow .16s,border-color .16s;display:flex;align-items:center;justify-content:center}
-.login-qr-shell:hover{transform:translateY(-1px);box-shadow:0 18px 34px rgba(15,23,42,.11);border-color:rgba(96,165,250,.28)}
-.login-qr-shell svg{display:block;width:156px;height:156px}
-.login-switch-row{text-align:center}
-.login-pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:122px;height:32px;padding:0 18px;border-radius:999px;background:#f8fafc;border:1px solid rgba(203,213,225,.96);font-size:12px;font-weight:600;color:#475569;cursor:pointer;transition:all .16s}
-.login-pill-btn:hover{background:#fff;border-color:rgba(147,197,253,.95);box-shadow:0 8px 18px rgba(15,23,42,.06)}
-.login-pill-ico{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;flex-shrink:0}
-.login-pill-ico.phone{color:#3b82f6}
-.login-pill-ico.wechat{color:#16a34a}
-.login-pill-ico svg{width:18px;height:18px;display:block}
-.login-phone-tabs{display:flex;align-items:center;justify-content:center;gap:18px;margin:2px 0 18px}
-.login-phone-tab{font-size:14px;color:#94a3b8;cursor:pointer;transition:color .16s}
-.login-phone-tab.on{color:#24476b;font-weight:800}
-.login-phone-form{display:grid;gap:14px}
-.login-inline-row{display:grid;grid-template-columns:minmax(0,1fr) 108px;gap:10px}
-.login-submit{margin-top:4px;margin-bottom:12px;height:40px;border-radius:10px;box-shadow:0 10px 20px rgba(10,132,255,.14)}
-.login-checkbox-row{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:10px;font-size:12px;color:var(--t2)}
-.login-checkbox-row label{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
-.login-foot-copy{text-align:center;font-size:12px;color:var(--t3)}
-.login-input{height:42px;border-radius:10px !important;background:#fff !important;box-shadow:none !important;border-color:rgba(203,213,225,.96) !important}
-.login-code-btn{height:42px;border-radius:10px !important;white-space:nowrap;flex-shrink:0;box-shadow:none !important;background:#f8fafc !important;border-color:rgba(203,213,225,.96) !important;color:#334155 !important}
-.login-code-btn:hover{background:#fff !important;border-color:rgba(147,197,253,.95) !important}
-.wechat-glyph{position:relative;display:block;width:18px;height:18px}
-.wechat-glyph:before,.wechat-glyph:after{content:"";position:absolute;border-radius:50%;background:currentColor}
-.wechat-glyph:before{width:11px;height:11px;left:0;top:5px}
-.wechat-glyph:after{width:13px;height:13px;right:0;top:1px}
-.wechat-glyph i,.wechat-glyph b,.wechat-glyph em,.wechat-glyph strong{position:absolute;display:block;width:2px;height:2px;border-radius:50%;background:#fff;z-index:1}
-.wechat-glyph i{left:4px;top:9px}
-.wechat-glyph b{left:7px;top:9px}
-.wechat-glyph em{right:5px;top:6px}
-.wechat-glyph strong{right:8px;top:6px}
-.wechat-glyph span,.wechat-glyph u{position:absolute;display:block;width:0;height:0;border-style:solid;z-index:0}
-.wechat-glyph span{left:1px;top:13px;border-width:3px 3px 0 0;border-color:currentColor transparent transparent transparent;transform:rotate(8deg)}
-.wechat-glyph u{right:1px;top:11px;border-width:3px 0 0 3px;border-color:currentColor transparent transparent transparent;transform:rotate(-8deg);text-decoration:none}
-.login-qr-badge .wechat-glyph{width:18px;height:18px}
 /* ── tabs ── */
 .tabs{display:flex;border-bottom:1px solid var(--bd);margin-bottom:20px}
 .tab{padding:8px 16px;cursor:pointer;font-size:13px;color:var(--t2);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
@@ -446,7 +401,7 @@ input:checked+.sl:before{transform:translateX(16px)}
 .brand-mark{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:14px;background:#f8fafc}
 .brand-mark img{width:100%;height:100%;display:block;object-fit:contain}
 .brand-fallback{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-size:12px;font-weight:800;letter-spacing:.02em;color:#334155}
-.ob-tool-logo{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 20px rgba(15,23,42,.06);border:1px solid rgba(214,224,236,.9);background:#fff;margin:0 auto 4px}
+.ob-tool-logo{width:40px;height:40px;border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 20px rgba(15,23,42,.06);border:1px solid rgba(214,224,236,.9);background:#fff;margin:0 auto 6px}
 .ob-tool-logo .brand-mark{width:100%;height:100%;border-radius:inherit}
 .tc-nm{font-size:14px;font-weight:700}
 .tc-vr{font-size:11px;color:var(--t3);margin-top:2px}
@@ -756,7 +711,6 @@ input:checked+.sl:before{transform:translateX(16px)}
 .tool-tab-title{display:grid;gap:4px;min-width:0}
 .tool-tab-name-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .tool-tab-meta{font-size:12px;color:var(--t2);line-height:1.6}
-.tool-tab-version{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:999px;background:#f8fafc;border:1px solid rgba(203,213,225,.92);font-size:11px;font-weight:600;color:#64748b;line-height:1;white-space:nowrap}
 .tool-tab-tags{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .tool-tab-stack{display:grid;gap:14px;min-height:100%;align-content:start}
 #p02.on{height:100%}
@@ -844,9 +798,8 @@ input:checked+.sl:before{transform:translateX(16px)}
 .builtin-picker-top{display:flex;align-items:flex-start;gap:10px;min-width:0}
 .builtin-picker-logo{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(226,232,240,.95);background:#f8fafc;overflow:hidden}
 .builtin-picker-copy{min-width:0;display:grid;gap:4px;flex:1}
-.builtin-picker-name{font-size:13px;font-weight:800;color:var(--t);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px}
+.builtin-picker-name{font-size:13px;font-weight:800;color:var(--t);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .builtin-picker-meta{font-size:11px;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.builtin-picker-badge{display:inline-flex;align-items:center;height:18px;padding:0 7px;border-radius:999px;background:#dbeafe;color:#1d4ed8;font-size:10px;font-weight:700;flex-shrink:0}
 .builtin-picker-empty{padding:36px 12px;text-align:center;font-size:12px;color:var(--t3);grid-column:1 / -1}
 .builtin-picker-footer{padding:14px 22px 20px;display:flex;justify-content:flex-end;gap:10px;border-top:1px solid var(--bd);background:#fff;border-radius:0 0 16px 16px;flex-shrink:0}
 #modelDetailOverlay{background:rgba(15,23,42,.24) !important;backdrop-filter:blur(10px)}
@@ -876,7 +829,7 @@ input:checked+.sl:before{transform:translateX(16px)}
 .ob-step-on{color:var(--a);border-bottom-color:var(--a);font-weight:700}
 .ob-step-num{width:20px;height:20px;border-radius:50%;background:var(--bd);color:var(--t3);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ob-step-on .ob-step-num{background:var(--a);color:#fff}
-.ob-tool-card{border:2px solid var(--bd);border-radius:10px;padding:12px 10px;cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px;transition:all .15s;min-height:132px;justify-content:center}
+.ob-tool-card{border:2px solid var(--bd);border-radius:10px;padding:14px;cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .15s}
 .ob-tool-card:hover{border-color:#8ed2c9}
 .ob-tool-on{border-color:var(--a)!important;background:var(--all)}
 .ob-guide-row{display:flex;align-items:flex-start;gap:12px;font-size:13px;color:var(--t2);line-height:1.7}
@@ -971,7 +924,6 @@ input:checked+.sl:before{transform:translateX(16px)}
 }
 @media (max-width:720px){
   .g2,.g3,.g4,.qg{grid-template-columns:1fr}
-  .external-scene-entry{top:16px;right:16px;left:16px;justify-content:flex-end;padding:10px 12px}
   .topbar{height:auto;min-height:58px;padding:12px 16px;align-items:flex-start;gap:10px;flex-direction:column}
   .win-left{min-width:0;gap:10px}
   .win-slogan{display:none}
@@ -1037,143 +989,26 @@ input:checked+.sl:before{transform:translateX(16px)}
      P00 · 登录（登录即注册，验证码模式，密码可选）
 ══════════════════════════════════════════════════ -->
 <div class="ov" id="ls">
-  <div class="mo mo-sm login-dialog" style="position:relative">
-    <div class="login-close" onclick="cm('ls')">✕</div>
-    <div class="login-brand">
-      <div class="login-brand-icon"><i data-lucide="panels-top-left"></i></div>
+  <div class="mo mo-sm" style="position:relative">
+    <div style="position:absolute;top:16px;right:16px;cursor:pointer;font-size:18px;color:var(--t3);line-height:1" onclick="cm('ls')">✕</div>
+    <div class="l-logo" style="margin-bottom:20px">
+      <div class="icon"><i data-lucide="panels-top-left"></i></div>
       <div>
-        <div class="login-brand-title">Wetokens</div>
+        <div class="name">My tokens</div>
+      </div>
+    </div>
+    <div class="fg">
+      <label class="fl">手机号</label>
+      <input class="fi" id="loginPhoneInput" type="text" placeholder="请输入手机号">
+    </div>
+    <div class="fg">
+      <label class="fl">验证码</label>
+      <div class="fxc g8">
+        <input class="fi" id="loginCodeInput" type="text" placeholder="请输入 6 位验证码" style="flex:1">
+        <button class="btn bo" id="sendCodeBtn" style="white-space:nowrap;flex-shrink:0" onclick="sendCode(this)">获取验证码</button>
       </div>
     </div>
     <div id="loginErrorText" style="display:none;margin:-6px 0 12px;font-size:12px;color:var(--er)"></div>
-    <div id="wechatLoginPanel" class="login-section">
-      <div class="login-wechat-title">
-        微信扫码登录
-      </div>
-      <div class="login-qr-wrap">
-        <div class="login-qr-shell" onclick="toApp()" title="原型中点击二维码模拟扫码登录">
-          <svg viewBox="0 0 156 156" aria-hidden="true">
-            <rect x="0" y="0" width="156" height="156" rx="18" fill="#ffffff"></rect>
-            <rect x="10" y="10" width="136" height="136" rx="14" fill="#ffffff" stroke="#e2e8f0"></rect>
-
-            <g fill="#111827">
-              <rect x="18" y="18" width="34" height="34" rx="6"></rect>
-              <rect x="24" y="24" width="22" height="22" rx="4" fill="#ffffff"></rect>
-              <rect x="29" y="29" width="12" height="12" rx="2" fill="#111827"></rect>
-
-              <rect x="104" y="18" width="34" height="34" rx="6"></rect>
-              <rect x="110" y="24" width="22" height="22" rx="4" fill="#ffffff"></rect>
-              <rect x="115" y="29" width="12" height="12" rx="2" fill="#111827"></rect>
-
-              <rect x="18" y="104" width="34" height="34" rx="6"></rect>
-              <rect x="24" y="110" width="22" height="22" rx="4" fill="#ffffff"></rect>
-              <rect x="29" y="115" width="12" height="12" rx="2" fill="#111827"></rect>
-
-              <rect x="62" y="18" width="6" height="6" rx="1"></rect>
-              <rect x="72" y="18" width="6" height="6" rx="1"></rect>
-              <rect x="82" y="18" width="6" height="6" rx="1"></rect>
-              <rect x="92" y="18" width="6" height="6" rx="1"></rect>
-
-              <rect x="58" y="30" width="10" height="6" rx="1"></rect>
-              <rect x="74" y="30" width="6" height="6" rx="1"></rect>
-              <rect x="86" y="30" width="12" height="6" rx="1"></rect>
-
-              <rect x="60" y="42" width="6" height="10" rx="1"></rect>
-              <rect x="72" y="42" width="14" height="6" rx="1"></rect>
-              <rect x="92" y="42" width="6" height="10" rx="1"></rect>
-
-              <rect x="18" y="62" width="8" height="8" rx="1"></rect>
-              <rect x="30" y="62" width="12" height="8" rx="1"></rect>
-              <rect x="48" y="62" width="8" height="8" rx="1"></rect>
-              <rect x="62" y="62" width="18" height="8" rx="1"></rect>
-              <rect x="86" y="62" width="8" height="8" rx="1"></rect>
-              <rect x="100" y="62" width="10" height="8" rx="1"></rect>
-              <rect x="116" y="62" width="22" height="8" rx="1"></rect>
-
-              <rect x="18" y="76" width="6" height="18" rx="1"></rect>
-              <rect x="30" y="76" width="10" height="6" rx="1"></rect>
-              <rect x="46" y="76" width="6" height="18" rx="1"></rect>
-              <rect x="58" y="76" width="8" height="6" rx="1"></rect>
-              <rect x="72" y="76" width="10" height="18" rx="1"></rect>
-              <rect x="88" y="76" width="6" height="6" rx="1"></rect>
-              <rect x="100" y="76" width="16" height="6" rx="1"></rect>
-              <rect x="122" y="76" width="16" height="18" rx="1"></rect>
-
-              <rect x="30" y="88" width="10" height="6" rx="1"></rect>
-              <rect x="58" y="88" width="8" height="6" rx="1"></rect>
-              <rect x="88" y="88" width="22" height="6" rx="1"></rect>
-
-              <rect x="62" y="104" width="6" height="6" rx="1"></rect>
-              <rect x="72" y="104" width="18" height="6" rx="1"></rect>
-              <rect x="96" y="104" width="6" height="6" rx="1"></rect>
-              <rect x="108" y="104" width="12" height="6" rx="1"></rect>
-              <rect x="126" y="104" width="12" height="6" rx="1"></rect>
-
-              <rect x="58" y="116" width="10" height="6" rx="1"></rect>
-              <rect x="74" y="116" width="6" height="18" rx="1"></rect>
-              <rect x="86" y="116" width="8" height="6" rx="1"></rect>
-              <rect x="100" y="116" width="6" height="18" rx="1"></rect>
-              <rect x="112" y="116" width="26" height="6" rx="1"></rect>
-
-              <rect x="58" y="128" width="10" height="10" rx="1"></rect>
-              <rect x="86" y="128" width="8" height="10" rx="1"></rect>
-              <rect x="112" y="128" width="8" height="10" rx="1"></rect>
-              <rect x="126" y="128" width="12" height="10" rx="1"></rect>
-            </g>
-
-            <g transform="translate(78 78)">
-              <rect x="-17" y="-17" width="34" height="34" rx="10" fill="#22c55e"></rect>
-              <g transform="translate(-9 -9) scale(.9)" fill="#ffffff">
-                <circle cx="7" cy="12" r="5"></circle>
-                <circle cx="13.5" cy="8.5" r="6"></circle>
-                <circle cx="5.5" cy="11" r=".9" fill="#22c55e"></circle>
-                <circle cx="8.2" cy="11" r=".9" fill="#22c55e"></circle>
-                <circle cx="11.4" cy="8.2" r="1" fill="#22c55e"></circle>
-                <circle cx="14.2" cy="8.2" r="1" fill="#22c55e"></circle>
-                <path d="M2.5 15.5l2.6-.9" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round"></path>
-                <path d="M17 13.2l2.8.8" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round"></path>
-              </g>
-            </g>
-          </svg>
-        </div>
-      </div>
-      <div class="login-switch-row">
-        <button class="login-pill-btn" type="button" onclick="setLoginMethod('phone')">
-          <span class="login-pill-ico phone">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="7" y="2.5" width="10" height="19" rx="2.5" fill="currentColor" opacity=".16"></rect>
-              <rect x="8.5" y="4" width="7" height="14" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.8"></rect>
-              <path d="M10.5 6.5h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
-              <circle cx="12" cy="16.8" r="1" fill="currentColor"></circle>
-            </svg>
-          </span>
-          <span>手机号登录</span>
-        </button>
-      </div>
-    </div>
-    <div id="phoneLoginPanel" class="login-section" style="display:none">
-      <div class="login-phone-tabs">
-        <span class="login-phone-tab on" id="phoneLoginTabCode" onclick="setPhoneLoginMode('code')">验证码登录</span>
-        <span class="login-phone-tab" id="phoneLoginTabPassword" onclick="setPhoneLoginMode('password')">密码登录</span>
-      </div>
-      <div class="login-phone-form">
-        <input class="fi login-input" id="loginPhoneInput" type="text" placeholder="请输入您的手机号">
-        <div id="phoneCodeModePanel" class="login-inline-row">
-          <input class="fi login-input" id="loginCodeInput" type="text" placeholder="验证码">
-          <button class="btn bo login-code-btn" id="sendCodeBtn" onclick="sendCode(this)">获取验证码</button>
-        </div>
-        <div id="phonePasswordModePanel" style="display:none">
-          <input class="fi login-input" id="loginPasswordInput" type="password" placeholder="请输入登录密码">
-        </div>
-        <button class="btn bp bfw login-submit" onclick="toApp()">登录 / 注册</button>
-      </div>
-      <div class="login-switch-row" style="margin-top:8px">
-        <button class="login-pill-btn" type="button" onclick="setLoginMethod('wechat')">
-          <span class="login-pill-ico wechat"><span class="wechat-glyph"><i></i><b></b><em></em><strong></strong><span></span><u></u></span></span>
-          <span>微信登录</span>
-        </button>
-      </div>
-    </div>
     <!-- 原型模拟：登录身份选择 -->
     <div style="margin-bottom:14px;padding:10px 12px;background:var(--all);border-radius:8px;border:1px solid var(--bd)">
       <div style="font-size:11px;color:var(--t3);margin-bottom:8px">🛠️ 原型模拟：选择登录身份</div>
@@ -1215,19 +1050,10 @@ input:checked+.sl:before{transform:translateX(16px)}
         </label>
       </div>
     </div>
-    <div class="login-checkbox-row">
-      <label>
-        <input type="checkbox" id="loginAutoCheck" checked style="width:14px;height:14px;accent-color:var(--a);cursor:pointer;flex-shrink:0">
-        <span>15天内自动登录</span>
-      </label>
-      <label>
-        <input type="checkbox" id="loginAgreeCheck" style="width:14px;height:14px;accent-color:var(--a);cursor:pointer;flex-shrink:0">
-        <span>已阅读并同意</span>
-        <span class="tac" style="color:var(--a);cursor:pointer">用户协议</span>
-      </label>
-    </div>
-    <div class="login-foot-copy">
-      登录即注册，未注册用户将自动创建账号
+    <button class="btn bp bfw" onclick="toApp()" style="margin-bottom:12px">登录 / 注册</button>
+    <div style="text-align:center;font-size:12px;color:var(--t3)">
+      未注册的手机号将自动创建账号 · 登录即代表同意
+      <span class="tac" style="cursor:pointer">用户协议</span>
     </div>
     <div style="text-align:center;margin-top:14px">
       <span style="font-size:12px;color:var(--t3);cursor:pointer" onclick="cm('ls')">暂不登录，先看看 →</span>
@@ -1238,14 +1064,11 @@ input:checked+.sl:before{transform:translateX(16px)}
 <!-- ══════════════════════════════════════════════════
      APP SHELL（直接展示，不强制登录）
 ══════════════════════════════════════════════════ -->
-<div class="external-scene-entry">
-  <button class="btn bo bsm" style="font-size:12px;padding:5px 12px;white-space:nowrap" onclick="window.open('./My tokens异常场景.html','_blank')">异常场景弹窗补充</button>
-</div>
 <div class="desktop-frame">
 <div class="win-bar">
   <div class="win-left">
-    <div class="win-title"><span class="win-dot"></span>Wetokens</div>
-    <div class="win-slogan">一键接入主流AI，畅用顶尖模型</div>
+    <div class="win-title"><span class="win-dot"></span>My tokens</div>
+    <div class="win-slogan">一键接入主流 AI，畅用顶尖模型</div>
   </div>
   <div class="win-btns" aria-hidden="true">
     <button class="win-btn">&#8212;</button>
@@ -1260,15 +1083,16 @@ input:checked+.sl:before{transform:translateX(16px)}
     <div class="sb-logo">
       <div class="ico"><i data-lucide="panels-top-left"></i></div>
       <div>
-        <div class="nm">Wetokens</div>
+        <div class="nm">My tokens</div>
         <div class="vr">v1.0.0</div>
       </div>
     </div>
     <nav class="sb-nav">
-      <div class="ni on" onclick="go('p01',this,'Tokens管理')"><span class="ic"><i data-lucide="layout-dashboard"></i></span>Tokens管理</div>
+      <div class="ni on" onclick="go('p01',this,'Tokens 管理')"><span class="ic"><i data-lucide="layout-dashboard"></i></span>Tokens 管理</div>
       <div class="ni" onclick="go('p02',this,'AI工具管理')"><span class="ic"><i data-lucide="package"></i></span>AI工具管理</div>
       <div class="ni" onclick="go('p03',this,'模型供应商')"><span class="ic"><i data-lucide="git-fork"></i></span>模型供应商</div>
       <div class="ni" onclick="go('p05',this,'订阅 / 充值');setTimeout(function(){switchBuyTab('subscription')},50)"><span class="ic"><i data-lucide="credit-card"></i></span>订阅 / 充值</div>
+      <div class="ni" onclick="(function(el){needLogin(function(){go('p05',el,'订单中心');setTimeout(function(){switchBuyTab('orders')},50)})})(this)"><span class="ic"><i data-lucide="receipt-text"></i></span>订单中心</div>
     </nav>
     <div class="sb-bot">
       <div class="ni" onclick="go('p08',this,'个人中心')"><span class="ic"><i data-lucide="settings"></i></span>个人中心</div>
@@ -1305,7 +1129,7 @@ input:checked+.sl:before{transform:translateX(16px)}
   <div class="main">
     <div class="topbar">
       <div class="tb-left">
-        <div class="tb-title" id="tbt">Tokens管理</div>
+        <div class="tb-title" id="tbt">总控台</div>
       </div>
       <div class="tb-r" style="gap:8px">
         <button class="btn bo bsm" style="font-size:12px;padding:5px 12px;white-space:nowrap" onclick="obStart()">AI 工具配置教程</button>
@@ -1326,8 +1150,8 @@ input:checked+.sl:before{transform:translateX(16px)}
 <div id="p01" class="pg on">
   <!-- 未登录 Hero -->
   <div id="heroGuest" class="hero" style="flex-direction:column;align-items:flex-start;gap:12px">
-    <div><h2 style="font-size:20px;font-weight:700;margin-bottom:6px">一键接入主流AI，畅用顶尖模型</h2>
-    <p style="font-size:13px;line-height:1.7">Wetokens，让 AI 工具部署更快、模型调用更稳、Tokens 管理更清晰。</p></div>
+    <div><h2 style="font-size:20px;font-weight:700;margin-bottom:6px">一站式接入主流 AI 与顶尖模型</h2>
+    <p style="font-size:13px;line-height:1.7">统一管理工具部署、模型调用、Tokens 与消耗记录，减少切换与重复配置，让使用更高效。</p></div>
   </div>
   <!-- 首页数据区域：游客可浏览结构，登录后展示真实数据 -->
   <div id="statsGuest" style="display:none"></div>
@@ -1346,12 +1170,7 @@ input:checked+.sl:before{transform:translateX(16px)}
         <button class="usage-insight-range" id="usageWindowToday" onclick="setUsageWindow('today')">今天</button>
         <button class="usage-insight-range" id="usageWindow7d" onclick="setUsageWindow('7d')">近7天</button>
         <button class="usage-insight-range on" id="usageWindow30d" onclick="setUsageWindow('30d')">近30天</button>
-        <span class="usage-insight-range" id="usageWindowCustom" style="display:inline-flex;align-items:center;gap:4px;padding:0 8px;cursor:pointer" onclick="openCustomDatePicker()">
-          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;opacity:.7"><rect x="1" y="2" width="14" height="13" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M5 1v2M11 1v2M1 6h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          <span id="usageCustomRangeLabel" style="font-size:12px;white-space:nowrap">自定义</span>
-          <input type="date" id="usageDateStart" style="position:absolute;opacity:0;pointer-events:none;width:0;height:0" onchange="onUsageDateChange()">
-          <input type="date" id="usageDateEnd" style="position:absolute;opacity:0;pointer-events:none;width:0;height:0" onchange="onUsageDateChange()">
-        </span>
+        <button class="usage-insight-range" id="usageWindowAll" onclick="setUsageWindow('all')">全部</button>
       </div>
     </div>
     <div class="uc-meta">
@@ -1396,15 +1215,17 @@ input:checked+.sl:before{transform:translateX(16px)}
 
 <div id="p05" class="pg">
   <div id="buyTabBar" style="display:flex;align-items:center;margin-bottom:16px">
-    <!-- 居中：Token Plan + 按量充值 -->
+    <!-- 居中：订阅制 + 按量充值 -->
     <div style="flex:1;display:flex;justify-content:center">
       <div style="display:flex;background:#f4f4f5;border-radius:10px;padding:3px;gap:2px">
-        <button id="buyTab1" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:var(--a);color:#fff;box-shadow:0 2px 8px rgba(15,118,110,.25);border:none" onclick="switchBuyTab('subscription')">Token Plan</button>
+        <button id="buyTab1" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:var(--a);color:#fff;box-shadow:0 2px 8px rgba(15,118,110,.25);border:none" onclick="switchBuyTab('subscription')">订阅制</button>
         <button id="buyTab2" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchBuyTab('topup')">按量充值</button>
       </div>
     </div>
+    <!-- 靠右：订单记录 -->
+    <button id="buyTab3" class="btn bo bsm" style="font-size:13px;font-weight:600;border-radius:8px" onclick="switchBuyTab('orders')">订单记录</button>
   </div>
-  <!-- Tab1: Token Plan -->
+  <!-- Tab1: 订阅制 -->
   <div id="buyPanelSubscription">
   <div style="display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start">
   <!-- 左栏：套餐选择 + 规则 -->
@@ -1514,10 +1335,11 @@ input:checked+.sl:before{transform:translateX(16px)}
   <!-- 右栏：支付区（固定宽度，第一屏可见） -->
   <div class="card" style="position:sticky;top:16px;padding:16px">
     <div style="font-size:13px;font-weight:700;margin-bottom:10px">选择支付方式</div>
+    <!-- Tab 标签 -->
     <div class="pmtab-wrap">
-      <div class="pmtab on" data-method="hybrid"><span class="pmtab-icon">付</span><span class="pmtab-text">微信 / 支付宝扫码支付</span></div>
+      <div class="pmtab on" onclick="selPm(this,'sub')" data-method="wechat"><span class="pmtab-icon">微</span><span class="pmtab-text">微信支付</span></div>
+      <div class="pmtab" onclick="selPm(this,'sub')" data-method="alipay"><span class="pmtab-icon">支</span><span class="pmtab-text">支付宝</span></div>
     </div>
-    <div class="txs tgr" style="margin:-4px 0 12px;line-height:1.7">同一个二维码支持支付宝和微信两种支付方式。</div>
     <!-- 二维码区 -->
     <div id="subQrBox" style="text-align:center;background:#f8faf9;border:1px solid #d1fae5;border-radius:10px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;margin-bottom:10px">
         <svg width="140" height="140" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1535,8 +1357,9 @@ input:checked+.sl:before{transform:translateX(16px)}
           <rect x="40" y="64" width="4" height="4" fill="#222"/><rect x="56" y="64" width="4" height="4" fill="#222"/><rect x="72" y="64" width="4" height="4" fill="#222"/>
           <rect x="44" y="72" width="4" height="4" fill="#222"/><rect x="60" y="72" width="4" height="4" fill="#222"/><rect x="76" y="72" width="4" height="4" fill="#222"/>
           <rect x="40" y="80" width="4" height="4" fill="#222"/><rect x="52" y="80" width="4" height="4" fill="#222"/><rect x="64" y="80" width="4" height="4" fill="#222"/><rect x="80" y="80" width="4" height="4" fill="#222"/>
-          <rect id="subQrLogo" x="38" y="38" width="20" height="20" rx="4" fill="#0a84ff"/>
-          <text id="subQrLogoText" x="48" y="52" text-anchor="middle" font-size="12" fill="#fff" font-family="sans-serif">付</text>
+          <!-- 微信 logo 占位块 -->
+          <rect id="subQrLogo" x="38" y="38" width="20" height="20" rx="4" fill="#07c160"/>
+          <text id="subQrLogoText" x="48" y="52" text-anchor="middle" font-size="12" fill="#fff" font-family="sans-serif">微</text>
         </svg>
     </div>
     <div class="sep" style="margin:10px 0"></div>
@@ -1638,10 +1461,11 @@ input:checked+.sl:before{transform:translateX(16px)}
   <!-- 右栏：支付区（固定宽度，第一屏可见） -->
   <div class="card" style="position:sticky;top:16px;padding:16px">
     <div style="font-size:13px;font-weight:700;margin-bottom:10px">选择支付方式</div>
+    <!-- Tab 标签 -->
     <div class="pmtab-wrap">
-      <div class="pmtab on" data-method="hybrid"><span class="pmtab-icon">付</span><span class="pmtab-text">微信 / 支付宝扫码支付</span></div>
+      <div class="pmtab on" onclick="selPm(this,'topup')" data-method="wechat"><span class="pmtab-icon">微</span><span class="pmtab-text">微信支付</span></div>
+      <div class="pmtab" onclick="selPm(this,'topup')" data-method="alipay"><span class="pmtab-icon">支</span><span class="pmtab-text">支付宝</span></div>
     </div>
-    <div class="txs tgr" style="margin:-4px 0 12px;line-height:1.7">同一个二维码支持支付宝和微信两种支付方式。</div>
     <!-- 二维码区 -->
     <div id="topupQrBox" style="text-align:center;background:#f8faf9;border:1px solid #d1fae5;border-radius:10px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;margin-bottom:10px">
         <svg width="140" height="140" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1659,8 +1483,8 @@ input:checked+.sl:before{transform:translateX(16px)}
           <rect x="40" y="64" width="4" height="4" fill="#222"/><rect x="56" y="64" width="4" height="4" fill="#222"/><rect x="72" y="64" width="4" height="4" fill="#222"/>
           <rect x="44" y="72" width="4" height="4" fill="#222"/><rect x="60" y="72" width="4" height="4" fill="#222"/><rect x="76" y="72" width="4" height="4" fill="#222"/>
           <rect x="40" y="80" width="4" height="4" fill="#222"/><rect x="52" y="80" width="4" height="4" fill="#222"/><rect x="64" y="80" width="4" height="4" fill="#222"/><rect x="80" y="80" width="4" height="4" fill="#222"/>
-          <rect id="topupQrLogo" x="38" y="38" width="20" height="20" rx="4" fill="#0a84ff"/>
-          <text id="topupQrLogoText" x="48" y="52" text-anchor="middle" font-size="12" fill="#fff" font-family="sans-serif">付</text>
+          <rect id="topupQrLogo" x="38" y="38" width="20" height="20" rx="4" fill="#07c160"/>
+          <text id="topupQrLogoText" x="48" y="52" text-anchor="middle" font-size="12" fill="#fff" font-family="sans-serif">微</text>
         </svg>
     </div>
     <div class="sep" style="margin:10px 0"></div>
@@ -1782,7 +1606,6 @@ input:checked+.sl:before{transform:translateX(16px)}
     <div class="profile-center-body">
       <div class="profile-center-menu">
         <button class="profile-center-menu-btn on" type="button" data-target="profile" onclick="switchProfileSection('profile',this)"><span>账号资料</span></button>
-        <button class="profile-center-menu-btn" type="button" data-target="orders" onclick="switchProfileSection('orders',this)"><span>订单中心</span></button>
         <button class="profile-center-menu-btn" type="button" data-target="achievement" onclick="switchProfileSection('achievement',this)"><span>我的成就</span></button>
         <button class="profile-center-menu-btn" type="button" data-target="api" onclick="switchProfileSection('api',this)"><span>API Key</span></button>
         <button class="profile-center-menu-btn" type="button" data-target="notice" onclick="switchProfileSection('notice',this)"><span>通知设置</span></button>
@@ -1869,7 +1692,7 @@ input:checked+.sl:before{transform:translateX(16px)}
             <div style="background:#fff;border:1px solid var(--bd);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
               <div data-brand-key="claude-desktop" style="width:28px;height:28px;background:#f5f0eb;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0"></div>
               <div class="f1">
-                <div style="font-size:12px;font-weight:600">Claude</div>
+                <div style="font-size:12px;font-weight:600">Claude Desktop</div>
                 <div class="txs tgr">填入 Base URL + API Key，选择任意模型即可使用</div>
               </div>
               <button class="btn bo bsm" onclick="go('p02',nv(1),'AI工具管理')">去安装</button>
@@ -1877,7 +1700,7 @@ input:checked+.sl:before{transform:translateX(16px)}
             <div style="background:#fff;border:1px solid var(--bd);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
               <div data-brand-key="codex-cli" style="width:28px;height:28px;background:#f7f7f7;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0"></div>
               <div class="f1">
-                <div style="font-size:12px;font-weight:600">Codex / OpenCode</div>
+                <div style="font-size:12px;font-weight:600">Codex CLI / OpenCode</div>
                 <div class="txs tgr">设置 OPENAI_API_KEY 和 OPENAI_BASE_URL 环境变量</div>
               </div>
               <button class="btn bo bsm" onclick="go('p02',nv(1),'AI工具管理')">去安装</button>
@@ -1904,7 +1727,7 @@ input:checked+.sl:before{transform:translateX(16px)}
               <div class="profile-center-panel-title">订单中心</div>
               <div class="profile-center-panel-sub">把续费、充值和开票动作留在订单流里，个人中心只保留摘要和跳转。</div>
             </div>
-            <div class="fxc g8"><button class="btn bo bsm" type="button" onclick="syncProfileCenter();showToast('订单列表已刷新',1400)">刷新订单</button><button class="btn bp bsm" type="button" onclick="go('p05',nv(4),'订阅 / 充值');setTimeout(function(){switchBuyTab('subscription')},50)">继续续费</button></div>
+            <div class="fxc g8"><button class="btn bo bsm" type="button" onclick="go('p05',nv(4),'订单中心');setTimeout(function(){switchBuyTab('orders')},50)">查看订单</button><button class="btn bp bsm" type="button" onclick="go('p05',nv(4),'订阅 / 充值');setTimeout(function(){switchBuyTab('subscription')},50)">继续续费</button></div>
           </div>
           <div class="profile-center-order-grid">
             <div class="profile-center-order-card"><div id="profileOrderCount" class="profile-center-order-value">0</div><div class="profile-center-order-label">累计订单</div><div class="profile-center-order-sub">已产生的订阅与充值订单总数。</div></div>
@@ -2389,19 +2212,6 @@ input:checked+.sl:before{transform:translateX(16px)}
   </div>
 </div>
 
-<!-- M02A 无可用 tokens 提醒 -->
-<div class="ov" id="mNoTokenGuide">
-  <div class="mo mo-sm" style="text-align:center">
-    <div style="width:58px;height:58px;margin:0 auto 14px;border-radius:18px;background:linear-gradient(135deg,#fff7ed 0%,#ffedd5 100%);border:1px solid #fdba74;display:flex;align-items:center;justify-content:center;font-size:28px">⚠️</div>
-    <div class="mo-ti" id="mNoTokenGuideTitle">当前无法运行</div>
-    <div class="mo-ds" id="mNoTokenGuideDesc">没有可用 tokens。先领新人礼包，或用已有 API Key 接入。</div>
-    <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px">
-      <button class="btn bp bfw" onclick="cm('mNoTokenGuide');openLiteTrialOffer()">去领取新人礼包</button>
-      <button class="btn bo bfw" onclick="openNoTokenVendorSetup()">我已有 API Key</button>
-    </div>
-  </div>
-</div>
-
 <!-- M04 安装进度 -->
 <div class="ov" id="m04">
   <div class="mo mo-sm">
@@ -2414,19 +2224,6 @@ input:checked+.sl:before{transform:translateX(16px)}
     <div class="txs tlt">gemini-cli-v1.0.2-win64.exe · 42.3 MB / 62.1 MB</div>
     <div class="mo-ft">
       <button class="btn bgh" onclick="completeInstall()">安装完成</button>
-    </div>
-  </div>
-</div>
-
-<!-- M04A 打开启用检测 -->
-<div class="ov" id="mToolEnableGuide">
-  <div class="mo mo-sm" style="text-align:center">
-    <div style="width:58px;height:58px;margin:0 auto 14px;border-radius:18px;background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%);border:1px solid #93c5fd;display:flex;align-items:center;justify-content:center;font-size:28px">🧩</div>
-    <div class="mo-ti" id="mToolEnableGuideTitle">检测到工具已安装</div>
-    <div class="mo-ds" id="mToolEnableGuideDesc">Wetokens 已检测到你电脑上的 AI 工具，下一步将引导你完成启用。</div>
-    <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px">
-      <button class="btn bp bfw" id="mToolEnableGuidePrimaryBtn" onclick="confirmToolEnableGuide()">继续</button>
-      <button class="btn bo bfw" onclick="cm('mToolEnableGuide')">稍后再说</button>
     </div>
   </div>
 </div>
@@ -2614,25 +2411,28 @@ input:checked+.sl:before{transform:translateX(16px)}
 
 <!-- M13 新手引导 -->
 <div class="ov" id="m13" style="align-items:center;justify-content:center">
-  <div class="mo" style="width:min(760px,94vw);max-width:760px;padding:0;overflow:hidden">
+  <div class="mo" style="max-width:560px;padding:0;overflow:hidden">
     <!-- 标题头 -->
     <div style="padding:20px 28px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between">
       <div>
         <div style="font-size:16px;font-weight:800">🚀 AI 工具快速配置指南</div>
-        <div style="font-size:12px;color:var(--t3);margin-top:3px">按 4 步完成配置，看完就能开始使用 AI</div>
+        <div style="font-size:12px;color:var(--t3);margin-top:3px">4 步完成安装，5 分钟内开始使用 AI</div>
       </div>
       <button onclick="cm('m13')" style="border:none;background:none;font-size:20px;color:var(--t3);cursor:pointer;padding:4px;line-height:1">&#x2715;</button>
     </div>
     <!-- 步骤进度条 -->
     <div style="display:flex;border-bottom:1px solid var(--bd)">
       <div id="ob-step-1" class="ob-step ob-step-on" onclick="obGo(1)">
-        <div class="ob-step-num">1</div><span>选工具</span>
+        <div class="ob-step-num">1</div><span>安装工具</span>
       </div>
       <div id="ob-step-2" class="ob-step" onclick="obGo(2)">
-        <div class="ob-step-num">2</div><span>选模型</span>
+        <div class="ob-step-num">2</div><span>获取 Key</span>
       </div>
       <div id="ob-step-3" class="ob-step" onclick="obGo(3)">
-        <div class="ob-step-num">3</div><span>查设置</span>
+        <div class="ob-step-num">3</div><span>配置模型</span>
+      </div>
+      <div id="ob-step-4" class="ob-step" onclick="obGo(4)">
+        <div class="ob-step-num">4</div><span>开始使用</span>
       </div>
     </div>
     <!-- 步骤内容区 -->
@@ -2640,74 +2440,96 @@ input:checked+.sl:before{transform:translateX(16px)}
       <!-- Step 1 -->
       <div id="ob-panel-1" class="ob-panel">
         <div style="font-size:28px;margin-bottom:10px">🛠️</div>
-        <div style="font-size:16px;font-weight:800;margin-bottom:8px">第一步：选要用的工具</div>
-        <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:18px">在【AI工具管理】或【Tokens 管理】选择你要安装的工具，点击下载，按提示完成安装即可。</div>
-        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
-          <div class="ob-tool-card ob-tool-on" onclick="obSelectTool(this,'Claude')">
+        <div style="font-size:16px;font-weight:800;margin-bottom:8px">第一步：选择你要使用的 AI 工具</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:18px">以下是平台支持的全部 AI 工具，选择你常用的一个，后续教程会针对该工具展示配置步骤。</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="ob-tool-card ob-tool-on" onclick="obSelectTool(this,'Claude Desktop')">
             <div class="ob-tool-logo" data-brand-key="claude-desktop"></div>
-            <div style="font-weight:700;font-size:13px">Claude</div>
-            <div style="font-size:11px;color:var(--t3)">桌面产品 · 常用</div>
+            <div style="font-weight:700;font-size:13px">Claude Desktop</div>
+            <div style="font-size:11px;color:var(--t3)">图形界面 · 最常用</div>
           </div>
-          <div class="ob-tool-card" onclick="obSelectTool(this,'Codex')">
+          <div class="ob-tool-card" onclick="obSelectTool(this,'Codex CLI')">
             <div class="ob-tool-logo" data-brand-key="codex-cli"></div>
-            <div style="font-weight:700;font-size:13px">Codex</div>
-              <div style="font-size:11px;color:var(--t3)">桌面产品 · 开发</div>
+            <div style="font-weight:700;font-size:13px">Codex CLI</div>
+            <div style="font-size:11px;color:var(--t3)">命令行 · 开发者</div>
           </div>
           <div class="ob-tool-card" onclick="obSelectTool(this,'OpenCode')">
             <div class="ob-tool-logo" data-brand-key="opencode"></div>
             <div style="font-weight:700;font-size:13px">OpenCode</div>
-              <div style="font-size:11px;color:var(--t3)">桌面产品 · 工作区</div>
+            <div style="font-size:11px;color:var(--t3)">VSCode 插件</div>
           </div>
           <div class="ob-tool-card" onclick="obSelectTool(this,'Gemini CLI')">
             <div class="ob-tool-logo" data-brand-key="gemini"></div>
             <div style="font-weight:700;font-size:13px">Gemini CLI</div>
-            <div style="font-size:11px;color:var(--t3)">CLI 产品 · Google</div>
+            <div style="font-size:11px;color:var(--t3)">命令行 · Google</div>
           </div>
           <div class="ob-tool-card" onclick="obSelectTool(this,'OpenClaw')">
             <div class="ob-tool-logo" data-brand-key="openclaw"></div>
             <div style="font-weight:700;font-size:13px">OpenClaw</div>
-            <div style="font-size:11px;color:var(--t3)">桌面产品 · 轻量</div>
+            <div style="font-size:11px;color:var(--t3)">图形界面 · 轻量</div>
           </div>
           <div class="ob-tool-card" onclick="obSelectTool(this,'Hermes')">
             <div class="ob-tool-logo" data-brand-key="hermes"></div>
             <div style="font-weight:700;font-size:13px">Hermes</div>
-            <div style="font-size:11px;color:var(--t3)">桌面产品 · 协作</div>
+            <div style="font-size:11px;color:var(--t3)">多模态 · 进阶</div>
           </div>
+        </div>
+        <div style="margin-top:14px;padding:10px 14px;background:#f0fdf9;border-radius:8px;font-size:12px;color:var(--t2)">
+          💡 已选择：<span id="ob-selected-tool" style="color:var(--a);font-weight:700">Claude Desktop</span>　·　点击「下一步」查看该工具的配置教程
         </div>
       </div>
       <!-- Step 2 -->
       <div id="ob-panel-2" class="ob-panel" style="display:none">
         <div style="font-size:28px;margin-bottom:10px">🔑</div>
-        <div style="font-size:16px;font-weight:800;margin-bottom:8px">第二步：选模型来源</div>
-        <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:16px">平台购买和外部模型，二选一即可。</div>
-        <!-- 平台内置与外部供应商双路径 -->
+        <div style="font-size:16px;font-weight:800;margin-bottom:8px">第二步：生成你的 API Key</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:16px">你需要先在「设置」中生成一个专属转发 Key，再填入 AI 工具。生成后 Key 仅显示一次，请立即复制保存。</div>
+        <!-- 引导去设置生成 -->
         <div style="background:#f8fffe;border:1.5px solid #b2e0da;border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:14px">
           <div style="display:flex;align-items:flex-start;gap:12px">
             <div style="width:28px;height:28px;border-radius:50%;background:var(--a);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
-            <div style="font-size:13px;color:var(--t2);line-height:1.7"><strong>平台购买：</strong>直接用 <strong>平台接入</strong>，不用录供应商。</div>
+            <div style="font-size:13px;color:var(--t2);line-height:1.7">点击下方按钮，跳转到「设置 → API Key 管理」页面</div>
           </div>
           <div style="display:flex;align-items:flex-start;gap:12px">
             <div style="width:28px;height:28px;border-radius:50%;background:var(--a);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
-            <div style="font-size:13px;color:var(--t2);line-height:1.7"><strong>外部模型：</strong>去「模型供应商」填地址和 Key，保存即可。</div>
+            <div style="font-size:13px;color:var(--t2);line-height:1.7">点击「<strong>生成新 Key</strong>」，Key 仅显示一次，立即点复制</div>
           </div>
           <div style="display:flex;align-items:flex-start;gap:12px">
             <div style="width:28px;height:28px;border-radius:50%;background:var(--a);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
-            <div style="font-size:13px;color:var(--t2);line-height:1.7">最后回到 AI 工具管理，确认当前工具要用哪个模型。</div>
+            <div style="font-size:13px;color:var(--t2);line-height:1.7">复制完成后回到此引导，继续下一步配置</div>
           </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <button class="btn bo bsm" style="font-size:13px;padding:7px 18px" onclick="cm('m13');go('p03',document.querySelector('.ni[onclick*=p03]'),'模型供应商')">接外部模型</button>
-            <button class="btn bp bsm" style="font-size:13px;padding:7px 18px" onclick="cm('m13');go('p02',document.querySelector('.ni[onclick*=p02]'),'AI工具管理')">用平台模型</button>
-          </div>
+          <button class="btn bp bsm" style="align-self:flex-start;font-size:13px;padding:7px 18px" onclick="cm('m13');go('p08',document.querySelector('.ni[onclick*=p08]'),'设置')">前往设置 → 生成 API Key</button>
         </div>
         <div style="margin-top:12px;padding:10px 14px;background:#fffbeb;border-radius:8px;font-size:12px;color:#92400e">
-          新增供应商会默认同步到所有 AI 工具下；如果需要单独修改，可在 AI 工具管理页更换供应商或模型。
+          ⚠️ 生成的 Key 请妥善保管，不要分享给他人，唯一绑定你的账号。
         </div>
       </div>
       <!-- Step 3 -->
       <div id="ob-panel-3" class="ob-panel" style="display:none">
         <div style="font-size:28px;margin-bottom:10px">⚙️</div>
-        <div style="font-size:16px;font-weight:800;margin-bottom:8px">第三步：确认工具可直接使用</div>
+        <div style="font-size:16px;font-weight:800;margin-bottom:8px">第三步：在工具里填入 Key</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:16px">以 <span id="ob-tool-label" style="color:var(--a);font-weight:700">Claude Desktop</span> 为例：</div>
         <div id="ob-guide-steps" style="display:flex;flex-direction:column;gap:10px"></div>
+      </div>
+      <!-- Step 4 -->
+      <div id="ob-panel-4" class="ob-panel" style="display:none">
+        <div style="font-size:28px;margin-bottom:10px">🎉</div>
+        <div style="font-size:16px;font-weight:800;margin-bottom:8px">配置完成，开始使用吧！</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:18px">你现在可以在 AI 工具里直接发起对话，所有请求都会通过 My tokens 路由到你选择的模型。</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+          <div style="background:#f0fdf9;border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:22px;margin-bottom:4px">🚀</div>
+            <div style="font-size:12px;font-weight:700">今日剩余额度</div>
+            <div style="font-size:20px;font-weight:800;color:var(--a);margin-top:4px">13,426 T</div>
+          </div>
+          <div style="background:#f0fdf9;border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:22px;margin-bottom:4px">🤖</div>
+            <div style="font-size:12px;font-weight:700">可用模型</div>
+            <div style="font-size:20px;font-weight:800;color:var(--a);margin-top:4px">18 个</div>
+          </div>
+        </div>
+        <div style="padding:10px 14px;background:#f0fdf9;border-radius:8px;font-size:12px;color:var(--t2)">
+          💡 遇到问题？可随时在「模型供应商」里调整路由，或前往「AI工具管理」查看安装教程。
+        </div>
       </div>
     </div>
     <!-- 底部按钮 -->
@@ -2751,24 +2573,12 @@ input:checked+.sl:before{transform:translateX(16px)}
   </div>
 </div>
 
-<div class="ov" id="mDeleteVendorConfirm">
-  <div class="mo mo-sm" style="text-align:center">
-    <div style="font-size:44px;margin-bottom:12px">⚠️</div>
-    <div class="mo-ti">删除供应商</div>
-    <div class="mo-ds" id="deleteVendorConfirmDesc" style="line-height:1.8">删除后，所有 AI 工具都将无法继续使用该供应商提供的模型。</div>
-    <div class="mo-ft" style="justify-content:center;margin-top:8px">
-      <button class="btn bo" style="min-width:120px" onclick="cancelRemoveVendorConnection()">取消</button>
-      <button class="btn bp" style="min-width:120px;background:#ef4444;border-color:#ef4444" onclick="confirmRemoveVendorConnection()">确认删除</button>
-    </div>
-  </div>
-</div>
-
 <div class="ov" id="mBuiltinModelPicker">
   <div class="mo" style="width:min(820px,94vw);height:min(88vh,780px);padding:0;border-radius:16px;display:flex;flex-direction:column;overflow:hidden">
     <div style="padding:18px 22px 14px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:16px 16px 0 0;flex-shrink:0">
       <div>
         <div style="font-size:16px;font-weight:800;color:var(--t)" id="builtinModelPickerTitle">编辑内置模型</div>
-        <div style="font-size:12px;color:var(--t2);margin-top:4px" id="builtinModelPickerSubTitle">在编辑页里设置当前工具可用模型和模型映射。</div>
+        <div style="font-size:12px;color:var(--t2);margin-top:4px" id="builtinModelPickerSubTitle">在编辑页里设置当前工具可用模型和槽位映射。</div>
       </div>
       <button style="background:transparent;border:none;cursor:pointer;font-size:20px;color:var(--t3);line-height:1;padding:0 4px" onclick="closeBuiltinModelPicker()">✕</button>
     </div>
@@ -2875,7 +2685,6 @@ var currentCapFilters = [];
 var currentCtxFilter = 0;
 var _activeCtxBtn = null;
 var activeBuiltinModelToolKey = null;
-var activeBuiltinModelVendorName = null;
 var builtinModelDraft = null;
 var avEditingVendorName = '';
 var currentAddVendorToolKey = 'claude-desktop';
@@ -2972,42 +2781,6 @@ var addVendorToolProfiles = {
     step2Extra: ''
   }
 };
-
-function getGlobalVendorProfile(){
-  return {
-    title: '添加供应商',
-    profileHint: '统一维护供应商基础信息与全局路由，保存后可在所有 AI 工具中复用。',
-    presetHelper: '预设模型厂家 <span style="font-weight:400;color:var(--t3)">· 选择后自动带出官网与请求地址</span>',
-    apiUrlLabel: '请求地址',
-    keyLabel: 'API Key <span style="color:#ef4444">*</span>',
-    keyPlaceholder: 'sk-... / token-...',
-    keyHint: '这里填写供应商提供的 API Key 或访问凭证。',
-    routeHint: '开启后会把同一组模型同步到所有 AI 工具；如果后续在 AI 工具管理里单独改某个工具，全局路由会自动关闭。',
-    protocols: ['anthropic','openai','responses','gemini'],
-    defaultProtocol: 'anthropic',
-    singlePage: false,
-    step1Extra: '',
-    step2Extra: ''
-  };
-}
-
-function getGlobalVendorProfile(){
-  return {
-    title: '添加供应商',
-    profileHint: '统一维护供应商基础信息与全局路由，保存后可在所有 AI 工具中复用。',
-    presetHelper: '预设模型厂家 <span style="font-weight:400;color:var(--t3)">· 选择后自动带出官网与请求地址</span>',
-    apiUrlLabel: '请求地址',
-    keyLabel: 'API Key <span style="color:#ef4444">*</span>',
-    keyPlaceholder: 'sk-... / token-...',
-    keyHint: '这里填写供应商提供的 API Key 或访问凭证。',
-    routeHint: '开启后会把同一组模型同步到所有 AI 工具；如果后续在 AI 工具管理里单独改某个工具，全局路由会自动关闭。',
-    protocols: ['anthropic','openai','responses','gemini'],
-    defaultProtocol: 'anthropic',
-    singlePage: false,
-    step1Extra: '',
-    step2Extra: ''
-  };
-}
 
 function parseCtxNum(ctxStr){
   if(!ctxStr) return 0;
@@ -3204,11 +2977,9 @@ var appState = {
   },
   toolRouting: {
     'claude-desktop': {
-      name: 'Claude',
+      name: 'Claude Desktop',
       mode: 'multi',
       installed: true,
-      enabledInWetokens: false,
-      detectedModelReady: true,
       setupStatus: 'verified-ready',
       routingType: 'cc-shell',
       options: platformModelOptions.slice(),
@@ -3231,11 +3002,9 @@ var appState = {
       selection: 'DeepSeek V3'
     },
     'codex-cli': {
-      name: 'Codex',
+      name: 'Codex CLI',
       mode: 'single',
       installed: true,
-      enabledInWetokens: false,
-      detectedModelReady: true,
       setupStatus: 'verified-ready',
       routingType: 'cc-shell',
       options: platformModelOptions.slice(),
@@ -3245,8 +3014,6 @@ var appState = {
       name: 'OpenCode',
       mode: 'multi',
       installed: true,
-      enabledInWetokens: false,
-      detectedModelReady: false,
       setupStatus: 'verified-ready',
       routingType: 'cc-shell',
       options: platformModelOptions.slice(),
@@ -3256,8 +3023,6 @@ var appState = {
       name: 'Gemini CLI',
       mode: 'single',
       installed: false,
-      enabledInWetokens: false,
-      detectedModelReady: false,
       setupStatus: 'not-installed',
       routingType: 'cc-shell',
       options: platformModelOptions.slice(),
@@ -3267,8 +3032,6 @@ var appState = {
       name: 'OpenClaw',
       mode: 'single',
       installed: false,
-      enabledInWetokens: false,
-      detectedModelReady: false,
       setupStatus: 'not-installed',
       routingType: 'cc-shell',
       options: platformModelOptions.slice(),
@@ -3278,8 +3041,6 @@ var appState = {
       name: 'Hermes',
       mode: 'single',
       installed: false,
-      enabledInWetokens: false,
-      detectedModelReady: false,
       setupStatus: 'not-installed',
       routingType: 'cc-shell',
       options: platformModelOptions.slice(),
@@ -3292,9 +3053,9 @@ var appState = {
     { name: '高级包', remainingTokens: 50000, purchaseDate: '2026-05-12', expiryLabel: '11 个月后到期（2027-06-15）', expiryDate: '2027-06-15', statusText: '生效中', statusClass: 'bg', balanceValue: 25.5 }
   ],
   orders: [
-    { id:'MT2026070300123', planLabel:'Pro 专业版', paymentMethod:'扫码支付（微信 / 支付宝）', orderTime:'2026-07-03 10:25', validFrom:'2026-07-03', validTo:'2026-08-02', statusText:'支付成功', statusClass:'bg', amount:99, invoiceStatus:'ready', invoiceStatusText:'可申请', invoiceStatusClass:'bpu', invoiceType:'', invoiceTitle:'', invoiceEmail:'', invoiceTaxNo:'' },
-    { id:'MT2026062800088', planLabel:'Ultra 高阶版', paymentMethod:'扫码支付（微信 / 支付宝）', orderTime:'2026-06-28 15:40', validFrom:'2026-06-28', validTo:'2026-07-28', statusText:'支付成功', statusClass:'bg', amount:299, invoiceStatus:'processing', invoiceStatusText:'开票中', invoiceStatusClass:'by', invoiceType:'电子普通发票', invoiceTitle:'杭州云图科技有限公司', invoiceEmail:'finance@aitest.com', invoiceTaxNo:'91330100MA8XXXXX9K' },
-    { id:'MT2026062000055', planLabel:'Lite 体验版', paymentMethod:'扫码支付（微信 / 支付宝）', orderTime:'2026-06-20 09:12', validFrom:'2026-06-20', validTo:'2026-06-27', statusText:'支付成功', statusClass:'bg', amount:0.01, invoiceStatus:'issued', invoiceStatusText:'已开票', invoiceStatusClass:'bg', invoiceType:'电子普通发票', invoiceTitle:'雷蕾', invoiceEmail:'lele@example.com', invoiceTaxNo:'' },
+    { id:'MT2026070300123', planLabel:'Pro 专业版', paymentMethod:'微信支付', orderTime:'2026-07-03 10:25', validFrom:'2026-07-03', validTo:'2026-08-02', statusText:'支付成功', statusClass:'bg', amount:99, invoiceStatus:'ready', invoiceStatusText:'可申请', invoiceStatusClass:'bpu', invoiceType:'', invoiceTitle:'', invoiceEmail:'', invoiceTaxNo:'' },
+    { id:'MT2026062800088', planLabel:'Ultra 高阶版', paymentMethod:'支付宝', orderTime:'2026-06-28 15:40', validFrom:'2026-06-28', validTo:'2026-07-28', statusText:'支付成功', statusClass:'bg', amount:299, invoiceStatus:'processing', invoiceStatusText:'开票中', invoiceStatusClass:'by', invoiceType:'电子普通发票', invoiceTitle:'杭州云图科技有限公司', invoiceEmail:'finance@aitest.com', invoiceTaxNo:'91330100MA8XXXXX9K' },
+    { id:'MT2026062000055', planLabel:'Lite 体验版', paymentMethod:'微信支付', orderTime:'2026-06-20 09:12', validFrom:'2026-06-20', validTo:'2026-06-27', statusText:'支付成功', statusClass:'bg', amount:0.01, invoiceStatus:'issued', invoiceStatusText:'已开票', invoiceStatusClass:'bg', invoiceType:'电子普通发票', invoiceTitle:'雷蕾', invoiceEmail:'lele@example.com', invoiceTaxNo:'' },
     { id:'MT2026061000032', planLabel:'Pro Plus 进阶版', paymentMethod:'银行卡', orderTime:'2026-06-10 21:03', validFrom:'2026-06-10', validTo:'2026-07-10', statusText:'已退款', statusClass:'br', amount:199, invoiceStatus:'unavailable', invoiceStatusText:'不可开票', invoiceStatusClass:'bgr', invoiceType:'', invoiceTitle:'', invoiceEmail:'', invoiceTaxNo:'' }
   ],
   currentOrderFilter: '全部',
@@ -3344,10 +3105,10 @@ function getMemberBadgeDetail(){
     ultra: '开通 Ultra 高阶版后获得「领路人」勋章，代表你已进入高强度、重度使用的高阶档位。'
   };
   var shareMap = {
-    lite: '我已获得 Wetokens「初探者」勋章，开通 Lite 体验版，正式开始体验平台 AI 能力。',
-    pro: '我已获得 Wetokens「研习者」勋章，开通 Pro 专业版，解锁每天 16,667 次调用额度。',
-    proplus: '我已获得 Wetokens「笃行者」勋章，开通 Pro Plus 进阶版，解锁更高模型覆盖与每天 33,333 次调用额度。',
-    ultra: '我已获得 Wetokens「领路人」勋章，开通 Ultra 高阶版，解锁高阶模型与每天 66,667 次调用额度。'
+    lite: '我已获得 My tokens「初探者」勋章，开通 Lite 体验版，正式开始体验平台 AI 能力。',
+    pro: '我已获得 My tokens「研习者」勋章，开通 Pro 专业版，解锁每天 16,667 次调用额度。',
+    proplus: '我已获得 My tokens「笃行者」勋章，开通 Pro Plus 进阶版，解锁更高模型覆盖与每天 33,333 次调用额度。',
+    ultra: '我已获得 My tokens「领路人」勋章，开通 Ultra 高阶版，解锁高阶模型与每天 66,667 次调用额度。'
   };
   return {
     planName: planMeta.name,
@@ -3730,7 +3491,7 @@ function copyBadgeDetailShare(btn){
     copyText('【' + status.category + '】' + status.title + '：' + status.description + '。' + status.noteText, btn || null);
     return;
   }
-  var text = '我在 Wetokens 点亮了「' + status.title + '」' + status.levelLabel + ' · ' + status.subtitle + '，当前进度 ' + status.currentLabel + '，' + status.nextGapLabel + '。';
+  var text = '我在 My tokens 点亮了「' + status.title + '」' + status.levelLabel + ' · ' + status.subtitle + '，当前进度 ' + status.currentLabel + '，' + status.nextGapLabel + '。';
   copyText(text, btn || null);
 }
 
@@ -3830,12 +3591,7 @@ function renderBadgeHub(){
         +   '</div>'
         + '</div>';
     } else {
-      sbSubscriptionEntry.innerHTML = ''
-        + '<div style="padding:10px 12px;border:1px solid #dbe7ff;border-radius:14px;background:linear-gradient(180deg,#f8fbff 0%,#eef5ff 100%)">'
-        +   '<div style="font-size:12px;font-weight:700;color:var(--t1)">当前还没有可用 tokens</div>'
-        +   '<div style="margin-top:4px;font-size:11px;line-height:1.55;color:var(--t3)">先订阅套餐、充值余额，或者去模型供应商接入你外部购买的额度，不然工具运行不了。</div>'
-        +   '<button class="btn bp bsm sb-sub-cta" style="width:100%;margin-top:10px" onclick="go(\'p05\',nv(4),\'订阅 / 充值\');setTimeout(function(){switchBuyTab(\'subscription\')},50)">去订阅 / 充值</button>'
-        + '</div>';
+      sbSubscriptionEntry.innerHTML = '<button class="btn bp bsm sb-sub-cta" onclick="go(\'p05\',nv(3),\'订阅 / 充值\');setTimeout(function(){switchBuyTab(\'subscription\')},50)">订阅套餐</button>';
     }
   }
   if(sbAvatarMedal) sbAvatarMedal.textContent = latest && latest.icon ? latest.icon : '🏅';
@@ -3851,7 +3607,7 @@ function renderBadgeHub(){
     var achievementPercentile = document.getElementById(config.percentileId);
     var achievementSectionSub = document.getElementById(config.sectionSubId);
     var tracks = document.getElementById(config.tracksId);
-    var titleText = config.titleText ? config.titleText(joinedDays, unlockedCount, primary, closest, averageProgress) : ('已在 Wetokens 成长 ' + joinedDays + ' 天');
+    var titleText = config.titleText ? config.titleText(joinedDays, unlockedCount, primary, closest, averageProgress) : ('已在 My tokens 成长 ' + joinedDays + ' 天');
     var subText = config.subText ? config.subText(joinedDays, unlockedCount, primary, closest, averageProgress) : ('当前最具代表性的成就是「' + primary.title + '」，继续推进即可收集更多永久徽章。');
     var sectionSubText = config.sectionSubText ? config.sectionSubText(joinedDays, unlockedCount, primary, closest, averageProgress) : ('当前已永久收录 ' + unlockedCount + ' 枚，最近最接近解锁的是「' + closest.title + '」。');
 
@@ -3899,7 +3655,7 @@ function renderBadgeHub(){
     sectionSubId:'profileAchievementSectionSub',
     tracksId:'profileBadgeHubTracks',
     titleText:function(joinedDays, unlockedCount){
-      return '加入 Wetokens ' + joinedDays + ' 天，获得 ' + unlockedCount + ' 枚勋章';
+      return '加入 My tokens ' + joinedDays + ' 天，获得 ' + unlockedCount + ' 枚勋章';
     },
     subText:function(){
       return '继续保持，你离下一枚勋章已经更近了。';
@@ -3917,14 +3673,6 @@ function switchProfileSection(section, triggerEl){
   var target = document.getElementById('profileSection-' + section);
   if(target) target.classList.add('on');
   if(triggerEl) triggerEl.classList.add('on');
-}
-
-function openProfileOrders(triggerEl){
-  go('p08', triggerEl || document.querySelector('.sb-bot .ni'), '个人中心');
-  setTimeout(function(){
-    var btn = document.querySelector('.profile-center-menu-btn[data-target="orders"]');
-    switchProfileSection('orders', btn);
-  }, 50);
 }
 
 function syncProfileCenter(){
@@ -4038,8 +3786,8 @@ function shiftUsageDate(dateText, offset){
 
 function buildUsageMockRecords(endDate, totalDays){
   var modelDefs=[
-    { name:'Claude Haiku', tool:'Codex', toolModelLabel:'Codex · Haiku', badgeClass:'bpu', baseShare:0.428, shareWave:0.014, billing:'subscription', supplierType:'builtin', supplierLabel:'平台接入', hour:10, minute:18 },
-    { name:'DeepSeek V3', tool:'Claude', toolModelLabel:'Claude · DeepSeek V3', badgeClass:'bg', baseShare:0.342, shareWave:0.012, billing:'subscription', supplierType:'custom', supplierLabel:'阿里云百炼', hour:13, minute:26 },
+    { name:'Claude Haiku', tool:'Codex CLI', toolModelLabel:'Codex · Haiku', badgeClass:'bpu', baseShare:0.428, shareWave:0.014, billing:'subscription', supplierType:'builtin', supplierLabel:'平台接入', hour:10, minute:18 },
+    { name:'DeepSeek V3', tool:'Claude Desktop', toolModelLabel:'Claude · DeepSeek V3', badgeClass:'bg', baseShare:0.342, shareWave:0.012, billing:'subscription', supplierType:'custom', supplierLabel:'阿里云百炼', hour:13, minute:26 },
     { name:'Claude Sonnet', tool:'OpenCode', toolModelLabel:'OpenCode · Claude Sonnet', badgeClass:'bpu', baseShare:0.230, shareWave:0.010, billing:'topup', supplierType:'custom', supplierLabel:'Anthropic', hour:15, minute:42 }
   ];
   var weeklyBase=[2980, 3420, 3880, 3540, 4010, 3360, 2860];
@@ -4161,178 +3909,86 @@ function initUsageMockData(){
 initUsageMockData();
 
 var toolMeta = {
-  'claude-desktop': { name: 'Claude', version: 'v1.20186.1 · 已安装', typeLabel: '桌面版' },
-  'codex-cli': { name: 'Codex', version: 'v0.144.3 · 已安装', typeLabel: '桌面版' },
-  'opencode': { name: 'OpenCode', version: 'v1.17.20 · 已安装', typeLabel: '桌面版' },
-  gemini: { name: 'Gemini CLI', version: 'v0.50.0 · 已安装', typeLabel: 'CLI' },
+  'claude-desktop': { name: 'Claude', version: '桌面版 · v0.10.4 · 已安装' },
+  'codex-cli': { name: 'Codex', version: '命令行工具 · v1.2.1 · 已安装' },
+  'opencode': { name: 'OpenCode', version: 'v0.1.89 · 已安装' },
+  gemini: { name: 'Gemini CLI', version: 'v1.0.2 · 已安装' },
   deepseek: { name: 'DeepSeek Chat', version: 'v3.1.0 · 已安装' },
   kilocode: { name: 'Kilo Code', version: 'v0.2.0 · 已安装' },
   claudecode: { name: 'Claude Code', version: 'v1.0.0 · 已安装' },
-  openclaw: { name: 'OpenClaw', version: 'v2.1.0 · 已安装', typeLabel: '桌面版' },
-  hermes: { name: 'Hermes', version: 'v0.9.0 · 已安装', typeLabel: '桌面版' }
+  openclaw: { name: 'OpenClaw', version: 'v2.1.0 · 已安装' },
+  hermes: { name: 'Hermes', version: 'v0.9.0 · 已安装' }
 };
 
 var activeToolConfigKey = '';
 var toolUiMeta = {
   'claude-desktop': {
     title: 'Claude',
-    typeLabel: '桌面版',
-    installedLabel: 'v1.20186.1 · 已安装',
-    pendingLabel: '安装后显示',
-    overview: 'Anthropic 的 AI 产品，适合日常对话、内容创作和代码协作。',
+    installedLabel: '桌面版 · v0.10.4 · 已安装',
+    pendingLabel: '桌面版 · 未安装',
+    overview: 'Anthropic 桌面客户端，常用于本地对话与代码协作。',
     capabilities: ['桌面端', 'Anthropic', '代码协作'],
     routeLabel: 'Anthropic 兼容',
     configHint: '重点配置协议映射、角色别名和设置文件作用域。'
   },
   'codex-cli': {
     title: 'Codex',
-    typeLabel: '桌面版',
-    installedLabel: 'v0.144.3 · 已安装',
-    pendingLabel: '安装后显示',
-    overview: 'OpenAI 的代码产品，适合在仓库和开发任务中协同编码。',
-    capabilities: ['桌面端', '仓库上下文', '模型切换'],
+    installedLabel: '命令行工具 · v1.2.1 · 已安装',
+    pendingLabel: '命令行工具 · 未安装',
+    overview: '命令行代码助手，适合在终端里处理仓库任务。',
+    capabilities: ['CLI', '仓库上下文', '模型切换'],
     routeLabel: 'OpenAI 兼容',
     configHint: '重点配置默认模型、回退模型和终端上下文策略。'
   },
   opencode: {
     title: 'OpenCode',
-    typeLabel: '桌面版',
-    installedLabel: 'v1.17.20 · 已安装',
-    pendingLabel: '安装后显示',
-    overview: '本地多模型代码产品，适合在工作区里灵活切换模型。',
+    installedLabel: 'v0.1.89 · 已安装',
+    pendingLabel: '客户端 · 未安装',
+    overview: '开源代码助手，适合在本地工作区接入多模型。',
     capabilities: ['开源', '多模型', '工作区'],
     routeLabel: '多模型路由',
     configHint: '重点配置工作区可见范围、主备模型和轮询模式。'
   },
   gemini: {
-    title: 'Gemini CLI',
-    typeLabel: 'CLI',
-    installedLabel: 'v0.50.0 · 已安装',
-    pendingLabel: '安装后显示',
-    overview: 'Google 的命令行产品，通过 CLI 在项目上下文中调用 Gemini 模型。',
+    title: 'Gemini',
+    installedLabel: '命令行工具 · v1.0.2 · 已安装',
+    pendingLabel: '命令行工具 · 未安装',
+    overview: 'Google 命令行助手，可直接使用 Gemini 模型。',
     capabilities: ['CLI', 'Gemini', '项目上下文'],
     routeLabel: 'Gemini 原生',
     configHint: '重点配置 Native/兼容模式、项目作用域和内容安全层。'
   },
   openclaw: {
     title: 'OpenClaw',
-    typeLabel: '桌面版',
-    installedLabel: 'v2.1.0 · 已安装',
-    pendingLabel: '安装后显示',
-    overview: '轻量 AI 产品，适合快速发起会话和切换模型。',
+    installedLabel: '轻量客户端 · v2.1.0 · 已安装',
+    pendingLabel: '轻量客户端 · 未安装',
+    overview: '轻量 AI 客户端，适合快速发起会话和切换模型。',
     capabilities: ['轻量', '快速切换', '本地会话'],
     routeLabel: '轻量接入',
     configHint: '重点配置会话模式、本地缓存和快速路由策略。'
   },
   hermes: {
     title: 'Hermes',
-    typeLabel: '桌面版',
-    installedLabel: 'v0.9.0 · 已安装',
-    pendingLabel: '安装后显示',
-    overview: '团队协作型桌面产品，适合统一管理工作区和共享配置。',
-    capabilities: ['桌面端', '团队协作', '审计'],
+    installedLabel: '中控台 · v0.9.0 · 已安装',
+    pendingLabel: '中控台 · 未安装',
+    overview: '团队型 AI 工作台，适合统一管理工作区和协作配置。',
+    capabilities: ['团队协作', '工作区', '审计'],
     routeLabel: '控制台集成',
     configHint: '重点配置同步范围、团队模板与审计日志。'
   }
 };
 
 var toolConfigState = {
-  'claude-desktop': { primaryModel: 'DeepSeek V3', localProxyEnabled: true, accessMode: 'anthropic-route', rolePolicy: 'auto', settingsScope: 'global', autoInjectEnv: true },
-  'codex-cli': { primaryModel: 'DeepSeek V3', localProxyEnabled: true, proxyMode: 'local-route', shellProfile: 'balanced', fallbackModel: 'Claude Sonnet 4.5', repoContext: true },
-  opencode: { primaryModel: 'Gemini 1.5 Pro', localProxyEnabled: true, proxyMode: 'local-route', scheduling: 'primary-backup', backupModel: 'DeepSeek V3', workspaceScope: 'current', sharedHistory: true },
-  gemini: { primaryModel: 'Gemini 1.5 Pro', localProxyEnabled: true, proxyMode: 'local-route', protocolMode: 'native', projectScope: 'current-project', safetyGuard: true },
-  openclaw: { primaryModel: 'DeepSeek V3', localProxyEnabled: true, proxyMode: 'local-route', sessionMode: 'light', routePolicy: 'fastest', localCache: true },
-  hermes: { primaryModel: 'DeepSeek V3', localProxyEnabled: true, proxyMode: 'local-route', syncScope: 'workspace', teamPreset: 'engineering', auditLog: true }
+  'claude-desktop': { primaryModel: 'DeepSeek V3', accessMode: 'anthropic-route', rolePolicy: 'auto', settingsScope: 'global', autoInjectEnv: true },
+  'codex-cli': { primaryModel: 'DeepSeek V3', shellProfile: 'balanced', fallbackModel: 'Claude Sonnet 4.5', repoContext: true },
+  opencode: { primaryModel: 'Gemini 1.5 Pro', scheduling: 'primary-backup', backupModel: 'DeepSeek V3', workspaceScope: 'current', sharedHistory: true },
+  gemini: { primaryModel: 'Gemini 1.5 Pro', protocolMode: 'native', projectScope: 'current-project', safetyGuard: true },
+  openclaw: { primaryModel: 'DeepSeek V3', sessionMode: 'light', routePolicy: 'fastest', localCache: true },
+  hermes: { primaryModel: 'DeepSeek V3', syncScope: 'workspace', teamPreset: 'engineering', auditLog: true }
 };
 
 function cloneJsonData(value){
   return JSON.parse(JSON.stringify(value));
-}
-
-function showProxyHint(el){
-  var tooltip=getGlobalInfoHintTooltip();
-  tooltip.innerHTML='开启后请求经 CC Switch 本地转发，<br>自动适配协议，解决工具与供应商之间的协议兼容问题';
-  tooltip.style.display='block';
-  tooltip.style.visibility='hidden';
-  tooltip.removeAttribute('data-align');
-  tooltip.removeAttribute('data-placement');
-  var rect=el.getBoundingClientRect();
-  var tw=tooltip.offsetWidth, th=tooltip.offsetHeight, gap=8;
-  var left=rect.left+rect.width/2-tw/2;
-  if(left<8) left=8;
-  if(left+tw>window.innerWidth-8) left=window.innerWidth-8-tw;
-  var top=rect.top-th-gap;
-  var placement='top';
-  if(top<8){ top=rect.bottom+gap; placement='bottom'; }
-  tooltip.setAttribute('data-placement',placement);
-  var arrowLeft=rect.left+rect.width/2-left;
-  tooltip.style.setProperty('--ah',arrowLeft+'px');
-  tooltip.style.left=left+'px';
-  tooltip.style.top=top+'px';
-  tooltip.style.visibility='visible';
-}
-function hideProxyHint(){
-  var tooltip=document.getElementById('globalInfoHintTooltip');
-  if(tooltip) tooltip.style.display='none';
-}
-
-function toggleToolLocalProxy(toolKey, enabled){
-  if(!enabled){
-    // 关闭时弹确认提醒，防止误触
-    var checkbox = event && event.target;
-    if(checkbox) checkbox.checked = true; // 先视觉上恢复，等用户确认再真正关
-    var toolName = toolUiMeta[toolKey] ? toolUiMeta[toolKey].title : toolKey;
-    showProxyOffConfirm(toolKey, toolName);
-    return;
-  }
-  if(!toolConfigState[toolKey]) toolConfigState[toolKey]={};
-  toolConfigState[toolKey].localProxyEnabled=true;
-  renderToolUsageStats();
-  showToast(( toolUiMeta[toolKey] ? toolUiMeta[toolKey].title : toolKey) + ' CC Switch 已开启', 1600);
-}
-
-function showProxyOffConfirm(toolKey, toolName){
-  var existing=document.getElementById('proxyOffConfirmPanel');
-  if(existing) existing.remove();
-  var panel=document.createElement('div');
-  panel.id='proxyOffConfirmPanel';
-  panel.style.cssText='position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.32)';
-  panel.innerHTML=''
-    +'<div style="background:#fff;border-radius:14px;box-shadow:0 20px 48px rgba(15,23,42,.18);padding:28px 28px 22px;max-width:360px;width:calc(100% - 48px)">'
-    +'<div style="font-size:15px;font-weight:700;color:var(--t);margin-bottom:10px">关闭本地代理？</div>'
-    +'<div style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:20px">'
-    +'关闭后，<strong>'+toolName+'</strong> 的请求将不再经由 CC Switch 转发，直接连接供应商。<br>'
-    +'<span style="color:#dc2626">如果你用的是 Claude 官方 API，可以直连；如果接的是其他供应商，关闭后可能因协议不兼容而调用失败。</span>'
-    +'</div>'
-    +'<div style="display:flex;gap:10px;justify-content:flex-end">'
-    +'<button class="btn bo" style="height:36px;padding:0 18px;font-size:13px" onclick="document.getElementById(\'proxyOffConfirmPanel\').remove()">取消</button>'
-    +'<button class="btn" style="height:36px;padding:0 18px;font-size:13px;background:#dc2626;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:500" onclick="confirmProxyOff(\''+toolKey+'\')">确认关闭</button>'
-    +'</div>'
-    +'</div>';
-  panel.addEventListener('mousedown', function(e){ if(e.target===panel) panel.remove(); });
-  document.body.appendChild(panel);
-}
-
-function confirmProxyOff(toolKey){
-  document.getElementById('proxyOffConfirmPanel').remove();
-  if(!toolConfigState[toolKey]) toolConfigState[toolKey]={};
-  toolConfigState[toolKey].localProxyEnabled=false;
-  renderToolUsageStats();
-  showToast((toolUiMeta[toolKey] ? toolUiMeta[toolKey].title : toolKey) + ' CC Switch 已关闭', 1600);
-}
-
-function getToolLocalRouteMeta(toolKey){
-  var tool=appState.toolRouting[toolKey] || {};
-  var state=toolConfigState[toolKey] || {};
-  var enabled=tool.routingType === 'cc-shell' && state.localProxyEnabled !== false;
-  var modeLabel='统一代理路由';
-  if(toolKey === 'claude-desktop') modeLabel=state.accessMode === 'direct-proxy' ? '直连供应商' : 'Claude 兼容模式';
-  else if(state.proxyMode === 'direct') modeLabel='直连供应商';
-  return {
-    enabled: enabled,
-    statusText: enabled ? '已开启' : '已关闭',
-    modeLabel: modeLabel
-  };
 }
 
 var initialToolRoutingState = cloneJsonData(appState.toolRouting || {});
@@ -4427,65 +4083,33 @@ function getToolEnabledSummary(toolKey){
   if(isClaudeSlotTool(toolKey)){
     var slotMap=getClaudeSlotMap(toolKey);
     var filled=getClaudeSlotKeys().filter(function(slotKey){ return !!slotMap[slotKey]; });
-    var selectedModels=filled.map(function(slotKey){ return slotMap[slotKey]; }).filter(Boolean);
     return {
       count: filled.length,
-      text: '已选 ' + filled.length + ' 个模型',
-      detail: selectedModels.length ? selectedModels.join(' · ') : 'Sonnet / Opus / Haiku / Fable'
+      text: '已配置 ' + filled.length + ' / 4 个槽位',
+      detail: filled.length ? filled.map(function(slotKey){ return getClaudeSlotLabel(slotKey) + '：' + slotMap[slotKey]; }).join(' · ') : 'Sonnet / Opus / Haiku / Fable'
     };
   }
   var tool=appState.toolRouting[toolKey] || {};
-  var state=toolConfigState[toolKey] || {};
   var enabled=getToolEnabledModels(toolKey);
   var current=tool.selection || enabled[0] || '未设置';
-  if(toolKey === 'opencode'){
-    var scheduling=state.scheduling || 'single';
-    if(scheduling === 'primary-backup'){
-      return {
-        count: enabled.length,
-        text: '已选 ' + enabled.length + ' 个模型',
-        detail: enabled.join(' · ')
-      };
-    }
-    if(scheduling === 'round-robin'){
-      return {
-        count: enabled.length,
-        text: '已选 ' + enabled.length + ' 个模型',
-        detail: enabled.join(' · ')
-      };
-    }
-  }
-  if(toolKey === 'codex-cli'){
-    return {
-      count: enabled.length,
-      text: '已选 ' + enabled.length + ' 个模型',
-      detail: enabled.join(' · ')
-    };
-  }
   return {
     count: enabled.length,
     text: '已选 ' + enabled.length + ' 个模型',
-    detail: enabled.join(' · ')
+    detail: '当前生效：' + current
   };
 }
 
 function getToolStatusMeta(toolKey){
   var tool=appState.toolRouting[toolKey];
   if(!tool || !tool.installed || tool.setupStatus === 'not-installed') return { label:'未安装', badge:'bgr', tone:'未安装' };
-  if(!isToolEnabledInWetokens(toolKey)) return { label:'待启用', badge:'by', tone:'待启用' };
   if(tool.setupStatus === 'installed-unconfigured') return { label:'未配置', badge:'by', tone:'未配置' };
   if(tool.setupStatus === 'configured-unverified') return { label:'未验证', badge:'bpu', tone:'未验证' };
   return { label:'已安装', badge:'bg', tone:'已安装' };
 }
 
-function shouldShowToolStatusBadge(status){
-  if(!status || !status.label) return false;
-  return status.label !== '未安装' && status.label !== '待启用';
-}
-
 function getToolConfigSummary(toolKey){
   var state=toolConfigState[toolKey] || {};
-  if(toolKey === 'claude-desktop') return '连接方式：' + (state.accessMode === 'anthropic-route' ? 'Claude 兼容模式' : '直连供应商') + ' · 模型映射：' + (state.rolePolicy === 'auto' ? '自动映射' : '固定单模型');
+  if(toolKey === 'claude-desktop') return '模式：' + (state.accessMode === 'anthropic-route' ? 'Anthropic 兼容路由' : '直连代理') + ' · 角色：' + (state.rolePolicy === 'auto' ? '自动映射' : '强制单模型');
   if(toolKey === 'codex-cli') return 'Profile：' + (state.shellProfile === 'balanced' ? '平衡' : state.shellProfile === 'speed' ? '速度优先' : '推理优先') + ' · 回退：' + (state.fallbackModel || '未设置');
   if(toolKey === 'opencode') return '调度：' + (state.scheduling === 'primary-backup' ? '主备双模型' : state.scheduling === 'round-robin' ? '轮询' : '单模型') + ' · 工作区：' + (state.workspaceScope === 'current' ? '当前项目' : '全部工作区');
   if(toolKey === 'gemini') return '协议：' + (state.protocolMode === 'native' ? 'Gemini Native' : 'OpenAI 兼容') + ' · 作用域：' + (state.projectScope === 'current-project' ? '当前项目' : '全局');
@@ -4497,11 +4121,10 @@ function getToolConfigSummary(toolKey){
 function getToolActionButtons(toolKey){
   var tool=appState.toolRouting[toolKey];
   var status=getToolStatusMeta(toolKey);
-  var statusBadge=shouldShowToolStatusBadge(status) ? '<span class="bd2 ' + status.badge + '">' + status.label + '</span>' : '';
   if(!tool || !tool.installed){
-    return '<div class="tc-ft" data-tool-actions="' + toolKey + '">' + statusBadge + '<div class="fxc g6"><button class="btn bo bsm" onclick="openToolConfig(\'' + toolKey + '\')">配置要求</button><button class="btn bp bsm" onclick="startInstall(\'' + toolKey + '\')">下载安装</button></div></div>';
+    return '<div class="tc-ft" data-tool-actions="' + toolKey + '"><span class="bd2 ' + status.badge + '">' + status.label + '</span><div class="fxc g6"><button class="btn bo bsm" onclick="openToolConfig(\'' + toolKey + '\')">配置要求</button><button class="btn bp bsm" onclick="startInstall(\'' + toolKey + '\')">安装</button></div></div>';
   }
-  return '<div class="tc-ft">' + (shouldShowToolStatusBadge(status) ? '<span class="bd2 ' + status.badge + '">● ' + status.label + '</span>' : '') + '<div class="fxc g6"><button class="btn bo bsm" onclick="openToolConfig(\'' + toolKey + '\')">专属配置</button><button class="btn bo bsm" onclick="showToast(\'' + toolUiMeta[toolKey].title + ' 已是最新配置，后续可接更新接口\',1800)">更新</button><button class="btn bp bsm" onclick="launchTool(\'' + toolKey + '\')">' + (isToolEnabledInWetokens(toolKey) ? '打开' : '打开启用') + '</button></div></div>';
+  return '<div class="tc-ft"><span class="bd2 ' + status.badge + '">● ' + status.label + '</span><div class="fxc g6"><button class="btn bo bsm" onclick="openToolConfig(\'' + toolKey + '\')">专属配置</button><button class="btn bo bsm" onclick="showToast(\'' + toolUiMeta[toolKey].title + ' 已是最新配置，后续可接更新接口\',1800)">更新</button><button class="btn bp bsm" onclick="launchTool(\'' + toolKey + '\')">打开</button></div></div>';
 }
 
 function renderToolCards(){
@@ -4515,11 +4138,7 @@ function renderToolCards(){
   var currentModel=activeTool ? (getToolCurrentModel(activeToolKey) || activeTool.selection || '未设置') : '未设置';
   var originLabel=currentModel && currentModel !== '未设置' ? getModelOriginLabel(currentModel) : '未标记原厂';
   var providerLabel=getToolProviderLabel(activeToolKey);
-  var isInstalled=!!(activeTool && activeTool.installed);
-  var versionLabel=isInstalled ? activeMeta.installedLabel : '--';
-  var typeLabel=activeMeta.typeLabel || ((toolMeta[activeToolKey] || {}).typeLabel) || '';
-  var statusMeta=getToolStatusMeta(activeToolKey);
-  var statusBadgeHtml=shouldShowToolStatusBadge(statusMeta) ? '<span class="bd2 ' + statusMeta.badge + '">' + statusMeta.label + '</span>' : '';
+  var versionLabel=activeTool && activeTool.installed ? activeMeta.installedLabel : activeMeta.pendingLabel;
   var modelCount=activeTool && activeTool.options ? activeTool.options.length : 0;
   var toolLinkMap={
     'claude-desktop':'https://www.anthropic.com/claude-code',
@@ -4531,7 +4150,7 @@ function renderToolCards(){
   };
   grid.innerHTML='<div class="tool-hub-shell">'
     + '<div class="tool-hub-top">'
-    + '<div class="tool-hub-brand"><div class="tool-hub-brandmark">AI</div><div><div class="tool-hub-title">AI 工具中枢</div><div class="tool-hub-sub">这里展示一期支持的 6 个 AI 工具：Claude、Codex、OpenCode、Gemini CLI、OpenClaw、Hermes。点击上方切换后，可查看对应工具的安装、启用和模型配置状态。</div></div></div>'
+    + '<div class="tool-hub-brand"><div class="tool-hub-brandmark">AI</div><div><div class="tool-hub-title">AI 工具中枢</div><div class="tool-hub-sub">上方切换当前工具，页面只展开一个工具的主操作链，减少并排信息干扰。</div></div></div>'
     + '<div class="tool-hub-switches">'
     + allToolKeys.map(function(toolKey){
       var meta=toolUiMeta[toolKey];
@@ -4542,7 +4161,7 @@ function renderToolCards(){
     + '</div>'
     + '<div class="tool-hub-main">'
     + '<div class="tool-focus-row" data-tool-card="' + activeToolKey + '">'
-    + '<div><div class="tool-focus-head"><div class="tool-focus-handle"><span></span><span></span><span></span></div><div class="tc-ico" data-brand-key="' + activeToolKey + '"></div><div><div class="tool-focus-title"><div class="tool-focus-name">' + activeMeta.title + '</div>' + (typeLabel ? '<span class="bd2 bpu">' + typeLabel + '</span>' : '') + statusBadgeHtml + '</div><div class="tool-focus-meta">版本：' + versionLabel + '</div><a class="tool-focus-link" href="' + (toolLinkMap[activeToolKey] || '#') + '" onclick="return false;">' + (toolLinkMap[activeToolKey] || '未提供工具链接') + '</a></div></div></div>'
+    + '<div><div class="tool-focus-head"><div class="tool-focus-handle"><span></span><span></span><span></span></div><div class="tc-ico" data-brand-key="' + activeToolKey + '"></div><div><div class="tool-focus-title"><div class="tool-focus-name">' + activeMeta.title + '</div><span class="bd2 ' + getToolStatusMeta(activeToolKey).badge + '">' + getToolStatusMeta(activeToolKey).label + '</span></div><div class="tool-focus-meta">' + versionLabel + '</div><a class="tool-focus-link" href="' + (toolLinkMap[activeToolKey] || '#') + '" onclick="return false;">' + (toolLinkMap[activeToolKey] || '未提供工具链接') + '</a></div></div></div>'
     + '<div class="tc-badges">' + activeMeta.capabilities.map(function(label){ return '<span class="bd2 bpu">' + label + '</span>'; }).join('') + '</div>'
     + '<div class="tc-ds" style="margin-bottom:0">' + activeMeta.overview + '</div>'
     + '<div class="tool-focus-summary">'
@@ -4553,10 +4172,10 @@ function renderToolCards(){
     + '<div class="tool-focus-note"><strong>专属配置重点：</strong>' + activeMeta.configHint + '<br>' + getToolConfigSummary(activeToolKey) + '</div>'
     + '<div class="tool-focus-secondary"><div class="tool-focus-secondary-text">主页面只保留当前工具真正需要处理的状态与入口。其他工具通过顶部切换，不在这里并排展开。</div><div class="fxc g6"><span class="bd2 bg">已安装 ' + getInstalledToolCount() + ' / ' + allToolKeys.length + '</span></div></div>'
     + '</div>'
-    + '<div class="tool-focus-side"><div class="tool-focus-status">' + statusBadgeHtml + '</div><div class="tool-focus-actions">'
+    + '<div class="tool-focus-side"><div class="tool-focus-status"><span class="bd2 ' + getToolStatusMeta(activeToolKey).badge + '">' + getToolStatusMeta(activeToolKey).label + '</span></div><div class="tool-focus-actions">'
     + (activeTool && activeTool.installed
-      ? '<button class="btn bo bsm" onclick="openToolConfig(\'' + activeToolKey + '\')">专属配置</button><button class="btn bo bsm" onclick="showToast(\'' + activeMeta.title + ' 已是最新配置，后续可接更新接口\',1800)">更新</button><button class="btn bp bsm" onclick="launchTool(\'' + activeToolKey + '\')">' + (isToolEnabledInWetokens(activeToolKey) ? '打开' : '打开启用') + '</button>'
-      : '<button class="btn bo bsm" onclick="openToolConfig(\'' + activeToolKey + '\')">配置要求</button><button class="btn bp bsm" onclick="startInstall(\'' + activeToolKey + '\')">下载安装</button>')
+      ? '<button class="btn bo bsm" onclick="openToolConfig(\'' + activeToolKey + '\')">专属配置</button><button class="btn bo bsm" onclick="showToast(\'' + activeMeta.title + ' 已是最新配置，后续可接更新接口\',1800)">更新</button><button class="btn bp bsm" onclick="launchTool(\'' + activeToolKey + '\')">打开</button>'
+      : '<button class="btn bo bsm" onclick="openToolConfig(\'' + activeToolKey + '\')">配置要求</button><button class="btn bp bsm" onclick="startInstall(\'' + activeToolKey + '\')">安装</button>')
     + '</div></div>'
     + '</div>'
     + '</div>'
@@ -4591,15 +4210,6 @@ function getToolConfigBodyHtml(toolKey){
   var modelOptions=getToolEnabledModels(toolKey).map(function(item){ return { value:item, label:item }; });
   if(!modelOptions.length) modelOptions=(tool && tool.options && tool.options.length ? tool.options : platformModelOptions).map(function(item){ return { value:item, label:item }; });
   var providerLabel=getToolProviderLabel(toolKey);
-  var localRouteMeta=getToolLocalRouteMeta(toolKey);
-  var localRouteCard=tool && tool.routingType === 'cc-shell'
-    ? '<div class="tool-config-card"><h4>本地代理</h4><p>控制这个工具是否通过 CC Switch 接入模型，基础版只保留开关和连接方式。</p>'
-      + buildToolConfigToggle('本地代理', 'localProxyEnabled', state.localProxyEnabled !== false, '打开后由 CC Switch 统一转发请求，并自动处理兼容和地址适配。使用 Claude 官方 API 时，也可以关闭后直连供应商。')
-      + (toolKey === 'claude-desktop'
-        ? '<div class="tool-config-row" style="margin-top:14px"><label class="tool-config-label">当前连接方式</label><div class="fi" style="display:flex;align-items:center;height:36px;background:#f8fafc">' + localRouteMeta.modeLabel + '</div><div class="tool-config-help">Claude 的连接方式在下方“Claude 专属”中调整。</div></div>'
-        : buildToolConfigSelect('连接方式', 'proxyMode', [{value:'local-route',label:'本地代理（推荐）'},{value:'direct',label:'直连供应商'}], state.proxyMode || 'local-route', '这里选择是走本地代理，还是直接连接供应商。'))
-      + '</div>'
-    : '';
   var commonCard='<div class="tool-config-card tool-config-full"><h4>基础接入</h4><p>这里只保留所有工具都共通的信息，真正有差异的参数在下面按工具单独展示。</p>'
     + '<div class="tool-config-grid">'
     + '<div>' + buildToolConfigSelect('默认模型', 'primaryModel', modelOptions, state.primaryModel || tool.selection || '', '决定工具启动后优先使用哪个模型。') + '</div>'
@@ -4607,9 +4217,9 @@ function getToolConfigBodyHtml(toolKey){
     + '</div></div>';
   var specific='';
   if(toolKey === 'claude-desktop'){
-    specific='<div class="tool-config-card"><h4>Claude 专属</h4><p>重点在连接方式、模型映射和设置文件作用域。</p>'
-      + buildToolConfigSelect('连接方式', 'accessMode', [{value:'anthropic-route',label:'Claude 兼容模式（推荐）'},{value:'direct-proxy',label:'直连供应商'}], state.accessMode, '如果你使用 Claude 官方 API，可选直连供应商；接其他供应商时，通常用 Claude 兼容模式。')
-      + buildToolConfigSelect('模型映射', 'rolePolicy', [{value:'auto',label:'自动映射（默认）'},{value:'single',label:'固定使用单模型'}], state.rolePolicy, '系统会默认把供应商模型映射到 Claude 的角色槽位；你也可以在这里手动调整。')
+    specific='<div class="tool-config-card"><h4>Claude 专属</h4><p>重点在兼容协议、角色映射和设置文件作用域。</p>'
+      + buildToolConfigSelect('接入模式', 'accessMode', [{value:'anthropic-route',label:'Anthropic 兼容路由'},{value:'direct-proxy',label:'直连代理'}], state.accessMode, 'Claude 类工具通常需要兼容 Messages 格式。')
+      + buildToolConfigSelect('角色映射策略', 'rolePolicy', [{value:'auto',label:'自动 Sonnet / Opus / Haiku 映射'},{value:'single',label:'强制使用单模型'}], state.rolePolicy, '当供应商模型名与 Claude 角色不一致时，用这里做别名映射策略。')
       + '</div>'
       + '<div class="tool-config-card"><h4>设置文件</h4><p>决定写入全局还是工作区级配置。</p>'
       + buildToolConfigSelect('作用域', 'settingsScope', [{value:'global',label:'全局 ~/.claude/settings.json'},{value:'workspace',label:'当前工作区覆盖'}], state.settingsScope, '')
@@ -4620,7 +4230,7 @@ function getToolConfigBodyHtml(toolKey){
       + buildToolConfigSelect('运行 Profile', 'shellProfile', [{value:'balanced',label:'平衡'},{value:'speed',label:'速度优先'},{value:'reasoning',label:'推理优先'}], state.shellProfile, '决定默认 token 消耗和响应速度。')
       + buildToolConfigSelect('回退模型', 'fallbackModel', modelOptions, state.fallbackModel, '主模型失败时自动切换。')
       + '</div>'
-      + '<div class="tool-config-card"><h4>仓库上下文</h4><p>Codex 的上下文策略通常和仓库规模直接相关。</p>'
+      + '<div class="tool-config-card"><h4>仓库上下文</h4><p>Codex CLI 的上下文策略通常和仓库规模直接相关。</p>'
       + buildToolConfigToggle('读取仓库上下文', 'repoContext', !!state.repoContext, '开启后默认带上当前仓库上下文，适合代码解释与修改。')
       + '</div>';
   } else if(toolKey === 'opencode'){
@@ -4641,7 +4251,7 @@ function getToolConfigBodyHtml(toolKey){
       + buildToolConfigToggle('启用安全保护层', 'safetyGuard', !!state.safetyGuard, '将高风险内容先过安全规则，再发给实际模型。')
       + '</div>';
   } else if(toolKey === 'openclaw'){
-    specific='<div class="tool-config-card"><h4>OpenClaw 专属</h4><p>轻量桌面产品更适合做快速切换和轻缓存。</p>'
+    specific='<div class="tool-config-card"><h4>OpenClaw 专属</h4><p>轻量客户端更适合做快速切换和轻缓存。</p>'
       + buildToolConfigSelect('会话模式', 'sessionMode', [{value:'light',label:'轻量模式'},{value:'persistent',label:'持久会话'}], state.sessionMode, '')
       + buildToolConfigSelect('路由策略', 'routePolicy', [{value:'fastest',label:'最快可用'},{value:'cheap',label:'低成本优先'}], state.routePolicy, '')
       + '</div>'
@@ -4649,7 +4259,7 @@ function getToolConfigBodyHtml(toolKey){
       + buildToolConfigToggle('保留本地缓存', 'localCache', !!state.localCache, '适合频繁切换会话时保留最近一次模型上下文。')
       + '</div>';
   } else if(toolKey === 'hermes'){
-    specific='<div class="tool-config-card"><h4>Hermes 专属</h4><p>它是一款偏团队协作的桌面产品，核心在同步范围和团队预设。</p>'
+    specific='<div class="tool-config-card"><h4>Hermes 专属</h4><p>它更像一个中控台，核心在同步范围和团队预设。</p>'
       + buildToolConfigSelect('同步范围', 'syncScope', [{value:'workspace',label:'工作区'},{value:'team',label:'团队空间'}], state.syncScope, '')
       + buildToolConfigSelect('团队预设', 'teamPreset', [{value:'engineering',label:'研发团队'},{value:'general',label:'通用团队'}], state.teamPreset, '')
       + '</div>'
@@ -4657,7 +4267,7 @@ function getToolConfigBodyHtml(toolKey){
       + buildToolConfigToggle('开启审计日志', 'auditLog', !!state.auditLog, '记录模型切换、供应商变更和配置生效时间。')
       + '</div>';
   }
-  return '<div class="tool-config-grid">' + commonCard + localRouteCard + specific + '</div>';
+  return '<div class="tool-config-grid">' + commonCard + specific + '</div>';
 }
 
 function openToolConfig(toolKey){
@@ -4714,42 +4324,6 @@ function verifyTool(toolKey){
 // 直接进 App，不强制登录
 // 点击侧边栏"未登录"才弹登录框
 
-var currentLoginMethod='wechat';
-var currentPhoneLoginMode='code';
-
-function setLoginMethod(method){
-  currentLoginMethod=method === 'phone' ? 'phone' : 'wechat';
-  updateLoginMethod();
-}
-
-function setPhoneLoginMode(mode){
-  currentPhoneLoginMode=mode === 'password' ? 'password' : 'code';
-  updatePhoneLoginMode();
-}
-
-function updatePhoneLoginMode(){
-  var codeTab=document.getElementById('phoneLoginTabCode');
-  var passwordTab=document.getElementById('phoneLoginTabPassword');
-  var codePanel=document.getElementById('phoneCodeModePanel');
-  var passwordPanel=document.getElementById('phonePasswordModePanel');
-  var mode=currentPhoneLoginMode || 'code';
-  if(codeTab) codeTab.classList.toggle('on', mode === 'code');
-  if(passwordTab) passwordTab.classList.toggle('on', mode === 'password');
-  if(codePanel) codePanel.style.display=mode === 'code' ? 'grid' : 'none';
-  if(passwordPanel) passwordPanel.style.display=mode === 'password' ? 'block' : 'none';
-}
-
-function updateLoginMethod(){
-  var method=currentLoginMethod || 'wechat';
-  var wechatPanel=document.getElementById('wechatLoginPanel');
-  var phonePanel=document.getElementById('phoneLoginPanel');
-  var errorEl=document.getElementById('loginErrorText');
-  if(wechatPanel) wechatPanel.style.display=method === 'wechat' ? 'block' : 'none';
-  if(phonePanel) phonePanel.style.display=method === 'phone' ? 'block' : 'none';
-  if(method === 'phone') updatePhoneLoginMode();
-  if(errorEl) errorEl.style.display='none';
-}
-
 function updateRoleOpt(){
   var selected = document.querySelector('input[name="loginRole"]:checked');
   var selectedValue = selected ? selected.value : 'pro';
@@ -4761,14 +4335,6 @@ function updateRoleOpt(){
 function toApp(){
   var errorEl=document.getElementById('loginErrorText');
   if(errorEl) errorEl.style.display='none';
-  var agreeCheck=document.getElementById('loginAgreeCheck');
-  if(agreeCheck && !agreeCheck.checked){
-    if(errorEl){
-      errorEl.textContent='请先阅读并同意用户协议';
-      errorEl.style.display='block';
-    }
-    return;
-  }
   // 读取身份选择，设置 userPlan
   var roleEl = document.querySelector('input[name="loginRole"]:checked');
   var role = roleEl ? roleEl.value : 'pro';
@@ -4805,23 +4371,6 @@ function syncUsageDerivedBalances(){
   userTokensBalance=Math.max(0, (userPlan && userPlan.dailyTokens ? userPlan.dailyTokens : 0) - todayUsage);
 }
 
-function hasMemberDataAccess(){
-  return !!(loggedIn && userPlan && userPlan.name);
-}
-
-function hasVendorManagementAccess(){
-  return !!loggedIn;
-}
-
-function ensureVendorManagementAccess(retryAction){
-  if(!loggedIn){
-    showToast('请先登录后再管理供应商');
-    needLogin(typeof retryAction === 'function' ? retryAction : null);
-    return false;
-  }
-  return true;
-}
-
 function updateLoginUI(){
   syncUsageDerivedBalances();
   // 顶栏两个芯片
@@ -4839,7 +4388,6 @@ function updateLoginUI(){
   syncBalanceViews();  // 含 API Key 锁定状态刷新
   renderUsageChart();
   renderToolUsageStats();
-  renderVendorConnectionList();
   renderBadgeHub();
   syncProfileCenter();
 }
@@ -4866,8 +4414,6 @@ function go(pid,navEl,title){
   if(navEl)navEl.classList.add('on');
   if(title)document.getElementById('tbt').textContent=title;
   if(pid === 'p01') renderUsageChart();
-  if(pid === 'p02') renderToolUsageStats();
-  if(pid === 'p03') renderVendorConnectionList();
   if(pid === 'p07') renderBadgeHub();
 }
 
@@ -4930,7 +4476,7 @@ function syncUsageSummaryViews(){
   const homeMonth=document.getElementById('homeMonthUsageValue');
   const tokensToday=document.getElementById('tokensTodayUsageValue');
   const tokensMonth=document.getElementById('tokensMonthUsageValue');
-  if(heroSummary) heroSummary.innerHTML='今日消耗 ' + todayUsage + ' Tokens，当前已接入 ' + installedTools + ' 个工具<span class="ih">?<span class="ih-b">展示当前账号已接入且可直接使用的工具数量，用于判断工作台当前可用范围。</span></span>';
+  if(heroSummary) heroSummary.innerHTML='今日消耗 ' + todayUsage + ' Tokens，当前已接入 ' + installedTools + ' 个客户端<span class="ih">?<span class="ih-b">展示当前账号已接入且可直接使用的客户端数量，用于判断工作台当前可用范围。</span></span>';
   if(homeToday) homeToday.innerHTML=todayUsage + ' <span style="font-size:14px;color:var(--t2)">Tokens</span>';
   if(homeMonth) homeMonth.innerHTML=monthUsage + ' <span style="font-size:14px;color:var(--t2)">Tokens</span>';
   if(tokensToday) tokensToday.textContent=todayUsage;
@@ -5240,7 +4786,7 @@ function renderToolUsageStats(){
     const homeHtml=homeTools.map(function(tool){
     const routingTool=tool.toolKey ? appState.toolRouting[tool.toolKey] : null;
     const isInstalled=!!(routingTool && routingTool.installed);
-    const actionLabel=isInstalled ? ((isToolEnabledInWetokens(tool.toolKey) ? '打开' : '打开启用') + tool.name) : ('下载安装' + tool.name);
+    const actionLabel=isInstalled ? ('打开' + tool.name) : ('安装' + tool.name);
     const actionHandler=isInstalled
       ? 'launchTool(\'' + tool.toolKey + '\')'
       : 'startInstall(\'' + (tool.toolKey || '') + '\')';
@@ -5291,19 +4837,11 @@ function renderToolUsageStats(){
     };
     const isInstalled=!!(activeRouting && activeRouting.installed);
     const status=getToolStatusMeta(activeToolKey);
-    const versionLabel=isInstalled
-      ? ((activeMeta.installedLabel || '').replace(/ · 已安装$/,''))
-      : '--';
-    const typeLabel=activeMeta.typeLabel || ((toolMeta[activeToolKey] || {}).typeLabel) || '';
-    const statusBadgeHtml=shouldShowToolStatusBadge(status) ? '<span class="bd2 ' + status.badge + '">' + status.label + '</span>' : '';
     const providerLabel=getToolProviderLabel(activeToolKey);
     const currentModel=activeUsage ? activeUsage.topModel : (getToolCurrentModel(activeToolKey) || (activeRouting && activeRouting.selection) || '未设置');
     const originLabel=currentModel && currentModel !== '未设置' ? getModelOriginLabel(currentModel) : '未标记原厂';
     const lastUsedLabel=activeUsage ? formatUsageRelativeTime(activeUsage.lastUsed) : '暂无使用记录';
     const enabledSummary=getToolEnabledSummary(activeToolKey);
-    const localRouteMeta=getToolLocalRouteMeta(activeToolKey);
-    const modelSummaryText=enabledSummary ? enabledSummary.text : '当前模型';
-    const modelSummaryValue=enabledSummary ? enabledSummary.detail : currentModel;
     const builtinTitle='平台接入';
     const builtinLink=builtinLinkMap[activeToolKey] || '#';
     const setupStatus=(activeRouting && activeRouting.setupStatus) || 'not-installed';
@@ -5311,9 +4849,7 @@ function renderToolUsageStats(){
     const focusedSupplierKey=getFocusedSupplierCardKey(activeToolKey);
     var primaryAction='';
     if(!isInstalled || activeRouting.setupStatus === 'not-installed'){
-      primaryAction='<button class="btn bp bsm" onclick="startInstall(\'' + activeToolKey + '\')">下载安装' + activeMeta.title + '</button>';
-    }else if(!isToolEnabledInWetokens(activeToolKey)){
-      primaryAction='<button class="btn bp bsm" onclick="launchTool(\'' + activeToolKey + '\')">打开启用' + activeMeta.title + '</button>';
+      primaryAction='<button class="btn bp bsm" onclick="startInstall(\'' + activeToolKey + '\')">下载' + activeMeta.title + '</button>';
     }else if(activeRouting.setupStatus === 'installed-unconfigured'){
       primaryAction='<button class="btn bp bsm" onclick="openToolConfig(\'' + activeToolKey + '\')">配置' + activeMeta.title + '</button>';
     }else if(activeRouting.setupStatus === 'configured-unverified'){
@@ -5325,21 +4861,17 @@ function renderToolUsageStats(){
       + '<div class="tool-tab-panel">'
       + '<div class="tool-tab-copy">'
       + '<div class="tool-tab-head">'
-      + '<div class="tool-tab-title"><div class="tool-tab-name-row"><div class="tool-usage-name">' + activeMeta.title + '</div>' + (typeLabel ? '<span class="bd2 bpu">' + typeLabel + '</span>' : '') + '<div class="tool-tab-version">版本：' + versionLabel + '</div>' + statusBadgeHtml + '</div><div class="tool-tab-meta">' + activeMeta.overview + '</div></div>'
+      + '<div class="tool-tab-title"><div class="tool-tab-name-row"><div class="tool-usage-name">' + activeMeta.title + '</div><span class="bd2 ' + status.badge + '">' + status.label + '</span></div><div class="tool-tab-meta">' + activeMeta.overview + '</div></div>'
       + '</div>'
       + '</div>'
-      + '<div class="tool-tab-actions" style="display:flex;align-items:center;gap:16px">'
-      + '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none"><span style="font-size:12px;color:var(--t2);white-space:nowrap;font-weight:500">本地代理</span><label class="sw" style="flex-shrink:0;margin:0"><input type="checkbox" ' + (localRouteMeta.enabled ? 'checked' : '') + ' onchange="toggleToolLocalProxy(\'' + activeToolKey + '\',this.checked)"><span class="sl"></span></label><span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:#e2e8f0;color:#64748b;font-size:10px;font-weight:600;cursor:default;flex-shrink:0" onmouseenter="showProxyHint(this)" onmouseleave="hideProxyHint()">?</span></label>'
-      + '<div style="width:1px;height:20px;background:#e2e8f0;flex-shrink:0"></div>'
-      + primaryAction
-      + '</div>'
+      + '<div class="tool-tab-actions"><button class="btn bo bsm" onclick="openAddVendorModal(\'' + activeToolKey + '\')">添加供应商</button>' + primaryAction + '</div>'
       + '</div>';
     p02SupplierEl.innerHTML='<div class="builtin-supplier-shell">'
       + '<div class="builtin-supplier-card' + (focusedSupplierKey === 'builtin' ? ' is-selected' : '') + '" onclick="focusSupplierCard(\'' + activeToolKey + '\',\'builtin\')">'
       + '<div class="builtin-supplier-main">'
       + '<div class="builtin-supplier-handle"><span></span><span></span><span></span><span></span><span></span><span></span></div>'
       + '<div class="builtin-supplier-avatar">' + getBrandLogoMarkup(activeToolKey, 40) + '</div>'
-      + '<div class="builtin-supplier-copy"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><div class="builtin-supplier-title">' + builtinTitle + '</div><span style="font-size:11px;background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;border-radius:999px;padding:2px 8px;font-weight:600">系统内置</span></div><div style="display:flex;align-items:center;gap:12px;flex-wrap:nowrap;min-width:0"><a class="builtin-supplier-link" href="' + builtinLink + '" onclick="return false;">' + builtinLink + '</a><div style="font-size:12px;color:var(--t3);line-height:1.6;white-space:nowrap">接入方式：<span style="font-weight:500;color:#64748b">' + localRouteMeta.modeLabel + '</span></div><div style="font-size:12px;color:var(--t3);line-height:1.6;min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + modelSummaryValue + '">' + modelSummaryText + '：<span style="font-weight:500;color:#64748b">' + modelSummaryValue + '</span></div></div></div>'
+      + '<div class="builtin-supplier-copy"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><div class="builtin-supplier-title">' + builtinTitle + '</div><span style="font-size:11px;background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;border-radius:999px;padding:2px 8px;font-weight:600">系统内置</span></div><a class="builtin-supplier-link" href="' + builtinLink + '" onclick="return false;">' + builtinLink + '</a></div>'
       + '</div>'
       + '<div class="builtin-supplier-actions">'
       + '<div style="display:flex;align-items:center;gap:8px;flex-wrap:nowrap;justify-content:flex-end">'
@@ -6173,45 +5705,6 @@ function setUsageInsightTab(tab){
   else renderUsageChart();
 }
 
-function openCustomDatePicker(){
-  var existing=document.getElementById('usageDatePickerPanel');
-  if(existing){ existing.remove(); return; }
-  var anchor=document.getElementById('usageWindowCustom');
-  if(!anchor) return;
-  var rect=anchor.getBoundingClientRect();
-  var startVal=appState.usageWindow==='custom' ? (appState.selectedUsageRangeStart||'') : '';
-  var endVal=appState.usageWindow==='custom' ? (appState.selectedUsageRangeEnd||'') : '';
-  var panel=document.createElement('div');
-  panel.id='usageDatePickerPanel';
-  panel.style.cssText='position:fixed;z-index:9999;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 24px rgba(15,23,42,.12);padding:14px 16px;min-width:260px;left:'+Math.min(rect.left, window.innerWidth-280)+'px;top:'+(rect.bottom+6)+'px';
-  panel.innerHTML='<div style="font-size:12px;font-weight:600;color:var(--t);margin-bottom:10px">自定义时间范围</div>'
-    +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">'
-    +'<div style="flex:1"><div style="font-size:11px;color:var(--t3);margin-bottom:4px">开始日期</div><input type="date" id="dpStart" value="'+startVal+'" style="width:100%;padding:5px 8px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px;color:var(--t);outline:none;box-sizing:border-box"></div>'
-    +'<div style="font-size:12px;color:var(--t3);padding-top:16px">—</div>'
-    +'<div style="flex:1"><div style="font-size:11px;color:var(--t3);margin-bottom:4px">结束日期</div><input type="date" id="dpEnd" value="'+endVal+'" style="width:100%;padding:5px 8px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px;color:var(--t);outline:none;box-sizing:border-box"></div>'
-    +'</div>'
-    +'<div style="display:flex;gap:8px;justify-content:flex-end">'
-    +'<button class="btn bo bsm" onclick="document.getElementById(\'usageDatePickerPanel\').remove()">取消</button>'
-    +'<button class="btn bp bsm" onclick="applyCustomDateRange()">确定</button>'
-    +'</div>';
-  document.body.appendChild(panel);
-  setTimeout(function(){
-    document.addEventListener('mousedown', function closePicker(e){
-      var p=document.getElementById('usageDatePickerPanel');
-      if(p && !p.contains(e.target) && e.target!==anchor && !anchor.contains(e.target)){ p.remove(); document.removeEventListener('mousedown',closePicker); }
-    });
-  },0);
-}
-
-function applyCustomDateRange(){
-  var s=document.getElementById('dpStart');
-  var e=document.getElementById('dpEnd');
-  if(!s||!e||!s.value||!e.value){ showToast('请选择开始和结束日期',1400); return; }
-  if(s.value>e.value){ showToast('开始日期不能晚于结束日期',1400); return; }
-  document.getElementById('usageDatePickerPanel').remove();
-  setUsageChartRange(s.value, e.value, 'custom');
-}
-
 function setUsageWindow(windowKey){
   const days=getAvailableUsageDays();
   if(!days.length) return;
@@ -6235,7 +5728,7 @@ function renderUsageChart(){
   const suppliersTab=document.getElementById('usageTabSuppliers');
   const detailTab=document.getElementById('usageTabDetail');
   const windowTodayBtn=document.getElementById('usageWindowToday');
-  const windowCustomBtn=document.getElementById('usageWindowCustom');
+  const windowAllBtn=document.getElementById('usageWindowAll');
   const window30Btn=document.getElementById('usageWindow30d');
   const window7Btn=document.getElementById('usageWindow7d');
   const marksEl=document.getElementById('usageChartMarks');
@@ -6255,7 +5748,7 @@ function renderUsageChart(){
     if(chartMain){
       chartMain.innerHTML=''
         + '<div style="padding:44px 20px;text-align:center">'
-        +   '<div style="font-size:16px;font-weight:700;color:var(--t);margin-bottom:8px">登录后解锁更多功能</div>'
+        +   '<div style="font-size:16px;font-weight:700;color:var(--t);margin-bottom:8px">登录后就能看到你的 Tokens 使用情况</div>'
         +   '<button class="btn bp" style="height:42px;padding:0 24px;font-size:14px;border-radius:14px" onclick="om(\'ls\')">立即登录</button>'
         + '</div>';
     }
@@ -6287,20 +5780,16 @@ function renderUsageChart(){
   const last30Start=monthlyDays.length ? monthlyDays[Math.max(0, monthlyDays.length - 30)].date : '';
   const last7Start=monthlyDays.length ? monthlyDays[Math.max(0, monthlyDays.length - 7)].date : '';
   const isTodayWindow=appState.usageWindow === 'today';
-  const isCustomWindow=appState.usageWindow === 'custom';
+  const isAllWindow=appState.usageWindow === 'all';
   const is30Window=appState.usageWindow === '30d';
   const is7Window=appState.usageWindow === '7d';
   if(modelsTab) modelsTab.classList.toggle('on', appState.usageInsightTab === 'models');
   if(suppliersTab) suppliersTab.classList.toggle('on', appState.usageInsightTab === 'suppliers');
   if(detailTab) detailTab.classList.toggle('on', appState.usageInsightTab === 'detail');
   if(windowTodayBtn) windowTodayBtn.classList.toggle('on', isTodayWindow);
+  if(windowAllBtn) windowAllBtn.classList.toggle('on', isAllWindow);
   if(window30Btn) window30Btn.classList.toggle('on', is30Window);
   if(window7Btn) window7Btn.classList.toggle('on', is7Window);
-  if(windowCustomBtn){
-    windowCustomBtn.classList.toggle('on', isCustomWindow);
-    var customLabel=document.getElementById('usageCustomRangeLabel');
-    if(customLabel) customLabel.textContent=isCustomWindow ? (normalizedStart.slice(5).replace('-','/') + ' — ' + normalizedEnd.slice(5).replace('-','/')) : '自定义';
-  }
 
   if(appState.usageInsightTab === 'models'){
     if(descEl){
@@ -6347,7 +5836,8 @@ function renderUsageChart(){
       }
     }
 
-    if(isCustomWindow && rangedDays.length){
+    if(isAllWindow && rangedDays.length){
+      if(descEl) descEl.textContent='按天查看全部时间范围内的模型消耗趋势。';
       if(marksEl) marksEl.textContent='共 ' + selectedDayCount + ' 天 · ' + visibleModelKeys.length + ' 个模型';
       const lineLabelStep=Math.max(1, Math.ceil(rangedDays.length / 6));
       renderUsageBars('usageChartMain', rangedDays.map(function(item, index){
@@ -6414,8 +5904,8 @@ function renderUsageChart(){
       }
     }
 
-    if(isCustomWindow && rangedDays.length){
-      if(descEl) descEl.textContent='按天查看自定义时间范围内的供应商消耗趋势。';
+    if(isAllWindow && rangedDays.length){
+      if(descEl) descEl.textContent='按天查看全部时间范围内的供应商消耗趋势。';
       if(marksEl) marksEl.textContent='共 ' + selectedDayCount + ' 天 · ' + visibleSupplierKeys.length + ' 个供应商';
       const labelStep=Math.max(1, Math.ceil(rangedDays.length / 6));
       renderUsageBars('usageChartMain', rangedDays.map(function(item, index){
@@ -6536,105 +6026,6 @@ function formatModelName(value){
     .replace(/\b\w/g,function(ch){ return ch.toUpperCase(); });
 }
 
-function hasPlatformUsageQuota(){
-  return !!(userPlan && userPlan.name) || Number(userCashBalance || 0) > 0;
-}
-
-var noTokenGuideToolKey = '';
-var pendingToolEnableKey = '';
-var currentToolEnableGuide = null;
-
-function isToolEnabledInWetokens(toolKey){
-  var tool = (appState.toolRouting || {})[toolKey] || {};
-  return !!tool.enabledInWetokens;
-}
-
-function hasDetectedAvailableModel(toolKey){
-  var tool = (appState.toolRouting || {})[toolKey] || {};
-  if(typeof tool.detectedModelReady === 'boolean') return tool.detectedModelReady;
-  return !!(tool.selection || getToolEnabledModels(toolKey).length);
-}
-
-function openToolEnableGuide(toolKey){
-  var tool = (appState.toolRouting || {})[toolKey] || {};
-  var meta = toolUiMeta[toolKey] || toolMeta[toolKey] || {};
-  var title = document.getElementById('mToolEnableGuideTitle');
-  var desc = document.getElementById('mToolEnableGuideDesc');
-  var btn = document.getElementById('mToolEnableGuidePrimaryBtn');
-  var hasModel = hasDetectedAvailableModel(toolKey);
-  currentToolEnableGuide = { toolKey: toolKey, mode: hasModel ? 'api-key' : 'subscribe' };
-  if(title) title.textContent = hasModel ? ('检测到 ' + (tool.name || meta.title || '该工具') + ' 已有可用模型') : ('检测到 ' + (tool.name || meta.title || '该工具') + ' 暂无可用模型');
-  if(desc) desc.innerHTML = hasModel
-    ? ('Wetokens 已检测到你电脑上的 ' + (tool.name || meta.title || 'AI 工具') + ' 已有可用 AI 模型。<br>录入当前使用的 API Key 后，可帮助你统一管理 tokens 消耗。')
-    : ('Wetokens 已检测到你电脑上的 ' + (tool.name || meta.title || 'AI 工具') + ' 已安装，但当前没有可用 AI 模型。<br>请先前往订阅 / 充值，完成后系统会默认为你启用内置模型。');
-  if(btn) btn.textContent = hasModel ? '去录入 API Key' : '去订阅 / 充值';
-  om('mToolEnableGuide');
-}
-
-function confirmToolEnableGuide(){
-  if(!currentToolEnableGuide || !currentToolEnableGuide.toolKey){
-    cm('mToolEnableGuide');
-    return;
-  }
-  var toolKey = currentToolEnableGuide.toolKey;
-  var mode = currentToolEnableGuide.mode;
-  var tool = (appState.toolRouting || {})[toolKey];
-  cm('mToolEnableGuide');
-  if(!tool) return;
-  if(mode === 'api-key'){
-    tool.enabledInWetokens = true;
-    appState.activeToolKey = toolKey;
-    renderToolRoutingViews();
-    renderToolRoutingTable();
-    renderToolUsageStats();
-    go('p03', nv(2), '模型供应商');
-    setTimeout(function(){
-      currentAddVendorToolKey = toolKey;
-      openAddVendorModal();
-    }, 50);
-    return;
-  }
-  pendingToolEnableKey = toolKey;
-  go('p05', nv(4), '订阅 / 充值');
-  setTimeout(function(){ switchBuyTab('subscription'); }, 50);
-}
-
-function hasExternalUsableTokens(toolKey){
-  return (vendorConnections || []).some(function(connection){
-    if(!connection || connection.active === false) return false;
-    if(Number(connection.balance || 0) <= 0) return false;
-    var globalRoutingEnabled = !!(connection.globalRouting && connection.globalRouting.enabled && normalizeGlobalRoutingConfig(connection.globalRouting).models.filter(Boolean).length);
-    var assignedModels = getVendorToolAssignedModels(connection, toolKey);
-    return globalRoutingEnabled || assignedModels.length > 0;
-  });
-}
-
-function shouldBlockForNoTokens(toolKey){
-  if(!loggedIn) return false;
-  return !hasPlatformUsageQuota() && !hasExternalUsableTokens(toolKey);
-}
-
-function openNoTokenGuideModal(toolKey, source){
-  var meta = toolUiMeta[toolKey] || toolMeta[toolKey] || {};
-  var toolName = meta.title || meta.name || '当前工具';
-  var title = document.getElementById('mNoTokenGuideTitle');
-  var desc = document.getElementById('mNoTokenGuideDesc');
-  noTokenGuideToolKey = toolKey || '';
-  var actionText = source === 'install'
-    ? (toolName + ' 已安装成功')
-    : ('当前准备打开 ' + toolName);
-  if(title) title.textContent = '当前无法运行';
-  if(desc) desc.textContent = actionText + '，但现在没有可用 tokens。先领新人礼包，或用已有 API Key 接入。';
-  om('mNoTokenGuide');
-}
-
-function openNoTokenVendorSetup(){
-  cm('mNoTokenGuide');
-  var ni = document.querySelector('.ni[onclick*="p03"]');
-  if(ni) go('p03', ni, '模型供应商');
-  setTimeout(function(){ openAddVendorModal(); }, 50);
-}
-
 function getMappingTarget(){
   const mappingInput=document.getElementById('mappingInput');
   return mappingInput ? formatModelName(mappingInput.value.trim()) : '';
@@ -6709,11 +6100,7 @@ function toggleRefundExample(){
 
 function switchBuyTab(tab){
   if(tab === 'orders' && !loggedIn){
-    needLogin(function(){ openProfileOrders(document.querySelector('.profile-center-menu-btn[data-target="orders"]')); });
-    return;
-  }
-  if(tab === 'orders'){
-    openProfileOrders(document.querySelector('.profile-center-menu-btn[data-target="orders"]'));
+    needLogin(function(){ switchBuyTab('orders'); });
     return;
   }
   var pSub=document.getElementById('buyPanelSubscription'), pTopup=document.getElementById('buyPanelTopup'), pOrders=document.getElementById('buyPanelOrders');
@@ -6761,7 +6148,8 @@ function openLiteTrialOffer(){
 }
 
 function goOrders(navEl){
-  openProfileOrders(navEl);
+  go('p05', navEl, '购买 Tokens');
+  setTimeout(function(){ switchBuyTab('orders'); }, 50);
 }
 
 function sendCode(btn){
@@ -6979,57 +6367,62 @@ function openModelDetail(modelName){
 
 // ── 新手引导 ──────────────────────────────────────────
 var _obStep = 1;
-var _obSelectedTool = 'Claude';
+var _obSelectedTool = 'Claude Desktop';
 
 var _obGuideMap = {
-  'Claude': [
-    '进入 <strong>AI 工具管理</strong>，切到 <strong>Claude</strong> 这个工具页',
-    '先看顶部的 <strong>本地代理</strong> 开关：接 Claude 官方 API 时可以关闭直连；接其他供应商时需保持开启',
-    '在当前页面选择供应商，可点击 <strong>更换模型</strong> 选择这个工具要用的模型',
-    '保存后重新打开 Claude 即可'
+  'Claude Desktop': [
+    '打开 Claude Desktop → 点击右上角头像 → <strong>Settings</strong>',
+    '进入 <strong>API Configuration</strong> 标签',
+    'API Provider 选择 <strong>Custom</strong>',
+    'Base URL 填入：<code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">http://127.0.0.1:15721/v1</code>',
+    'API Key 填入上一步复制的 Key，保存后重启工具'
   ],
-  'Codex': [
-    '进入 <strong>AI 工具管理</strong>，切到 <strong>Codex</strong> 这个工具页',
-    '先确认顶部的 <strong>本地代理</strong> 已打开',
-    '在当前页面检查 <strong>默认模型</strong> 和 <strong>回退模型</strong> 是否符合你的使用习惯',
-    '保存后重新打开终端，试一次对话即可'
+  'Codex CLI': [
+    '在终端执行：<code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">codex config</code>',
+    '将 <strong>base_url</strong> 设为 <code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">http://127.0.0.1:15721/v1</code>',
+    '将 <strong>api_key</strong> 设为上一步复制的 Key',
+    '保存配置文件（默认路径 <code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">~/.codex/config.json</code>）',
+    '执行 <code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">codex "你好"</code> 验证是否成功'
   ],
   'OpenCode': [
-    '进入 <strong>AI 工具管理</strong>，切到 <strong>OpenCode</strong> 这个工具页',
-    '先检查当前供应商和 <strong>默认模型</strong> 是否正确',
-    '如果要多模型配合使用，把 <strong>调度方式</strong> 改成双模型或轮询，再补一个 <strong>备选模型</strong>',
-    '保存后重新打开对话面板即可'
+    '在 VSCode 中打开命令面板（Ctrl+Shift+P）',
+    '搜索并打开 <strong>OpenCode: Settings</strong>',
+    'Base URL 填入：<code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">http://127.0.0.1:15721/v1</code>',
+    'API Key 填入上一步复制的 Key',
+    '保存后在侧边栏打开 OpenCode 面板即可使用'
   ],
   'Gemini CLI': [
-    '进入 <strong>AI 工具管理</strong>，切到 <strong>Gemini CLI</strong> 这个工具页',
-    '先确认当前供应商和 <strong>默认模型</strong> 是否正确',
-    '如果你只想当前项目生效，再看一下 <strong>项目作用域</strong> 的选择',
-    '保存后发起一次新对话即可'
+    '在终端执行：<code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">gemini config set api-endpoint http://127.0.0.1:15721/v1</code>',
+    '执行：<code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">gemini config set api-key &lt;你的Key&gt;</code>',
+    '执行 <code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">gemini chat</code> 发起对话验证',
+    '如遇问题可检查 <code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">~/.gemini/config.yaml</code> 中的配置'
   ],
   'OpenClaw': [
-    '进入 <strong>AI 工具管理</strong>，切到 <strong>OpenClaw</strong> 这个工具页',
-    '先确认当前供应商和默认模型是否选好，并按需要选择 <strong>会话模式</strong> 和 <strong>路由策略</strong>',
-    '保存后重新打开会话，在顶部切到当前供应商即可使用',
-    '如果只是想换这个工具的模型，直接点 <strong>更换模型</strong> 即可'
+    '打开 OpenClaw → 点击左下角 <strong>⚙ 设置</strong>',
+    '进入 <strong>模型提供商</strong> → 点击 <strong>添加自定义</strong>',
+    'Base URL 填入：<code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">http://127.0.0.1:15721/v1</code>',
+    'API Key 填入上一步复制的 Key，名称随意填写',
+    '保存后在对话框顶部切换到该提供商即可'
   ],
   'Hermes': [
-    '进入 <strong>AI 工具管理</strong>，切到 <strong>Hermes</strong> 这个工具页',
-    '在当前页面检查 <strong>默认模型</strong>、<strong>同步范围</strong> 和 <strong>团队预设</strong> 是否正确',
-    '如果需要记录团队配置变更，再确认 <strong>开启审计日志</strong> 是否打开',
-    '保存后新建一次对话；如果还不能用，再检查工具里的 Provider 设置'
+    '打开 Hermes → 进入 <strong>Settings → Model Provider</strong>',
+    '点击 <strong>Add Provider → OpenAI Compatible</strong>',
+    'Endpoint 填入：<code style="background:#f4f4f5;padding:2px 6px;border-radius:4px;font-size:12px">http://127.0.0.1:15721/v1</code>',
+    'API Key 填入上一步复制的 Key',
+    '保存后在新建对话时选择该 Provider 下的模型'
   ]
 };
 
 function obStart(){
   _obStep = 1;
-  _obSelectedTool = 'Claude';
+  _obSelectedTool = 'Claude Desktop';
   obRender();
   om('m13');
 }
 
 function obRender(){
   // 步骤高亮
-  for(var i=1;i<=3;i++){
+  for(var i=1;i<=4;i++){
     var s=document.getElementById('ob-step-'+i);
     if(s){ s.className = 'ob-step' + (i===_obStep?' ob-step-on':''); }
     var p=document.getElementById('ob-panel-'+i);
@@ -7040,15 +6433,15 @@ function obRender(){
   var next=document.getElementById('ob-btn-next');
   var skip=document.getElementById('ob-btn-skip');
   if(prev) prev.style.display = _obStep>1 ? '' : 'none';
-  if(next) next.textContent = _obStep===3 ? '完成' : '下一步';
-  if(skip) skip.style.display = _obStep===3 ? 'none' : '';
+  if(next) next.textContent = _obStep===4 ? '完成' : '下一步';
+  if(skip) skip.style.display = _obStep===4 ? 'none' : '';
   // 工具名同步
   var tl=document.getElementById('ob-tool-label');
   if(tl) tl.textContent = _obSelectedTool;
   // Step 3：动态渲染该工具的配置教程
   if(_obStep===3){
     var stepsEl=document.getElementById('ob-guide-steps');
-    var guide=_obGuideMap[_obSelectedTool]||_obGuideMap['Claude'];
+    var guide=_obGuideMap[_obSelectedTool]||_obGuideMap['Claude Desktop'];
     if(stepsEl){
       stepsEl.innerHTML=guide.map(function(s,i){
         return '<div class="ob-guide-row"><div class="ob-guide-num">'+(i+1)+'</div><div>'+s+'</div></div>';
@@ -7062,7 +6455,7 @@ function obGo(step){
 }
 
 function obNext(){
-  if(_obStep===3){ cm('m13'); return; }
+  if(_obStep===4){ cm('m13'); return; }
   _obStep++;
   obRender();
 }
@@ -7386,16 +6779,9 @@ function getToolCurrentModel(toolKey){
 function getToolRoutingNote(toolKey){
   const tool=appState.toolRouting[toolKey];
   if(!tool) return '';
-  const state=toolConfigState[toolKey] || {};
   const configuredModel=getConfiguredToolModel(toolKey);
   const effectiveModel=getToolCurrentModel(toolKey);
-  const enabledModels=getToolEnabledModels(toolKey);
   if(tool.routingType === 'cc-shell') return '当前使用 ' + effectiveModel + '，平台会自动完成兼容接入';
-  if(toolKey === 'opencode'){
-    if((state.scheduling || 'single') === 'round-robin') return '当前按轮询策略使用 ' + enabledModels.length + ' 个模型';
-    if((state.scheduling || 'single') === 'primary-backup') return '当前主模型为 ' + effectiveModel + '，失败时自动切换到备选模型';
-  }
-  if(toolKey === 'codex-cli' && state.fallbackModel) return '当前主模型为 ' + effectiveModel + '，失败时回退到 ' + state.fallbackModel;
   if(tool.mode === 'single') return effectiveModel !== configuredModel ? '当前使用 ' + effectiveModel + '，已按当前配置生效' : '当前使用 ' + configuredModel + '，可直接切换其他可用模型';
   return effectiveModel !== configuredModel ? '当前使用 ' + effectiveModel + '，已按当前配置生效' : '当前使用 ' + configuredModel + '，可直接切换其他可用模型';
 }
@@ -7584,32 +6970,17 @@ function changeToolModel(toolKey, value){
   om('m14');
 }
 
-function getBuiltinPickerOptions(toolKey, vendorName){
-  if(vendorName){
-    var connection = vendorConnections.filter(function(item){ return item.name === vendorName; })[0] || null;
-    return connection ? getVendorToolDisplayModels(connection, toolKey) : [];
-  }
-  return getBuiltinModelOptionsForTool(toolKey);
-}
-
-function openBuiltinModelPicker(toolKey, vendorName){
+function openBuiltinModelPicker(toolKey){
   var tool=appState.toolRouting[toolKey];
   if(!tool) return;
-  var builtinOptions=getBuiltinPickerOptions(toolKey, vendorName);
-  var activeConnection = vendorName ? (vendorConnections.filter(function(item){ return item.name === vendorName; })[0] || null) : null;
+  var builtinOptions=getBuiltinModelOptionsForTool(toolKey);
   activeBuiltinModelToolKey=toolKey;
-  activeBuiltinModelVendorName=vendorName || null;
   builtinModelDraft=(function(){
     if(isClaudeSlotTool(toolKey)){
       var slotMap=getClaudeSlotMap(toolKey);
       var selected=getClaudeSlotKeys().map(function(slotKey){ return slotMap[slotKey]; }).filter(function(modelName){
         return !!modelName && builtinOptions.indexOf(modelName) >= 0;
       });
-      if(activeConnection){
-        selected = getVendorToolDisplayModels(activeConnection, toolKey).filter(function(modelName){
-          return builtinOptions.indexOf(modelName) >= 0;
-        });
-      }
       var activeSlot=getClaudeSlotKeys().filter(function(slotKey){
         return !slotMap[slotKey];
       })[0] || getClaudeSlotKeys()[0];
@@ -7621,24 +6992,18 @@ function openBuiltinModelPicker(toolKey, vendorName){
         activeSlot:activeSlot
       };
     }
-    var selectedModels=(activeConnection ? getVendorToolDisplayModels(activeConnection, toolKey) : getToolEnabledModels(toolKey)).filter(function(modelName){
+    return { search:'', providerFilter:'all', selected:getToolEnabledModels(toolKey).filter(function(modelName){
       return builtinOptions.indexOf(modelName) >= 0;
-    });
-    return {
-      search:'',
-      providerFilter:'all',
-      selected:selectedModels,
-      primaryModel:(tool.selection && selectedModels.indexOf(tool.selection) >= 0) ? tool.selection : (selectedModels[selectedModels.length - 1] || '')
-    };
+    }) };
   })();
   var title=document.getElementById('builtinModelPickerTitle');
   var subTitle=document.getElementById('builtinModelPickerSubTitle');
   var searchInput=document.getElementById('builtinModelSearchInput');
-  if(title) title.textContent=(vendorName || tool.name || toolKey) + ' · 更换模型';
+  if(title) title.textContent=(tool.name || toolKey) + ' · 编辑内置模型';
   if(subTitle) subTitle.textContent=isClaudeSlotTool(toolKey)
     ? '先选择上方槽位卡片，再选择下方模型；最多 4 个，保存后映射到 Sonnet、Opus、Haiku、Fable。'
     : '按模型卡片选择当前工具可用模型，暂不限制数量。';
-  if(searchInput){ searchInput.value=''; searchInput.style.display='none'; }
+  if(searchInput) searchInput.value='';
   renderBuiltinModelPicker();
   om('mBuiltinModelPicker');
 }
@@ -7663,14 +7028,9 @@ function toggleBuiltinModelDraft(modelName){
     assignClaudeSlotModel(builtinModelDraft.activeSlot || getClaudeSlotKeys()[0], modelName);
     return;
   }
-  if(index >= 0){
-    builtinModelDraft.selected.splice(index, 1);
-    if(builtinModelDraft.primaryModel === modelName){
-      builtinModelDraft.primaryModel=builtinModelDraft.selected[builtinModelDraft.selected.length - 1] || '';
-    }
-  }else {
+  if(index >= 0) builtinModelDraft.selected.splice(index, 1);
+  else {
     builtinModelDraft.selected.push(modelName);
-    builtinModelDraft.primaryModel=modelName;
   }
   renderBuiltinModelPicker();
 }
@@ -7683,11 +7043,10 @@ function setActiveClaudeSlot(slotKey){
 
 function closeBuiltinModelPicker(){
   if(!activeBuiltinModelToolKey || !builtinModelDraft){
-    activeBuiltinModelVendorName=null;
     cm('mBuiltinModelPicker');
     return;
   }
-  var builtinOptions=getBuiltinPickerOptions(activeBuiltinModelToolKey, activeBuiltinModelVendorName);
+  var builtinOptions=getBuiltinModelOptionsForTool(activeBuiltinModelToolKey);
   var nextSelected=(isClaudeSlotTool(activeBuiltinModelToolKey)
     ? getClaudeSlotKeys().map(function(slotKey){
         return (builtinModelDraft.slotMap || {})[slotKey] || '';
@@ -7699,7 +7058,6 @@ function closeBuiltinModelPicker(){
     showToast(isClaudeSlotTool(activeBuiltinModelToolKey) ? '请至少选择一个 Claude 模型后再关闭' : '请至少选择一个模型后再关闭', 1600);
     return;
   }
-  activeBuiltinModelVendorName=null;
   cm('mBuiltinModelPicker');
 }
 
@@ -7727,7 +7085,7 @@ function renderBuiltinModelPicker(){
   var isClaude=isClaudeSlotTool(activeBuiltinModelToolKey);
   var query=(builtinModelDraft.search || '').trim().toLowerCase();
   var providerFilter=builtinModelDraft.providerFilter || 'all';
-  var availableOptions=getBuiltinPickerOptions(activeBuiltinModelToolKey, activeBuiltinModelVendorName);
+  var availableOptions=getBuiltinModelOptionsForTool(activeBuiltinModelToolKey);
   var providerOptions=['all'].concat(Array.from(new Set(availableOptions.map(function(modelName){
     return getModelOriginLabel(modelName);
   }))).sort(function(a,b){ return a.localeCompare(b, 'zh-CN'); }));
@@ -7757,8 +7115,7 @@ function renderBuiltinModelPicker(){
       + '</div>';
   }else{
     stats.innerHTML=''
-      + '<span class="builtin-picker-stat">已选 ' + builtinModelDraft.selected.length + ' 个模型</span>'
-      + (builtinModelDraft.primaryModel ? '<span class="builtin-picker-stat">主模型：' + builtinModelDraft.primaryModel + '</span>' : '');
+      + '<span class="builtin-picker-stat">已选 ' + builtinModelDraft.selected.length + ' 个模型</span>';
   }
   if(!options.length){
     list.innerHTML='<div class="builtin-picker-empty">没有找到匹配的模型</div>';
@@ -7768,7 +7125,6 @@ function renderBuiltinModelPicker(){
     var checked=(isClaude ? getClaudeSlotKeys().some(function(slotKey){
       return ((builtinModelDraft.slotMap || {})[slotKey] || '') === modelName;
     }) : builtinModelDraft.selected.indexOf(modelName) >= 0);
-    var isPrimary=!isClaude && builtinModelDraft.primaryModel === modelName;
     var providerLabel=getModelOriginLabel(modelName);
     var logoDomain=modelLogoMap[modelName] || '';
     var logoBg=(logoDomain && _logoBgMap[logoDomain]) ? _logoBgMap[logoDomain] : '#f8fafc';
@@ -7778,7 +7134,7 @@ function renderBuiltinModelPicker(){
       + '<div class="builtin-picker-top">'
       + '<div class="builtin-picker-logo">' + logoHtml + '</div>'
       + '<div class="builtin-picker-copy">'
-      + '<div class="builtin-picker-name">' + modelName + (isPrimary ? '<span class="builtin-picker-badge">主模型</span>' : '') + '</div>'
+      + '<div class="builtin-picker-name">' + modelName + '</div>'
       + '<div class="builtin-picker-meta">' + providerLabel + '</div>'
       + '</div>'
       + '</div>'
@@ -7790,8 +7146,7 @@ function saveBuiltinModelSelection(){
   if(!activeBuiltinModelToolKey || !builtinModelDraft) return;
   var tool=appState.toolRouting[activeBuiltinModelToolKey];
   if(!tool) return;
-  var builtinOptions=getBuiltinPickerOptions(activeBuiltinModelToolKey, activeBuiltinModelVendorName);
-  var activeConnection = activeBuiltinModelVendorName ? (vendorConnections.filter(function(item){ return item.name === activeBuiltinModelVendorName; })[0] || null) : null;
+  var builtinOptions=getBuiltinModelOptionsForTool(activeBuiltinModelToolKey);
   if(isClaudeSlotTool(activeBuiltinModelToolKey)){
     var nextClaudeSlotMap={ sonnet:'', opus:'', haiku:'', fable:'' };
     getClaudeSlotKeys().forEach(function(slotKey){
@@ -7806,20 +7161,6 @@ function saveBuiltinModelSelection(){
       return;
     }
     disableGlobalRouting('已关闭全局路由，改为单独配置 ' + (tool.name || activeBuiltinModelToolKey));
-    if(activeConnection){
-      if(!activeConnection.toolOverrides) activeConnection.toolOverrides = {};
-      activeConnection.toolOverrides[activeBuiltinModelToolKey] = nextClaudeSelected.slice();
-      applyVendorSelectionToToolState(activeConnection, activeBuiltinModelToolKey);
-      syncVendorConfigData();
-      cm('mBuiltinModelPicker');
-      activeBuiltinModelVendorName=null;
-      renderVendorConnectionList();
-      renderToolRoutingViews();
-      renderToolRoutingTable();
-      renderToolUsageStats();
-      showToast('已为 ' + activeConnection.name + ' 保存 ' + nextClaudeSelected.length + ' 个模型', 1800);
-      return;
-    }
     tool.slotBindings={};
     tool.requestModelMap={};
     getClaudeSlotKeys().forEach(function(slotKey){
@@ -7835,7 +7176,6 @@ function saveBuiltinModelSelection(){
     if(!toolConfigState[activeBuiltinModelToolKey]) toolConfigState[activeBuiltinModelToolKey]={};
     toolConfigState[activeBuiltinModelToolKey].primaryModel=tool.selection;
     if(tool.installed) tool.setupStatus='configured-unverified';
-    activeBuiltinModelVendorName=null;
     cm('mBuiltinModelPicker');
     renderToolRoutingViews();
     renderToolRoutingTable();
@@ -7851,29 +7191,11 @@ function saveBuiltinModelSelection(){
     return;
   }
   disableGlobalRouting('已关闭全局路由，改为单独配置 ' + (tool.name || activeBuiltinModelToolKey));
-  if(activeConnection){
-    if(!activeConnection.toolOverrides) activeConnection.toolOverrides = {};
-    activeConnection.toolOverrides[activeBuiltinModelToolKey] = nextSelected.slice();
-    applyVendorSelectionToToolState(activeConnection, activeBuiltinModelToolKey);
-    if(appState.toolRouting[activeBuiltinModelToolKey]){
-      appState.toolRouting[activeBuiltinModelToolKey].selection=(builtinModelDraft.primaryModel && nextSelected.indexOf(builtinModelDraft.primaryModel) >= 0) ? builtinModelDraft.primaryModel : nextSelected[0];
-    }
-    syncVendorConfigData();
-    activeBuiltinModelVendorName=null;
-    cm('mBuiltinModelPicker');
-    renderVendorConnectionList();
-    renderToolRoutingViews();
-    renderToolRoutingTable();
-    renderToolUsageStats();
-    showToast('已为 ' + activeConnection.name + ' 保存 ' + nextSelected.length + ' 个模型', 1800);
-    return;
-  }
   tool.enabledModels=nextSelected;
-  tool.selection=(builtinModelDraft.primaryModel && nextSelected.indexOf(builtinModelDraft.primaryModel) >= 0) ? builtinModelDraft.primaryModel : nextSelected[0];
+  tool.selection=nextSelected.indexOf(tool.selection) >= 0 ? tool.selection : nextSelected[0];
   if(!toolConfigState[activeBuiltinModelToolKey]) toolConfigState[activeBuiltinModelToolKey]={};
   toolConfigState[activeBuiltinModelToolKey].primaryModel=tool.selection;
   if(tool.installed) tool.setupStatus='configured-unverified';
-  activeBuiltinModelVendorName=null;
   cm('mBuiltinModelPicker');
   renderToolRoutingViews();
   renderToolRoutingTable();
@@ -7885,25 +7207,24 @@ function saveBuiltinModelSelection(){
 function syncSubManageCard(){
   var card = document.getElementById('subManageCard');
   if(!card) return;
-  var activePlan = userPlan || {};
-  var isMember = !!(activePlan.expireDate && activePlan.expireDate > new Date().toISOString().slice(0,10));
+  var isMember = userPlan && userPlan.expireDate && userPlan.expireDate > new Date().toISOString().slice(0,10);
   card.style.display = isMember ? '' : 'none';
   if(!isMember) return;
-  var planMeta = getSubscriptionPlanMeta(activePlan.name || 'pro');
+  var planMeta = getSubscriptionPlanMeta(userPlan.name);
   var nameEl = document.getElementById('subMgmtPlanName');
   var expireEl = document.getElementById('subMgmtExpire');
   var dailyEl = document.getElementById('subMgmtDaily');
   var nextBillEl = document.getElementById('subMgmtNextBillDate');
   var cancelExpireEl = document.getElementById('mCancelSubExpire');
-  if(nameEl) nameEl.textContent = (activePlan.name || planMeta.name) + ' · ¥' + (planMeta.price || 99) + '/30天';
-  if(expireEl) expireEl.textContent = activePlan.expireDate || '';
-  if(dailyEl) dailyEl.textContent = (activePlan.dailyTokens||planMeta.dailyTokens||16667).toLocaleString() + ' 次/天';
+  if(nameEl) nameEl.textContent = (userPlan.name || planMeta.name) + ' · ¥' + (planMeta.price || 99) + '/30天';
+  if(expireEl) expireEl.textContent = userPlan.expireDate || '';
+  if(dailyEl) dailyEl.textContent = (userPlan.dailyTokens||planMeta.dailyTokens||16667).toLocaleString() + ' 次/天';
   // 下次续费日 = 到期前1天
-  if(nextBillEl && activePlan.expireDate){
-    var d = new Date(activePlan.expireDate); d.setDate(d.getDate()-1);
+  if(nextBillEl && userPlan.expireDate){
+    var d = new Date(userPlan.expireDate); d.setDate(d.getDate()-1);
     nextBillEl.textContent = d.toISOString().slice(0,10);
   }
-  if(cancelExpireEl) cancelExpireEl.textContent = activePlan.expireDate || '';
+  if(cancelExpireEl) cancelExpireEl.textContent = userPlan.expireDate || '';
 }
 
 // 订阅管理页自动续费开关
@@ -8329,11 +7650,11 @@ function syncBalanceViews(){
   syncUsageDerivedBalances();
   var tokenEstimate = userTokensBalance.toLocaleString();
   var cashStr = '¥' + userCashBalance.toFixed(2);
-  var activePlan = userPlan || {};
-  var isMember = !!activePlan.name;
 
   // P01 Hero：会员标签 + 今日进度 + 提醒
   (function(){
+    var isMember = !!userPlan.name;
+
     // 会员区 / 非会员区 切换
     var subSection   = document.getElementById('heroSubSection');
     var noSubSection = document.getElementById('heroNoSubSection');
@@ -8346,16 +7667,12 @@ function syncBalanceViews(){
     if(heroCashHint){
       heroCashHint.textContent = isMember
         ? '超出今日可用次数后，从可使用余额继续扣费'
-        : (userCashBalance > 0
-          ? '当前按实际调用量扣费'
-          : '当前没有可用 tokens，先订阅、充值，或接入外部购买额度');
+        : '按实际调用量扣费';
     }
     if(heroMemberText){
       heroMemberText.textContent = isMember
-        ? ('当前订阅：' + activePlan.name + ' · 有效期：' + (activePlan.expireDate || '待生效'))
-        : (userCashBalance > 0
-          ? '当前未订阅，可直接按余额计费使用'
-          : '当前未订阅，且可使用余额为 0');
+        ? ('当前订阅：' + userPlan.name + ' · 有效期：' + userPlan.expireDate)
+        : '当前状态：未订阅，可先充值后使用';
     }
 
     if(!isMember){
@@ -8368,8 +7685,8 @@ function syncBalanceViews(){
     }
 
     // —— 以下仅会员需要 ——
-    var todayUsed = activePlan.todayUsed || 0;
-    var dayTotal  = activePlan.dailyTokens || 0;
+    var todayUsed = userPlan.todayUsed;
+    var dayTotal  = userPlan.dailyTokens;
     var pct       = dayTotal > 0 ? Math.min(100, (todayUsed / dayTotal * 100)) : 0;
     var pctStr    = pct < 1 ? pct.toFixed(1) + '%' : Math.round(pct) + '%';
 
@@ -8416,6 +7733,7 @@ function syncBalanceViews(){
   if(tokensSub) tokensSub.textContent = '最近到期 ' + getNearestExpiryLabel();
   // P04 新增：会员标签 + 进度条 + 充值按钮文案
   (function(){
+    var isMember = !!userPlan.name;
     var badge = document.getElementById('p04MemberBadge');
     var label = document.getElementById('p04MemberLabel');
     var subSection = document.getElementById('p04SubSection');
@@ -8425,11 +7743,11 @@ function syncBalanceViews(){
     var bar = document.getElementById('p04ProgressBar');
     var chargeBtn = document.getElementById('p04ChargeBtn');
     if(badge) badge.style.display = isMember ? '' : 'none';
-    if(label && isMember) label.textContent = activePlan.name + ' · ' + (activePlan.expireDate || '待生效') + ' 到期';
+    if(label && isMember) label.textContent = userPlan.name + ' · ' + userPlan.expireDate + ' 到期';
     if(subSection) subSection.style.display = isMember ? '' : 'none';
-    if(isMember && activePlan.dailyTokens > 0){
-      var used = activePlan.todayUsed || 0;
-      var total = activePlan.dailyTokens;
+    if(isMember && userPlan.dailyTokens > 0){
+      var used = userPlan.todayUsed || 0;
+      var total = userPlan.dailyTokens;
       var pct = Math.round(used / total * 100);
       if(usedEl) usedEl.textContent = used.toLocaleString();
       if(totalEl) totalEl.textContent = total.toLocaleString();
@@ -8455,14 +7773,14 @@ function syncBalanceViews(){
     var infoBarEl = document.getElementById('p04InfoBar');
     var remainValEl = document.getElementById('p04InfoRemainVal');
     if(isMember){
-      if(planEl) planEl.textContent = activePlan.name;
-      if(dailyEl) dailyEl.textContent = (activePlan.dailyTokens || 16667).toLocaleString() + ' 次/天';
-      if(validityEl && activePlan.expireDate){
+      if(planEl) planEl.textContent = userPlan.name;
+      if(dailyEl) dailyEl.textContent = (userPlan.dailyTokens || 16667).toLocaleString() + ' 次/天';
+      if(validityEl && userPlan.expireDate){
         var today2 = new Date().toISOString().slice(0,10);
-        validityEl.textContent = today2 + ' – ' + activePlan.expireDate;
+        validityEl.textContent = today2 + ' – ' + userPlan.expireDate;
       }
-      var used2 = activePlan.todayUsed || 0;
-      var total2 = activePlan.dailyTokens || 16667;
+      var used2 = userPlan.todayUsed || 0;
+      var total2 = userPlan.dailyTokens || 16667;
       var pct2 = Math.round(used2 / total2 * 100);
       var remain2 = Math.max(0, total2 - used2);
       if(infoUsedEl) infoUsedEl.textContent = used2.toLocaleString();
@@ -8693,7 +8011,7 @@ function submitInvoiceRequest(buttonEl){
 }
 
 function prependOrderRecord(){
-  const paymentMethod = (document.querySelector('#buyPanelSubscription .pmtab.on, #buyPanelTopup .pmtab.on') || {textContent:'微信 / 支付宝扫码支付'}).textContent.replace(/[💬🔵💳]/g,'').trim();
+  const paymentMethod = (document.querySelector('#buyPanelSubscription .pmtab.on, #buyPanelTopup .pmtab.on') || {textContent:'微信支付'}).textContent.replace(/[💬🔵💳]/g,'').trim();
   appState.orderSeq += 1;
   const orderId='MT20260705' + String(appState.orderSeq).padStart(4,'0');
   // 计算订阅有效期
@@ -8776,17 +8094,11 @@ function handlePurchase(buttonEl){
   var topupContent = document.getElementById('m05TopupContent');
   var m05Title = document.getElementById('m05Title');
   var m05Desc = document.getElementById('m05Desc');
-  if(pendingToolEnableKey && appState.toolRouting[pendingToolEnableKey]){
-    appState.toolRouting[pendingToolEnableKey].enabledInWetokens = true;
-    appState.toolRouting[pendingToolEnableKey].detectedModelReady = true;
-    appState.toolRouting[pendingToolEnableKey].setupStatus = 'verified-ready';
-  }
-
   if(isSubPlan2){
     if(subContent) subContent.style.display = '';
     if(topupContent) topupContent.style.display = 'none';
     if(m05Title) m05Title.textContent = '订阅成功';
-    if(m05Desc) m05Desc.textContent = pendingToolEnableKey ? ('套餐已生效，系统已默认为 ' + appState.toolRouting[pendingToolEnableKey].name + ' 启用内置模型。') : '套餐已生效，今日次数已自动发放。';
+    if(m05Desc) m05Desc.textContent = '套餐已生效，今日次数已自动发放。';
     var m05SubPlan = document.getElementById('m05SubPlan');
     var m05SubDaily = document.getElementById('m05SubDaily');
     var m05SubValidity = document.getElementById('m05SubValidity');
@@ -8820,7 +8132,6 @@ function handlePurchase(buttonEl){
   prependOrderRecord();
   renderPackageTable();
   syncBalanceViews();
-  pendingToolEnableKey = '';
   om('m05');
   setTimeout(function(){
     appState.purchaseLocked=false;
@@ -8845,11 +8156,10 @@ function completeInstall(){
   const key=appState.installingTool;
   const meta=toolMeta[key];
   if(!meta) return;
+  const routing = appState.toolRouting[key];
   cm('m04');
   if(appState.toolRouting[key]) {
     appState.toolRouting[key].installed = true;
-    appState.toolRouting[key].enabledInWetokens = false;
-    appState.toolRouting[key].detectedModelReady = false;
     appState.toolRouting[key].setupStatus = 'verified-ready';
   }
   appState.installedCount = getInstalledToolCount();
@@ -8857,7 +8167,7 @@ function completeInstall(){
   renderToolRoutingTable();
   renderToolUsageStats();
   const toolName = meta ? meta.name : '新工具';
-  showToast(toolName + ' 安装完成！<span style="cursor:pointer;text-decoration:underline;margin-left:6px" onclick="launchTool(\'' + key + '\')">下一步：打开启用 →</span>');
+  showToast(toolName + ' 安装成功！<span style="cursor:pointer;text-decoration:underline;margin-left:6px" onclick="launchTool(\'' + key + '\')">直接打开 →</span>');
 }
 
 function launchTool(toolKey){
@@ -8865,10 +8175,6 @@ function launchTool(toolKey){
   if(!tool) return;
   if(!tool.installed){
     startInstall(toolKey);
-    return;
-  }
-  if(!isToolEnabledInWetokens(toolKey)){
-    openToolEnableGuide(toolKey);
     return;
   }
   if(tool.setupStatus === 'installed-unconfigured'){
@@ -8879,12 +8185,8 @@ function launchTool(toolKey){
     showToast('请先验证 ' + tool.name);
     return;
   }
-  if(shouldBlockForNoTokens(toolKey)){
-    openNoTokenGuideModal(toolKey, 'launch');
-    return;
-  }
   appState.activeToolKey=toolKey;
-  showToast('已打开 ' + tool.name + '，可直接继续使用');
+  showToast('已启动 ' + tool.name + '，可直接继续使用');
 }
 
 var _apiKeyVisible = false;
@@ -9007,7 +8309,7 @@ function doLogout(){
   document.getElementById('sb-unlogin').style.display='';
   document.getElementById('sb-logined').style.display='none';
   updateLoginUI();
-  go('p01', document.querySelectorAll('.ni')[0], 'Tokens管理');
+  go('p01', document.querySelectorAll('.ni')[0], '总控台');
 }
 
 function orderTypeClick(el){
@@ -9055,18 +8357,12 @@ function getVendorIconMarkup(v, size){
   return getBrandLogoMarkup(v.brand, size || 40);
 }
 
-function getVendorPresetBadgeMarkup(v, size){
-  var brandCfg = brandLogoRegistry[v.brand] || brandLogoRegistry.custom;
-  var badgeSize = size || 40;
-  return '<span style="width:'+badgeSize+'px;height:'+badgeSize+'px;border-radius:'+Math.max(12, Math.round(badgeSize * 0.32))+'px;display:inline-flex;align-items:center;justify-content:center;background:'+ (v.bg || brandCfg.bg || '#f8fafc') +';color:'+ (v.color || brandCfg.color || '#475569') +';font-size:'+Math.max(12, Math.round(badgeSize * 0.3))+'px;font-weight:800;letter-spacing:.02em;box-shadow:inset 0 0 0 1px rgba(255,255,255,.72)">'+ escapeText((brandCfg.fallback || v.name || '?').slice(0, 2)) +'</span>';
-}
-
 function renderVendorPresets(){
   var grid = document.getElementById('vendorPresetGrid');
   if(!grid) return;
   grid.innerHTML = vendorPresets.map(function(v,i){
     return '<div onclick="selectVendorPreset('+i+',this)" style="cursor:pointer;border:1px solid rgba(214,224,236,.96);border-radius:16px;padding:12px 8px;text-align:center;transition:all .18s;background:rgba(255,255,255,.92);box-shadow:0 10px 22px rgba(15,23,42,.04)" onmouseenter="this.style.borderColor=\'#bcd7f5\';this.style.transform=\'translateY(-1px)\';this.style.boxShadow=\'0 14px 28px rgba(15,23,42,.08)\'" onmouseleave="if(!this.classList.contains(\'vp-on\')){this.style.borderColor=\'rgba(214,224,236,.96)\';this.style.transform=\'translateY(0)\';this.style.boxShadow=\'0 10px 22px rgba(15,23,42,.04)\'}">'
-      + '<div style="width:40px;height:40px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center">'+getVendorPresetBadgeMarkup(v,40)+'</div>'
+      + '<div style="width:40px;height:40px;margin:0 auto 8px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:'+v.bg+';color:'+v.color+';border:1px solid rgba(255,255,255,.72)">'+getVendorIconMarkup(v,40)+'</div>'
       + '<div style="font-size:11px;font-weight:600;color:var(--t);line-height:1.3">'+v.name+'</div>'
       + '</div>';
   }).join('');
@@ -9082,7 +8378,7 @@ function selectVendorPreset(idx, el){
   el.style.transform = 'translateY(-1px)';
   el.style.boxShadow = '0 16px 30px rgba(15,23,42,.09)';
   var iconArea = document.getElementById('vendorSelectedIcon');
-  if(iconArea) iconArea.innerHTML = '<div style="width:56px;height:56px;display:flex;align-items:center;justify-content:center">'+getVendorPresetBadgeMarkup(v,56)+'</div><div style="margin-top:8px;font-size:13px;font-weight:700;color:var(--t)">'+v.name+'</div>';
+  if(iconArea) iconArea.innerHTML = '<div style="width:56px;height:56px;border-radius:18px;background:'+v.bg+';border:1px solid rgba(214,224,236,.96);display:flex;align-items:center;justify-content:center;color:'+v.color+';box-shadow:0 12px 24px rgba(15,23,42,.06)">'+getVendorIconMarkup(v,56)+'</div><div style="margin-top:8px;font-size:13px;font-weight:700;color:var(--t)">'+v.name+'</div>';
   var nm = document.getElementById('avName');
   var ul = document.getElementById('avUrl');
   var api = document.getElementById('avApiUrl');
@@ -9430,7 +8726,7 @@ function renderClaudeProfileSections(settings){
   if(modelActions) modelActions.innerHTML = settings.needMapping ? '<button class="btn bo bsm" type="button" onclick="fetchToolModels()">获取模型列表</button>' : '';
   if(modelHelper){ modelHelper.style.display = settings.needMapping ? '' : 'none'; modelHelper.textContent = '为 Sonnet、Opus、Haiku 三档分别填写真实请求模型；菜单显示名可写 DeepSeek、Kimi 等品牌名。'; }
   if(step2Extra) step2Extra.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:1px solid var(--bd);border-radius:12px;background:#fff">'
-    + '<div><div style="font-size:13px;font-weight:700">需要模型映射</div><div style="font-size:12px;color:var(--t3);margin-top:4px;line-height:1.7">仅当供应商直接接受 Claude 可识别的三档角色 ID（claude-sonnet-* / claude-opus-* / claude-haiku-*）时才适用直连；其他模型名请打开此开关映射。</div></div>'
+    + '<div><div style="font-size:13px;font-weight:700">需要模型映射</div><div style="font-size:12px;color:var(--t3);margin-top:4px;line-height:1.7">仅当供应商直接接受 Claude Desktop 可识别的三档角色 ID（claude-sonnet-* / claude-opus-* / claude-haiku-*）时才适用直连；其他模型名请打开此开关映射。</div></div>'
     + '<label class="sw" style="flex-shrink:0"><input id="avClaudeNeedMapping" type="checkbox" ' + (settings.needMapping ? 'checked' : '') + ' onchange="rerenderCurrentToolRows()"><span class="sl"></span></label>'
     + '</div>'
     + (settings.needMapping ? '<div style="margin-top:16px;background:#fff;border:1px solid var(--bd);border-radius:12px;padding:14px 16px"><div style="font-size:13px;font-weight:700;margin-bottom:10px">API 格式</div><select class="fi" id="avClaudeApiMode" style="height:40px" onchange="syncActiveToolPreview()"><option value="anthropic">Anthropic Messages（原生）</option><option value="openai">OpenAI Chat Completions（需开启路由）</option></select></div>' : '')
@@ -9445,8 +8741,8 @@ function renderClaudeProfileSections(settings){
     }).join('')
     + '</div>' : '')
     + '<div style="margin-top:16px;border:1px solid var(--bd);border-radius:12px;overflow:hidden;background:#fff">'
-    + '<div onclick="var p=this.nextElementSibling;p.style.display=p.style.display===\'none\'?\'\':\'none\';" style="padding:12px 14px;font-size:12px;font-weight:700;cursor:pointer;background:#fafafa">手动指定 Claude 模型列表（高级，可选）</div>'
-    + '<div style="display:none;padding:12px 14px;border-top:1px solid var(--bd)"><div style="font-size:12px;color:var(--t3);line-height:1.7;margin-bottom:10px">原生 Claude 模型供应商通常不再手动填写，Claude 会自动读取 /v1/models。</div><textarea class="fi" id="avClaudeManualModels" style="height:90px;padding:10px;font-family:monospace;resize:vertical" oninput="syncActiveToolPreview()" placeholder="每行一个模型名，留空则自动读取 /v1/models">' + escapeText(settings.manualModelList || '') + '</textarea></div>'
+    + '<div onclick="var p=this.nextElementSibling;p.style.display=p.style.display===\'none\'?\'\':\'none\';" style="padding:12px 14px;font-size:12px;font-weight:700;cursor:pointer;background:#fafafa">手动指定 Claude Desktop 模型列表（高级，可选）</div>'
+    + '<div style="display:none;padding:12px 14px;border-top:1px solid var(--bd)"><div style="font-size:12px;color:var(--t3);line-height:1.7;margin-bottom:10px">原生 Claude 模型供应商通常不再手动填写，Claude Desktop 会自动读取 /v1/models。</div><textarea class="fi" id="avClaudeManualModels" style="height:90px;padding:10px;font-family:monospace;resize:vertical" oninput="syncActiveToolPreview()" placeholder="每行一个模型名，留空则自动读取 /v1/models">' + escapeText(settings.manualModelList || '') + '</textarea></div>'
     + '</div>'
     + (settings.needMapping ? '<div style="margin-top:16px"><div style="font-size:13px;font-weight:700;margin-bottom:8px">配置 JSON</div><textarea class="fi" id="avClaudeJsonPreview" readonly style="height:160px;padding:12px;font-family:monospace;resize:vertical"></textarea></div>' : '');
 }
@@ -9676,8 +8972,7 @@ function renderCodexProfileSections(settings){
 }
 
 function renderAddVendorToolProfile(toolKey, isEditMode){
-  var isGlobalScope = avConfigScope === 'global';
-  var profile = isGlobalScope ? getGlobalVendorProfile() : getAddVendorToolProfile(toolKey);
+  var profile = getAddVendorToolProfile(toolKey);
   var modalPanel = document.getElementById('avModalPanel');
   var title = document.getElementById('avModalTitle');
   var profileHint = document.getElementById('avToolProfileHint');
@@ -9708,6 +9003,7 @@ function renderAddVendorToolProfile(toolKey, isEditMode){
   var presetGrid = document.getElementById('vendorPresetGrid');
   var selectedIcon = document.getElementById('vendorSelectedIcon');
   var step2Label = document.getElementById('avStep2Label');
+  var isGlobalScope = avConfigScope === 'global';
   var isToolScopedEdit = !isGlobalScope && isEditMode;
   if(modalPanel){
     modalPanel.style.width = 'min(620px,94vw)';
@@ -9715,14 +9011,14 @@ function renderAddVendorToolProfile(toolKey, isEditMode){
     modalPanel.style.maxHeight = '';
     modalPanel.style.overflowY = 'auto';
   }
-  if(title) title.textContent = isGlobalScope ? (isEditMode ? '编辑供应商 · 默认模型' : '添加供应商') : (isEditMode ? ('编辑供应商 · ' + toolUiMeta[toolKey].title) : profile.title);
-  if(profileHint) profileHint.textContent = isGlobalScope ? '填供应商信息，选 4 个默认模型。单独修改某个工具：去 AI 工具管理 > 更换模型。' : (isToolScopedEdit ? '这里的编辑只对当前 AI 工具生效；供应商的基础信息请到“模型供应商”中统一维护。' : (profile.profileHint || ''));
-  if(presetHelper) presetHelper.innerHTML = profile.presetHelper || '';
+  if(title) title.textContent = isGlobalScope ? '编辑供应商 · 全局路由' : (isEditMode ? ('编辑供应商 · ' + toolUiMeta[toolKey].title) : profile.title);
+  if(profileHint) profileHint.textContent = isGlobalScope ? '这里只维护基础信息和全局路由，不配置单个 AI 工具的专属参数。' : (isToolScopedEdit ? '这里的编辑只对当前 AI 工具生效；供应商的基础信息请到“模型供应商”中统一维护。' : (profile.profileHint || ''));
+  if(presetHelper) presetHelper.innerHTML = isGlobalScope ? '预设模型厂家 <span style="font-weight:400;color:var(--t3)">· 选择后自动带出官网与请求地址</span>' : (profile.presetHelper || '');
   if(apiUrlLabel) apiUrlLabel.textContent = profile.apiUrlLabel || '请求地址';
   if(keyLabel) keyLabel.innerHTML = profile.keyLabel || 'API Key <span style="color:#ef4444">*</span>';
   if(keyInput) keyInput.placeholder = profile.keyPlaceholder || 'sk-...';
   if(keyHint) keyHint.textContent = profile.keyHint || '';
-  if(routeHint) routeHint.innerHTML = isGlobalScope ? '验证通过后，系统会拉取这个 API Key 下的全部可用模型。' : (profile.routeHint || '');
+  if(routeHint) routeHint.innerHTML = isGlobalScope ? '开启后会把同一组模型同步到所有 AI 工具；如果后续在 AI 工具管理里单独改某个工具，全局路由会自动关闭。' : (profile.routeHint || '');
   if(step1Extra) step1Extra.innerHTML = isGlobalScope ? '' : (profile.step1Extra || '');
   if(step2Extra) step2Extra.innerHTML = isGlobalScope ? '' : (profile.step2Extra || '');
   if(saveBtn) saveBtn.textContent = isEditMode ? '保存修改' : '保存供应商';
@@ -9739,7 +9035,7 @@ function renderAddVendorToolProfile(toolKey, isEditMode){
   if(apiUrlRow) apiUrlRow.style.marginBottom = '12px';
   if(presetGrid) presetGrid.style.display = (isGlobalScope || !isToolScopedEdit) ? 'grid' : 'none';
   if(selectedIcon) selectedIcon.style.display = (isGlobalScope || !isToolScopedEdit) ? 'flex' : 'none';
-  if(step2Label) step2Label.textContent = isGlobalScope ? '设置默认模型' : '选择启用模型';
+  if(step2Label) step2Label.textContent = isGlobalScope ? '选择是否开启全局路由' : '选择启用模型';
   [nameInput, noteInput, urlInput, apiUrlInput, keyInput].forEach(function(input){
     if(!input) return;
     input.disabled = isToolScopedEdit;
@@ -9978,7 +9274,6 @@ function persistAddVendorToolConfig(toolKey){
 }
 
 function openAddVendorModal(toolKey){
-  if(!ensureVendorManagementAccess(function(){ openAddVendorModal(toolKey); })) return;
   currentAddVendorToolKey = toolKey || appState.activeToolKey || 'claude-desktop';
   avConfigScope = toolKey ? 'tool' : 'global';
   avEditingVendorName = '';
@@ -9987,7 +9282,6 @@ function openAddVendorModal(toolKey){
   var iconArea = document.getElementById('vendorSelectedIcon');
   if(iconArea) iconArea.innerHTML = '<div style="width:52px;height:52px;border-radius:12px;background:#f4f4f5;display:flex;align-items:center;justify-content:center">'+getBrandLogoMarkup('custom', 52)+'</div>';
   var grid = document.getElementById('vendorPresetGrid');
-  renderVendorPresets();
   if(grid) grid.querySelectorAll('div[onclick]').forEach(function(d){ d.classList.remove('vp-on'); d.style.borderColor='var(--bd)'; d.style.background='#fff'; });
   renderAddVendorToolProfile(currentAddVendorToolKey, false);
   if(avConfigScope === 'tool') syncAddVendorToolConfig(currentAddVendorToolKey, null);
@@ -10017,7 +9311,7 @@ var avConfigScope = 'tool';
 var avFetchedModels = [];
 
 function getEmptyGlobalRoutingDraft(){
-  return { enabled:true, models:['','','',''] };
+  return { enabled:false, models:['','','',''] };
 }
 
 function normalizeGlobalRoutingConfig(config){
@@ -10135,54 +9429,38 @@ function getDraftGlobalRoutingConfig(){
   });
   while(models.length < 4) models.push('');
   return {
-    enabled: toggle ? !!toggle.checked : true,
+    enabled: !!(toggle && toggle.checked),
     models: models.slice(0, 4)
   };
-}
-
-function resolveDefaultGlobalRoutingModels(selectedModels, availableModels){
-  var resolved = Array.isArray(selectedModels) ? selectedModels.slice(0, 4) : [];
-  while(resolved.length < 4) resolved.push('');
-  var fallbackModels = Array.isArray(availableModels) ? availableModels.slice() : [];
-  fallbackModels.forEach(function(modelName){
-    if(!modelName) return;
-    if(resolved.indexOf(modelName) >= 0) return;
-    var emptyIndex = resolved.indexOf('');
-    if(emptyIndex >= 0) resolved[emptyIndex] = modelName;
-  });
-  var seededModels = resolved.filter(Boolean);
-  if(seededModels.length){
-    var refillIndex = 0;
-    while(resolved.indexOf('') >= 0){
-      resolved[resolved.indexOf('')] = seededModels[refillIndex % seededModels.length];
-      refillIndex++;
-    }
-  }
-  return resolved.slice(0, 4);
 }
 
 function renderVendorGlobalRouteSection(connection){
   var step2Extra = document.getElementById('avStep2Extra');
   if(!step2Extra || avConfigScope !== 'global') return;
+  var hasExistingConfig = !!(connection && connection.globalRouting);
   var config = normalizeGlobalRoutingConfig(connection && connection.globalRouting);
-  config.enabled = true;
+  if(!hasExistingConfig) config.enabled = true;
   var availableModels = getVendorEnabledModels(connection);
-  var resolvedModels = resolveDefaultGlobalRoutingModels(config.models, availableModels);
+  var bodyDisplay = config.enabled ? 'block' : 'none';
   step2Extra.innerHTML = ''
     + '<div style="margin-top:18px;border:1px solid #dbeafe;border-radius:14px;background:linear-gradient(180deg,#f8fbff 0%,#ffffff 100%);padding:16px">'
-    + '<div style="margin-bottom:14px"><div style="font-size:14px;font-weight:700;color:var(--t)">默认同步到所有 AI 工具</div></div>'
-    + '<div id="avGlobalRouteFields">'
-    + '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap"><div style="font-size:12px;color:var(--t2)">已拉取 <span id="avGlobalRouteModelCount" style="font-weight:700;color:var(--a)">0</span> 个模型，请选 4 个常用模型。</div></div>'
+    + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap">'
+    + '<div><div style="font-size:14px;font-weight:700;color:var(--t)">全局路由</div><div style="font-size:12px;color:var(--t3);margin-top:4px">决定是否把这个供应商作为所有 AI 工具的统一入口。</div></div>'
+    + '<label class="sw" style="width:58px;height:30px;flex-shrink:0"><input id="avEnableGlobalRouting" type="checkbox" ' + (config.enabled ? 'checked' : '') + ' onchange="toggleVendorGlobalRouteFields(this.checked)"><span class="sl" style="border-radius:999px"></span></label>'
+    + '</div>'
+    + '<div style="font-size:12px;color:var(--t3);line-height:1.7;margin:-2px 0 14px">开启后：所有 AI 工具共享下方 4 个模型。关闭后：仅保存供应商信息，不影响其他 AI 工具。</div>'
+    + '<div id="avGlobalRouteFields" style="display:' + bodyDisplay + '">'
+    + '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap"><div style="font-size:12px;color:var(--t2)">已拉取 <span id="avGlobalRouteModelCount" style="font-weight:700;color:var(--a)">0</span> 个模型；请搜索并填写 4 个最常用模型。</div><div style="font-size:12px;color:var(--t3)">不再直接展开完整模型列表</div></div>'
     + '<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">'
     + ['模型 1','模型 2','模型 3','模型 4'].map(function(label, index){
       return '<div class="fg" style="margin-bottom:0;position:relative"><label class="fl">' + label + '</label><div style="position:relative"><input class="fi" data-global-route-slot="' + index + '" placeholder="搜索模型名后选择，例如：deepseek-chat" style="height:40px;padding-right:34px" onfocus="openGlobalRouteSuggestions(' + index + ')" oninput="handleGlobalRouteInput(' + index + ')" onblur="closeGlobalRouteSuggestions(' + index + ')" autocomplete="off"><button type="button" aria-label="展开模型列表" onclick="openGlobalRouteSuggestions(' + index + ')" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);border:none;background:transparent;color:#94a3b8;font-size:12px;line-height:1;cursor:pointer;padding:0">▼</button></div><div id="avGlobalRouteSuggestions_' + index + '" style="display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #dbe3f0;border-radius:12px;box-shadow:0 12px 28px rgba(15,23,42,.12);overflow:hidden;z-index:8;max-height:240px;overflow-y:auto"></div></div>';
     }).join('')
     + '</div>'
-    + '<div style="font-size:12px;color:var(--t3);margin-top:10px">Claude 会自动映射这 4 个模型；其他工具默认共用这组模型。想单独修改，去 AI 工具管理 > 更换模型。</div>'
+    + '<div style="font-size:12px;color:var(--t3);margin-top:10px">Claude 会按 模型1/模型2/模型3/模型4 分别映射到 Sonnet / Opus / Haiku / Fable；其他工具会共用同一组模型，默认优先使用模型1。</div>'
     + '</div>'
     + '</div>';
   syncGlobalRoutingSelectOptions(availableModels);
-  setGlobalRoutingModels(resolvedModels);
+  setGlobalRoutingModels(config.models);
   closeAllGlobalRouteSuggestions();
 }
 
@@ -10367,7 +9645,7 @@ function avOnProtoChange(val) {
     gemini:    'http://127.0.0.1:15721/gemini/v1'
   };
   var descMap = {
-    anthropic: '适用：<b>Claude Code、Claude、Cursor（Anthropic 模式）</b>',
+    anthropic: '适用：<b>Claude Code、Claude Desktop、Cursor（Anthropic 模式）</b>',
     openai:    '适用：<b>Cursor、VS Code、Cline、Windsurf</b> 等 OpenAI 兼容工具，按实际模型 ID 调用',
     responses: '适用：<b>OpenAI Responses API</b> 格式工具，支持 stateful 对话接口',
     gemini:    '适用：<b>Google Gemini 格式</b>工具，转为 generateContent 接口'
@@ -10379,7 +9657,7 @@ function avOnProtoChange(val) {
   // 是否需要模型映射
   html += '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);margin-bottom:12px">';
   html += '<div style="flex:1"><div style="font-size:12px;font-weight:600;margin-bottom:4px">需要模型映射</div>';
-  html += '<div style="font-size:11px;color:var(--t3);line-height:1.6">仅当供应商直接接受 Claude 可识别的三档角色 ID（claude-sonnet-* / claude-opus-* / claude-haiku-*）时才适用直连；其他模型名（含 claude-3-5-sonnet-... 等旧式 ID）请打开此开关映射。</div></div>';
+  html += '<div style="font-size:11px;color:var(--t3);line-height:1.6">仅当供应商直接接受 Claude Desktop 可识别的三档角色 ID（claude-sonnet-* / claude-opus-* / claude-haiku-*）时才适用直连；其他模型名（含 claude-3-5-sonnet-... 等旧式 ID）请打开此开关映射。</div></div>';
   html += '<label style="position:relative;display:inline-block;width:40px;height:22px;cursor:pointer;flex-shrink:0;margin-top:2px"><input type="checkbox" id="avNeedMapping" ' + (needsModelMapping ? 'checked' : '') + ' onchange="avOnMappingToggle(this.checked)" style="opacity:0;width:0;height:0"><span style="position:absolute;inset:0;background:' + (needsModelMapping ? 'var(--a)' : '#ccc') + ';border-radius:22px;transition:.2s"><span style="position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:3px;' + (needsModelMapping ? 'right:3px' : 'left:3px') + ';transition:.2s"></span></span></label>';
   html += '</div>';
   // 接口地址
@@ -10405,8 +9683,8 @@ function avOnProtoChange(val) {
     html += '<div style="margin-top:10px;border:1px solid var(--bd);border-radius:8px;overflow:hidden">';
     html += '<div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display===\'none\'?\'\':\' none\';this.querySelector(\'span.arr\').textContent=this.nextElementSibling.style.display===\'\'?\'\u25be\':\'\u25b8\'" style="display:flex;align-items:center;gap:8px;padding:10px 14px;cursor:pointer;background:#fafafa;user-select:none">';
     html += '<span class="arr" style="color:var(--t3);font-size:12px">\u25b8</span>';
-    html += '<div><div style="font-size:12px;font-weight:600">手动指定 Claude 模型列表（高级，可选）</div>';
-    html += '<div style="font-size:11px;color:var(--t3);margin-top:1px">原生 Claude 模型供应商通常不用填写，Claude 会自动读取 /v1/models。</div></div>';
+    html += '<div><div style="font-size:12px;font-weight:600">手动指定 Claude Desktop 模型列表（高级，可选）</div>';
+    html += '<div style="font-size:11px;color:var(--t3);margin-top:1px">原生 Claude 模型供应商通常不用填写，Claude Desktop 会自动读取 /v1/models。</div></div>';
     html += '</div>';
     html += '<div style="display:none;padding:12px 14px;border-top:1px solid var(--bd)">';
     html += '<textarea class="fi" style="width:100%;height:80px;font-size:12px;font-family:monospace;resize:vertical;padding:8px" placeholder="每行一个模型名，留空则自动读取"></textarea>';
@@ -10494,7 +9772,6 @@ function avGoStep2(){
 }
 
 function saveVendorModels(){
-  if(!ensureVendorManagementAccess()) return;
   var editingName = avEditingVendorName;
   var isEditMode = !!editingName;
   var currentScope = avConfigScope;
@@ -10545,12 +9822,12 @@ function saveVendorModels(){
   if(!name){ showToast('供应商名称缺失，请重新验证'); return; }
   if(currentScope === 'tool'){
     if(toolKey === 'codex-cli' && !codexMappedModels.length){ showToast('请至少添加一个模型映射'); return; }
-    if(toolKey === 'claude-desktop' && !enabledModels.length){ showToast('请至少设置一个 Claude 模型映射'); return; }
+    if(toolKey === 'claude-desktop' && !enabledModels.length){ showToast('请至少填写一个 Claude 槽位映射'); return; }
     if((toolKey === 'opencode' || toolKey === 'openclaw' || toolKey === 'hermes') && !enabledModels.length){ showToast('请至少添加一个模型'); return; }
     if(toolKey === 'gemini' && !enabledModels.length){ showToast('请填写 Gemini 模型'); return; }
     if(!getAddVendorToolProfile(toolKey).singlePage && toolKey !== 'codex-cli' && (!checked || !enabledModels.length)){ showToast('请至少启用一个模型'); return; }
   }
-  if(currentScope === 'global' && globalRouting.enabled && !globalRouting.models.filter(Boolean).length){ showToast('请至少选择一个默认模型'); return; }
+  if(currentScope === 'global' && globalRouting.enabled && !globalRouting.models.filter(Boolean).length){ showToast('请至少选择一个全局路由模型'); return; }
   if(currentScope === 'tool') disableGlobalRouting('已关闭全局路由，改为单独配置 ' + (toolUiMeta[toolKey] ? toolUiMeta[toolKey].title : toolKey));
   var shouldActivateConnection = isEditMode ? null : true;
   upsertVendorConnection({
@@ -10594,7 +9871,7 @@ function saveVendorModels(){
   avEditingVendorName = '';
   avConfigScope = 'tool';
   cm('mAddVendor');
-  showToast('✅ ' + name + (editingName ? ' 已更新' : ' 已保存') + '，' + (currentScope === 'global' ? '已同步到所有 AI 工具' : ((editingName ? '当前配置已刷新' : '已同步到供应商管理，并出现在下方列表；点击“启用”后对当前工具生效') + ' · ' + toolUiMeta[toolKey].title + ' · ' + enabledModels.length + ' 个模型 · API 格式：' + proto)), 3600);
+  showToast('✅ ' + name + (editingName ? ' 已更新' : ' 已保存') + '，' + (currentScope === 'global' ? (globalRouting && globalRouting.enabled ? '全局路由已生效' : '全局路由已保存') : ((editingName ? '当前配置已刷新' : '已同步到供应商管理，并出现在下方列表；点击“启用”后对当前工具生效') + ' · ' + toolUiMeta[toolKey].title + ' · ' + enabledModels.length + ' 个模型 · API 格式：' + proto)), 3600);
 }
 
 var vendorConnections = [
@@ -10754,7 +10031,6 @@ function isVendorConnectionActive(connection){
 }
 
 function getToolVisibleVendorConnections(toolKey){
-  if(!hasVendorManagementAccess()) return [];
   return vendorConnections.filter(function(connection){
     if(!isVendorConnectionActive(connection)) return false;
     var toolSettings = connection.toolSettings || {};
@@ -10783,14 +10059,20 @@ function isVendorInUseForTool(connection, toolKey){
   return getVendorToolDisplayModels(connection, toolKey).indexOf(currentModel) >= 0;
 }
 
-function applyVendorSelectionToToolState(connection, toolKey){
+function useVendorConnectionForTool(name, toolKey){
+  var connection = vendorConnections.filter(function(item){ return item.name === name; })[0];
   var tool = appState.toolRouting[toolKey];
-  if(!connection || !tool) return false;
+  if(!connection || !tool) return;
+  if(!tool.installed || tool.setupStatus === 'not-installed'){
+    showToast('请先安装 AI 工具 ' + (tool.name || toolKey) + '，安装完成后再启用其他供应商');
+    return;
+  }
   if(!isVendorConnectionActive(connection)) connection.active = true;
   applyVendorConnectionToTools(connection, false);
   var models = getVendorToolDisplayModels(connection, toolKey);
   var targetModel = getVendorToolTargetModel(connection, toolKey) || models[0] || '';
-  if(!targetModel) return false;
+  if(!targetModel){ showToast(connection.name + ' 暂无可用模型'); return; }
+  disableGlobalRouting('已关闭全局路由，改为单独配置 ' + (tool.name || toolKey));
   if(isClaudeSlotTool(toolKey)){
     var mapping = connection.mapping || {};
     var slotBindings = {
@@ -10811,8 +10093,8 @@ function applyVendorSelectionToToolState(connection, toolKey){
     tool.enabledModels = Array.from(new Set(Object.keys(slotBindings).map(function(slotKey){ return slotBindings[slotKey]; }).filter(Boolean)));
     tool.selection = slotBindings.sonnet || tool.enabledModels[0] || targetModel;
   }else{
-    tool.enabledModels = models.slice();
     tool.selection = targetModel;
+    if(Array.isArray(tool.enabledModels) && tool.enabledModels.indexOf(targetModel) < 0) tool.enabledModels.unshift(targetModel);
   }
   if(!toolConfigState[toolKey]) toolConfigState[toolKey] = {};
   toolConfigState[toolKey].primaryModel = tool.selection;
@@ -10821,38 +10103,11 @@ function applyVendorSelectionToToolState(connection, toolKey){
   if(!appState.toolSupplierCardFocus) appState.toolSupplierCardFocus = {};
   appState.toolSupplierCardFocus[toolKey] = connection.name;
   appState.activeToolKey = toolKey;
-  return true;
-}
-
-function getConnectionLatencyMs(source){
-  var latency = Number(source && source.latencyMs);
-  return latency > 0 ? Math.round(latency) : 1631;
-}
-
-function showConnectionSuccessToast(name, options){
-  var config = options || {};
-  var message = '已切换至 ' + name + '，连接正常 (' + getConnectionLatencyMs(config.source) + 'ms)';
-  if(config.requireRestart){
-    message = '重启当前 AI 工具后即可生效<div style="margin-top:6px;font-size:12px;line-height:1.6;opacity:.9">' + message + '</div>';
-  }
-  showToast(message, config.duration || 2200);
-}
-
-function useVendorConnectionForTool(name, toolKey){
-  var connection = vendorConnections.filter(function(item){ return item.name === name; })[0];
-  var tool = appState.toolRouting[toolKey];
-  if(!connection || !tool) return;
-  if(!tool.installed || tool.setupStatus === 'not-installed'){
-    showToast('请先安装 AI 工具 ' + (tool.name || toolKey) + '，安装完成后再启用其他供应商');
-    return;
-  }
-  disableGlobalRouting('已关闭全局路由，改为单独配置 ' + (tool.name || toolKey));
-  if(!applyVendorSelectionToToolState(connection, toolKey)){ showToast(connection.name + ' 暂无可用模型'); return; }
   syncVendorConfigData();
   renderToolRoutingViews();
   renderToolRoutingTable();
   renderToolUsageStats();
-  showConnectionSuccessToast(connection.name, { duration: 2600, source: connection, requireRestart: true });
+  showToast(connection.name + ' 已设为 ' + toolUiMeta[toolKey].title + ' 当前使用供应商');
 }
 
 function resetToolToBuiltinLocal(toolKey){
@@ -10914,17 +10169,21 @@ function resetBuiltinToolConfig(toolKey){
   renderToolRoutingViews();
   renderToolRoutingTable();
   renderToolUsageStats();
-  showConnectionSuccessToast('平台接入', { duration: 2600, requireRestart: true });
+  showToast(toolUiMeta[toolKey].title + ' 已重置为内置默认配置');
 }
 
 function testBuiltinConnectionChannel(toolKey){
-  showConnectionSuccessToast('平台接入', { duration: 2200 });
+  var tool = appState.toolRouting[toolKey] || {};
+  var currentModel = getToolCurrentModel(toolKey) || tool.selection || '未设置';
+  showToast('检测通道正常：平台接入 · ' + toolUiMeta[toolKey].title + ' · 当前模型 ' + currentModel, 2600);
 }
 
 function testVendorConnectionChannel(name, toolKey){
   var connection = vendorConnections.filter(function(item){ return item.name === name; })[0];
   if(!connection) return;
-  showConnectionSuccessToast(connection.name, { duration: 2200, source: connection });
+  var models = getVendorToolDisplayModels(connection, toolKey);
+  var protocolText = normalizeVendorProtocols(connection.protocols, connection.protocol).join(' / ');
+  showToast('检测通道正常：' + connection.name + ' · ' + toolUiMeta[toolKey].title + ' · ' + protocolText + ' · ' + models.length + ' 个模型', 2600);
 }
 
 function testPlatformConnectionOverview(){
@@ -10942,11 +10201,8 @@ function renderToolVendorCards(toolKey){
   var connections = getToolVisibleVendorConnections(toolKey);
   var tool = appState.toolRouting[toolKey] || {};
   var focusedSupplierKey = getFocusedSupplierCardKey(toolKey);
-  if(!hasVendorManagementAccess()){
-    return '<div style="padding:34px 12px 10px;text-align:center;color:var(--t3);font-size:12px;line-height:1.8">暂无其他供应商，点击下方按钮添加新的API Key。<div style="margin-top:14px"><button class="btn bo bsm" onclick="openAddVendorModal()">去添加供应商</button></div></div>';
-  }
   if(!connections.length){
-    return '<div style="padding:34px 12px 10px;text-align:center;color:var(--t3);font-size:12px;line-height:1.8">暂无其他供应商，点击下方按钮添加新的API Key。<div style="margin-top:14px"><button class="btn bo bsm" onclick="openAddVendorModal()">去添加供应商</button></div></div>';
+    return '<div style="padding:34px 12px 10px;text-align:center;color:var(--t3);font-size:12px;line-height:1.8">暂无已接入的其他供应商；如果你已经有 API Key，可点击上方“添加供应商”接入。</div>';
   }
   return '<div style="display:grid;gap:10px">' + connections.map(function(connection){
     var targetUrl = getVendorDisplayUrl(connection);
@@ -10963,8 +10219,9 @@ function renderToolVendorCards(toolKey){
       + '</div>'
       + '<div class="builtin-supplier-actions">'
       + '<div style="display:flex;align-items:center;gap:8px;flex-wrap:nowrap;justify-content:flex-end">'
-      + '<button class="btn bo bsm" onclick="openBuiltinModelPicker(\'' + toolKey + '\',\'' + connection.name.replace(/'/g, '\&#39;') + '\')">更换模型</button>'
+      + '<button class="btn bo bsm" onclick="openVendorConfig(\'' + connection.name.replace(/'/g, '\&#39;') + '\',\'tool\')">编辑</button>'
       + '<button class="btn bo bsm" onclick="testVendorConnectionChannel(\'' + connection.name.replace(/'/g, '\&#39;') + '\',\'' + toolKey + '\')">检测</button>'
+      + '<button class="btn bsm" style="background:#fff5f5;color:#ef4444;border:1px solid #fecaca" onclick="removeVendorConnectionForTool(\'' + connection.name.replace(/'/g, '\&#39;') + '\',\'' + toolKey + '\')">移除</button>'
       + '<button class="btn ' + (inUse ? 'bo' : 'bp') + ' bsm" style="' + (inUse ? 'background:#dcfce7;color:#15803d;border:1px solid #bbf7d0' : '') + '" onclick="' + (inUse ? 'showToast(\'' + connection.name.replace(/'/g, '\&#39;') + ' 已在使用中\',1600)' : 'useVendorConnectionForTool(\'' + connection.name.replace(/'/g, '\&#39;') + '\',\'' + toolKey + '\')') + '">' + (inUse ? '使用中' : '启用') + '</button>'
       + '</div>'
       + '</div>'
@@ -10998,9 +10255,6 @@ function applyVendorConnectionToTools(connection, assignSelections){
 function renderVendorConnectionList(){
   var list = document.getElementById('vendorConnectionList');
   if(!list) return;
-  var memberDataAccess = hasMemberDataAccess();
-  var vendorManagementAccess = hasVendorManagementAccess();
-  var visibleConnections = vendorManagementAccess ? vendorConnections.slice() : [];
   var builtinHtml = '<div class="vendor-overview-card mb12">'
     + '<div class="vendor-overview-main">'
     + '<div class="vendor-overview-avatar">MT</div>'
@@ -11013,9 +10267,9 @@ function renderVendorConnectionList(){
     + '</div>'
     + '</div>'
     + '<div class="vendor-connection-summary">'
-    + '<div class="vendor-connection-metric"><div class="vendor-connection-metric-label">账户余额</div><div class="vendor-connection-metric-value">¥' + Number(memberDataAccess ? (getBalanceValue() || 0) : 0).toFixed(2) + '</div></div>'
-    + '<div class="vendor-connection-metric"><div class="vendor-connection-metric-label">今日消耗</div><div class="vendor-connection-metric-value is-accent">' + Number(memberDataAccess ? (getTodayUsageTotal() || 0) : 0).toLocaleString() + ' T</div></div>'
-    + '<div class="vendor-connection-metric"><div class="vendor-connection-metric-label">本月消耗</div><div class="vendor-connection-metric-value">' + Number(memberDataAccess ? (getRecentUsageTotal() || 0) : 0).toLocaleString() + ' T</div></div>'
+    + '<div class="vendor-connection-metric"><div class="vendor-connection-metric-label">账户余额</div><div class="vendor-connection-metric-value">¥' + Number(getBalanceValue() || 0).toFixed(2) + '</div></div>'
+    + '<div class="vendor-connection-metric"><div class="vendor-connection-metric-label">今日消耗</div><div class="vendor-connection-metric-value is-accent">' + Number(getTodayUsageTotal() || 0).toLocaleString() + ' T</div></div>'
+    + '<div class="vendor-connection-metric"><div class="vendor-connection-metric-label">本月消耗</div><div class="vendor-connection-metric-value">' + Number(getRecentUsageTotal() || 0).toLocaleString() + ' T</div></div>'
     + '</div>'
     + '<div class="vendor-overview-actions">'
     + '<button class="btn bo bsm" onclick="testPlatformConnectionOverview()">检测</button>'
@@ -11023,23 +10277,19 @@ function renderVendorConnectionList(){
     + '</div>'
     + '</div>'
     + '</div>';
-  var customHeader = '<div style="margin:12px 0 8px"><div style="display:flex;align-items:center;gap:8px"><div style="font-size:13px;font-weight:700;color:var(--t2)">其他供应商</div><span style="font-size:12px;background:#f4f4f5;color:var(--t3);border-radius:20px;padding:1px 8px;font-weight:400">' + visibleConnections.length + '</span></div><div style="margin-top:4px;font-size:12px;color:var(--t3);line-height:1.7">接入你自己的 API Key 后，平台会自动完成协议适配与统一路由，兼容工具可直接调用对应模型。</div></div>';
-  if(!vendorManagementAccess){
-    list.innerHTML = builtinHtml + customHeader + '<div class="card mb16" style="padding:24px;text-align:center;color:var(--t3);line-height:1.8">暂无其他供应商，点击下方按钮添加新的API Key。</div>';
+  var customHeader = '<div style="margin:12px 0 8px"><div style="display:flex;align-items:center;gap:8px"><div style="font-size:13px;font-weight:700;color:var(--t2)">其他供应商</div><span style="font-size:12px;background:#f4f4f5;color:var(--t3);border-radius:20px;padding:1px 8px;font-weight:400">' + vendorConnections.length + '</span></div><div style="margin-top:4px;font-size:12px;color:var(--t3);line-height:1.7">接入你自己的 API Key 后，平台会自动完成协议适配与统一路由，兼容工具可直接调用对应模型。</div></div>';
+  if(!vendorConnections.length){
+    list.innerHTML = builtinHtml + customHeader + '<div class="card mb16" style="padding:24px;text-align:center;color:var(--t3)">暂无其他供应商，点击下方按钮添加新的 API Key。</div>';
     return;
   }
-  if(!visibleConnections.length){
-    list.innerHTML = builtinHtml + customHeader + '<div class="card mb16" style="padding:24px;text-align:center;color:var(--t3)">暂无其他供应商，点击下方按钮添加新的API Key。</div>';
-    return;
-  }
-  list.innerHTML = builtinHtml + customHeader + visibleConnections.map(function(connection, index){
+  list.innerHTML = builtinHtml + customHeader + vendorConnections.map(function(connection, index){
     var isActive = isVendorConnectionActive(connection);
     var isGlobalRouting = !!(connection.globalRouting && connection.globalRouting.enabled);
     var displayUrl = getVendorDisplayUrl(connection);
     var displayUrlHtml = displayUrl
       ? '<a class="vendor-connection-link" href="' + displayUrl + '" onclick="return false;">' + displayUrl + '</a>'
       : '<div class="vendor-connection-link is-muted">未配置官网 / API 地址</div>';
-    return '<div class="vendor-connection-card ' + (index === visibleConnections.length - 1 ? 'mb16' : 'mb8') + '">'
+    return '<div class="vendor-connection-card ' + (index === vendorConnections.length - 1 ? 'mb16' : 'mb8') + '">'
       + '<div class="vendor-connection-main">'
       + '<div class="vendor-connection-avatar">' + getBrandLogoMarkup(connection.brand || getVendorBrandKey(connection.name), 40) + '</div>'
       + '<div class="vendor-connection-copy">'
@@ -11059,7 +10309,7 @@ function renderVendorConnectionList(){
       + (isActive ? '' : '<button class="btn bp bsm" onclick="activateVendorConnection(\'' + connection.name.replace(/'/g, '\&#39;') + '\')">启用</button>')
       + '<button class="btn bo bsm" onclick="testVendorConnectionOverview(\'' + connection.name.replace(/'/g, '\&#39;') + '\')">检测</button>'
       + '<button class="btn bo bsm" onclick="openVendorConfig(\'' + connection.name.replace(/'/g, '\\&#39;') + '\',\'global\')">编辑</button>'
-      + '<button class="btn bsm" style="background:#fff5f5;color:#ef4444;border:1px solid #fecaca" onclick="requestRemoveVendorConnection(\'' + connection.name.replace(/'/g, '\\&#39;') + '\')">删除</button>'
+      + '<button class="btn bsm" style="background:#fff5f5;color:#ef4444;border:1px solid #fecaca" onclick="removeVendorConnection(\'' + connection.name.replace(/'/g, '\\&#39;') + '\')">移除</button>'
       + '</div>'
       + '</div>';
   }).join('');
@@ -11079,28 +10329,6 @@ function activateVendorConnection(name){
   showToast(name + ' 已启用');
 }
 
-var pendingDeleteVendorName = '';
-
-function requestRemoveVendorConnection(name){
-  pendingDeleteVendorName = name || '';
-  var desc = document.getElementById('deleteVendorConfirmDesc');
-  if(desc) desc.innerHTML = '确认删除「' + (name || '该供应商') + '」供应商吗？<br><br>删除后，所有 AI 工具都将无法继续使用该供应商提供的模型，需要重新选择其他供应商或切回平台接入。';
-  om('mDeleteVendorConfirm');
-}
-
-function cancelRemoveVendorConnection(){
-  pendingDeleteVendorName = '';
-  cm('mDeleteVendorConfirm');
-}
-
-function confirmRemoveVendorConnection(){
-  if(!pendingDeleteVendorName){ cm('mDeleteVendorConfirm'); return; }
-  var name = pendingDeleteVendorName;
-  pendingDeleteVendorName = '';
-  cm('mDeleteVendorConfirm');
-  removeVendorConnection(name);
-}
-
 function removeVendorConnection(name){
   var index = vendorConnections.findIndex(function(connection){ return connection.name === name; });
   if(index < 0) return;
@@ -11117,7 +10345,7 @@ function removeVendorConnection(name){
   renderToolRoutingViews();
   renderToolRoutingTable();
   renderToolUsageStats();
-  showToast('已删除 ' + name + ' 供应商' + (removingGlobal ? '，全局路由已关闭' : ''));
+  showToast('已移除 ' + name + ' 供应商' + (removingGlobal ? '，全局路由已关闭' : ''));
 }
 
 function upsertVendorConnection(payload){
@@ -11173,7 +10401,6 @@ vendorConnections.forEach(function(connection){
 renderVendorConnectionList();
 
 function openVendorConfig(name, scope) {
-  if(!ensureVendorManagementAccess(function(){ openVendorConfig(name, scope); })) return;
   var connection = vendorConnections.filter(function(item){ return item.name === name; })[0];
   if(!connection) return;
   avConfigScope = scope === 'global' ? 'global' : 'tool';
@@ -11341,7 +10568,7 @@ function showToast(html, duration){
   if(existing) existing.remove();
   var t = document.createElement('div');
   t.id = 'appToast';
-  t.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#1a2e3b;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.25);white-space:nowrap;max-width:90vw;text-align:center';
+  t.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#1a2e3b;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.25);white-space:nowrap;max-width:90vw';
   t.innerHTML = html;
   document.body.appendChild(t);
   setTimeout(function(){ if(t.parentNode) t.remove(); }, duration || 5000);
@@ -11408,10 +10635,6 @@ function hideGlobalInfoHint(){
   tooltip.style.display='none';
 }
 
-function updateInfoHintDirection(){
-  hideGlobalInfoHint();
-}
-
 document.querySelectorAll('.ov').forEach(ov=>{
   ov.addEventListener('click',e=>{if(e.target===ov)ov.classList.remove('op')})
 });
@@ -11442,7 +10665,6 @@ updateInfoHintDirection();
 updatePlanSummary(document.querySelector('.plc.on'));
 syncBalanceViews();
 lucide.createIcons();
-updateLoginMethod();
 updateHeroGreeting();
 renderVendorPresets();
 renderStaticBrandLogos();
