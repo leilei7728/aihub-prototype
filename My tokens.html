@@ -290,12 +290,12 @@ body{font-family:'SF Pro Display','SF Pro Text','PingFang SC','Helvetica Neue','
 .profile-center-metric{text-align:center;min-width:72px}
 .profile-center-metric-value{font-size:26px;font-weight:800;line-height:1.1;color:#fff}
 .profile-center-metric-label{font-size:12px;color:rgba(255,255,255,.7);margin-top:4px}
-.profile-center-body{display:grid;grid-template-columns:220px minmax(0,1fr);gap:18px;align-items:start}
-.profile-center-menu{background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.8);border-radius:24px;padding:16px;box-shadow:0 12px 26px rgba(15,23,42,.06);display:grid;gap:8px;backdrop-filter:blur(20px);position:sticky;top:0}
+.profile-center-body{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;align-items:start}
+.profile-center-menu{background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(247,250,255,.88));border:1px solid rgba(214,224,236,.92);border-radius:22px;padding:10px 12px;box-shadow:0 12px 26px rgba(15,23,42,.06);display:flex;gap:8px;flex-wrap:wrap;align-items:center;backdrop-filter:blur(20px);position:sticky;top:0;z-index:2;overflow-x:auto}
 .profile-center-menu-title{font-size:12px;font-weight:800;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;padding:0 8px 6px}
-.profile-center-menu-btn{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:none;border-radius:16px;background:transparent;color:var(--t2);cursor:pointer;font-size:14px;font-weight:700;transition:all .16s;text-align:left}
-.profile-center-menu-btn:hover{background:rgba(255,255,255,.66);color:var(--t)}
-.profile-center-menu-btn.on{background:#ffd84d;color:#5b4300;box-shadow:0 12px 24px rgba(250,204,21,.24)}
+.profile-center-menu-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:36px;padding:0 16px;border:none;border-radius:12px;background:transparent;color:#66758a;cursor:pointer;font-size:13px;font-weight:700;transition:all .18s;text-align:center;white-space:nowrap;flex-shrink:0}
+.profile-center-menu-btn:hover{background:rgba(255,255,255,.9);color:var(--t)}
+.profile-center-menu-btn.on{background:#111827;color:#fff;box-shadow:0 10px 20px rgba(15,23,42,.18)}
 .profile-center-content{display:grid;gap:16px}
 .profile-center-panel{display:none;background:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.84);border-radius:24px;padding:22px;box-shadow:0 14px 30px rgba(15,23,42,.06);backdrop-filter:blur(20px)}
 .profile-center-panel.on{display:block}
@@ -958,8 +958,7 @@ input:checked+.sl:before{transform:translateX(16px)}
   .achievement-entry-stats,.achievement-medal-strip,.achievement-page-stats,.achievement-medal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .achievement-page-overview-grid{grid-template-columns:1fr}
   .profile-center-body{grid-template-columns:1fr}
-  .profile-center-menu{position:static;grid-template-columns:repeat(3,minmax(0,1fr))}
-  .profile-center-menu-title{grid-column:1/-1}
+  .profile-center-menu{position:static;justify-content:flex-start;padding:10px}
   .profile-center-summary-grid,.profile-center-highlight-grid,.profile-center-order-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .badge-detail-current{grid-template-columns:1fr}
   .badge-detail-rail{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -1003,7 +1002,8 @@ input:checked+.sl:before{transform:translateX(16px)}
   .profile-center-name{font-size:24px}
   .profile-center-metrics{justify-content:flex-start;gap:14px}
   .profile-center-metric{min-width:calc(50% - 7px);text-align:left}
-  .profile-center-menu{grid-template-columns:1fr}
+  .profile-center-menu{display:flex;grid-template-columns:none;justify-content:flex-start;flex-wrap:wrap;padding:10px}
+  .profile-center-menu-btn{width:auto;justify-content:center;border-radius:12px;padding:0 14px}
   .profile-center-summary-grid,.profile-center-highlight-grid,.profile-center-quick-grid,.profile-center-order-grid{grid-template-columns:1fr}
   .profile-overview-account-card{padding:16px}
   .profile-overview-account-main{min-width:0}
@@ -1697,31 +1697,8 @@ input:checked+.sl:before{transform:translateX(16px)}
 
   <!-- Tab3: 订单记录 -->
   <div id="buyPanelOrders" style="display:none">
-    <div style="display:flex;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-      <!-- 居中：订单类型 Tab -->
-      <div style="flex:1;display:flex;justify-content:center">
-        <div class="fxc g6">
-          <div class="ft on" onclick="orderTypeClick(this)" data-type="全部">全部</div>
-          <div class="ft" onclick="orderTypeClick(this)" data-type="订阅订单">订阅订单</div>
-          <div class="ft" onclick="orderTypeClick(this)" data-type="充值订单">充值订单</div>
-        </div>
-      </div>
-      <!-- 靠右：订单状态下拉 + 批量开票 -->
-      <div class="fxc g6">
-        <select id="orderStatusFilter" onchange="orderStatusChange(this)" style="padding:5px 10px;border-radius:6px;border:1px solid var(--bd);font-size:13px;color:var(--t);background:var(--wh);cursor:pointer">
-          <option value="全部">订单状态：全部</option>
-          <option value="待支付">待支付</option>
-          <option value="支付成功">支付成功</option>
-          <option value="已退款">已退款</option>
-        </select>
-        <button class="btn bo bsm" id="batchInvoiceBtn" onclick="openBatchInvoiceModal()">申请开票</button>
-      </div>
-    </div>
-    <div class="card">
-      <table class="tb">
-        <thead><tr><th style="width:42px"><input type="checkbox" id="orderSelectAll" onchange="toggleInvoiceSelectableOrders(this.checked)"></th><th>订单编号</th><th>套餐</th><th>支付方式</th><th>下单时间</th><th>订阅有效期</th><th>订单状态</th><th>发票状态</th><th>操作</th></tr></thead>
-        <tbody id="orderTableBody"></tbody>
-      </table>
+    <div class="card" style="padding:24px;text-align:center;color:var(--t2)">
+      订单中心已移至个人中心展示，请在左侧进入“个人中心 - 订单中心”查看订单列表。
     </div>
   </div><!-- /buyPanelOrders -->
 </div>
@@ -1899,21 +1876,29 @@ input:checked+.sl:before{transform:translateX(16px)}
         </div>
 
         <div id="profileSection-orders" class="profile-center-panel">
-          <div class="profile-center-panel-head">
-            <div>
-              <div class="profile-center-panel-title">订单中心</div>
-              <div class="profile-center-panel-sub">把续费、充值和开票动作留在订单流里，个人中心只保留摘要和跳转。</div>
+          <div style="display:flex;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+            <div style="flex:1;display:flex;justify-content:center">
+              <div class="fxc g6">
+                <div class="ft on" onclick="orderTypeClick(this)" data-type="全部">全部</div>
+                <div class="ft" onclick="orderTypeClick(this)" data-type="订阅订单">订阅订单</div>
+                <div class="ft" onclick="orderTypeClick(this)" data-type="充值订单">充值订单</div>
+              </div>
             </div>
-            <div class="fxc g8"><button class="btn bo bsm" type="button" onclick="syncProfileCenter();showToast('订单列表已刷新',1400)">刷新订单</button><button class="btn bp bsm" type="button" onclick="go('p05',nv(4),'订阅 / 充值');setTimeout(function(){switchBuyTab('subscription')},50)">继续续费</button></div>
+            <div class="fxc g6">
+              <select id="orderStatusFilter" onchange="orderStatusChange(this)" style="padding:5px 10px;border-radius:6px;border:1px solid var(--bd);font-size:13px;color:var(--t);background:var(--wh);cursor:pointer">
+                <option value="全部">订单状态：全部</option>
+                <option value="待支付">待支付</option>
+                <option value="支付成功">支付成功</option>
+                <option value="已退款">已退款</option>
+              </select>
+              <button class="btn bo bsm" id="batchInvoiceBtn" onclick="openBatchInvoiceModal()">申请开票</button>
+            </div>
           </div>
-          <div class="profile-center-order-grid">
-            <div class="profile-center-order-card"><div id="profileOrderCount" class="profile-center-order-value">0</div><div class="profile-center-order-label">累计订单</div><div class="profile-center-order-sub">已产生的订阅与充值订单总数。</div></div>
-            <div class="profile-center-order-card"><div id="profileInvoiceCount" class="profile-center-order-value">0</div><div class="profile-center-order-label">可申请发票</div><div class="profile-center-order-sub">仍可发起开票的有效订单数量。</div></div>
-            <div class="profile-center-order-card"><div id="profilePackageCount" class="profile-center-order-value">0</div><div class="profile-center-order-label">生效中的套餐包</div><div class="profile-center-order-sub">当前仍在有效期内的充值包或套餐包。</div></div>
-          </div>
-          <div class="profile-center-list">
-            <div class="profile-center-list-item"><div class="profile-center-list-main"><div class="profile-center-list-title">最近一笔订单</div><div id="profileLatestOrder" class="profile-center-list-copy">暂无订单记录</div></div><span class="bd2 bpu">最近更新</span></div>
-            <div class="profile-center-list-item"><div class="profile-center-list-main"><div class="profile-center-list-title">下一个续费节点</div><div id="profileRenewHint" class="profile-center-list-copy">当前没有待续费提醒</div></div><button class="btn bo bsm" type="button" onclick="switchProfileSection('profile',document.querySelector('.profile-center-menu-btn[data-target=profile]'))">查看资料</button></div>
+          <div class="card">
+            <table class="tb">
+              <thead><tr><th style="width:42px"><input type="checkbox" id="orderSelectAll" onchange="toggleInvoiceSelectableOrders(this.checked)"></th><th>订单编号</th><th>套餐</th><th>支付方式</th><th>下单时间</th><th>订阅有效期</th><th>订单状态</th><th>发票状态</th><th>操作</th></tr></thead>
+              <tbody id="orderTableBody"></tbody>
+            </table>
           </div>
         </div>
 
