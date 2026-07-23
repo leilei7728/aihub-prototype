@@ -141,6 +141,21 @@ body{font-family:'SF Pro Display','SF Pro Text','PingFang SC','Helvetica Neue','
 .modal.feedback-preview-mode .agreement-box,
 .modal.feedback-preview-mode .modal-actions,
 .modal.feedback-preview-mode .link-btn{display:none !important}
+.modal.tool-enable-preview-mode{width:min(440px,100%);background:linear-gradient(180deg,#ffffff 0%,#f5f9ff 100%);border-radius:28px;border:1px solid rgba(255,255,255,.92);box-shadow:0 28px 72px rgba(15,23,42,.22)}
+.modal.tool-enable-preview-mode .modal-body{padding:26px 30px 30px;gap:0}
+.modal.tool-enable-preview-mode .modal-visual,
+.modal.tool-enable-preview-mode .agreement-box,
+.modal.tool-enable-preview-mode .modal-actions,
+.modal.tool-enable-preview-mode .link-btn{display:none !important}
+.tool-enable-preview{display:none}
+.tool-enable-preview.show{display:grid;gap:16px;text-align:center}
+.tool-enable-preview-icon{width:58px;height:58px;margin:6px auto 0;border-radius:18px;background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%);border:1px solid #93c5fd;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 14px 28px rgba(10,132,255,.12)}
+.tool-enable-preview-title{font-size:18px;font-weight:800;line-height:1.45;color:#1f2937}
+.tool-enable-preview-desc{font-size:14px;line-height:1.85;color:#64748b;max-width:320px;margin:0 auto}
+.tool-enable-preview-actions{display:grid;gap:10px;margin-top:4px}
+.tool-enable-preview-btn{height:48px;border:none;border-radius:14px;font-size:14px;font-weight:800;cursor:pointer}
+.tool-enable-preview-btn.primary{background:linear-gradient(180deg,#39a4ff,#0a84ff);color:#fff;box-shadow:0 14px 26px rgba(10,132,255,.18)}
+.tool-enable-preview-btn.secondary{background:#fff;border:1px solid rgba(214,224,236,.98);color:#1f2937;box-shadow:0 8px 18px rgba(15,23,42,.05)}
 .form-preview{display:none;gap:12px;width:100%}
 .form-preview.show{display:grid}
 .field-shell{height:48px;border-radius:16px;border:1px solid rgba(214,224,236,.98);background:#ffffff;display:flex;align-items:center;padding:0 16px;font-size:14px;color:#94a3b8;box-shadow:inset 0 1px 0 rgba(255,255,255,.72)}
@@ -488,6 +503,15 @@ body{font-family:'SF Pro Display','SF Pro Text','PingFang SC','Helvetica Neue','
           <button class="feedback-btn primary" id="feedbackSubmit" type="button">提交反馈</button>
         </div>
       </div>
+      <div class="tool-enable-preview" id="toolEnablePreview">
+        <div class="tool-enable-preview-icon" id="toolEnablePreviewIcon">🧩</div>
+        <div class="tool-enable-preview-title" id="toolEnablePreviewTitle">检测到工具已有可用模型</div>
+        <div class="tool-enable-preview-desc" id="toolEnablePreviewDesc">接入 Wetokens 后，即可实时查看 tokens 消耗。</div>
+        <div class="tool-enable-preview-actions">
+          <button class="tool-enable-preview-btn primary" id="toolEnablePreviewPrimary" type="button">去接入 API Key</button>
+          <button class="tool-enable-preview-btn secondary" id="toolEnablePreviewSecondary" type="button">稍后再说</button>
+        </div>
+      </div>
       <div class="modal-visual">
         <div class="modal-badge" id="modalBadge"><span class="modal-badge-dot"></span></div>
         <div class="modal-title-wrap">
@@ -673,6 +697,25 @@ const categories = [
         primary: '领取Lite 体验版',
         primaryBubble: '新人福利',
         secondary: '去配置模型',
+        assist: ''
+      },
+      {
+        title: '检测到已有可用模型',
+        priority: 'P1',
+        type: '启用引导',
+        message: '',
+        toolEnablePreview: {
+          icon: '🧩',
+          title: '检测到 Codex 已有可用模型',
+          desc: '接入 Wetokens 后，即可实时查看 tokens 消耗。',
+          primary: '去接入 API Key',
+          secondary: '稍后再说'
+        },
+        trigger: '用户安装 Wetokens 后，系统检测到本机工具已经接入可用模型，可直接引导用户补充 API Key 接入平台。',
+        desc: '这个弹窗不是报错，而是启用前引导。重点是告诉用户接入 Wetokens 后能获得什么价值，并给出直接配置入口。',
+        track: 'tool_enable_guide_view + tool_enable_guide_primary_click',
+        primary: '查看引导弹窗',
+        secondary: '',
         assist: ''
       }
     ]
@@ -918,6 +961,12 @@ const feedbackDesc = document.getElementById('feedbackDesc');
 const feedbackContact = document.getElementById('feedbackContact');
 const feedbackCancel = document.getElementById('feedbackCancel');
 const feedbackSubmit = document.getElementById('feedbackSubmit');
+const toolEnablePreview = document.getElementById('toolEnablePreview');
+const toolEnablePreviewIcon = document.getElementById('toolEnablePreviewIcon');
+const toolEnablePreviewTitle = document.getElementById('toolEnablePreviewTitle');
+const toolEnablePreviewDesc = document.getElementById('toolEnablePreviewDesc');
+const toolEnablePreviewPrimary = document.getElementById('toolEnablePreviewPrimary');
+const toolEnablePreviewSecondary = document.getElementById('toolEnablePreviewSecondary');
 const formPreview = document.getElementById('formPreview');
 const fieldOne = document.getElementById('fieldOne');
 const fieldTwo = document.getElementById('fieldTwo');
@@ -997,23 +1046,28 @@ function openModal(scene) {
   const isLoginPreview = Boolean(scene.loginPreview);
   const isApiPreview = Boolean(scene.apiPreview);
   const isAgreementMode = Boolean(scene.requiresAgreement);
+  const isToolEnablePreview = Boolean(scene.toolEnablePreview);
   feedbackPreview.classList.remove('show');
   const tone = scene.priority === 'P0' ? 'theme-error' : scene.priority === 'P1' ? 'theme-warn' : 'theme-info';
-  modal.className = `modal ${tone}${isLoginPreview ? ' login-preview-mode' : ''}${isApiPreview ? ' api-preview-mode' : ''}${isAgreementMode ? ' agreement-mode' : ''}`;
+  modal.className = `modal ${tone}${isLoginPreview ? ' login-preview-mode' : ''}${isApiPreview ? ' api-preview-mode' : ''}${isAgreementMode ? ' agreement-mode' : ''}${isToolEnablePreview ? ' tool-enable-preview-mode' : ''}`;
   loginPreview.classList.toggle('show', isLoginPreview);
   apiPreview.classList.toggle('show', isApiPreview);
+  toolEnablePreview.classList.toggle('show', isToolEnablePreview);
   if (isLoginPreview) {
     renderLoginPreview(scene.loginPreview);
   }
   if (isApiPreview) {
     renderApiPreview(scene.apiPreview);
   }
+  if (isToolEnablePreview) {
+    renderToolEnablePreview(scene.toolEnablePreview);
+  }
   modalTitle.textContent = scene.title;
   modalMessage.innerHTML = scene.messageHtml || '';
   if (!scene.messageHtml) modalMessage.textContent = scene.message || scene.desc;
   modalMessage.classList.toggle('hidden', !(scene.messageHtml || scene.message));
   modalBadge.classList.toggle('hidden', Boolean(scene.requiresAgreement));
-  formPreview.classList.toggle('show', Boolean(scene.formPreview) && !isLoginPreview && !isApiPreview);
+  formPreview.classList.toggle('show', Boolean(scene.formPreview) && !isLoginPreview && !isApiPreview && !isToolEnablePreview);
   fieldOne.textContent = scene.formPreview?.fieldOne || '';
   fieldOne.classList.toggle('error', Boolean(scene.formPreview));
   fieldTwo.textContent = scene.formPreview?.fieldTwo || '';
@@ -1031,6 +1085,14 @@ function openModal(scene) {
   agreementBox.classList.remove('show');
   modalMask.classList.add('open');
   modalMask.setAttribute('aria-hidden', 'false');
+}
+
+function renderToolEnablePreview(config) {
+  toolEnablePreviewIcon.textContent = config.icon || '🧩';
+  toolEnablePreviewTitle.textContent = config.title || '检测到工具已有可用模型';
+  toolEnablePreviewDesc.textContent = config.desc || '';
+  toolEnablePreviewPrimary.textContent = config.primary || '去接入 API Key';
+  toolEnablePreviewSecondary.textContent = config.secondary || '稍后再说';
 }
 
 function openFeedbackForm(scene) {

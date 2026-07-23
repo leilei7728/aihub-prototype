@@ -2379,11 +2379,11 @@ input:checked+.sl:before{transform:translateX(16px)}
 <div class="ov" id="mNoTokenGuide">
   <div class="mo mo-sm" style="text-align:center">
     <div style="width:58px;height:58px;margin:0 auto 14px;border-radius:18px;background:linear-gradient(135deg,#fff7ed 0%,#ffedd5 100%);border:1px solid #fdba74;display:flex;align-items:center;justify-content:center;font-size:28px">⚠️</div>
-    <div class="mo-ti" id="mNoTokenGuideTitle">当前无法运行</div>
-    <div class="mo-ds" id="mNoTokenGuideDesc">没有可用 tokens。先领新人礼包，或用已有 API Key 接入。</div>
+    <div class="mo-ti" id="mNoTokenGuideTitle">暂无可用模型</div>
+    <div class="mo-ds" id="mNoTokenGuideDesc">当前没有可用 tokens。你可以先领取 Lite 体验版，或先配置可用模型。</div>
     <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px">
-      <button class="btn bp bfw" onclick="cm('mNoTokenGuide');openLiteTrialOffer()">去领取新人礼包</button>
-      <button class="btn bo bfw" onclick="openNoTokenVendorSetup()">我已有 API Key</button>
+      <button class="btn bp bfw" onclick="cm('mNoTokenGuide');openLiteTrialOffer()">领取 Lite 体验版</button>
+      <button class="btn bo bfw" onclick="openNoTokenVendorSetup()">去配置模型</button>
     </div>
   </div>
 </div>
@@ -6573,12 +6573,16 @@ function openToolEnableGuide(toolKey){
   var desc = document.getElementById('mToolEnableGuideDesc');
   var btn = document.getElementById('mToolEnableGuidePrimaryBtn');
   var hasModel = hasDetectedAvailableModel(toolKey);
-  currentToolEnableGuide = { toolKey: toolKey, mode: hasModel ? 'api-key' : 'subscribe' };
+  if(!hasModel){
+    openNoTokenGuideModal(toolKey, 'install');
+    return;
+  }
+  currentToolEnableGuide = { toolKey: toolKey, mode: hasModel ? 'api-key' : 'trial' };
   if(title) title.textContent = hasModel ? ('检测到 ' + (tool.name || meta.title || '该工具') + ' 已有可用模型') : ('检测到 ' + (tool.name || meta.title || '该工具') + ' 暂无可用模型');
   if(desc) desc.innerHTML = hasModel
-    ? ('Wetokens 已检测到你电脑上的 ' + (tool.name || meta.title || 'AI 工具') + ' 已有可用 AI 模型。<br>录入当前使用的 API Key 后，可帮助你统一管理 tokens 消耗。')
-    : ('Wetokens 已检测到你电脑上的 ' + (tool.name || meta.title || 'AI 工具') + ' 已安装，但当前没有可用 AI 模型。<br>请先前往订阅 / 充值，完成后系统会默认为你启用内置模型。');
-  if(btn) btn.textContent = hasModel ? '去录入 API Key' : '去订阅 / 充值';
+    ? ('接入 Wetokens 后，即可实时查看 tokens 消耗。')
+    : ('当前还没有可用模型。<br>先领取 Lite 体验版，即可开始使用。');
+  if(btn) btn.textContent = hasModel ? '去接入 API Key' : '去领取 Lite 体验版';
   om('mToolEnableGuide');
 }
 
@@ -6603,6 +6607,11 @@ function confirmToolEnableGuide(){
       currentAddVendorToolKey = toolKey;
       openAddVendorModal();
     }, 50);
+    return;
+  }
+  if(mode === 'trial'){
+    pendingToolEnableKey = toolKey;
+    openLiteTrialOffer();
     return;
   }
   pendingToolEnableKey = toolKey;
@@ -6633,9 +6642,9 @@ function openNoTokenGuideModal(toolKey, source){
   noTokenGuideToolKey = toolKey || '';
   var actionText = source === 'install'
     ? (toolName + ' 已安装成功')
-    : ('当前准备打开 ' + toolName);
-  if(title) title.textContent = '当前无法运行';
-  if(desc) desc.textContent = actionText + '，但现在没有可用 tokens。先领新人礼包，或用已有 API Key 接入。';
+    : (toolName + ' 已打开');
+  if(title) title.textContent = '暂无可用模型';
+  if(desc) desc.textContent = actionText + '，但现在没有可用 tokens。你可以先领取 Lite 体验版，或先配置可用模型。';
   om('mNoTokenGuide');
 }
 
@@ -8867,8 +8876,7 @@ function completeInstall(){
   renderToolRoutingViews();
   renderToolRoutingTable();
   renderToolUsageStats();
-  const toolName = meta ? meta.name : '新工具';
-  showToast(toolName + ' 安装完成！<span style="cursor:pointer;text-decoration:underline;margin-left:6px" onclick="launchTool(\'' + key + '\')">下一步：打开启用 →</span>');
+  openToolEnableGuide(key);
 }
 
 function launchTool(toolKey){
