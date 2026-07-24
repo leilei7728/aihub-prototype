@@ -22,7 +22,30 @@
   --shadow-md:0 18px 40px rgba(15,23,42,.1);
 }
 body{font-family:'SF Pro Display','SF Pro Text','PingFang SC','Helvetica Neue','Microsoft YaHei UI',sans-serif;background:radial-gradient(circle at top left,rgba(255,255,255,.95),transparent 28%),radial-gradient(circle at top right,rgba(150,196,255,.28),transparent 24%),linear-gradient(180deg,#edf3fb 0%,#dde8f5 100%);color:var(--t);font-size:14px;line-height:1.5;min-height:100vh;display:grid;place-items:center;padding:28px}
-.external-scene-entry{position:fixed;top:34px;right:34px;z-index:40;display:flex;align-items:center;padding:10px 14px;border-radius:16px;background:rgba(255,255,255,.86);border:1px solid rgba(214,224,236,.96);box-shadow:0 16px 34px rgba(15,23,42,.1);backdrop-filter:blur(18px)}
+.external-scene-entry{position:fixed;top:34px;left:34px;z-index:40;display:flex;flex-direction:column;align-items:stretch;gap:8px;padding:10px 12px;border-radius:16px;background:rgba(255,255,255,.86);border:1px solid rgba(214,224,236,.96);box-shadow:0 16px 34px rgba(15,23,42,.1);backdrop-filter:blur(18px)}
+.external-scene-entry .btn{width:100%;justify-content:center}
+.proto-note-toggle.on{background:linear-gradient(180deg,#2997ff,#0a84ff);color:#fff;border-color:transparent;box-shadow:0 12px 24px rgba(10,132,255,.18)}
+.proto-note-layer{position:fixed;inset:0;z-index:48;pointer-events:none;overflow:visible}
+.proto-note-marker{position:absolute;width:26px;height:26px;border:none;border-radius:50% 50% 50% 0;background:linear-gradient(180deg,#ffd95a,#f59e0b);box-shadow:0 10px 18px rgba(245,158,11,.28);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;z-index:2;cursor:grab;pointer-events:auto}
+.proto-note-marker.dragging{cursor:grabbing;box-shadow:0 14px 26px rgba(245,158,11,.34)}
+.proto-note-marker span{display:block;transform:rotate(45deg);color:#fff;font-size:12px;font-weight:800;line-height:1}
+.proto-note-panel{position:fixed;top:0;right:0;bottom:0;width:360px;display:none;grid-template-rows:auto minmax(0,1fr);gap:6px;padding:10px 10px 8px;border-radius:0;background:rgba(255,255,255,.98);border-left:1px solid rgba(214,224,236,.96);box-shadow:-20px 0 40px rgba(15,23,42,.08);backdrop-filter:blur(18px);z-index:3;pointer-events:auto;overflow:hidden}
+.proto-note-panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px;position:sticky;top:0;background:rgba(255,255,255,.98);padding:0 0 6px;border-bottom:1px solid rgba(226,232,240,.92);z-index:1}
+.proto-note-panel-title{font-size:15px;font-weight:800;color:var(--t);line-height:1.3}
+.proto-note-list{display:grid;gap:0;overflow:auto;padding-right:2px;align-content:start}
+.proto-note-item{display:grid;gap:4px;padding:10px 2px 10px 0;border-bottom:1px solid rgba(226,232,240,.88)}
+.proto-note-item:last-child{border-bottom:none}
+.proto-note-item-head{display:flex;align-items:center;gap:4px}
+.proto-note-item-index{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:rgba(10,132,255,.1);color:#0a84ff;font-size:10px;font-weight:800;line-height:1;transform:none}
+.proto-note-item-copy{display:flex;flex-direction:column;align-items:stretch;gap:3px;min-width:0}
+.proto-note-item-title{font-size:13px;font-weight:800;color:var(--t);line-height:1.2}
+.proto-note-desc{display:block;padding:0;background:transparent;border:none;font-size:12px;line-height:1.5;color:var(--t2);overflow:hidden}
+.proto-note-desc.collapsed{max-height:calc(1.5em * 6)}
+.proto-note-desc-line{margin:0}
+.proto-note-desc-line + .proto-note-desc-line{margin-top:2px}
+.proto-note-desc-label{font-weight:800;color:var(--t)}
+.proto-note-expand{align-self:center;border:none;background:transparent;padding:0;margin-top:2px;font-size:12px;font-weight:700;color:#0a84ff;cursor:pointer;line-height:1.5;text-align:center}
+.proto-note-expand:hover{text-decoration:underline}
 /* ── desktop frame ── */
 .desktop-frame{width:min(1480px,100%);height:min(920px,calc(100vh - 56px));min-height:720px;background:linear-gradient(180deg,rgba(255,255,255,.68),rgba(245,248,252,.84));border:1px solid rgba(255,255,255,.62);border-radius:22px;box-shadow:var(--shadow-lg);overflow:hidden;display:grid;grid-template-rows:54px minmax(0,1fr);position:relative;backdrop-filter:blur(28px)}
 .desktop-frame:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.2),transparent 14%,rgba(255,255,255,.08));pointer-events:none}
@@ -104,7 +127,7 @@ body{font-family:'SF Pro Display','SF Pro Text','PingFang SC','Helvetica Neue','
 .pc{padding:18px 30px 30px;flex:1;overflow-y:auto;position:relative;z-index:1}
 /* ── page ── */
 .pg{display:none}
-.pg.on{display:block}
+.pg.on{display:block;position:relative}
 /* ── card ── */
 .card{background:var(--glass);border-radius:24px;border:1px solid rgba(255,255,255,.72);padding:24px;box-shadow:var(--shadow-md);backdrop-filter:blur(22px)}
 .g{display:grid;gap:16px}
@@ -604,6 +627,34 @@ input:checked+.sl:before{transform:translateX(16px)}
 .pmtab-text{white-space:nowrap;line-height:1}
 .pmtab[data-method="wechat"] .pmtab-icon{background:#dcfce7;color:#16a34a}
 .pmtab[data-method="alipay"] .pmtab-icon{background:#dbeafe;color:#2563eb}
+.payment-side{position:sticky;top:16px;padding:14px 14px 16px;border-radius:20px;background:rgba(255,255,255,.92);border:1px solid rgba(226,232,240,.96);box-shadow:0 16px 34px rgba(15,23,42,.07)}
+.payment-side .pmtab-wrap{display:none}
+.payment-box-title{font-size:14px;font-weight:800;color:var(--t);margin-bottom:12px}
+.payment-qr-shell{background:#fff;border:1px solid rgba(226,232,240,.96);border-radius:16px;padding:12px 12px 14px;margin-bottom:10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.88)}
+.payment-qr-frame{height:172px;border-radius:14px;background:linear-gradient(180deg,#f8fafc 0%,#ffffff 100%);display:flex;align-items:center;justify-content:center}
+.payment-qr-frame svg{width:132px;height:132px;display:block}
+.payment-qr-support{margin-top:10px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--t2)}
+.payment-qr-support strong{font-weight:700;color:var(--t)}
+.payment-support-badge{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700}
+.payment-support-badge.alipay{color:#1677ff}
+.payment-support-badge.wechat{color:#16a34a}
+.payment-support-dot{width:14px;height:14px;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;color:#fff;flex-shrink:0}
+.payment-support-dot.alipay{background:#1677ff}
+.payment-support-dot.wechat{background:#16a34a}
+.payment-toggle-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:2px 0 12px}
+.payment-toggle-copy{min-width:0}
+.payment-toggle-title{font-size:13px;font-weight:700;color:var(--t)}
+.payment-toggle-desc{font-size:11px;color:var(--t3);margin-top:2px;line-height:1.6}
+.payment-summary-block{display:grid;gap:8px;padding:12px 0}
+.payment-summary-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;font-size:12px}
+.payment-summary-key{color:var(--t2);font-weight:700}
+.payment-summary-text{color:var(--t);text-align:right;line-height:1.6}
+.payment-total-row{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:4px 0 12px}
+.payment-total-label{font-size:14px;font-weight:800;color:var(--t)}
+.payment-total-value{font-size:16px;font-weight:800;color:#f04b23;line-height:1}
+.payment-total-value.money{font-size:16px}
+.payment-primary-btn{padding:12px;font-size:14px;border-radius:10px}
+.payment-agreement{margin-top:8px;text-align:left;font-size:10px;line-height:1.6;color:var(--t3)}
 .mo-ti{font-size:18px;font-weight:760;letter-spacing:-.02em;margin-bottom:8px;color:var(--t)}
 .mo-ds{font-size:13px;color:var(--t2);line-height:1.7}
 #vendorPresetGrid{gap:12px !important}
@@ -976,7 +1027,7 @@ input:checked+.sl:before{transform:translateX(16px)}
 }
 @media (max-width:720px){
   .g2,.g3,.g4,.qg{grid-template-columns:1fr}
-  .external-scene-entry{top:16px;right:16px;left:16px;justify-content:flex-end;padding:10px 12px}
+  .external-scene-entry{top:16px;left:16px;right:auto;justify-content:flex-start;padding:10px 12px}
   .topbar{height:auto;min-height:58px;padding:12px 16px;align-items:flex-start;gap:10px;flex-direction:column}
   .win-left{min-width:0;gap:10px}
   .win-slogan{display:none}
@@ -1246,6 +1297,15 @@ input:checked+.sl:before{transform:translateX(16px)}
 ══════════════════════════════════════════════════ -->
 <div class="external-scene-entry">
   <button class="btn bo bsm" style="font-size:12px;padding:5px 12px;white-space:nowrap" onclick="window.open('./My tokens异常场景.html','_blank')">异常场景弹窗补充</button>
+  <button class="btn bo bsm proto-note-toggle" id="prototypeNoteToggleBtn" style="font-size:12px;padding:5px 12px;white-space:nowrap" onclick="togglePrototypeNotes()">开启水滴注释</button>
+</div>
+<div id="prototypeNoteLayer" class="proto-note-layer">
+  <div id="prototypeNotePanel" class="proto-note-panel">
+    <div class="proto-note-panel-head">
+      <div class="proto-note-panel-title" id="prototypeNotePanelTitle">需求说明注释</div>
+    </div>
+    <div id="prototypeNotePanelBody" class="proto-note-list"></div>
+  </div>
 </div>
 <div class="desktop-frame">
 <div class="win-bar">
@@ -1274,7 +1334,7 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div class="ni on" onclick="go('p01',this,'Tokens管理')"><span class="ic"><i data-lucide="layout-dashboard"></i></span>Tokens管理</div>
       <div class="ni" onclick="go('p02',this,'AI工具管理')"><span class="ic"><i data-lucide="package"></i></span>AI工具管理</div>
       <div class="ni" onclick="go('p03',this,'模型供应商')"><span class="ic"><i data-lucide="git-fork"></i></span>模型供应商</div>
-      <div class="ni" onclick="go('p05',this,'订阅 / 充值');setTimeout(function(){switchBuyTab('subscription')},50)"><span class="ic"><i data-lucide="credit-card"></i></span>订阅 / 充值</div>
+      <div class="ni" onclick="go('p05',this,'Coding Plan / 按量充值');setTimeout(function(){switchBuyTab('subscription')},50)"><span class="ic"><i data-lucide="credit-card"></i></span>Coding Plan / 按量充值</div>
     </nav>
     <div class="sb-bot">
       <div class="ni" onclick="go('p08',this,'个人中心')"><span class="ic"><i data-lucide="settings"></i></span>个人中心</div>
@@ -1314,12 +1374,12 @@ input:checked+.sl:before{transform:translateX(16px)}
         <div class="tb-title" id="tbt">Tokens管理</div>
       </div>
       <div class="tb-r" style="gap:8px">
-        <button class="btn bo bsm" style="font-size:12px;padding:5px 12px;white-space:nowrap" onclick="obStart()">AI 工具配置教程</button>
-        <div class="chip chip-v" style="cursor:pointer" onclick="go('p05',nv(4),'订阅 / 充值');setTimeout(function(){switchBuyTab('subscription')},50)">
-          <span class="cl" style="color:#7c3aed">今日剩余次数<span class="ih">?<span class="ih-b al-r">订阅套餐每天发放可用次数，这里展示今天还可使用多少次。发送一个字也算 1 次，当天 0 点清零。</span></span></span>
+        <button class="btn bo bsm" id="p01ToolGuideBtn" style="font-size:12px;padding:5px 12px;white-space:nowrap" onclick="obStart()">AI 工具配置教程</button>
+        <div class="chip chip-v" id="p01TokensChip" style="cursor:pointer" onclick="go('p05',nv(4),'Coding Plan / 按量充值');setTimeout(function(){switchBuyTab('subscription')},50)">
+          <span class="cl" style="color:#7c3aed">当前可用次数<span class="ih">?<span class="ih-b al-r">这里展示当前还可使用的次数。系统会每 5 小时刷新一次可用额度，发送一个字也算 1 次。</span></span></span>
           <span class="cv" id="balTokens" style="color:#7c3aed"></span>
         </div>
-        <div class="chip chip-v" style="cursor:pointer" onclick="go('p05',nv(4),'订阅 / 充值');setTimeout(function(){switchBuyTab('topup')},50)">
+        <div class="chip chip-v" id="p01CashChip" style="cursor:pointer" onclick="go('p05',nv(4),'Coding Plan / 按量充值');setTimeout(function(){switchBuyTab('topup')},50)">
           <span class="cl" style="color:#0f766e">可使用余额<span class="ih">?<span class="ih-b al-r">当前可用于按量调用的人民币余额，调用时会按各模型 API 单价扣减。</span></span></span>
           <span class="cv" id="balCash" style="color:#0f766e"></span>
         </div>
@@ -1397,15 +1457,15 @@ input:checked+.sl:before{transform:translateX(16px)}
 
 <div id="p05" class="pg">
   <div id="buyTabBar" style="display:flex;align-items:center;margin-bottom:16px">
-    <!-- 居中：Token Plan + 按量充值 -->
+    <!-- 居中：Coding Plan + 按量充值 -->
     <div style="flex:1;display:flex;justify-content:center">
       <div style="display:flex;background:#f4f4f5;border-radius:10px;padding:3px;gap:2px">
-        <button id="buyTab1" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:var(--a);color:#fff;box-shadow:0 2px 8px rgba(15,118,110,.25);border:none" onclick="switchBuyTab('subscription')">Token Plan</button>
+        <button id="buyTab1" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:var(--a);color:#fff;box-shadow:0 2px 8px rgba(15,118,110,.25);border:none" onclick="switchBuyTab('subscription')">Coding Plan</button>
         <button id="buyTab2" class="btn" style="padding:9px 28px;font-size:14px;font-weight:600;border-radius:8px;background:transparent;color:var(--t2);box-shadow:none;border:none" onclick="switchBuyTab('topup')">按量充值</button>
       </div>
     </div>
   </div>
-  <!-- Tab1: Token Plan -->
+  <!-- Tab1: Coding Plan -->
   <div id="buyPanelSubscription">
   <div style="display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start">
   <!-- 左栏：套餐选择 + 规则 -->
@@ -1449,7 +1509,7 @@ input:checked+.sl:before{transform:translateX(16px)}
 
   <!-- 订阅公共规则说明 -->
   <div class="card billing-note-card mb16">
-    <div class="billing-note-title">📋 订阅规则说明</div>
+    <div class="billing-note-title">📋 Coding Plan 规则说明</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;font-size:12px;color:var(--t2);line-height:1.8">
       <div>✅ Lite 体验版限时 7 天，Pro / Pro Plus / Ultra 均为 30 天有效期</div>
       <div>🔄 当天未用完于次日 0:00 清零</div>
@@ -1464,9 +1524,9 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
     </div>
     <div class="billing-note-split">
-      <div style="font-size:12px;font-weight:700;color:var(--t);margin-bottom:8px">可用模型及订阅计量说明</div>
+      <div style="font-size:12px;font-weight:700;color:var(--t);margin-bottom:8px">可用模型及 Coding Plan 计量说明</div>
       <div style="font-size:11px;color:var(--t2);line-height:1.9">
-        <div>· 订阅按请求次数计算，每发起一次请求就会扣减对应次数</div>
+        <div>· Coding Plan 按请求次数计算，每发起一次请求就会扣减对应次数</div>
         <div>· 不同模型按 1x / 2x / 4x 三种档位扣减</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:6px;margin-top:10px">
@@ -1489,7 +1549,7 @@ input:checked+.sl:before{transform:translateX(16px)}
         </div>
         <div id="subscriptionMeteringWrap" class="pricing-sheet-wrap" style="display:none">
           <div class="pricing-sheet-head">
-            <div class="pricing-sheet-title">订阅模型与扣减档位</div>
+            <div class="pricing-sheet-title">Coding Plan 模型与扣减档位</div>
             <div class="pricing-sheet-sub">可查看每个模型对应的原厂与扣减次数</div>
           </div>
           <div class="pricing-sheet-scroll">
@@ -1513,15 +1573,14 @@ input:checked+.sl:before{transform:translateX(16px)}
   </div><!-- /左栏 -->
 
   <!-- 右栏：支付区（固定宽度，第一屏可见） -->
-  <div class="card" style="position:sticky;top:16px;padding:16px">
-    <div style="font-size:13px;font-weight:700;margin-bottom:10px">选择支付方式</div>
+  <div class="card payment-side">
     <div class="pmtab-wrap">
       <div class="pmtab on" data-method="hybrid"><span class="pmtab-icon">付</span><span class="pmtab-text">微信 / 支付宝扫码支付</span></div>
     </div>
-    <div class="txs tgr" style="margin:-4px 0 12px;line-height:1.7">同一个二维码支持支付宝和微信两种支付方式。</div>
-    <!-- 二维码区 -->
-    <div id="subQrBox" style="text-align:center;background:#f8faf9;border:1px solid #d1fae5;border-radius:10px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;margin-bottom:10px">
-        <svg width="140" height="140" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div class="payment-box-title">扫码支付</div>
+    <div class="payment-qr-shell" id="subQrBox">
+      <div class="payment-qr-frame">
+        <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect width="96" height="96" rx="6" fill="#fff"/>
           <rect x="8" y="8" width="24" height="24" rx="2" fill="none" stroke="#222" stroke-width="3"/><rect x="14" y="14" width="12" height="12" rx="1" fill="#222"/>
           <rect x="64" y="8" width="24" height="24" rx="2" fill="none" stroke="#222" stroke-width="3"/><rect x="70" y="14" width="12" height="12" rx="1" fill="#222"/>
@@ -1539,13 +1598,14 @@ input:checked+.sl:before{transform:translateX(16px)}
           <rect id="subQrLogo" x="38" y="38" width="20" height="20" rx="4" fill="#0a84ff"/>
           <text id="subQrLogoText" x="48" y="52" text-anchor="middle" font-size="12" fill="#fff" font-family="sans-serif">付</text>
         </svg>
+      </div>
+      <div class="payment-qr-support"><strong>支持：</strong><span class="payment-support-badge alipay"><span class="payment-support-dot alipay">支</span>支付宝</span><span>/</span><span class="payment-support-badge wechat"><span class="payment-support-dot wechat">微</span>微信</span></div>
     </div>
     <div class="sep" style="margin:10px 0"></div>
-    <!-- 自动续费开关 -->
-    <div class="fxb" style="align-items:center;gap:12px;margin-bottom:12px">
-      <div>
-        <div style="font-size:13px;font-weight:600;color:var(--t)">开启自动续费</div>
-        <div style="font-size:11px;color:var(--t3);margin-top:2px">到期前 1 天自动扣款续期，可随时取消</div>
+    <div class="payment-toggle-row">
+      <div class="payment-toggle-copy">
+        <div class="payment-toggle-title">开启自动续费</div>
+        <div class="payment-toggle-desc">到期前 1 天自动扣款续期，可随时取消</div>
       </div>
       <label class="sw" style="flex-shrink:0">
         <input type="checkbox" id="autoRenewToggle" checked onchange="updateAutoRenewUI()">
@@ -1553,12 +1613,14 @@ input:checked+.sl:before{transform:translateX(16px)}
       </label>
     </div>
     <div class="sep" style="margin:0 0 12px"></div>
-    <div class="fxb mb8"><div class="tgr" style="font-size:12px">已选套餐</div><div class="tb2" style="font-size:12px" id="selectedSubSummary">Pro 专业版 · 每天 16,667 次 30天</div></div>
-    <div class="pay-summary">
-      <div class="pay-summary-label">合计</div><div class="pay-summary-value" id="selectedSubTotal">¥99</div>
+    <div class="payment-summary-block">
+      <div class="payment-summary-row"><div class="payment-summary-key">已选套餐</div><div class="payment-summary-text" id="selectedSubSummary">Pro 专业版 · 每天 16,667 次 30天</div></div>
     </div>
-    <button class="btn bp bfw" id="selectedSubPayBtn" style="padding:12px;font-size:14px" onclick="handlePurchase(this)">同意并开启自动续费</button>
-    <div class="txs tlt" id="subAgreementText" style="text-align:center;margin-top:8px;font-size:11px;line-height:1.5">开启自动续费即代表同意 <span class="tac">自动续费服务协议</span> · 到期前 1 天自动续费，可在「设置 - 订阅管理」中随时取消</div>
+    <div class="payment-total-row">
+      <div class="payment-total-label">合计</div><div class="payment-total-value money" id="selectedSubTotal">¥99</div>
+    </div>
+    <button class="btn bp bfw payment-primary-btn" id="selectedSubPayBtn" onclick="handlePurchase(this)">同意并开启自动续费</button>
+    <div class="payment-agreement" id="subAgreementText">开启自动续费即代表同意 <span class="tac">自动续费服务协议</span> · 到期前 1 天自动续费，可在「设置 - 订阅管理」中随时取消</div>
   </div><!-- /右栏支付卡 -->
 
   </div><!-- /两栏grid -->
@@ -1637,15 +1699,14 @@ input:checked+.sl:before{transform:translateX(16px)}
   </div><!-- /左栏 -->
 
   <!-- 右栏：支付区（固定宽度，第一屏可见） -->
-  <div class="card" style="position:sticky;top:16px;padding:16px">
-    <div style="font-size:13px;font-weight:700;margin-bottom:10px">选择支付方式</div>
+  <div class="card payment-side">
     <div class="pmtab-wrap">
       <div class="pmtab on" data-method="hybrid"><span class="pmtab-icon">付</span><span class="pmtab-text">微信 / 支付宝扫码支付</span></div>
     </div>
-    <div class="txs tgr" style="margin:-4px 0 12px;line-height:1.7">同一个二维码支持支付宝和微信两种支付方式。</div>
-    <!-- 二维码区 -->
-    <div id="topupQrBox" style="text-align:center;background:#f8faf9;border:1px solid #d1fae5;border-radius:10px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;margin-bottom:10px">
-        <svg width="140" height="140" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div class="payment-box-title">扫码支付</div>
+    <div class="payment-qr-shell" id="topupQrBox">
+      <div class="payment-qr-frame">
+        <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect width="96" height="96" rx="6" fill="#fff"/>
           <rect x="8" y="8" width="24" height="24" rx="2" fill="none" stroke="#222" stroke-width="3"/><rect x="14" y="14" width="12" height="12" rx="1" fill="#222"/>
           <rect x="64" y="8" width="24" height="24" rx="2" fill="none" stroke="#222" stroke-width="3"/><rect x="70" y="14" width="12" height="12" rx="1" fill="#222"/>
@@ -1663,13 +1724,14 @@ input:checked+.sl:before{transform:translateX(16px)}
           <rect id="topupQrLogo" x="38" y="38" width="20" height="20" rx="4" fill="#0a84ff"/>
           <text id="topupQrLogoText" x="48" y="52" text-anchor="middle" font-size="12" fill="#fff" font-family="sans-serif">付</text>
         </svg>
+      </div>
+      <div class="payment-qr-support"><strong>支持：</strong><span class="payment-support-badge alipay"><span class="payment-support-dot alipay">支</span>支付宝</span><span>/</span><span class="payment-support-badge wechat"><span class="payment-support-dot wechat">微</span>微信</span></div>
     </div>
     <div class="sep" style="margin:10px 0"></div>
-    <!-- 自动充值配置 -->
-    <div class="fxb" style="align-items:center;gap:12px;margin-bottom:10px">
-      <div>
-        <div style="font-size:13px;font-weight:600;color:var(--t)">开启自动充值</div>
-        <div style="font-size:11px;color:var(--t3);margin-top:2px">余额不足时自动扣款充值</div>
+    <div class="payment-toggle-row" style="padding-bottom:10px">
+      <div class="payment-toggle-copy">
+        <div class="payment-toggle-title">开启自动充值</div>
+        <div class="payment-toggle-desc">余额不足时自动扣款充值</div>
       </div>
       <label class="sw" style="flex-shrink:0">
         <input type="checkbox" id="autoTopupToggle" onchange="updateAutoTopupUI()">
@@ -1685,12 +1747,14 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div id="autoTopupSummaryCard" style="margin-top:5px;font-size:11px;color:#f59e0b">⚠️ 未绑定银行卡，需绑卡后生效</div>
     </div>
     <div class="sep" style="margin:0 0 10px"></div>
-    <div class="fxb mb8"><div class="tgr" style="font-size:12px">已选套餐</div><div class="tb2" style="font-size:12px" id="selectedTopupSummary">充值 ¥100 · 到账 ¥100 余额</div></div>
-    <div class="fxb" style="font-size:16px;font-weight:800;margin-bottom:14px">
-      <div>合计</div><div class="tac" id="selectedTopupTotal">¥100</div>
+    <div class="payment-summary-block">
+      <div class="payment-summary-row"><div class="payment-summary-key">已选套餐</div><div class="payment-summary-text" id="selectedTopupSummary">充值 ¥100 · 到账 ¥100 余额</div></div>
     </div>
-    <button class="btn bp bfw" id="selectedTopupPayBtn" style="padding:12px;font-size:14px" onclick="handlePurchase(this)">确认支付 ¥100</button>
-    <div class="txs tlt" style="text-align:center;margin-top:8px;font-size:11px;line-height:1.5">充值即代表同意 <span class="tac">充值服务协议</span> · 余额永久有效 · 未使用余额 7 天内可申请退款</div>
+    <div class="payment-total-row">
+      <div class="payment-total-label">合计</div><div class="payment-total-value money" id="selectedTopupTotal">¥100</div>
+    </div>
+    <button class="btn bp bfw payment-primary-btn" id="selectedTopupPayBtn" onclick="handlePurchase(this)">确认支付 ¥100</button>
+    <div class="payment-agreement">充值即代表同意 <span class="tac">充值服务协议</span> · 余额永久有效 · 未使用余额 7 天内可申请退款</div>
   </div><!-- /右栏支付卡 -->
 
   </div><!-- /两栏grid -->
@@ -1811,11 +1875,11 @@ input:checked+.sl:before{transform:translateX(16px)}
             <div style="font-size:14px;font-weight:700;margin-bottom:6px;color:#92400e">⚠️ 你的 API Key 暂时无法使用</div>
             <div style="font-size:13px;color:#a16207;line-height:1.8;margin-bottom:14px">
               API Key 已生成，但需要<strong>有效订阅</strong>或<strong>可使用余额 &gt; ¥0</strong>才能正常调用模型。<br>
-              请先订阅套餐或充值，激活后 Key 立即生效。
+              请先购买 Coding Plan 或充值，激活后 Key 立即生效。
             </div>
             <div style="display:flex;gap:10px;flex-wrap:wrap">
-              <button class="btn bp bsm" style="font-size:13px;padding:6px 16px" onclick="go('p05',nv(4),'订阅 / 充值');setTimeout(function(){switchBuyTab('subscription')},50)">去订阅套餐</button>
-              <button class="btn bo bsm" style="font-size:13px;padding:6px 16px" onclick="go('p05',nv(4),'订阅 / 充值');setTimeout(function(){switchBuyTab('topup')},50)">按量充值</button>
+              <button class="btn bp bsm" style="font-size:13px;padding:6px 16px" onclick="go('p05',nv(4),'Coding Plan / 按量充值');setTimeout(function(){switchBuyTab('subscription')},50)">去购买 Coding Plan</button>
+              <button class="btn bo bsm" style="font-size:13px;padding:6px 16px" onclick="go('p05',nv(4),'Coding Plan / 按量充值');setTimeout(function(){switchBuyTab('topup')},50)">按量充值</button>
             </div>
           </div>
           <div style="background:#f8fffe;border:1.5px solid #a7f3d0;border-radius:10px;padding:16px;margin-bottom:16px">
@@ -1966,14 +2030,14 @@ input:checked+.sl:before{transform:translateX(16px)}
                   </div>
                   <div id="heroWarning" style="display:none;background:#fff8e8;border:1px solid #f6d99b;border-radius:10px;padding:8px 12px;font-size:12px;color:#9a6700;margin-bottom:10px">
                     <span id="heroWarningText">今日可用次数已使用 85%，建议预留一些可使用余额。</span>
-                    <span onclick="go('p05',nv(4),'购买 Tokens');setTimeout(()=>switchBuyTab('topup'),100)" style="margin-left:8px;text-decoration:underline;cursor:pointer;color:#9a6700;font-weight:700">去充值</span>
+                    <span onclick="go('p05',nv(4),'Coding Plan / 按量充值');setTimeout(()=>switchBuyTab('topup'),100)" style="margin-left:8px;text-decoration:underline;cursor:pointer;color:#9a6700;font-weight:700">去充值</span>
                   </div>
                 </div>
                 <div id="heroNoSubSection" style="display:none;margin-bottom:12px">
                   <div style="font-size:13px;color:var(--t);margin-bottom:8px">开通订阅后，每天可获得稳定会话次数，畅用多款顶尖模型。</div>
                   <div style="font-size:12px;color:var(--t3);margin-bottom:14px">可按你的使用强度选择 Lite、Pro、Pro Plus 或 Ultra 套餐。</div>
                   <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-                    <button onclick="go('p05',nv(4),'购买 Tokens');setTimeout(()=>switchBuyTab('subscription'),100)" style="background:#0f172a;color:#fff;font-weight:700;font-size:14px;padding:9px 22px;border-radius:24px;border:none;cursor:pointer">查看订阅</button>
+                    <button onclick="go('p05',nv(4),'Coding Plan / 按量充值');setTimeout(()=>switchBuyTab('subscription'),100)" style="background:#0f172a;color:#fff;font-weight:700;font-size:14px;padding:9px 22px;border-radius:24px;border:none;cursor:pointer">查看 Coding Plan</button>
                     <button onclick="openLiteTrialOffer()" style="background:#fff7ed;color:#c2410c;font-weight:700;font-size:14px;padding:9px 22px;border-radius:24px;border:1px solid rgba(251,146,60,.28);cursor:pointer;box-shadow:0 8px 18px rgba(251,146,60,.12)">领取新人福利</button>
                   </div>
                 </div>
@@ -1984,7 +2048,7 @@ input:checked+.sl:before{transform:translateX(16px)}
                   <div style="font-size:32px;font-weight:800;color:var(--t);line-height:1" id="heroCashValue">¥48.50</div>
                   <div id="heroCashHint" style="font-size:11px;color:var(--t3);margin-top:2px">超出今日可用次数后，从可使用余额扣费</div>
                 </div>
-                <button onclick="go('p05',nv(4),'购买 Tokens');setTimeout(()=>switchBuyTab('topup'),100)" id="heroChargeBtn" style="background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:20px;color:var(--t);font-size:12px;padding:6px 16px;cursor:pointer;white-space:nowrap;margin-top:12px">去充值</button>
+                <button onclick="go('p05',nv(4),'Coding Plan / 按量充值');setTimeout(()=>switchBuyTab('topup'),100)" id="heroChargeBtn" style="background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:20px;color:var(--t);font-size:12px;padding:6px 16px;cursor:pointer;white-space:nowrap;margin-top:12px">去充值</button>
               </div>
             </div>
           </div>
@@ -2368,7 +2432,7 @@ input:checked+.sl:before{transform:translateX(16px)}
     <div class="mo-ti">Tokens 不足</div>
     <div class="mo-ds">当前剩余 <span class="tac tb2">12,400 Tokens</span>，不足以完成本次请求（预计消耗 18,000 Tokens）。请充值后再继续使用。</div>
     <div style="display:flex;flex-direction:column;gap:8px">
-      <button class="btn bp bfw" onclick="cm('m02');go('p05',nv(4),'购买 Tokens')">立即充值</button>
+      <button class="btn bp bfw" onclick="cm('m02');go('p05',nv(4),'Coding Plan / 按量充值')">立即充值</button>
       <button class="btn bgh bfw" onclick="cm('m02');go('p03',nv(2),'模型 / 路由管理')">查看低成本模型建议</button>
       <button class="btn bo bfw" onclick="cm('m02')">取消</button>
     </div>
@@ -2384,6 +2448,18 @@ input:checked+.sl:before{transform:translateX(16px)}
     <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px">
       <button class="btn bp bfw" onclick="cm('mNoTokenGuide');openLiteTrialOffer()">领取 Lite 体验版</button>
       <button class="btn bo bfw" onclick="openNoTokenVendorSetup()">去配置模型</button>
+    </div>
+  </div>
+</div>
+
+<div class="ov" id="mLowBalanceGuide">
+  <div class="mo mo-sm" style="text-align:center">
+    <div style="width:58px;height:58px;margin:0 auto 14px;border-radius:18px;background:linear-gradient(135deg,#fff7ed 0%,#fee2e2 100%);border:1px solid #fca5a5;display:flex;align-items:center;justify-content:center;font-size:28px">⚠️</div>
+    <div class="mo-ti" id="mLowBalanceGuideTitle">当前余额不足 10 元</div>
+    <div class="mo-ds" id="mLowBalanceGuideDesc">当前工具已配置模型，但供应商可用余额不足 10 元。为避免使用过程中中断，请先去订阅充值。</div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px">
+      <button class="btn bp bfw" onclick="openLowBalanceRecharge()">去订阅充值</button>
+      <button class="btn bo bfw" onclick="cm('mLowBalanceGuide')">取消</button>
     </div>
   </div>
 </div>
@@ -3796,7 +3872,7 @@ function renderBadgeHub(){
       var remainCount = Math.max(0, dailyTotal - todayUsed);
       var usagePct = dailyTotal > 0 ? Math.max(0, Math.min(100, Math.round(todayUsed / dailyTotal * 100))) : 0;
       sbSubscriptionEntry.innerHTML = ''
-        + '<div class="sb-sub-card" onclick="go(\'p05\',nv(3),\'订阅 / 充值\');setTimeout(function(){switchBuyTab(\'subscription\')},50)">'
+        + '<div class="sb-sub-card" onclick="go(\'p05\',nv(3),\'Coding Plan / 按量充值\');setTimeout(function(){switchBuyTab(\'subscription\')},50)">'
         +   '<div class="sb-sub-top">'
         +     '<div class="sb-sub-main">'
         +       '<div class="sb-sub-copy">'
@@ -3819,8 +3895,8 @@ function renderBadgeHub(){
       sbSubscriptionEntry.innerHTML = ''
         + '<div style="padding:10px 12px;border:1px solid #dbe7ff;border-radius:14px;background:linear-gradient(180deg,#f8fbff 0%,#eef5ff 100%)">'
         +   '<div style="font-size:12px;font-weight:700;color:var(--t1)">当前还没有可用 tokens</div>'
-        +   '<div style="margin-top:4px;font-size:11px;line-height:1.55;color:var(--t3)">先订阅套餐、充值余额，或者去模型供应商接入你外部购买的额度，不然工具运行不了。</div>'
-        +   '<button class="btn bp bsm sb-sub-cta" style="width:100%;margin-top:10px" onclick="go(\'p05\',nv(4),\'订阅 / 充值\');setTimeout(function(){switchBuyTab(\'subscription\')},50)">去订阅 / 充值</button>'
+        +   '<div style="margin-top:4px;font-size:11px;line-height:1.55;color:var(--t3)">先购买 Coding Plan、充值余额，或者去模型供应商接入你外部购买的额度，不然工具运行不了。</div>'
+        +   '<button class="btn bp bsm sb-sub-cta" style="width:100%;margin-top:10px" onclick="go(\'p05\',nv(4),\'Coding Plan / 按量充值\');setTimeout(function(){switchBuyTab(\'subscription\')},50)">去购买 Coding Plan / 充值</button>'
         + '</div>';
     }
   }
@@ -3903,6 +3979,7 @@ function switchProfileSection(section, triggerEl){
   var target = document.getElementById('profileSection-' + section);
   if(target) target.classList.add('on');
   if(triggerEl) triggerEl.classList.add('on');
+  schedulePrototypeNotesRender();
 }
 
 function openProfileOrders(triggerEl){
@@ -4485,9 +4562,9 @@ function getToolActionButtons(toolKey){
   var status=getToolStatusMeta(toolKey);
   var statusBadge=shouldShowToolStatusBadge(status) ? '<span class="bd2 ' + status.badge + '">' + status.label + '</span>' : '';
   if(!tool || !tool.installed){
-    return '<div class="tc-ft" data-tool-actions="' + toolKey + '">' + statusBadge + '<div class="fxc g6"><button class="btn bo bsm" onclick="openToolConfig(\'' + toolKey + '\')">配置要求</button><button class="btn bp bsm" onclick="startInstall(\'' + toolKey + '\')">下载安装</button></div></div>';
+    return '<div class="tc-ft" data-tool-actions="' + toolKey + '">' + statusBadge + '<div class="fxc g6"><button class="btn bo bsm" onclick="openToolConfig(\'' + toolKey + '\')">配置要求</button><button class="btn bp bsm" onclick="startInstall(\'' + toolKey + '\')">下载</button></div></div>';
   }
-  return '<div class="tc-ft">' + (shouldShowToolStatusBadge(status) ? '<span class="bd2 ' + status.badge + '">● ' + status.label + '</span>' : '') + '<div class="fxc g6"><button class="btn bo bsm" onclick="openToolConfig(\'' + toolKey + '\')">专属配置</button><button class="btn bo bsm" onclick="showToast(\'' + toolUiMeta[toolKey].title + ' 已是最新配置，后续可接更新接口\',1800)">更新</button><button class="btn bp bsm" onclick="launchTool(\'' + toolKey + '\')">' + (isToolEnabledInWetokens(toolKey) ? '打开' : '打开启用') + '</button></div></div>';
+  return '<div class="tc-ft">' + (shouldShowToolStatusBadge(status) ? '<span class="bd2 ' + status.badge + '">● ' + status.label + '</span>' : '') + '<div class="fxc g6"><button class="btn bo bsm" onclick="openToolConfig(\'' + toolKey + '\')">专属配置</button><button class="btn bo bsm" onclick="showToast(\'' + toolUiMeta[toolKey].title + ' 已是最新配置，后续可接更新接口\',1800)">更新</button><button class="btn bp bsm" onclick="launchTool(\'' + toolKey + '\')">打开</button></div></div>';
 }
 
 function renderToolCards(){
@@ -4541,8 +4618,8 @@ function renderToolCards(){
     + '</div>'
     + '<div class="tool-focus-side"><div class="tool-focus-status">' + statusBadgeHtml + '</div><div class="tool-focus-actions">'
     + (activeTool && activeTool.installed
-      ? '<button class="btn bo bsm" onclick="openToolConfig(\'' + activeToolKey + '\')">专属配置</button><button class="btn bo bsm" onclick="showToast(\'' + activeMeta.title + ' 已是最新配置，后续可接更新接口\',1800)">更新</button><button class="btn bp bsm" onclick="launchTool(\'' + activeToolKey + '\')">' + (isToolEnabledInWetokens(activeToolKey) ? '打开' : '打开启用') + '</button>'
-      : '<button class="btn bo bsm" onclick="openToolConfig(\'' + activeToolKey + '\')">配置要求</button><button class="btn bp bsm" onclick="startInstall(\'' + activeToolKey + '\')">下载安装</button>')
+      ? '<button class="btn bo bsm" onclick="openToolConfig(\'' + activeToolKey + '\')">专属配置</button><button class="btn bo bsm" onclick="showToast(\'' + activeMeta.title + ' 已是最新配置，后续可接更新接口\',1800)">更新</button><button class="btn bp bsm" onclick="launchTool(\'' + activeToolKey + '\')">打开</button>'
+      : '<button class="btn bo bsm" onclick="openToolConfig(\'' + activeToolKey + '\')">配置要求</button><button class="btn bp bsm" onclick="startInstall(\'' + activeToolKey + '\')">下载</button>')
     + '</div></div>'
     + '</div>'
     + '</div>'
@@ -4836,6 +4913,285 @@ function needLogin(fn){
   else { om('ls'); if(typeof fn==='function') _pendingFn=fn; }
 }
 var _pendingFn = null;
+var prototypeNotesEnabled = false;
+var prototypeNotesStorageKey = 'wetokens.prototype.notes';
+var prototypeNoteDrafts = null;
+var prototypeNoteExpandedState = {};
+var prototypeNotePageLabels = {
+  p01:'Tokens 管理',
+  p02:'AI 工具管理',
+  p03:'模型供应商',
+  p05:'Coding Plan / 按量充值',
+  p08:'个人中心'
+};
+var prototypeNoteDefs = [
+  { id:'p01-guide', page:'p01', target:'#p01ToolGuideBtn', dx:-6, dy:-10, title:'AI 工具配置教程', desc:'展示：顶部辅助入口。交互：点击后打开配置教程弹窗。规则/数据：教程步骤和说明为页面内置内容。' },
+  { id:'p01-token-chip', page:'p01', target:'#p01TokensChip', dx:4, dy:-8, title:'当前可用次数', desc:'展示：显示当前还可使用的次数。交互：点击后跳转订阅页，并切到订阅方案。状态：未登录可隐藏具体数值。规则/数据：可用额度每 5 小时刷新一次，实际数值会扣除当前已消耗次数。' },
+  { id:'p01-cash-chip', page:'p01', target:'#p01CashChip', dx:4, dy:-8, title:'可使用余额', desc:'展示：显示当前可用于按量调用的余额。交互：点击后跳转充值页，并切到按量充值。状态：余额为 0 时需支持空值或引导态。规则/数据：依赖账户余额和按量扣费结果。' },
+  { id:'p01-codex-meta', page:'p01', target:'#p01CodexMeta', dx:-10, dy:-8, title:'工具状态信息', desc:'展示：显示主模型和上次使用时间。状态：未使用时展示空态；不同工具复用同一结构。规则/数据：主模型按当前统计范围内 Token 消耗量最高的模型展示；如果还没有使用记录，则主模型为空。' },
+  { id:'p01-codex-action', page:'p01', target:'#p01CodexActionBtn', dx:8, dy:-6, title:'工具主操作按钮', desc:'展示：未安装时显示下载xxx，已安装时显示打开xxx。交互：点击下载xxx进入下载安装流程，安装完成后按钮切换为打开xxx；点击打开xxx时，先校验是否已配置模型以及模型供应商是否有可用额度。状态：仅区分未安装、已安装两种主状态。规则/数据：未配置模型时触发暂无可用模型弹窗，引导用户去领取体验版或配置供应商；用户无订阅且供应商可用余额小于等于 10 元时，触发当前余额不足 10 元弹窗，点击去订阅充值进入充值页面。' },
+  { id:'p01-guest-login', page:'p01', target:'#p01GuestLoginBtn', dx:8, dy:-6, title:'未登录登录入口', desc:'展示：仅未登录时显示。交互：点击后打开登录弹窗。状态：登录后由真实数据模块替换。' },
+  { id:'p02-list', page:'p02', target:'#p02ToolUsageStatsCard', dx:12, dy:12, title:'工具列表与状态', desc:'展示：列出一期支持的 6 个工具，包含名称、主模型、最近使用和主按钮。交互：点击工具切换右侧详情。状态：Gemini 按命令行工具展示，其余按桌面工具展示。规则/数据：依赖工具安装状态、启用状态和最近使用记录。' },
+  { id:'p02-focus', page:'p02', target:'#p02ToolFocusPanel', dx:18, dy:18, title:'单工具焦点区', desc:'展示：放大显示当前工具的详细状态和主操作。交互：随左侧工具切换刷新。状态：需覆盖未安装、未启用、已启用、无可用模型等场景。' },
+  { id:'p02-supplier', page:'p02', target:'#p02ToolSupplierPanel', dx:18, dy:18, title:'工具级模型覆盖', desc:'展示：显示该工具可绑定的模型范围。交互：支持按工具单独改模型，不影响全局默认值。状态：无可用模型时展示引导态。规则/数据：依赖模型兼容关系和已接入模型列表。' },
+  { id:'p03-panel', page:'p03', target:'#panelCustom', dx:12, dy:12, title:'供应商总面板', desc:'展示：承接系统内置与外部供应商管理。状态：需区分已接入、未接入和异常待处理。规则/数据：依赖供应商连接结果、余额和消耗快照。' },
+  { id:'p03-list', page:'p03', target:'#vendorConnectionList', dx:18, dy:18, title:'已连接供应商列表', desc:'展示：逐条显示余额、今日消耗、本月消耗和检测动作。交互：支持检测或进入后续诊断。状态：需覆盖可用、待检测、失败等状态。规则/数据：依赖已保存的接入信息和检测结果。' },
+  { id:'p03-add', page:'p03', target:'#p03 .btn.bo', dx:-10, dy:-8, title:'新增供应商入口', desc:'交互：点击后打开新增供应商流程。状态：仅登录后可用；未登录先拦截。规则/数据：需要保存供应商名称、接口地址、密钥、支持模型和检测结果。' },
+  { id:'p05-tab', page:'p05', target:'#buyTabBar', dx:16, dy:6, title:'双购买模式切换', desc:'展示：并列显示 Coding Plan 和按量充值两种购买方式。交互：点击顶部切换项即时切换。状态：当前选中项高亮，并驱动下方模块刷新。' },
+  { id:'p05-sub-plans', page:'p05', target:'#buyPanelSubscription .g.g4', dx:12, dy:12, title:'Coding Plan 套餐区', desc:'展示：显示各 Coding Plan 套餐的价格、周期和次数差异。交互：点击套餐卡切换当前购买方案。规则/数据：依赖套餐价格、周期、每日次数和默认选中项。' },
+  { id:'p05-sub-rule', page:'p05', target:'#buyPanelSubscription .billing-note-card', dx:18, dy:18, title:'Coding Plan 规则说明', desc:'展示：集中说明每日次数、倍率档位、退款边界和模型范围。状态：常驻展示，不随套餐切换消失。规则/数据：依赖 Coding Plan 规则配置和套餐权益映射。' },
+  { id:'p05-sub-pay', page:'p05', target:'#buyPanelSubscription .payment-side', dx:12, dy:12, title:'Coding Plan 支付区', desc:'展示：包含二维码、自动续费、订单摘要和支付按钮。交互：用户在这里完成支付确认。状态：随套餐和自动续费开关变化。规则/数据：依赖当前套餐、支付方式和订单预览数据。' },
+  { id:'p05-topup-plans', page:'p05', target:'#buyPanelTopup .g.g3', dx:12, dy:12, title:'充值方案区', desc:'展示：显示按量充值档位和到账金额。交互：点击档位切换本次充值金额。规则/数据：依赖充值档位配置和当前选中金额。' },
+  { id:'p05-topup-rule', page:'p05', target:'#buyPanelTopup .billing-note-card', dx:18, dy:18, title:'按量计费说明', desc:'展示：说明余额有效期、扣费方式和模型价格口径。状态：切到按量充值时展示。规则/数据：依赖模型价格清单和按量扣费规则。' },
+  { id:'p05-topup-pay', page:'p05', target:'#buyPanelTopup .payment-side', dx:12, dy:12, title:'充值支付区', desc:'展示：包含支付二维码、自动充值开关和支付按钮。交互：用户在这里完成充值确认。状态：随充值金额和自动充值策略刷新。规则/数据：依赖充值金额、支付方式和自动充值设置。' },
+  { id:'p08-menu', page:'p08', target:'.profile-center-menu', dx:10, dy:8, title:'个人中心导航', desc:'展示：顶部导航承接账号资料、订单中心、成就、API Key、通知设置。交互：点击后切换对应内容区。状态：当前项高亮，未登录应限制访问。' },
+  { id:'p08-profile', page:'p08', target:'#profileSection-profile', dx:14, dy:10, title:'账号资料区', desc:'展示：显示头像、昵称、订阅身份、勋章、余额和资料编辑。状态：登录后展示真实数据。规则/数据：依赖用户档案、订阅状态、余额和成就数据。' },
+  { id:'p08-orders', page:'p08', target:'#profileSection-orders', dx:14, dy:10, title:'订单中心', desc:'展示：显示筛选项、订单列表和开票入口。交互：支持筛选和售后查询。状态：需区分支付成功、退款、开票中、已开票等状态。规则/数据：依赖订单和发票字段。' },
+  { id:'p08-api', page:'p08', target:'#profileSection-api', dx:14, dy:10, title:'API Key 管理', desc:'展示：显示 API Key、接入地址和接入说明。交互：支持复制和查看接入方式。状态：未开通能力时需给出引导。规则/数据：依赖账号生成的密钥、接入地址和计费规则。' },
+  { id:'p08-notice', page:'p08', target:'#profileSection-notice', dx:14, dy:10, title:'通知设置', desc:'展示：集中展示提醒项开关。交互：支持逐项启停。状态：部分高优先级提醒可默认开启。规则/数据：依赖用户通知偏好、订阅状态和余额阈值。' }
+];
+var prototypeNoteDragState = null;
+
+function loadPrototypeNoteDrafts(){
+  if(prototypeNoteDrafts) return prototypeNoteDrafts;
+  try{
+    prototypeNoteDrafts = JSON.parse(localStorage.getItem(prototypeNotesStorageKey) || '{}') || {};
+  }catch(_err){
+    prototypeNoteDrafts = {};
+  }
+  return prototypeNoteDrafts;
+}
+
+function escapeHtml(value){
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function getPrototypeNoteState(note){
+  var drafts = loadPrototypeNoteDrafts();
+  return Object.assign({}, note, drafts[note.id] || {});
+}
+
+function updatePrototypeNoteDraftField(noteId, key, value){
+  var drafts = loadPrototypeNoteDrafts();
+  if(!drafts[noteId]) drafts[noteId] = {};
+  drafts[noteId][key] = key === 'dx' || key === 'dy' ? Number(value || 0) : value;
+  try{
+    localStorage.setItem(prototypeNotesStorageKey, JSON.stringify(drafts));
+  }catch(_err){}
+}
+
+function isPrototypeNoteExpanded(noteId){
+  return !!prototypeNoteExpandedState[noteId];
+}
+
+function togglePrototypeNoteExpanded(noteId){
+  prototypeNoteExpandedState[noteId] = !prototypeNoteExpandedState[noteId];
+  renderPrototypeNotes();
+}
+
+function formatPrototypeNoteDesc(desc){
+  var text = String(desc || '').trim();
+  if(!text) return '<div class="proto-note-desc-line">暂无说明</div>';
+  var labels = ['规则/数据', '触发方式', '数据获取', '前端关注', '后端关注', '展示', '交互', '状态', '规则', '数据', '触发', '功能'];
+  var normalized = text.replace(/\r\n/g, '\n');
+  var markerRe = /(规则\/数据|触发方式|数据获取|前端关注|后端关注|展示|交互|状态|规则|数据|触发|功能)：/g;
+  var markers = [];
+  var match;
+  while((match = markerRe.exec(normalized)) !== null){
+    markers.push({ label: match[1], index: match.index, endIndex: markerRe.lastIndex });
+  }
+  if(!markers.length){
+    return normalized.split('\n').map(function(line){ return line.trim(); }).filter(Boolean).map(function(line){
+      return '<div class="proto-note-desc-line">' + escapeHtml(line) + '</div>';
+    }).join('');
+  }
+  var parts = [];
+  markers.forEach(function(marker, idx){
+    var nextIndex = idx < markers.length - 1 ? markers[idx + 1].index : normalized.length;
+    var value = normalized.slice(marker.endIndex, nextIndex).trim();
+    if(!value) return;
+    parts.push('<div class="proto-note-desc-line"><span class="proto-note-desc-label">' + marker.label + '：</span>' + escapeHtml(value) + '</div>');
+  });
+  return parts.join('') || '<div class="proto-note-desc-line">暂无说明</div>';
+}
+
+function schedulePrototypeNotesRender(){
+  if(typeof requestAnimationFrame === 'function') requestAnimationFrame(renderPrototypeNotes);
+  else setTimeout(renderPrototypeNotes, 0);
+}
+
+function isPrototypeNoteElementVisible(el){
+  if(!el) return false;
+  var style = getComputedStyle(el);
+  if(style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') return false;
+  if(el.offsetParent === null && style.position !== 'fixed') return false;
+  return true;
+}
+
+function getActivePrototypeNotePage(){
+  var active = document.querySelector('.pg.on');
+  return active ? active.id : 'p01';
+}
+
+function clearPrototypeNotes(){
+  var layer = document.getElementById('prototypeNoteLayer');
+  if(!layer) return;
+  layer.querySelectorAll('.proto-note-marker').forEach(function(marker){ marker.remove(); });
+}
+
+function updatePrototypeNoteToggleUI(){
+  var btn = document.getElementById('prototypeNoteToggleBtn');
+  if(!btn) return;
+  btn.textContent = prototypeNotesEnabled ? '关闭水滴注释' : '开启水滴注释';
+  btn.classList.toggle('on', prototypeNotesEnabled);
+}
+
+function getVisiblePrototypeNotes(){
+  var activePage = getActivePrototypeNotePage();
+  return prototypeNoteDefs.map(getPrototypeNoteState).filter(function(note){
+    if(note.page !== activePage) return false;
+    var target = document.querySelector(note.target);
+    return !!target && isPrototypeNoteElementVisible(target);
+  });
+}
+
+function startPrototypeNoteDrag(event, noteId){
+  event.preventDefault();
+  event.stopPropagation();
+  prototypeNoteDragState = { id: noteId, startX: event.clientX, startY: event.clientY };
+  document.addEventListener('mousemove', onPrototypeNoteDrag);
+  document.addEventListener('mouseup', stopPrototypeNoteDrag);
+}
+
+function onPrototypeNoteDrag(event){
+  if(!prototypeNoteDragState) return;
+  var drafts = loadPrototypeNoteDrafts();
+  var current = drafts[prototypeNoteDragState.id] || {};
+  var dx = Number(current.dx || 0) + (event.clientX - prototypeNoteDragState.startX);
+  var dy = Number(current.dy || 0) + (event.clientY - prototypeNoteDragState.startY);
+  drafts[prototypeNoteDragState.id] = Object.assign({}, current, { dx: Math.round(dx), dy: Math.round(dy) });
+  prototypeNoteDragState.startX = event.clientX;
+  prototypeNoteDragState.startY = event.clientY;
+  renderPrototypeNotes();
+}
+
+function stopPrototypeNoteDrag(){
+  prototypeNoteDragState = null;
+  document.removeEventListener('mousemove', onPrototypeNoteDrag);
+  document.removeEventListener('mouseup', stopPrototypeNoteDrag);
+}
+
+function placePrototypeNoteMarker(layer, target, index, note){
+  var layerRect = layer.getBoundingClientRect();
+  var targetRect = target.getBoundingClientRect();
+  var marker = document.createElement('button');
+  marker.type = 'button';
+  marker.className = 'proto-note-marker';
+  marker.innerHTML = '<span>' + index + '</span>';
+  marker.title = note.title;
+  marker.dataset.noteId = note.id;
+  marker.onmousedown = function(event){ startPrototypeNoteDrag(event, note.id); };
+  var left = targetRect.left - layerRect.left + 14 + Number(note.dx || 0);
+  var top = targetRect.top - layerRect.top + 10 + Number(note.dy || 0);
+  var maxLeft = Math.max(8, layer.clientWidth - 30);
+  var maxTop = Math.max(8, layer.clientHeight - 30);
+  marker.style.left = Math.min(Math.max(8, left), maxLeft) + 'px';
+  marker.style.top = Math.min(Math.max(8, top), maxTop) + 'px';
+  layer.appendChild(marker);
+}
+
+function renderPrototypeNoteEditor(notes){
+  var panelBody = document.getElementById('prototypeNotePanelBody');
+  if(!panelBody) return;
+  panelBody.innerHTML = notes.map(function(note, index){
+    var expanded = isPrototypeNoteExpanded(note.id);
+    return ''
+      + '<div class="proto-note-item">'
+      +   '<div class="proto-note-item-copy">'
+      +     '<div class="proto-note-item-head">'
+      +       '<span class="proto-note-item-index">' + (index + 1) + '</span>'
+      +       '<div class="proto-note-item-title">' + escapeHtml(note.title || ('说明 ' + (index + 1))) + '</div>'
+      +     '</div>'
+      +     '<div class="proto-note-desc ' + (expanded ? '' : 'collapsed') + '">' + formatPrototypeNoteDesc(note.desc) + '</div>'
+      +     '<button class="proto-note-expand" type="button" data-note-expand="' + note.id + '">' + (expanded ? '收起' : '展开全部') + '</button>'
+      +   '</div>'
+      + '</div>';
+  }).join('');
+  panelBody.querySelectorAll('[data-note-expand]').forEach(function(button){
+    button.addEventListener('click', function(){
+      togglePrototypeNoteExpanded(button.getAttribute('data-note-expand'));
+    });
+  });
+}
+
+function renderPrototypeNotes(){
+  clearPrototypeNotes();
+  updatePrototypeNoteToggleUI();
+  var layer = document.getElementById('prototypeNoteLayer');
+  var panel = document.getElementById('prototypeNotePanel');
+  var panelTitle = document.getElementById('prototypeNotePanelTitle');
+  if(!layer || !panel) return;
+  if(!prototypeNotesEnabled){
+    panel.style.display = 'none';
+    return;
+  }
+  var notes = getVisiblePrototypeNotes();
+  if(!notes.length){
+    panel.style.display = 'none';
+    return;
+  }
+  if(panelTitle) panelTitle.textContent = (prototypeNotePageLabels[getActivePrototypeNotePage()] || '当前页面') + ' · 需求说明注释';
+  renderPrototypeNoteEditor(notes);
+  notes.forEach(function(note, index){
+    var target = document.querySelector(note.target);
+    if(target) placePrototypeNoteMarker(layer, target, index + 1, note);
+  });
+  panel.style.display = 'grid';
+}
+
+function savePrototypeNotes(){
+  var drafts = loadPrototypeNoteDrafts();
+  document.querySelectorAll('[data-note-id][data-note-field]').forEach(function(field){
+    var noteId = field.getAttribute('data-note-id');
+    var key = field.getAttribute('data-note-field');
+    if(!drafts[noteId]) drafts[noteId] = {};
+    drafts[noteId][key] = key === 'dx' || key === 'dy' ? Number(field.value || 0) : field.value;
+  });
+  try{
+    localStorage.setItem(prototypeNotesStorageKey, JSON.stringify(drafts));
+    showToast('水滴注释已保存');
+  }catch(_err){
+    showToast('保存失败，请检查浏览器存储权限');
+  }
+  renderPrototypeNotes();
+}
+
+function resetPrototypeNotes(){
+  prototypeNoteDrafts = {};
+  try{ localStorage.removeItem(prototypeNotesStorageKey); }catch(_err){}
+  renderPrototypeNotes();
+  showToast('已恢复默认注释');
+}
+
+function togglePrototypeNotes(){
+  prototypeNotesEnabled = !prototypeNotesEnabled;
+  renderPrototypeNotes();
+}
+
+window.addEventListener('resize', function(){
+  if(prototypeNotesEnabled) schedulePrototypeNotesRender();
+});
+var prototypeScrollHost = document.querySelector('.pc');
+if(prototypeScrollHost){
+  prototypeScrollHost.addEventListener('scroll', function(){
+    if(prototypeNotesEnabled) schedulePrototypeNotesRender();
+  });
+}
 
 function go(pid,navEl,title){
   // 需要登录的页面拦截
@@ -4855,6 +5211,7 @@ function go(pid,navEl,title){
   if(pid === 'p02') renderToolUsageStats();
   if(pid === 'p03') renderVendorConnectionList();
   if(pid === 'p07') renderBadgeHub();
+  schedulePrototypeNotesRender();
 }
 
 function getUsageNowInfo(){
@@ -5170,7 +5527,7 @@ function buildUsageToolDataset(records){
         total:0,
         count:0,
         share:0,
-        topModel:tool.selection || '-',
+        topModel:'',
         lastUsed:'未使用',
         lastUsedKey:'',
         modelMap:{}
@@ -5226,11 +5583,13 @@ function renderToolUsageStats(){
     const homeHtml=homeTools.map(function(tool){
     const routingTool=tool.toolKey ? appState.toolRouting[tool.toolKey] : null;
     const isInstalled=!!(routingTool && routingTool.installed);
-    const actionLabel=isInstalled ? ((isToolEnabledInWetokens(tool.toolKey) ? '打开' : '打开启用') + tool.name) : ('下载安装' + tool.name);
+    const actionLabel=isInstalled ? ('打开' + tool.name) : ('下载' + tool.name);
     const actionHandler=isInstalled
       ? 'launchTool(\'' + tool.toolKey + '\')'
       : 'startInstall(\'' + (tool.toolKey || '') + '\')';
     const brandKey=tool.toolKey || 'custom';
+    var infoId = tool.toolKey === 'codex-cli' ? ' id="p01CodexMeta"' : '';
+    var ctaId = tool.toolKey === 'codex-cli' ? ' id="p01CodexActionBtn"' : '';
     return '<div class="tool-usage-row">'
       + '<div class="tool-usage-main">'
       + '<div class="tool-usage-copy">'
@@ -5238,14 +5597,14 @@ function renderToolUsageStats(){
       + '<div class="tool-usage-logo">' + getBrandLogoMarkup(brandKey, 40) + '</div>'
       + '<div class="tool-usage-name">' + tool.name + '</div>'
       + '</div>'
-      + '<div class="tool-usage-info">'
+      + '<div class="tool-usage-info"' + infoId + '>'
       + '<div class="tool-usage-meta"><strong>主用模型</strong>：' + (tool.topModel || '') + '</div>'
       + '<div class="tool-usage-meta"><strong>上次使用</strong>：' + (tool.lastUsed === '未使用' ? '未使用' : formatUsageRelativeTime(tool.lastUsed)) + '</div>'
       + '</div>'
       + '</div>'
       + '</div>'
       + '<div class="tool-usage-side">'
-      + '<button class="btn ' + (isInstalled ? 'bp' : 'bo') + ' bsm tool-usage-cta" onclick="' + actionHandler + '">' + actionLabel + '</button>'
+      + '<button class="btn ' + (isInstalled ? 'bp' : 'bo') + ' bsm tool-usage-cta"' + ctaId + ' onclick="' + actionHandler + '">' + actionLabel + '</button>'
       + '</div>'
       + '</div>';
     }).join('');
@@ -5297,15 +5656,9 @@ function renderToolUsageStats(){
     const focusedSupplierKey=getFocusedSupplierCardKey(activeToolKey);
     var primaryAction='';
     if(!isInstalled || activeRouting.setupStatus === 'not-installed'){
-      primaryAction='<button class="btn bp bsm" onclick="startInstall(\'' + activeToolKey + '\')">下载安装' + activeMeta.title + '</button>';
-    }else if(!isToolEnabledInWetokens(activeToolKey)){
-      primaryAction='<button class="btn bp bsm" onclick="launchTool(\'' + activeToolKey + '\')">打开启用' + activeMeta.title + '</button>';
-    }else if(activeRouting.setupStatus === 'installed-unconfigured'){
-      primaryAction='<button class="btn bp bsm" onclick="openToolConfig(\'' + activeToolKey + '\')">配置' + activeMeta.title + '</button>';
-    }else if(activeRouting.setupStatus === 'configured-unverified'){
-      primaryAction='<button class="btn bp bsm" onclick="verifyTool(\'' + activeToolKey + '\')">验证' + activeMeta.title + '</button>';
+      primaryAction='<button class="btn bp bsm" onclick="startInstall(\'' + activeToolKey + '\')">下载' + activeMeta.title + '</button>';
     }else{
-      primaryAction='<button class="btn bp bsm" onclick="launchTool(\'' + activeToolKey + '\')">启动' + activeMeta.title + '</button>';
+      primaryAction='<button class="btn bp bsm" onclick="launchTool(\'' + activeToolKey + '\')">打开' + activeMeta.title + '</button>';
     }
     p02FocusEl.innerHTML=''
       + '<div class="tool-tab-panel">'
@@ -6263,7 +6616,7 @@ function renderUsageChart(){
         +   '</div>'
         +   '<div style="font-size:15px;font-weight:800;color:var(--t);margin-bottom:6px">My tokens，让 AI 工具部署更快、模型调用更稳、Tokens 管理更清晰。</div>'
         +   '<div style="font-size:12px;color:var(--t3);margin-bottom:18px">登录后可解锁更多功能</div>'
-        +   '<button class="btn bp" style="height:42px;padding:0 24px;font-size:14px;border-radius:14px" onclick="om(\'ls\')">立即登录</button>'
+        +   '<button class="btn bp" id="p01GuestLoginBtn" style="height:42px;padding:0 24px;font-size:14px;border-radius:14px" onclick="om(\'ls\')">立即登录</button>'
         + '</div>';
     }
     return;
@@ -6586,6 +6939,10 @@ function openToolEnableGuide(toolKey){
   om('mToolEnableGuide');
 }
 
+function hasActiveSubscriptionPlan(){
+  return !!(userPlan && userPlan.name);
+}
+
 function confirmToolEnableGuide(){
   if(!currentToolEnableGuide || !currentToolEnableGuide.toolKey){
     cm('mToolEnableGuide');
@@ -6615,7 +6972,7 @@ function confirmToolEnableGuide(){
     return;
   }
   pendingToolEnableKey = toolKey;
-  go('p05', nv(4), '订阅 / 充值');
+  go('p05', nv(4), 'Coding Plan / 按量充值');
   setTimeout(function(){ switchBuyTab('subscription'); }, 50);
 }
 
@@ -6626,6 +6983,22 @@ function hasExternalUsableTokens(toolKey){
     var globalRoutingEnabled = !!(connection.globalRouting && connection.globalRouting.enabled && normalizeGlobalRoutingConfig(connection.globalRouting).models.filter(Boolean).length);
     var assignedModels = getVendorToolAssignedModels(connection, toolKey);
     return globalRoutingEnabled || assignedModels.length > 0;
+  });
+}
+
+function getToolMatchedVendorConnections(toolKey){
+  return (vendorConnections || []).filter(function(connection){
+    if(!isVendorConnectionActive(connection)) return false;
+    var globalRoutingEnabled = !!(connection.globalRouting && connection.globalRouting.enabled && normalizeGlobalRoutingConfig(connection.globalRouting).models.filter(Boolean).length);
+    var assignedModels = getVendorToolAssignedModels(connection, toolKey);
+    return globalRoutingEnabled || assignedModels.length > 0;
+  });
+}
+
+function shouldBlockForLowExternalBalance(toolKey){
+  if(hasActiveSubscriptionPlan()) return false;
+  return getToolMatchedVendorConnections(toolKey).some(function(connection){
+    return Number(connection.balance || 0) <= 10;
   });
 }
 
@@ -6646,6 +7019,29 @@ function openNoTokenGuideModal(toolKey, source){
   if(title) title.textContent = '暂无可用模型';
   if(desc) desc.textContent = actionText + '，但现在没有可用 tokens。你可以先领取 Lite 体验版，或先配置可用模型。';
   om('mNoTokenGuide');
+}
+
+function openLowBalanceGuideModal(toolKey){
+  var meta = toolUiMeta[toolKey] || toolMeta[toolKey] || {};
+  var toolName = meta.title || meta.name || '当前工具';
+  var matchedConnections = getToolMatchedVendorConnections(toolKey).filter(function(connection){
+    return Number(connection.balance || 0) <= 10;
+  }).sort(function(a, b){
+    return Number(a.balance || 0) - Number(b.balance || 0);
+  });
+  var currentConnection = matchedConnections[0] || null;
+  var title = document.getElementById('mLowBalanceGuideTitle');
+  var desc = document.getElementById('mLowBalanceGuideDesc');
+  var balanceText = currentConnection ? ('¥' + Number(currentConnection.balance || 0).toFixed(2)) : '¥10.00 以下';
+  if(title) title.textContent = '当前余额不足 10 元';
+  if(desc) desc.textContent = toolName + ' 已检测到可用模型，但' + (currentConnection ? currentConnection.name : '当前供应商') + '可用余额仅剩 ' + balanceText + '。当前账号未开通 Coding Plan，建议先去购买或充值后再继续使用。';
+  om('mLowBalanceGuide');
+}
+
+function openLowBalanceRecharge(){
+  cm('mLowBalanceGuide');
+  go('p05', nv(4), 'Coding Plan / 按量充值');
+  setTimeout(function(){ switchBuyTab('topup'); }, 50);
 }
 
 function openNoTokenVendorSetup(){
@@ -6771,6 +7167,7 @@ function switchBuyTab(tab){
     if(t3){ t3.style.background='#111827'; t3.style.color='#fff'; t3.style.boxShadow='0 10px 22px rgba(15,23,42,.18)'; t3.style.borderColor='#111827'; }
     if(tabBar) tabBar.style.display = 'none';
   }
+  schedulePrototypeNotesRender();
 }
 
 function openLiteTrialOffer(){
@@ -8886,6 +9283,10 @@ function launchTool(toolKey){
     startInstall(toolKey);
     return;
   }
+  if(!hasDetectedAvailableModel(toolKey)){
+    openNoTokenGuideModal(toolKey, 'launch');
+    return;
+  }
   if(!isToolEnabledInWetokens(toolKey)){
     openToolEnableGuide(toolKey);
     return;
@@ -8896,6 +9297,10 @@ function launchTool(toolKey){
   }
   if(tool.setupStatus === 'configured-unverified'){
     showToast('请先验证 ' + tool.name);
+    return;
+  }
+  if(shouldBlockForLowExternalBalance(toolKey)){
+    openLowBalanceGuideModal(toolKey);
     return;
   }
   if(shouldBlockForNoTokens(toolKey)){
@@ -11038,7 +11443,7 @@ function renderVendorConnectionList(){
     + '</div>'
     + '<div class="vendor-overview-actions">'
     + '<button class="btn bo bsm" onclick="testPlatformConnectionOverview()">检测</button>'
-    + '<button class="btn bp bsm" onclick="go(\'p05\',nv(3),\'订阅 / 充值\')">去充值</button>'
+    + '<button class="btn bp bsm" onclick="go(\'p05\',nv(3),\'Coding Plan / 按量充值\')">去充值</button>'
     + '</div>'
     + '</div>'
     + '</div>';
