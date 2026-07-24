@@ -1334,7 +1334,7 @@ input:checked+.sl:before{transform:translateX(16px)}
       <div class="ni on" onclick="go('p01',this,'Tokens管理')"><span class="ic"><i data-lucide="layout-dashboard"></i></span>Tokens管理</div>
       <div class="ni" onclick="go('p02',this,'AI工具管理')"><span class="ic"><i data-lucide="package"></i></span>AI工具管理</div>
       <div class="ni" onclick="go('p03',this,'模型供应商')"><span class="ic"><i data-lucide="git-fork"></i></span>模型供应商</div>
-      <div class="ni" onclick="go('p05',this,'Coding Plan / 按量充值');setTimeout(function(){switchBuyTab('subscription')},50)"><span class="ic"><i data-lucide="credit-card"></i></span>Coding Plan / 按量充值</div>
+      <div class="ni" onclick="go('p05',this,'订阅/充值');setTimeout(function(){switchBuyTab('subscription')},50)"><span class="ic"><i data-lucide="credit-card"></i></span>订阅/充值</div>
     </nav>
     <div class="sb-bot">
       <div class="ni" onclick="go('p08',this,'个人中心')"><span class="ic"><i data-lucide="settings"></i></span>个人中心</div>
@@ -1375,11 +1375,11 @@ input:checked+.sl:before{transform:translateX(16px)}
       </div>
       <div class="tb-r" style="gap:8px">
         <button class="btn bo bsm" id="p01ToolGuideBtn" style="font-size:12px;padding:5px 12px;white-space:nowrap" onclick="obStart()">AI 工具配置教程</button>
-        <div class="chip chip-v" id="p01TokensChip" style="cursor:pointer" onclick="go('p05',nv(4),'Coding Plan / 按量充值');setTimeout(function(){switchBuyTab('subscription')},50)">
+        <div class="chip chip-v" id="p01TokensChip" style="cursor:pointer" onclick="go('p05',nv(4),'订阅/充值');setTimeout(function(){switchBuyTab('subscription')},50)">
           <span class="cl" style="color:#7c3aed">当前可用次数<span class="ih">?<span class="ih-b al-r">这里展示当前还可使用的次数。系统会每 5 小时刷新一次可用额度，发送一个字也算 1 次。</span></span></span>
           <span class="cv" id="balTokens" style="color:#7c3aed"></span>
         </div>
-        <div class="chip chip-v" id="p01CashChip" style="cursor:pointer" onclick="go('p05',nv(4),'Coding Plan / 按量充值');setTimeout(function(){switchBuyTab('topup')},50)">
+        <div class="chip chip-v" id="p01CashChip" style="cursor:pointer" onclick="go('p05',nv(4),'订阅/充值');setTimeout(function(){switchBuyTab('topup')},50)">
           <span class="cl" style="color:#0f766e">可使用余额<span class="ih">?<span class="ih-b al-r">当前可用于按量调用的人民币余额，调用时会按各模型 API 单价扣减。</span></span></span>
           <span class="cv" id="balCash" style="color:#0f766e"></span>
         </div>
@@ -1878,8 +1878,8 @@ input:checked+.sl:before{transform:translateX(16px)}
               请先购买 Coding Plan 或充值，激活后 Key 立即生效。
             </div>
             <div style="display:flex;gap:10px;flex-wrap:wrap">
-              <button class="btn bp bsm" style="font-size:13px;padding:6px 16px" onclick="go('p05',nv(4),'Coding Plan / 按量充值');setTimeout(function(){switchBuyTab('subscription')},50)">去购买 Coding Plan</button>
-              <button class="btn bo bsm" style="font-size:13px;padding:6px 16px" onclick="go('p05',nv(4),'Coding Plan / 按量充值');setTimeout(function(){switchBuyTab('topup')},50)">按量充值</button>
+              <button class="btn bp bsm" style="font-size:13px;padding:6px 16px" onclick="go('p05',nv(4),'订阅/充值');setTimeout(function(){switchBuyTab('subscription')},50)">去购买 Coding Plan</button>
+              <button class="btn bo bsm" style="font-size:13px;padding:6px 16px" onclick="go('p05',nv(4),'订阅/充值');setTimeout(function(){switchBuyTab('topup')},50)">按量充值</button>
             </div>
           </div>
           <div style="background:#f8fffe;border:1.5px solid #a7f3d0;border-radius:10px;padding:16px;margin-bottom:16px">
@@ -2030,14 +2030,14 @@ input:checked+.sl:before{transform:translateX(16px)}
                   </div>
                   <div id="heroWarning" style="display:none;background:#fff8e8;border:1px solid #f6d99b;border-radius:10px;padding:8px 12px;font-size:12px;color:#9a6700;margin-bottom:10px">
                     <span id="heroWarningText">今日可用次数已使用 85%，建议预留一些可使用余额。</span>
-                    <span onclick="go('p05',nv(4),'Coding Plan / 按量充值');setTimeout(()=>switchBuyTab('topup'),100)" style="margin-left:8px;text-decoration:underline;cursor:pointer;color:#9a6700;font-weight:700">去充值</span>
+                    <span onclick="go('p05',nv(4),'订阅/充值');setTimeout(()=>switchBuyTab('topup'),100)" style="margin-left:8px;text-decoration:underline;cursor:pointer;color:#9a6700;font-weight:700">去充值</span>
                   </div>
                 </div>
                 <div id="heroNoSubSection" style="display:none;margin-bottom:12px">
                   <div style="font-size:13px;color:var(--t);margin-bottom:8px">开通订阅后，每天可获得稳定会话次数，畅用多款顶尖模型。</div>
                   <div style="font-size:12px;color:var(--t3);margin-bottom:14px">可按你的使用强度选择 Lite、Pro、Pro Plus 或 Ultra 套餐。</div>
                   <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-                    <button onclick="go('p05',nv(4),'Coding Plan / 按量充值');setTimeout(()=>switchBuyTab('subscription'),100)" style="background:#0f172a;color:#fff;font-weight:700;font-size:14px;padding:9px 22px;border-radius:24px;border:none;cursor:pointer">查看 Coding Plan</button>
+                    <button onclick="go('p05',nv(4),'订阅/充值');setTimeout(()=>switchBuyTab('subscription'),100)" style="background:#0f172a;color:#fff;font-weight:700;font-size:14px;padding:9px 22px;border-radius:24px;border:none;cursor:pointer">查看 Coding Plan</button>
                     <button onclick="openLiteTrialOffer()" style="background:#fff7ed;color:#c2410c;font-weight:700;font-size:14px;padding:9px 22px;border-radius:24px;border:1px solid rgba(251,146,60,.28);cursor:pointer;box-shadow:0 8px 18px rgba(251,146,60,.12)">领取新人福利</button>
                   </div>
                 </div>
@@ -2048,7 +2048,7 @@ input:checked+.sl:before{transform:translateX(16px)}
                   <div style="font-size:32px;font-weight:800;color:var(--t);line-height:1" id="heroCashValue">¥48.50</div>
                   <div id="heroCashHint" style="font-size:11px;color:var(--t3);margin-top:2px">超出今日可用次数后，从可使用余额扣费</div>
                 </div>
-                <button onclick="go('p05',nv(4),'Coding Plan / 按量充值');setTimeout(()=>switchBuyTab('topup'),100)" id="heroChargeBtn" style="background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:20px;color:var(--t);font-size:12px;padding:6px 16px;cursor:pointer;white-space:nowrap;margin-top:12px">去充值</button>
+                <button onclick="go('p05',nv(4),'订阅/充值');setTimeout(()=>switchBuyTab('topup'),100)" id="heroChargeBtn" style="background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:20px;color:var(--t);font-size:12px;padding:6px 16px;cursor:pointer;white-space:nowrap;margin-top:12px">去充值</button>
               </div>
             </div>
           </div>
@@ -2432,7 +2432,7 @@ input:checked+.sl:before{transform:translateX(16px)}
     <div class="mo-ti">Tokens 不足</div>
     <div class="mo-ds">当前剩余 <span class="tac tb2">12,400 Tokens</span>，不足以完成本次请求（预计消耗 18,000 Tokens）。请充值后再继续使用。</div>
     <div style="display:flex;flex-direction:column;gap:8px">
-      <button class="btn bp bfw" onclick="cm('m02');go('p05',nv(4),'Coding Plan / 按量充值')">立即充值</button>
+      <button class="btn bp bfw" onclick="cm('m02');go('p05',nv(4),'订阅/充值')">立即充值</button>
       <button class="btn bgh bfw" onclick="cm('m02');go('p03',nv(2),'模型 / 路由管理')">查看低成本模型建议</button>
       <button class="btn bo bfw" onclick="cm('m02')">取消</button>
     </div>
@@ -3872,7 +3872,7 @@ function renderBadgeHub(){
       var remainCount = Math.max(0, dailyTotal - todayUsed);
       var usagePct = dailyTotal > 0 ? Math.max(0, Math.min(100, Math.round(todayUsed / dailyTotal * 100))) : 0;
       sbSubscriptionEntry.innerHTML = ''
-        + '<div class="sb-sub-card" onclick="go(\'p05\',nv(3),\'Coding Plan / 按量充值\');setTimeout(function(){switchBuyTab(\'subscription\')},50)">'
+        + '<div class="sb-sub-card" onclick="go(\'p05\',nv(3),\'订阅/充值\');setTimeout(function(){switchBuyTab(\'subscription\')},50)">'
         +   '<div class="sb-sub-top">'
         +     '<div class="sb-sub-main">'
         +       '<div class="sb-sub-copy">'
@@ -3896,7 +3896,7 @@ function renderBadgeHub(){
         + '<div style="padding:10px 12px;border:1px solid #dbe7ff;border-radius:14px;background:linear-gradient(180deg,#f8fbff 0%,#eef5ff 100%)">'
         +   '<div style="font-size:12px;font-weight:700;color:var(--t1)">当前还没有可用 tokens</div>'
         +   '<div style="margin-top:4px;font-size:11px;line-height:1.55;color:var(--t3)">先购买 Coding Plan、充值余额，或者去模型供应商接入你外部购买的额度，不然工具运行不了。</div>'
-        +   '<button class="btn bp bsm sb-sub-cta" style="width:100%;margin-top:10px" onclick="go(\'p05\',nv(4),\'Coding Plan / 按量充值\');setTimeout(function(){switchBuyTab(\'subscription\')},50)">去购买 Coding Plan / 充值</button>'
+        +   '<button class="btn bp bsm sb-sub-cta" style="width:100%;margin-top:10px" onclick="go(\'p05\',nv(4),\'订阅/充值\');setTimeout(function(){switchBuyTab(\'subscription\')},50)">去购买 Coding Plan / 充值</button>'
         + '</div>';
     }
   }
@@ -4921,7 +4921,7 @@ var prototypeNotePageLabels = {
   p01:'Tokens 管理',
   p02:'AI 工具管理',
   p03:'模型供应商',
-  p05:'Coding Plan / 按量充值',
+  p05:'订阅/充值',
   p08:'个人中心'
 };
 var prototypeNoteDefs = [
@@ -6972,7 +6972,7 @@ function confirmToolEnableGuide(){
     return;
   }
   pendingToolEnableKey = toolKey;
-  go('p05', nv(4), 'Coding Plan / 按量充值');
+  go('p05', nv(4), '订阅/充值');
   setTimeout(function(){ switchBuyTab('subscription'); }, 50);
 }
 
@@ -7040,7 +7040,7 @@ function openLowBalanceGuideModal(toolKey){
 
 function openLowBalanceRecharge(){
   cm('mLowBalanceGuide');
-  go('p05', nv(4), 'Coding Plan / 按量充值');
+  go('p05', nv(4), '订阅/充值');
   setTimeout(function(){ switchBuyTab('topup'); }, 50);
 }
 
@@ -11443,7 +11443,7 @@ function renderVendorConnectionList(){
     + '</div>'
     + '<div class="vendor-overview-actions">'
     + '<button class="btn bo bsm" onclick="testPlatformConnectionOverview()">检测</button>'
-    + '<button class="btn bp bsm" onclick="go(\'p05\',nv(3),\'Coding Plan / 按量充值\')">去充值</button>'
+    + '<button class="btn bp bsm" onclick="go(\'p05\',nv(3),\'订阅/充值\')">去充值</button>'
     + '</div>'
     + '</div>'
     + '</div>';
